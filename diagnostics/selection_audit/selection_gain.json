@@ -1,0 +1,62 @@
+{
+  "sd_convention": "sample sd (n-1, Bessel-corrected), computed over seeds",
+  "per_k": {
+    "50": {
+      "n_runs": 105,
+      "a1_max_all_minus_mean_lastK": {
+        "mean": 0.8593592782141655,
+        "sd": 0.48773370516629116
+      },
+      "a2_pure_order_statistic": {
+        "mean": 0.6417520308769004,
+        "sd": 0.21862709526001314
+      },
+      "argmax_in_last_K_frac": 0.3047619047619048,
+      "val_loss_at_selected_minus_mean_lastK": {
+        "mean": -0.016504821886304845,
+        "sd": 0.026446903067145665
+      }
+    },
+    "100": {
+      "n_runs": 105,
+      "a1_max_all_minus_mean_lastK": {
+        "mean": 0.8132768305561031,
+        "sd": 0.2843669937208025
+      },
+      "a2_pure_order_statistic": {
+        "mean": 0.7679549151433799,
+        "sd": 0.2857352534775087
+      },
+      "argmax_in_last_K_frac": 0.6476190476190476,
+      "val_loss_at_selected_minus_mean_lastK": {
+        "mean": -0.014539546975975473,
+        "sd": 0.0172298186434651
+      }
+    }
+  },
+  "audit_deltas": {
+    "b_best_minus_last": {
+      "n": 101,
+      "d_acc": {
+        "mean": 0.79194973482944,
+        "sd": 0.46623932311997274
+      },
+      "d_ece": {
+        "mean": -0.0035971293315401618,
+        "sd": 0.00924280350853286
+      }
+    },
+    "c_best_minus_swa": {
+      "n": 88,
+      "d_acc": {
+        "mean": 0.12704424424604935,
+        "sd": 0.24999903970116683
+      },
+      "d_ece": {
+        "mean": -0.0018329553763540318,
+        "sd": 0.010930034792866168
+      }
+    }
+  },
+  "ece_variant_a_note": "NOT COMPUTABLE from existing artefacts: training_log.csv has no per-epoch ECE and no per-epoch checkpoints are retained (only best/last/swa). Would require per-epoch ECE logging or per-epoch checkpoints. The logged val_loss (NLL) is reported above as the closest available calibration-sensitive substitute."
+}

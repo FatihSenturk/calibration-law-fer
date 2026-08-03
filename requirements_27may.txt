@@ -1,0 +1,15 @@
+﻿torch
+torchvision
+timm
+thop
+opencv-python
+numpy
+pandas
+pillow
+scikit-learn
+matplotlib
+PyYAML
+tqdm
+tensorboard
+swanlab
+wandb
