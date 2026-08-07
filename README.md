@@ -139,6 +139,29 @@ Everything below is Level 1 (CPU, no data) unless marked otherwise.
 | AffectNet+ / FERPlus distillation | `train_affectnetplus_kd.py`, `train_ferplus_kd.py` |
 | the exact command line of every published run | the `*.ps1` queue at the repository root named by the matching block in `diagnostics/PREREGISTRATIONS.md` |
 
+**What Level 3 costs, measured.** The RAF-DB campaign in this repository is
+**172 finished student runs = 575 GPU-hours** (mean 3.35 h/run on one RTX 5070;
+runs executed two-at-a-time cost ~1.8× per run, which is why the mean exceeds the
+~2.2 h a solo 400-epoch run takes), plus **16 teacher trainings = 49 GPU-hours**.
+Reproducing a *single* arm is cheap; reproducing the campaign is not.
+
+**What is deliberately not published, and why.**
+
+| not here | why | on request |
+|---|---|---|
+| run directories under `results/` (checkpoints, per-epoch logs, confusion matrices) | size — hundreds of GB | yes |
+| teacher checkpoints | size | yes |
+| raw cached teacher/student logits (`.pt`, `.npy`) | size policy, though these are small | yes |
+| the datasets (RAF-DB, FERPlus) | licensed by their owners, not ours to redistribute | obtain from the original providers |
+
+This is the honest consequence: **a reader who clones this repository and runs the
+analysis scripts gets Level 1 and Level 2, not Level 3.** Level 1 works precisely
+because the evidence that the tables read — `runs.csv`, the frozen audit set, the
+cached `paper_tables/` artefacts — is committed here rather than being regenerated
+from the raw runs. Scripts that do reach into `results/` (the ledger builder, the
+audit measurer, the queue generator) are included for inspection and will not run
+end-to-end without the run directories; they are marked Level 3 above.
+
 ---
 
 ## Pre-declaration records
