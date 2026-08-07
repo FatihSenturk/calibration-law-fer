@@ -348,8 +348,10 @@ def main():
     # The title must not claim direction-INDEPENDENCE: panel (b) measures a 1.8x direction
     # asymmetry, so "independent of direction" would contradict the figure's own data. The
     # defensible claim is that the law operates in BOTH directions and on BOTH datasets.
-    fig.suptitle("Teacher calibration governs student calibration in BOTH directions and on "
-                 "BOTH datasets\n"
+    # Aligned with title v2 (7 Aug 2026): only the SUBJECT changed. The "BOTH directions /
+    # BOTH datasets" emphasis is kept -- FERPlus replicates the law in the opposite direction.
+    fig.suptitle("Teacher-side logit scaling governs student calibration in BOTH directions "
+                 "and on BOTH datasets\n"
                  f"(selection-independent SWA checkpoint, {note})", fontsize=11)
     fig.tight_layout()
     p_main = OUT_DIR / "two_dataset_overlay_swa.png"

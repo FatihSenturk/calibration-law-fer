@@ -241,7 +241,9 @@ def main():
         ax.set_xlabel("Teacher ECE at the distilled temperature  (log scale)")
         ax.set_ylabel(ylab)
         ax.grid(alpha=0.25, which="both")
-    ax1.set_title("Teacher calibration governs student calibration", fontsize=10)
+    # Aligned with title v2 (7 Aug 2026); diagnostic PNG only -- the exporter strips
+    # in-figure titles, so the paper PDF is unaffected.
+    ax1.set_title("Teacher-side logit scaling governs student calibration", fontsize=10)
     ax2.set_title("Accuracy is comparatively insensitive", fontsize=10)
     ax1.legend(fontsize=7, loc="upper left")
     # Title must not claim 3 seeds while any point is still partial.

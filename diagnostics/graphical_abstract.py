@@ -39,8 +39,14 @@ OUT_PNG = ROOT / "paper" / "figures" / "graphical_abstract.png"
 W, H = 130 * MM, 50 * MM
 # Tek cümle, iki satırda: 8 pt'de tek satır 130 mm'ye sığmıyor (ilk denemede tight-bbox tuvali
 # 149 mm'ye genişletip 130x50'yi bozdu — GA'da tuval sabittir, metin tuvale uyar, tersi değil).
-HEADLINE_1 = "Teacher calibration governs student calibration"
-HEADLINE_2 = "— causal evidence via prediction-preserving logit rescaling —"
+# Aligned with title v2 (7 Aug 2026). The old subject was "Teacher calibration"; the
+# intervention is T (logit scaling) and calibration is the property it moves.
+HEADLINE_1 = "Teacher-side logit scaling governs student calibration"
+# The old subtitle read "— causal evidence via prediction-preserving logit rescaling —".
+# "Causal Evidence" was deliberately dropped from the title after external review; restating
+# it on the graphical abstract would reintroduce the same title/figure mismatch. The new line
+# names the design feature that licenses the causal reading instead of asserting it.
+HEADLINE_2 = "— dose–response at fixed teacher accuracy, in both directions —"
 
 
 def box(ax, x, y, w, h, text, edge=BLACK, lw=0.9, fs=7.0, fc="white", tc=BLACK, bold=False):
