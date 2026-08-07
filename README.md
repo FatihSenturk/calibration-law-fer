@@ -151,8 +151,14 @@ Reproducing a *single* arm is cheap; reproducing the campaign is not.
 |---|---|---|
 | run directories under `results/` (checkpoints, per-epoch logs, confusion matrices) | size — hundreds of GB | yes |
 | teacher checkpoints | size | yes |
-| raw cached teacher/student logits (`.pt`, `.npy`) | size policy, though these are small | yes |
+| the per-run raw outputs under `results/` | size | yes |
 | the datasets (RAF-DB, FERPlus) | licensed by their owners, not ours to redistribute | obtain from the original providers |
+
+The cached teacher and student logits under `diagnostics/` **are** included (554 KB in
+total): they let you re-derive the joint-optimum, robustness and FERPlus-JSD tables
+without any run directory. They are **model outputs computed on the validation split, not
+redistributed dataset content** — no image, label or annotation from RAF-DB or FERPlus is
+republished here.
 
 This is the honest consequence: **a reader who clones this repository and runs the
 analysis scripts gets Level 1 and Level 2, not Level 3.** Level 1 works precisely
