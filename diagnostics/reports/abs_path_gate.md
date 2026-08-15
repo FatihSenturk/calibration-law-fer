@@ -20,7 +20,7 @@ Hedef klasör: `calibration-law-fer_2026-08-08`
 | tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 4 | 35 |
 | **toplam** | **22** | **70** |
 
-Metin dışı (ikili) dosya atlandı: 75. Uzantı listesi betikte yazılı — kapsam daralması sessiz olmasın. **Okunamayan dosya: 0** (sıfır olmak zorunda; değilse kapı düşer).
+Metin dışı (ikili) dosya atlandı: 65. Uzantı listesi betikte yazılı — kapsam daralması sessiz olmasın. **Okunamayan dosya: 0** (sıfır olmak zorunda; değilse kapı düşer).
 
 ## Beyanlı listenin tamamı
 
