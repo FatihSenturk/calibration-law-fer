@@ -32,6 +32,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/ferplus_selection_audit.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/g42_init_matched_lever.py` | GEÇTİ | — |
 | `diagnostics/graphical_abstract.py` | GEÇTİ | — |
+| `diagnostics/headroom_grid_audit.py` | GEÇTİ | — |
 | `diagnostics/headroom_review.py` | GEÇTİ | — |
 | `diagnostics/holm_family.py` | GEÇTİ | — |
 | `diagnostics/inferential_tests.py` | GEÇTİ | — |

@@ -669,8 +669,44 @@ def cells_from_round3(p):
     return out
 
 
+def cells_from_headroom_audit(p):
+    """N11 (15 Agu) — FERPlus headroom'un UC izgaradaki degeri, CI'lari ve sinir tanisi.
+
+    Neden kayitli: bu tablo "hangi sayi makaleye girer"i belirliyor. Izgaralardan biri
+    (bootstrap_cis.T_GRID) degisirse headroom sessizce kayar; kapinin gormesi gereken tam
+    olarak budur.
+    """
+    out = {}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    for gk, r in (d.get("grids") or {}).items():
+        out[f"N11/{gk}/headroom"] = (r.get("headroom"), None, r["grid"]["n"])
+        out[f"N11/{gk}/T_argmin"] = (r.get("T_argmin"), None, r["grid"]["n"])
+        out[f"N11/{gk}/ece_at_argmin"] = (r.get("ece_at_argmin"), None, r["grid"]["n"])
+        out[f"N11/{gk}/ci_lo"] = (r["ci95"][0], None, None)
+        out[f"N11/{gk}/ci_hi"] = (r["ci95"][1], None, None)
+        out[f"N11/{gk}/grid_lo"] = (r["grid"]["lo"], None, None)
+        out[f"N11/{gk}/grid_hi"] = (r["grid"]["hi"], None, None)
+        out[f"N11/{gk}/on_bound"] = (str(r.get("argmin_at_lower_bound")
+                                         or r.get("argmin_at_upper_bound")), None, None)
+        out[f"N11/{gk}/boot_frac_lo"] = (r.get("boot_frac_argmin_at_lower_bound"), None, None)
+    for name, b in (d.get("boot_grid_boundary_by_teacher") or {}).items():
+        out[f"N11/boundary/{name}/T"] = (b.get("T_argmin_on_boot_grid"), None, b.get("n_val"))
+        out[f"N11/boundary/{name}/at_bound"] = (str(b.get("at_lower_bound")
+                                                    or b.get("at_upper_bound")), None, None)
+    t = d.get("ferplus_T_star_ece") or {}
+    for k in ("continuous_argmin", "fine_grid_argmin", "boot_grid_point"):
+        out[f"N11/tstar/{k}"] = (t.get(k), None, None)
+    out["N11/tstar/truncated"] = (str(t.get("truncated")), None, None)
+    out["N11/max_abs_dev"] = (d.get("max_abs_dev"), None, None)
+    v = d.get("verdict") or {}
+    out["N11/verdict/primary_number"] = (v.get("primary_number"), None, None)
+    out["N11/verdict/primary_T"] = (v.get("primary_T"), None, None)
+    return out
+
+
 SOURCES = [
     (D / "epoch_curves_MANIFEST.json", cells_from_epoch_curves),
+    (D / "paper_tables" / "headroom_grid_audit.json", cells_from_headroom_audit),
     (D / "paper_tables" / "control_sd_mde.json", cells_from_round3),
     (D / "paper_tables" / "tau_t_factorial.json", cells_from_round3),
     (D / "paper_tables" / "mechanism_grid_gaps.json", cells_from_round3),

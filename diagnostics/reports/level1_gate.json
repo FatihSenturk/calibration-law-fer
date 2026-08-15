@@ -101,6 +101,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/headroom_grid_audit.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/headroom_review.py",
       "status": "GEÇTİ",
       "note": ""

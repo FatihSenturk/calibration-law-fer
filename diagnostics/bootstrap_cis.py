@@ -61,14 +61,20 @@ HONESTY = (
 )
 
 
-def precompute(logits, labels):
-    """Örnek başına, T ızgarası boyunca: güven, doğru-mu, NLL, ECE bin indeksi."""
+def precompute(logits, labels, t_grid=None):
+    """Örnek başına, T ızgarası boyunca: güven, doğru-mu, NLL, ECE bin indeksi.
+
+    `t_grid` 15 Ağu 2026'da eklendi (headroom_grid_audit): ızgara artık bir PARAMETRE, çünkü
+    Eq.8 `min_{T∈G}` ve dolayısıyla G'nin kendisi estimand'ın parçası. Varsayılan bu modülün
+    kendi T_GRID'i — bu betiğin ürettiği hiçbir sayı değişmez (kapı ile doğrulandı).
+    """
+    t_grid = T_GRID if t_grid is None else np.asarray(t_grid, dtype=np.float64)
     lg = logits.astype(np.float64)
     n = lg.shape[0]
     correct = (lg.argmax(1) == labels).astype(np.float64)       # T'den BAGIMSIZ
-    conf = np.empty((n, len(T_GRID)))
-    nll = np.empty((n, len(T_GRID)))
-    for j, T in enumerate(T_GRID):
+    conf = np.empty((n, len(t_grid)))
+    nll = np.empty((n, len(t_grid)))
+    for j, T in enumerate(t_grid):
         z = lg / T
         z = z - z.max(1, keepdims=True)
         e = np.exp(z)
