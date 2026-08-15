@@ -19,9 +19,11 @@ were launched.
 training logs, and the manuscript sources. See [Data](#data) and
 [PROVENANCE.md](PROVENANCE.md).
 
-**Which version this is.** This snapshot corresponds to the manuscript currently
-under review; the submitted version will be tagged, and a DOI minted from that
-tag on the day of submission.
+**Which version this is.** This snapshot is the version submitted to
+Neurocomputing on 15 August 2026, tagged
+[`v1.0.0-submission`](https://github.com/FatihSenturk/calibration-law-fer/releases/tag/v1.0.0-submission).
+A DOI is minted from that tag. Later commits on `main` may carry revisions made
+during review; cite the tag, not the branch.
 
 ---
 
