@@ -135,6 +135,11 @@ def one_teacher(tag, logits, labels, names, grid):
 
 
 def main():
+    # cp1252 konsolda `UnicodeEncodeError` -- gerekçe `order_stat_trend.py`'dekiyle aynı:
+    # kapıda "başka hata" görünüyordu ve Level-1 sorusu hiç sorulmuyordu (9 Ağu).
+    for s in (sys.stdout, sys.stderr):
+        if hasattr(s, "reconfigure"):
+            s.reconfigure(encoding="utf-8", errors="replace")
     results = {}
 
     raf_names, raf_labels = rafdb_names_and_labels()

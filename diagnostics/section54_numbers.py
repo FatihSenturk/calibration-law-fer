@@ -74,7 +74,7 @@ def ctrl_pred(teacher, cw):
 def gate_pred(teacher, src):
     return lambda r: (r["teacher"] == teacher and is_treatment(r)
                       and r["manipulation"] == "gate"
-                      and gate_variant(r["run_dir"]) == f"gate:{src}")
+                      and gate_variant(r) == f"gate:{src}")
 
 
 def main():
@@ -115,7 +115,7 @@ def main():
             continue
         if (r["teacher"], int(r["seed"]), r["class_weight_mode"]) not in {
                 (k[0], int(k[1]), k[2]) for k in controls_new}:
-            dropped.append(f"{r['teacher']}/{gate_variant(r['run_dir'])} seed{r['seed']} "
+            dropped.append(f"{r['teacher']}/{gate_variant(r)} seed{r['seed']} "
                            f"(cw={r['class_weight_mode']})")
 
     L = ["# Number set for the 5.4 rewrite (B1–B4)", "",

@@ -1,0 +1,94 @@
+{
+  "item": "§5.4 per-class crossing",
+  "verdict": "EĞİLİM VAR, TEK İNVERSİYONLA",
+  "rows": [
+    {
+      "cls": "Happiness",
+      "n": 1185,
+      "gap_native": 0.0278,
+      "gap_T22": -0.1103,
+      "sd_native": 0.0021,
+      "sd_T22": 0.003,
+      "crossing_T": 1.4571317011434086,
+      "range_over_seed_sd": 49.3
+    },
+    {
+      "cls": "Neutral",
+      "n": 680,
+      "gap_native": 0.0615,
+      "gap_T22": -0.1262,
+      "sd_native": 0.0095,
+      "sd_T22": 0.0044,
+      "crossing_T": 1.4626097433298777,
+      "range_over_seed_sd": 28.9
+    },
+    {
+      "cls": "Sadness",
+      "n": 478,
+      "gap_native": 0.0869,
+      "gap_T22": -0.0845,
+      "sd_native": 0.0091,
+      "sd_T22": 0.0059,
+      "crossing_T": 1.6993884670358765,
+      "range_over_seed_sd": 21.3
+    },
+    {
+      "cls": "Surprise",
+      "n": 329,
+      "gap_native": 0.0656,
+      "gap_T22": -0.0798,
+      "sd_native": 0.0126,
+      "sd_T22": 0.0114,
+      "crossing_T": 1.6215980464517907,
+      "range_over_seed_sd": 15.8
+    },
+    {
+      "cls": "Anger",
+      "n": 162,
+      "gap_native": 0.1155,
+      "gap_T22": -0.0637,
+      "sd_native": 0.0093,
+      "sd_T22": 0.0247,
+      "crossing_T": 1.8205190079962628,
+      "range_over_seed_sd": 14.0
+    },
+    {
+      "cls": "Disgust",
+      "n": 160,
+      "gap_native": 0.2776,
+      "gap_T22": 0.0629,
+      "sd_native": 0.0123,
+      "sd_T22": 0.0045,
+      "crossing_T": null,
+      "range_over_seed_sd": 10.6
+    },
+    {
+      "cls": "Fear",
+      "n": 74,
+      "gap_native": 0.3048,
+      "gap_T22": 0.1655,
+      "sd_native": 0.0087,
+      "sd_T22": 0.0201,
+      "crossing_T": null,
+      "range_over_seed_sd": 13.1
+    }
+  ],
+  "spearman_n_vs_crossing": -0.8999999999999998,
+  "spearman_rarity_vs_crossing": 0.8999999999999998,
+  "inversions": [
+    {
+      "more_frequent": "Sadness",
+      "n_more": 478,
+      "T_more": 1.6993884670358765,
+      "less_frequent": "Surprise",
+      "n_less": 329,
+      "T_less": 1.6215980464517907,
+      "delta_T": 0.0777904205840858
+    }
+  ],
+  "never_crossed": [
+    "Disgust",
+    "Fear"
+  ],
+  "sd_convention": "sample sd (n-1, Bessel-corrected), computed over seeds"
+}

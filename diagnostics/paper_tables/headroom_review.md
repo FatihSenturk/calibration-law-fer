@@ -14,15 +14,15 @@ Where −0.0011 comes from: T* is fitted by minimising **NLL** (0.983), whereas 
 
 **Suggested wording for the text:** "the well-calibrated teacher's headroom is ≈0.002, an order of magnitude smaller than the other two teachers' (0.0220 / 0.0206)" — consistent with Eq.8, no sign problem. Note: for stage1 the two conventions coincide to four decimals (0.0220); for primary they do not (0.0199 vs 0.0206) — whichever convention the text adopts, it must use the same one for ALL THREE teachers; Eq.8 is the recommendation.
 
-## 2 · FERPlus 0.120 vs 0.1126: two T*, two numbers
+## 2 · FERPlus 0.113 vs 0.120: one definition, two grid resolutions
 
 | quantity | T | ECE | value |
 |---|---|---|---|
 | ECE(T=1) | 1.0 | 0.1282 | — |
-| **Eq.8 headroom** (ECE argmin) | **0.46** | 0.0084 | **0.1198 → metindeki "0.120"** |
-| reduction realised by the arm that was run (T*_NLL) | 0.5063 | 0.0156 | 0.1126 → the table's "0.1282−0.0156" |
+| **Eq.8 headroom** — `min` over the swept grid G (4 points) | **0.5063** | 0.0156 | **0.1126 → the paper's "0.113"** |
+| finer-resolution refinement (196-point sweep, step 0.02) | 0.46 | 0.0084 | 0.1198 → the paper's "0.120" |
 
-Both are correct; they are names for different things. **Binding rule:** the word *headroom* carries only the Eq.8 value (0.1198 ≈ 0.120, T*_ECE=0.46); any sentence speaking about the table instead says "the realized reduction at the deployed T*_NLL=0.5063 is 0.1126". The arm was actually run at 0.5063, so the table does not change — the text simply stops calling two numbers by one name.
+**Binding rule (updated 11 Aug 2026).** Eq.8 is now `min_{T∈G}`, i.e. the definition is tied to the grid that was ACTUALLY SWEPT. So *headroom* carries **0.1126 ≈ 0.113** (T=0.5063), and 0.1198 ≈ 0.120 (T=0.46) is quoted only as what a finer resolution would reach. The arm was run at T=0.5063, so under the new definition the table's "0.1282−0.0156" and the definition's value are THE SAME NUMBER — which is the point of the redefinition: the earlier version needed two names because the definition pointed at a grid nobody had run.
 
 ## 3 · The capacity "76×" footnote: rounding dropped the ratio to 74 for the reader
 

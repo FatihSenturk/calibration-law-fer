@@ -24,22 +24,22 @@ Producer: `diagnostics/denominator_table.py` · @swa · sample sd (n-1, Bessel-c
 | primary | adaptive_t | `effective_number` | -0.391 | 0.130 | **3.00×** | +0.0023 | 0.0015 | **1.5×** | 3 |
 | primary | ctkd | `effective_number` | -0.489 | 0.130 | **3.75×** | +0.0038 | 0.0015 | **2.5×** | 1 |
 | primary | g2g_kl | `effective_number` | -0.141 | 0.130 | **1.08×** | -0.0016 | 0.0015 | **1.1×** | 3 |
-| primary | gate:mean_logvar | `none` | +0.065 | 0.394 | **0.17×** | -0.0027 | 0.0033 | **0.8×** | 1 |
+| primary | gate:mean_logvar | `none` | +0.196 | 0.394 | **0.50×** | -0.0056 | 0.0033 | **1.7×** | 3 |
 | primary | gate:oracle_error | `none` | -0.011 | 0.394 | **0.03×** | +0.0004 | 0.0033 | **0.1×** | 3 |
-| primary | gate:target_logvar | `none` | -0.326 | 0.394 | **0.83×** | +0.0019 | 0.0033 | **0.6×** | 1 |
+| primary | gate:target_logvar | `none` | -0.087 | 0.394 | **0.22×** | -0.0008 | 0.0033 | **0.2×** | 3 |
 | primary | logit_std | `effective_number` | -0.315 | 0.130 | **2.42×** | +0.0859 | 0.0015 | **56.7×** | 3 |
 | stage1 | adaptive_t | `effective_number` | +0.163 | 0.340 | **0.48×** | -0.0011 | 0.0012 | **0.9×** | 3 |
 | stage1 | ctkd | `effective_number` | -0.033 | 0.340 | **0.10×** | +0.0058 | 0.0012 | **4.9×** | 1 |
 | stage1 | g2g_kl | `effective_number` | +0.413 | 0.340 | **1.21×** | -0.0042 | 0.0012 | **3.6×** | 3 |
-| stage1 | gate:mean_logvar | `none` | -0.065 | 0.100 | **0.65×** | +0.0000 | 0.0021 | **0.0×** | 1 |
+| stage1 | gate:mean_logvar | `none` | -0.098 | 0.100 | **0.98×** | -0.0012 | 0.0021 | **0.6×** | 3 |
 | stage1 | gate:oracle_error | `none` | -0.217 | 0.100 | **2.18×** | +0.0015 | 0.0021 | **0.7×** | 3 |
-| stage1 | gate:target_logvar | `none` | +0.261 | 0.100 | **2.62×** | -0.0028 | 0.0021 | **1.3×** | 1 |
+| stage1 | gate:target_logvar | `none` | +0.250 | 0.100 | **2.51×** | -0.0041 | 0.0021 | **2.0×** | 3 |
 | stage1 | logit_std | `effective_number` | -0.228 | 0.340 | **0.67×** | +0.0906 | 0.0012 | **76.6×** | 3 |
 | vae9182 | adaptive_t | `effective_number` | +0.282 | 0.366 | **0.77×** | -0.0042 | 0.0020 | **2.1×** | 3 |
 | vae9182 | ctkd | `effective_number` | -0.130 | 0.366 | **0.36×** | +0.0038 | 0.0020 | **1.9×** | 1 |
 | vae9182 | g2g_kl | `effective_number` | +0.163 | 0.366 | **0.44×** | +0.0009 | 0.0020 | **0.5×** | 3 |
 | vae9182 | g2g_kl+adaptive_t | `effective_number` | -0.065 | 0.366 | **0.18×** | -0.0018 | 0.0020 | **0.9×** | 1 |
-| vae9182 | gate:mean_logvar | `none` | -1.043 | 0.207 | **5.04×** | +0.0067 | 0.0027 | **2.5×** | 1 |
+| vae9182 | gate:mean_logvar | `none` | -0.272 | 0.207 | **1.31×** | +0.0015 | 0.0027 | **0.5×** | 3 |
 | vae9182 | gate:oracle_error | `none` | -0.228 | 0.207 | **1.10×** | +0.0056 | 0.0027 | **2.1×** | 3 |
 | vae9182 | logit_std | `effective_number` | -0.120 | 0.366 | **0.33×** | +0.1388 | 0.0020 | **69.5×** | 3 |
 

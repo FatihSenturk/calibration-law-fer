@@ -2,18 +2,18 @@
 
 Producer: `diagnostics/mechanism_specs.py` · values read from the runs' own `run_args.json` dumps (no number is typed by hand) · formulas carry code references (file:line in every cell) · scope: the RAF-DB arms in runs.csv.
 
-## gate  (n=15 runs)
+## gate  (n=25 runs)
 
 α_i = α_lo + (α_hi−α_lo)·sigmoid(k·(û_i − τ_g)); û_i = z-score(u_i) (gate_norm=batch: batch mean/std, eps 1e-6; running: EMA momentum 0.99, frozen at eval). Blend: loss_i = α_i·CE_i + (1−α_i)·KD_i — α_i is the HARD-label weight. Sources: mean/target/top2_logvar, entropy, oracle_error. ORACLE DIRECTION: if the teacher's top-1 is wrong then u_i=1 → û_i high → α_i→α_hi → on that sample the TEACHER's WEIGHT (1−α_i) is MINIMISED (a sample the teacher gets wrong is listened to less). [kd_uncertainty.py:51-66,140-146; kd_common.py:406-438]
 
 | parameter | value(s) [n runs] |
 |---|---|
-| `gate_uncertainty_source` | `mean_logvar` [4] · `oracle_error` [9] · `target_logvar` [2] |
-| `gate_norm` | `batch` [15] |
-| `gate_alpha_lo` | `0.1` [15] |
-| `gate_alpha_hi` | `0.7` [15] |
-| `gate_k` | `2` [15] |
-| `gate_tau` | `0` [15] |
+| `gate_uncertainty_source` | `mean_logvar` [10] · `oracle_error` [9] · `target_logvar` [6] |
+| `gate_norm` | `batch` [25] |
+| `gate_alpha_lo` | `0.1` [25] |
+| `gate_alpha_hi` | `0.7` [25] |
+| `gate_k` | `2` [25] |
+| `gate_tau` | `0` [25] |
 
 ## adaptive_t  (n=19 runs)
 
@@ -56,7 +56,7 @@ A single GLOBAL learnable temperature: T = t_min + (t_max−t_min)·sigmoid(GRL(
 |---|---|
 | `temperature` | `6` (adaptive_t, ctkd, g2g, gate, logit_std) |
 | `alpha` | `0.3` (adaptive_t, ctkd, g2g, gate, logit_std) |
-| `teacher_temperature_scale` | `0.7311` (adaptive_t) · `1` (adaptive_t, ctkd, g2g, gate, logit_std) |
+| `teacher_temperature_scale` | `0.7311` (adaptive_t) · `1` (adaptive_t, g2g, gate, logit_std) · `None` (adaptive_t, ctkd, g2g, gate, logit_std) |
 
 τ=6 and α=0.3 are expected throughout, as is `teacher_temperature_scale` 1.0 — the only known exception is the T0=0.7311 arms of the B-010 deliberate-miscalibration pilot (visible on the adaptive_t row; intentional, see BULGULAR B-010). If the table shows any other variation, that row must be carried into the appendix as an exception.
 

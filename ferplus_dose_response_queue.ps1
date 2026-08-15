@@ -17,6 +17,13 @@ Set-Location -Path $PSScriptRoot
 # B-007 (teacher calibration governs student calibration; headroom bounds what any mechanism can
 # win) is currently RAF-DB-only. This is the external-validity test.
 #
+# Not (7 Agu 2026): iddianin guncel makale ifadesi "teacher-side logit scaling governs student
+# calibration" -- bkz. baslik v2 (diagnostics/reports/2026-08-04_baslik_v2_teyit.md). Yukaridaki
+# satir bu betigin KOSULARDAN ONCE donduruldugu andaki (26 Tem) ifadedir ve tarihi kayit olarak
+# korunuyor. Prompt bu satiri paraphrase sayip yeniden yazmaya IZIN veriyordu; yazilmadi, cunku
+# bu dosya B-007'nin FERPlus testinde kanit zincirinin bir parcasi (kosulardan once commit'lendi)
+# ve on-beyan artefaktlarinin metnini geriye donuk degistirmemek kampanyanin duran kurali.
+#
 # THE FERPLUS TEACHER IS THE OPPOSITE PATHOLOGY -- which makes this a strong test, not a weak one.
 # Stage1 (RAF-DB) is natively OVER-confident: ECE(T=1)=0.0378, signed gap +0.0338, T*=1.349 (>1,
 # needs softening). The FERPlus VICH teacher is natively UNDER-confident, because it was trained

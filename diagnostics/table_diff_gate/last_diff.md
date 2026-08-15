@@ -1,6 +1,22 @@
 # Table diff gate — last comparison
 
-Baseline: **2026-08-03T12:41:12** — Table prose and column headers translated to English for the public release; T10 capacity cell relabelled (o-n-egitimli w100 -> pretrained w100). Pure rename: 278 cells before and after, zero MOVED, every value identical after name alignment.  
-Cells compared: 278 (278 in the baseline)
+Baseline: **2026-08-15T02:04:11** — Round 3 (14 Agu, Fatih) B hatti: yedi yeni tablo uretildi ve AYNI GUN kapiya kaydedildi. 202 sapmanin tamami APPEARED; CHANGED / MOVED / VANISHED yok -- yani onceden kayitli 1050 hucrenin hicbiri kimildamadi. Bu onemli, cunku bu tur BES uretici dosyasina dokundu (t5_pairing_diff, noise_units, two_dataset_overlay, criterion_applied, paper_tables cevresi) ve hicbiri yayimlanmis bir sayiyi degistirmedi.
+
+B2 (regression_line_provenance): §5.3'un iki dogrusu icin IKI AYRI cevap. FERPlus 0.582'nin URETICISI VAR -- b015_verdict.py, havuzlanmis OLS, @best, 9 kosu (3 T kolu x 3 tohum), R2 0.8814 (9 kosu) / 0.8934 (3 grup ort). Karsi-dogrulayicinin bulamamasinin sebebi checkpoint: makalenin birincil checkpoint'i @swa ve orada ayni fit 0.4458 veriyor. RAF-DB 0.765'in URETICISI YOK -- b015_verdict.py:68'de sabit olarak duruyor, hicbir betik hesaplamiyor; 18 spesifikasyon tarandi, uretilen egimler 1.3522..1.8744, en yakini %77 uzak. Cumle makaleden cikarilabilir.
+
+B3+B6 (control_sd_mde): 27x ailesinin 18 paydasi (3 ogretmen x 3 checkpoint x 2 eksen, effective_number kolu) tam hassasiyetle basildi; ikinci kontrol kolu (none) da yaninda, toplam 36 satir. Capraz kontrol: ayni paydalarla noise_units'in dokuz orani yeniden kuruldu, en buyuk sapma 0.00e+00. B6: olcutun tabani 2sigma = 0.0024..0.0067 @swa; kontrol kolunun kendi ECE duzeyine orani %3.2..%19.4. Panelin "~%3-9" tahmini TUTMUYOR: vae9182'nin ogrencileri 0.0278-0.0330'da oturdugu icin ayni mutlak taban onun icin %12-19.
+
+B4 (tau_t_factorial): dort kol kurucu (tau, T) degerleriyle basildi ve UC MARJINAL KONTRAST eklendi -- tau etkisi @T=1.70 (+0.0042, +++), tau etkisi @T=0.85 (-0.0025, +--), T etkisi @tau=6 (-0.0349, ---). Uc hakemin "confounded" okumasinin cevabi bu: her kontrastta tek faktor oynuyor ve iki kol da defterde mevcut. T etkisi tau etkisinin sekiz katindan buyuk.
+
+B5 (criterion_applied G3.3): aile 17 degil 22 -- ECE ekseninde 17 uc-tohumlu hucre, DOGRULUK ekseninde bes ogrenilmis-sinyal gate hucresi. 1-(1-0.0350)^22 = 0.543 TEYIT EDILDI. Her hucre kendi k'siyle alinirsa 0.740. Gozlenen k araligi 0.30 (stage1/g2g_kl) .. 3.83 (primary/logit_std), hucre-basi oran 0.0000 .. 0.1916. Bagimlilik OLCULDU: ayni kontrol kolunu paylasan hucrelerin ortalama ikili korelasyonu +0.393 (18 cift), paylasmayanlarda -0.077 (213 cift); ortak bilesenli simulasyon 0.733 veriyor, yani bagimsizlik varsayiminin sisirmesi 0.007 -- olculdu, varsayilmadi.
+
+B7 (ferplus_abstention_entropy): kanonik fer2013new.csv'nin unknown+NF sutunlari dogrulama fold'unun 3153 satirinin HEPSINDE bulundu ve on sutunun toplami HER satirda tam 10. "Eksik oyun sebebi belirlenemez" cumlesi yanlis. Kosullu-8 entropi 0.4401 (yayimliyi maks sapma 0.00e+00 ile yeniden uretti), abstention-10 entropi 0.5488 (+0.1087, %+24.7). T*_JSD IKISINDE DE 0.74 -- hizalama sonucu eksik oylarin nasil yorumlandigina bagli degil; degisen tek sey JSD'nin tabani (0.0440 -> 0.0588).
+
+B8 (dose_response_per_seed): dokuz tohum egrisinin tamamli tablosu (3 seri x her T x 3 tohum). Monotonluk ekseni YENIDEN TANIMLANMADI, G2.2'den ithal edildi: brans-ici 9/9, ham T ekseninde 0/9. Bu betigin kendi T-ekseni olcumu G2.2 (a) ile birebir tutuyor (0/9 kati monoton, 8/9 rho>0).
+
+B9 (mechanism_grid_gaps): 8x3 izgaranin uc bos hucresi hukum aldi -- stage1 ve primary/g2g_kl+adaptive_t KOSULMADI (defterde hic koslari yok), vae9182/gate:target_logvar ELENDI (sinyal kalitesi AUROC 0.4579, yon "higher->less error", gate'in istedigi yon degil; A12 bes hucresini bu taramadan sectti). AYRICA: vae9182/g2g_kl+adaptive_t izgarada n=1 gorunuyor ama defterde ayni kolun 500e hali UC TOHUMLA duruyor -- dogru cumle "bu butcede n=1, bir ust butcede n=3".
+
+B10 (number_audit_round3): on ondalik uyusmazliginin hepsi olculdu. Yayimli dogru: 57-77 (olculen 56.68-76.62), 13-14x (13.31-14.32), 62.9x (62.8847; panelin 63.1'i paydayi 8.8'e yuvarlamaktan), %19 bas-izolasyonu (18.58%, payda DOGRUSAL ogrenci). Panel hakli: FERPlus best-last SE 0.00215, yani 0.0021 (0.0022 degil). Ikisi de degil: FERPlus T*_ECE = 0.45305 surekli argmin, 0.46 kaba izgara, 0.5063 ise T*_ECE degil T*_NLL; Ek B'nin "0.5" alt siniri hicbir izgaraya ait degil (RAF-DB [0.60,2.95] adim 0.05, FERPlus [0.10,4.00] adim 0.02) ve hicbir optimum sinirda degil, yani headroom sinir-kisitli DEGIL; "37x" hicbir sd konvansiyonundan cikmiyor (ortalama sd ile 39.8x, medyan 44.1x, en buyuk 27.4x), "~40x" dogru.  
+Cells compared: 1252 (1252 in the baseline)
 
 ✅ No deviation — every cell is at its baseline value.

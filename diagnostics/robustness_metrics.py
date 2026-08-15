@@ -25,9 +25,17 @@ değerlendirilir, dolayısıyla sonuca bakıp seçilmiş bir yön yoktur. Uyuşm
 (hangi çift, hangi tohum, hangi metrik) tabloda tek tek listelenir; bu ön-kaydın açık
 şartıdır.
 
-VERİ: koşu dizinlerindeki logits_swa.npz. Forward yok. RAF-DB serileri
-p1_two_teacher_overlay.CURVES'ten (tek kaynak), FERPlus serisi
+VERİ: YAYIMLANMIŞ logit önbelleği, `diagnostics/student_logits/<koşu_adı>.npz`. Forward yok.
+RAF-DB serileri p1_two_teacher_overlay.CURVES'ten (tek kaynak), FERPlus serisi
 selection_audit/ferplus_selection_audit.csv'den okunur.
+
+LEVEL-1 (8 Ağu 2026). Bu betik 8 Ağu'ya kadar dosyaları koşu dizinlerinden
+(`results/unified_students/...`) okuyordu ve Level-1 kapısında iki ihlalden biriydi: koşu
+dizinleri boyut yüzünden yayımlanmadığı için R3-1 tablosu public depoda yeniden
+üretilemiyordu. Eksik olan yol değil dosyanın kendisiydi; 42 önbellek (3,4 MiB)
+`publish_student_logits.py` ile bayt kopyası olarak yayımlandı ve bu betik artık yalnız
+yayımlanan kopyayı okur. "Bir koşu adına tam bir bitmiş dizin" kapısı da oraya taşındı --
+kaybolmadı, sınırın doğru tarafına geçti.
 
 Salt-okunur. Çıktı -> diagnostics/paper_tables/robustness_metrics.{md,json}
 """
@@ -45,45 +53,58 @@ sys.path.insert(0, str(ROOT / "diagnostics"))
 
 from calibration_metrics import METRIC_LABEL, METRIC_ORDER, all_metrics  # noqa: E402
 from p1_two_teacher_overlay import CURVES  # noqa: E402  (tek kaynak: koşu -> (öğretmen, T))
+from publish_student_logits import manifest_entry, published_npz  # noqa: E402
 from stats_convention import SD_CONVENTION, sample_sd  # noqa: E402
 
 OUT_DIR = ROOT / "diagnostics" / "paper_tables"
-STUDENTS = ROOT / "results" / "unified_students"
 FER_AUDIT = ROOT / "diagnostics" / "selection_audit" / "ferplus_selection_audit.csv"
 CKPT = "swa"
 ECE15_TOL = 1e-9   # aynı fonksiyon, aynı girdi: bit düzeyinde aynı olmalı
 
 
 def ferplus_curve():
-    """{T: {seed: run_dir}} — FERPlus doz-cevap serisi, denetim tablosundan."""
-    curve = {}
+    """{T: {seed: koşu_adı}} — FERPlus doz-cevap serisi, denetim tablosundan.
+
+    TOHUM TEKİLLİĞİ KAPISI (6 Ağu 2026). Bu sözlük eskiden sessizce üzerine yazıyordu: bir
+    (T, tohum) çiftine iki koşu düşerse denetim dosyasında EN SON gelen kazanırdı ve sonuç
+    satır sırasına bağlı olurdu. Aynı desen `inferential_tests.pick()`'te gerçek bir hataya
+    dönüştü (P6'nın koşuları yordama uyunca "nedensel çekirdek" kontrastının Holm p'si sessizce
+    0.0020'den 0.0192'ye taşındı), `paper_tables.py`'de ise P3'ün T10 karışmasından sonra bu
+    kapı zaten eklenmişti. Burada da kapatılıyor: bir hücrede aynı tohumdan iki koşu, tanım
+    gereği tohum dışında bir değişkenin de oynadığı anlamına gelir.
+    """
+    curve, seen = {}, {}
     with open(FER_AUDIT, encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
             if r["checkpoint"] != CKPT:
                 continue
-            curve.setdefault(float(r["t_scale"]), {})[int(r["seed"])] = Path(r["run_dir"])
+            t, s = float(r["t_scale"]), int(r["seed"])
+            if (t, s) in seen:
+                raise RuntimeError(
+                    f"FERPlus eğrisinde (T={t:g}, tohum={s}) çifti iki kez var: "
+                    f"{seen[(t, s)]} ve {r['run_dir']}. Aynı hücrede aynı tohumdan iki koşu, "
+                    f"tohum dışında bir değişkenin de oynadığı anlamına gelir — seçim satır "
+                    f"sırasına bırakılmaz, yordam daraltılır.")
+            seen[(t, s)] = r["run_dir"]
+            # Denetim tablosu koşu DİZİNİ yazar; buradan yalnız koşu ADI alınır (saf metin
+            # işlemi, dosya sistemine dokunmaz). Önbellek koşu adına göre yayımlanmıştır.
+            curve.setdefault(t, {})[s] = Path(r["run_dir"]).parent.name
     return curve
 
 
 def rafdb_curve(arm):
-    """{T: {seed: run_dir}} — CURVES'teki koşu adlarını tek bitmiş dizine çözer."""
-    curve = {}
-    for T, seeds in CURVES[arm].items():
-        for seed, run_name in seeds.items():
-            cands = [d for d in sorted((STUDENTS / run_name).iterdir())
-                     if d.is_dir() and (d / "metrics_best.json").exists()]
-            if len(cands) != 1:
-                raise RuntimeError(f"{run_name}: {len(cands)} finished run dirs, expected 1")
-            curve.setdefault(float(T), {})[int(seed)] = cands[0]
-    return curve
+    """{T: {seed: koşu_adı}} — CURVES tek kaynak; çözümleme artık gerekmiyor.
+
+    8 Ağu'ya kadar burada "koşu adına tam bir bitmiş dizin düşmeli" kapısı vardı ve koşu
+    dizinlerini `iterdir` ile geziyordu — Level-1 ihlalinin kaynağı buydu. Kapı silinmedi,
+    `publish_student_logits.sources()` içine taşındı: sınırı geçen tek betik orası.
+    """
+    return {float(T): {int(seed): run_name for seed, run_name in seeds.items()}
+            for T, seeds in CURVES[arm].items()}
 
 
-def measure_run(run_dir):
-    p = run_dir / f"logits_{CKPT}.npz"
-    if not p.exists():
-        raise FileNotFoundError(
-            f"no logit cache at {p} — build it first "
-            f"(student_logit_cache.py / ferplus_student_logit_cache.py)")
+def measure_run(run_name):
+    p = published_npz(run_name, CKPT)
     z = np.load(p, allow_pickle=False)
     meta = json.loads(str(z["meta"]))
     m = all_metrics(z["logits"], z["labels"])
@@ -92,10 +113,14 @@ def measure_run(run_dir):
     d = abs(m["ece_ew_15"] - meta["ece_recomputed"])
     if d > ECE15_TOL:
         raise RuntimeError(
-            f"{run_dir.parent.name}: ece_ew_15 {m['ece_ew_15']:.10f} != cache "
+            f"{run_name}: ece_ew_15 {m['ece_ew_15']:.10f} != cache "
             f"{meta['ece_recomputed']:.10f} (d={d:.2e}) — the 15-bin column does not "
             f"reproduce the published ECE; every other column is therefore unverified.")
     m["_aux"]["source"] = str(p.relative_to(ROOT)).replace("\\", "/")
+    # Köken kaybolmasın: hangi koşu dizininden geldiği ve bayt-özdeşlik özeti defterden.
+    ent = manifest_entry(run_name)
+    m["_aux"]["origin_run_dir"] = ent["origin_run_dir"]
+    m["_aux"]["sha256"] = ent["sha256"]
     m["_aux"]["audit_ece"] = meta.get("audit_ece")
     return m
 
@@ -161,6 +186,10 @@ def analyse(series_name, curve):
     return {"series": series_name, "T": Ts, "seeds": seeds,
             "n_runs": len(runs),
             "sources": {f"T={T:g},seed={s}": runs[(T, s)]["_aux"]["source"]
+                        for (T, s) in sorted(runs)},
+            # Köken defteri: yayımlanan bayt kopyasının geldiği koşu dizini + sha256.
+            "origins": {f"T={T:g},seed={s}": {"run_dir": runs[(T, s)]["_aux"]["origin_run_dir"],
+                                              "sha256": runs[(T, s)]["_aux"]["sha256"]}
                         for (T, s) in sorted(runs)},
             "acc": {f"T={T:g},seed={s}": runs[(T, s)]["_aux"]["acc"] for (T, s) in sorted(runs)},
             "metrics": per_metric}
@@ -239,9 +268,11 @@ def md_series(r):
         L += ["", "**No step disagrees with the other seeds at the same pair** in any of the "
               "seven metrics."]
 
-    L += ["", "<details><summary>source files</summary>", ""]
+    L += ["", "<details><summary>source files (published byte copies) and their origin run "
+              "directories</summary>", ""]
     for k, v in r["sources"].items():
-        L.append(f"- `{k}` → `{v}`")
+        o = r["origins"][k]
+        L.append(f"- `{k}` → `{v}`  ← `{o['run_dir']}` (sha256 `{o['sha256'][:16]}…`)")
     L += ["", "</details>", ""]
     return L
 
@@ -267,6 +298,11 @@ def main():
          "script and itself validated against `selection_audit`). A deviation above "
          f"{ECE15_TOL:g} aborts the whole table — so the six new columns cannot come from a "
          "pipeline that fails to reproduce the published one.", "",
+         "**Level-1.** The per-sample caches are read from `diagnostics/student_logits/`, the "
+         "published byte copies of the 42 run-directory caches (`publish_student_logits.py`; "
+         "sha256 of source and copy required equal). This table therefore needs no raw run "
+         "directory — which is the Level-1 promise, and was not true of this script before "
+         "8 Aug 2026.", "",
          "**Metric specifications** (frozen in A10, unchanged since):", "",
          "| column | specification |", "|---|---|",
          "| NLL | mean negative log-likelihood, natural log |",

@@ -109,13 +109,13 @@
     },
     "primary/gate:mean_logvar": {
       "class_weight_mode": "none",
-      "n": 1,
-      "d_acc_mean": 0.065185546875,
-      "d_ece_mean": -0.0026642248238469696,
+      "n": 3,
+      "d_acc_mean": 0.19556681315104166,
+      "d_ece_mean": -0.005575578808719728,
       "control_acc_sd": 0.3942937816679289,
       "control_ece_sd": 0.0033333763685349763,
-      "d_acc_over_control_sd": 0.16532227974596556,
-      "d_ece_over_control_sd": 0.7992571282965867
+      "d_acc_over_control_sd": 0.49599263859491066,
+      "d_ece_over_control_sd": 1.6726520477404725
     },
     "primary/gate:oracle_error": {
       "class_weight_mode": "none",
@@ -129,13 +129,13 @@
     },
     "primary/gate:target_logvar": {
       "class_weight_mode": "none",
-      "n": 1,
-      "d_acc_mean": -0.32595062255859375,
-      "d_ece_mean": 0.0019063761766218018,
+      "n": 3,
+      "d_acc_mean": -0.08692169189453125,
+      "d_ece_mean": -0.000783022242180941,
       "control_acc_sd": 0.3942937816679289,
       "control_ece_sd": 0.0033333763685349763,
-      "d_acc_over_control_sd": 0.8266694472831093,
-      "d_ece_over_control_sd": 0.5719054693663821
+      "d_acc_over_control_sd": 0.2204490558457146,
+      "d_ece_over_control_sd": 0.23490363991662916
     },
     "primary/logit_std": {
       "class_weight_mode": "effective_number",
@@ -179,13 +179,13 @@
     },
     "stage1/gate:mean_logvar": {
       "class_weight_mode": "none",
-      "n": 1,
-      "d_acc_mean": -0.065185546875,
-      "d_ece_mean": 5.4096752071103316e-06,
+      "n": 3,
+      "d_acc_mean": -0.09778340657552083,
+      "d_ece_mean": -0.0011666860813513748,
       "control_acc_sd": 0.09957672977697758,
       "control_ece_sd": 0.0021071884659464015,
-      "d_acc_over_control_sd": 0.6546263069795156,
-      "d_ece_over_control_sd": 0.0025672479204088107
+      "d_acc_over_control_sd": 0.9819905393009666,
+      "d_ece_over_control_sd": 0.5536695460353049
     },
     "stage1/gate:oracle_error": {
       "class_weight_mode": "none",
@@ -199,13 +199,13 @@
     },
     "stage1/gate:target_logvar": {
       "class_weight_mode": "none",
-      "n": 1,
-      "d_acc_mean": 0.2607574462890625,
-      "d_ece_mean": -0.002777351627449312,
+      "n": 3,
+      "d_acc_mean": 0.2498906453450521,
+      "d_ece_mean": -0.00414632082710779,
       "control_acc_sd": 0.09957672977697758,
       "control_ece_sd": 0.0021071884659464015,
-      "d_acc_over_control_sd": 2.618658464413142,
-      "d_ece_over_control_sd": 1.3180366504150924
+      "d_acc_over_control_sd": 2.5095285405007095,
+      "d_ece_over_control_sd": 1.9677028866260202
     },
     "stage1/logit_std": {
       "class_weight_mode": "effective_number",
@@ -259,13 +259,13 @@
     },
     "vae9182/gate:mean_logvar": {
       "class_weight_mode": "none",
-      "n": 1,
-      "d_acc_mean": -1.0430221557617188,
-      "d_ece_mean": 0.006703103871863077,
+      "n": 3,
+      "d_acc_mean": -0.27161916097005206,
+      "d_ece_mean": 0.0014772778445743887,
       "control_acc_sd": 0.20700072136152095,
       "control_ece_sd": 0.0026997325636259157,
-      "d_acc_over_control_sd": 5.038736816477609,
-      "d_ece_over_control_sd": 2.4828769938828215
+      "d_acc_over_control_sd": 1.3121652870749025,
+      "d_ece_over_control_sd": 0.547194142293231
     },
     "vae9182/gate:oracle_error": {
       "class_weight_mode": "none",

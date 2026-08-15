@@ -102,22 +102,22 @@ Every mechanism against **its own matched control**, within the same seed: contr
 | stage1 | adaptive_t | effective_number | +0.16 ± 0.32 | -0.0011 ± 0.0033 | +0.0029 ± 0.0033 | -0.0046 ± 0.0050 | `++-` | 3 |
 | stage1 | ctkd | effective_number | -0.03 *(n=1)* | +0.0058 *(n=1)* | +0.0144 *(n=1)* | +0.0153 *(n=1)* | `+` | 1 |
 | stage1 | g2g_kl | effective_number | +0.41 ± 0.38 | -0.0042 ± 0.0004 | -0.0017 ± 0.0051 | -0.0015 ± 0.0063 | `---` | 3 |
-| stage1 | gate:mean_logvar | none | -0.07 *(n=1)* | +0.0000 *(n=1)* | +0.0069 *(n=1)* | -0.0006 *(n=1)* | `+` | 1 |
+| stage1 | gate:mean_logvar | none | -0.10 ± 0.12 | -0.0012 ± 0.0010 | +0.0024 ± 0.0039 | +0.0023 ± 0.0028 | `+--` | 3 |
 | stage1 | gate:oracle_error | none | -0.22 ± 0.46 | +0.0015 ± 0.0036 | +0.0040 ± 0.0035 | +0.0021 ± 0.0016 | `-++` | 3 |
-| stage1 | gate:target_logvar | none | +0.26 *(n=1)* | -0.0028 *(n=1)* | -0.0020 *(n=1)* | +0.0040 *(n=1)* | `-` | 1 |
+| stage1 | gate:target_logvar | none | +0.25 ± 0.28 | -0.0041 ± 0.0023 | +0.0004 ± 0.0021 | -0.0006 ± 0.0040 | `---` | 3 |
 | stage1 | logit_std | effective_number | -0.23 ± 0.20 | +0.0906 ± 0.0023 | +0.1252 ± 0.0033 | +0.1090 ± 0.0106 | `+++` | 3 |
 | primary | adaptive_t | effective_number | -0.39 ± 0.37 | +0.0023 ± 0.0007 | +0.0047 ± 0.0034 | -0.0043 ± 0.0040 | `+++` | 3 |
 | primary | ctkd | effective_number | -0.49 *(n=1)* | +0.0038 *(n=1)* | +0.0048 *(n=1)* | +0.0125 *(n=1)* | `+` | 1 |
 | primary | g2g_kl | effective_number | -0.14 ± 0.36 | -0.0016 ± 0.0027 | -0.0043 ± 0.0060 | -0.0111 ± 0.0022 | `+--` | 3 |
-| primary | gate:mean_logvar | none | +0.07 *(n=1)* | -0.0027 *(n=1)* | -0.0076 *(n=1)* | +0.0024 *(n=1)* | `-` | 1 |
+| primary | gate:mean_logvar | none | +0.20 ± 0.85 | -0.0056 ± 0.0092 | -0.0075 ± 0.0057 | -0.0030 ± 0.0055 | `--+` | 3 |
 | primary | gate:oracle_error | none | -0.01 ± 0.72 | +0.0004 ± 0.0053 | -0.0050 ± 0.0041 | +0.0025 ± 0.0040 | `-++` | 3 |
-| primary | gate:target_logvar | none | -0.33 *(n=1)* | +0.0019 *(n=1)* | -0.0072 *(n=1)* | -0.0003 *(n=1)* | `+` | 1 |
+| primary | gate:target_logvar | none | -0.09 ± 0.44 | -0.0008 ± 0.0030 | -0.0064 ± 0.0023 | -0.0042 ± 0.0036 | `+--` | 3 |
 | primary | logit_std | effective_number | -0.32 ± 0.25 | +0.0859 ± 0.0058 | +0.1191 ± 0.0113 | +0.1044 ± 0.0068 | `+++` | 3 |
 | vae9182 | adaptive_t | effective_number | +0.28 ± 0.57 | -0.0042 ± 0.0047 | +0.0024 ± 0.0030 | +0.0009 ± 0.0035 | `--+` | 3 |
 | vae9182 | ctkd | effective_number | -0.13 *(n=1)* | +0.0038 *(n=1)* | +0.0027 *(n=1)* | +0.0026 *(n=1)* | `+` | 1 |
 | vae9182 | g2g_kl | effective_number | +0.16 ± 0.41 | +0.0009 ± 0.0043 | +0.0014 ± 0.0043 | -0.0047 ± 0.0048 | `-++` | 3 |
 | vae9182 | g2g_kl+adaptive_t | effective_number | -0.07 *(n=1)* | -0.0018 *(n=1)* | +0.0024 *(n=1)* | +0.0004 *(n=1)* | `-` | 1 |
-| vae9182 | gate:mean_logvar | none | -1.04 *(n=1)* | +0.0067 *(n=1)* | +0.0098 *(n=1)* | +0.0043 *(n=1)* | `+` | 1 |
+| vae9182 | gate:mean_logvar | none | -0.27 ± 0.67 | +0.0015 ± 0.0046 | +0.0050 ± 0.0052 | +0.0016 ± 0.0064 | `+--` | 3 |
 | vae9182 | gate:oracle_error | none | -0.23 ± 0.49 | +0.0056 ± 0.0040 | +0.0081 ± 0.0036 | +0.0052 ± 0.0065 | `+++` | 3 |
 | vae9182 | logit_std | effective_number | -0.12 ± 0.82 | +0.1388 ± 0.0013 | +0.1573 ± 0.0096 | +0.1593 ± 0.0115 | `+++` | 3 |
 
@@ -152,16 +152,34 @@ Relative to noise, the calibration damage is typically **58.8 times** the accura
 
 | teacher | own acc | own ECE | T\* | student acc @best | student ECE @best | n |
 |---|---|---|---|---|---|---|
-| stage1 | 92.24 | 0.0378 | 1.349 | 89.74 ± 0.07 | 0.0631 | 3 |
-| primary | 92.01 | 0.0396 | 1.261 | 89.57 ± 0.09 | 0.0608 | 3 |
-| vae9182 | 91.82 | 0.0136 | 0.983 | 90.28 ± 0.19 | 0.0273 | 3 |
+| stage1 | 92.24 | 0.0378 | 1.349 | 89.75 ± 0.08 | 0.0627 | 3 |
+| primary | 92.01 | 0.0396 | 1.261 | 89.57 ± 0.09 | 0.0606 | 3 |
+| vae9182 | 91.82 | 0.0136 | 0.983 | 90.28 ± 0.19 | 0.0274 | 3 |
 
 - Spearman(teacher **acc**, student acc) = **-0.50** → picking the most accurate teacher is the **wrong** rule.
 - Spearman(−teacher **ECE**, student acc) = **+1.00** → picking the best-calibrated teacher is the right rule.
 - Does the accuracy rule pick the right teacher: **False** (it picks `stage1`) · ECE rule: **True** (it picks `vae9182`)
-- **Cost of the wrong pick: 0.53 pp** of student accuracy.
+- **Cost of the wrong pick: 0.52 pp** of student accuracy (@best; see the per-checkpoint table below — the primary value is @swa).
 
-> The student columns in this table are **@best** (produced from the `metrics_best.json` artefacts). The selection-independent @swa/@last values for the same students are in T1/T2; the ranking is identical at all three checkpoints, so the recipe's conclusion does not change.
+### T6a — the same question at all three checkpoints
+
+| teacher | student acc @swa | @best | @last |
+|---|---|---|---|
+| vae9182 | 89.95 ± 0.37 (n=3) | 90.28 ± 0.19 (n=3) | 89.82 ± 0.17 (n=3) |
+| stage1 | 89.60 ± 0.34 (n=3) | 89.75 ± 0.08 (n=3) | 88.99 ± 0.10 (n=3) |
+| primary | 89.60 ± 0.13 (n=3) | 89.57 ± 0.09 (n=3) | 88.49 ± 0.26 (n=3) |
+
+| checkpoint | ranking by student acc | Spearman(teacher acc, student acc) | Spearman(−teacher ECE, student acc) | cost of the accuracy-pick |
+|---|---|---|---|---|
+| **@swa** | vae9182 > {stage1 = primary} | -0.866 | +0.866 | **0.35 pp** |
+| @best | vae9182 > stage1 > primary | -0.500 | +1.000 | **0.52 pp** |
+| @last | vae9182 > stage1 > primary | -0.500 | +1.000 | **0.83 pp** |
+
+- The best teacher is the same at all three checkpoints: **True** (`vae9182`), and **no pairwise comparison reverses** between checkpoints (none).
+- **Not a strict total order at @swa:** `stage1` and `primary` land on exactly 89.6023 pp, so the 2nd/3rd places are tied and the phrase "identical ranking" holds for the *winner*, not for the full order.
+- The cost of the accuracy-criterion mistake is checkpoint-dependent: **0.35 pp @swa** (primary), 0.52 pp @best, 0.83 pp @last. Quoting one number without its checkpoint is what made the earlier 0.53/0.35 discrepancy look like a contradiction.
+
+> Student columns come from **runs.csv + selection audit, T=1 baseline arm (is_ablation_control, cw=effective_number); columns above are @best**.
 
 *Kaynak: `diagnostics/p4_teacher_selection/p4_teacher_selection.json`*
 
@@ -232,8 +250,8 @@ argmin student ECE: **T=0.5063** · argmin student JSD: **T=0.74**
 
 | K | max(last K) − mean(last K), pp | global argmax inside last K | n runs |
 |---|---|---|---|
-| 50 | +0.642 ± 0.219 | 30% | 105 |
-| 100 | +0.768 ± 0.286 | 65% | 105 |
+| 50 | +0.645 ± 0.203 | 34% | 131 |
+| 100 | +0.764 ± 0.259 | 67% | 131 |
 
 > The per-epoch variant **cannot be computed for ECE**: `training_log.csv` does not record per-epoch ECE and no per-epoch checkpoints are kept (only best/last/swa). The closest calibration-sensitive proxy, the selected epoch's validation NLL, is reported instead.
 
@@ -333,6 +351,10 @@ This section is not a claim but a **machine check**: T5's control and treatment 
 |---|---|---|
 | budget 200e/swa- | 13 | `RAFDB_7cls_lightle_vich_from_vae9182_224` |
 | budget 500e/swa200 | 9 | `RAFDB_vae9182_adaptive_t_b070_T6_224_500e_swa200_see` |
+| α=0.1 | 6 | `RAFDB_stage1_p6alpha_a010_ts100_b070_T6_224_400e_swa` |
+| α=0.5 | 6 | `RAFDB_stage1_p6alpha_a050_ts100_b070_T6_224_400e_swa` |
+| α=0.7 | 6 | `RAFDB_stage1_p6alpha_a070_ts100_b070_T6_224_400e_swa` |
+| α=0.9 | 6 | `RAFDB_stage1_p6alpha_a090_ts100_b070_T6_224_400e_swa` |
 | teacher `unknown` not in the three-teacher grid · budget 200e/swa90 | 3 | `RAFDB_ce9241_betaKD_b070_T6_224_amp_classw` |
 | head=`linear` | 3 | `RAFDB_vae9182_pluslinear_T6_224_400e_swa200_seed1` |
 | teacher `unknown` not in the three-teacher grid | 2 | `RAFDB_bridge_baseline_b070_T6_224_400e_swa200_seed42` |
@@ -342,6 +364,39 @@ This section is not a claim but a **machine check**: T5's control and treatment 
 **Legacy α=0.25 runs:** 1 on disk (`RAFDB_ce9241_betaKD_b075_T6_224_t256_reg005_amp_classw`, teacher `unknown`) · **not used** in T1–T7 or T9 (teacher not in the three-teacher grid, budget 200e/swa90, α≠0.3 — excluded by all three filters independently).
 
 > ⚠️ **T8 is the one exception.** The selection-audit table deliberately pools **every** finished RAF-DB run; what it measures is not the effect of a condition but the artefact of argmax-val-acc selection across this whole corpus. The legacy `ce9241` runs **are** included there, and they should be. They appear in no other table.
+
+## T11 — Does the law collapse onto the product T·τ? (P6.1)
+
+Two matched pairs hold T·τ fixed while moving τ and T in opposite directions. If student ECE depended on (T,τ) only through the product, both cells of a pair would land within seed noise of each other. The bar was frozen before the runs at 2×0.0012 = 0.0024 (the seed sd of the control arm's ECE @swa). Full table: `paper_tables/p6_collapse_test.md`.
+
+| pair (T·τ) | τ, T (low-τ cell) | τ, T (high-τ cell) | mean ΔECE | signs | \|mean\|/2×bar | verdict |
+|---|---|---|---|---|---|---|
+| T·τ = 5.10 | τ=3, T=1.70 | τ=6, T=0.85 | -0.0391 ± 0.0032 | 3/3 same | 16.3× | YANLIŞLAMA-bacağı sağlandı (3/3 aynı işaret VE |ort| ≥ 2×bar) |
+| T·τ = 10.20 | τ=6, T=1.70 | τ=12, T=0.85 | -0.0324 ± 0.0029 | 3/3 same | 13.5× | YANLIŞLAMA-bacağı sağlandı (3/3 aynı işaret VE |ort| ≥ 2×bar) |
+
+ÇÖKME YANLIŞLANDI — iki çiftte birden 3/3 aynı işaret ve |ort ΔECE| ≥ 2×bar. Beyanın kendi sözleriyle: ayrışmanın kendisi bulgu — sıra bilgisi ile yumuşaklık ayrı kanallar.
+
+The 2 Aug early reading (queue at ~10/42) is reproduced **bit-identically** — all six ΔECE values and both pair verdicts agree.
+
+*Kaynak: `diagnostics/paper_tables/p6_collapse_test.json`*
+
+## T12 — Does the KD weight α modulate the transfer? (P6.2, P6.3)
+
+gap(α) := ECE(T=1) − ECE(T=1.3406), within seed, τ=6 throughout. A larger gap means the pre-scaling intervention moves the student more. Two rules were frozen before the runs: gap(α) is non-increasing in α (P6.2) and gap(0.9) < gap(0.1) strictly (P6.3), each required in 3/3 seeds.
+
+| α | seed 42 | seed 1 | seed 43 | mean |
+|---|---|---|---|---|
+| 0.1 | +0.0197 | +0.0215 | +0.0262 | **+0.0224** |
+| 0.3 | +0.0297 | +0.0296 | +0.0317 | **+0.0303** |
+| 0.5 | +0.0344 | +0.0365 | +0.0271 | **+0.0327** |
+| 0.7 | -0.0071 | +0.0003 | -0.0007 | **-0.0025** |
+| 0.9 | -0.0307 | -0.0397 | -0.0351 | **-0.0352** |
+
+**P6.2 (monotonicity): DOĞRULANMADI** — held in 0/3 seeds. **P6.3 (extremes): DOĞRULANDI** — held in 3/3 seeds.
+
+The α=0.3 row reuses the existing dose-response arms, as the declaration specified; it is not a new run.
+
+*Kaynak: `diagnostics/paper_tables/p6_collapse_test.json`*
 
 ## T13 — Multi-metric robustness of the dose–response (R3-1)
 

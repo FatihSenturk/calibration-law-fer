@@ -3,9 +3,9 @@ model_name: POSTERv2
 # dataset configs
 dataset_name: RAFDB
 num_classes: 7
-train_root: data/rafdb_aligned
-val_root: data/rafdb_aligned
-metadata: data/rafdb_aligned\metadata_rafdb_poster_var.csv
+train_root: <DATASET_ROOT>/rafdb_aligned
+val_root: <DATASET_ROOT>/rafdb_aligned
+metadata: <DATASET_ROOT>/metadata_rafdb_poster_var.csv
 train_frac: 1
 val_frac: 1
 sample_numbers: 0

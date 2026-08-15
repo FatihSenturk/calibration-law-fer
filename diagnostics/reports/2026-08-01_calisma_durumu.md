@@ -106,7 +106,7 @@ KURULU, aksi halde ÇÖZÜNMEDİ. İki sonucun metni de önceden sabit.
    tabanlı filtreyle **3×**.
 4. **"tohum sd'sinin bir mertebe altında"** ve **verim (throughput) iddiası** — ikisi de geri çekildi.
 
-Makale repo'da değil: `<manuscript>/`. §5.4 düzeltmeleri oraya elle taşınacak;
+Makale repo'da değil: `G:\My Drive\Claude\Makale\paper\`. §5.4 düzeltmeleri oraya elle taşınacak;
 kaynaklar `paper_tables/section54_numbers.md`, `paper_tables/denominator_table.md`,
 `figures/_updated_2026-07-30/README.md`.
 

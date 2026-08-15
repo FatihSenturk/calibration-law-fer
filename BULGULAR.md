@@ -561,6 +561,12 @@ Savunulabilir sayı aynı pencere içindeki saf sıra-istatistiğidir:
 > yalnızca 50–100 gürültülü değerlendirmenin maksimumunu almaktan **+0.64 – +0.77 pp** doğruluk
 > kazandırır (n=101 koşu) — bu, test ettiğimiz her mekanizmanın doğruluk etkisinden büyüktür.*
 
+> **YAYIMLANAN SÜRÜM (11 Ağu 2026).** Yukarıdaki cümle n=101'in tarihsel kaydıdır. Makaledeki
+> §2 manşeti donmuş 131 koşudan gelir ve aralık **+0.65 – +0.76 pp**'dir (+0.645 ± 0.203 /
+> +0.764 ± 0.259, K=50/100; `diagnostics/selection_audit/selection_gain.json` → `per_k`,
+> üretici `selection_gain_estimator.py`). `argmax son-K'da` oranları da güncel kümede
+> **%34,4 / %67,2** (yukarıdaki %29 / %64 değil).
+
 **ECE için (a) HESAPLANAMAZ, ve nedeni kayda geçmeli:** `training_log.csv` epoch-başına ECE
 tutmuyor (kolonlar: epoch, train/val loss, train/val acc, lr) ve epoch-başına checkpoint
 saklanmıyor (yalnız best/last/swa). Bunun için ya epoch-başına ECE loglanmalı ya da epoch-başına

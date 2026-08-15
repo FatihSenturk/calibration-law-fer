@@ -23,6 +23,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 A_RUNS = ROOT / "runs.csv"
+# Level-1: mekanizma hiperparametreleri defterin yan dosyasından, koşu dizinlerinden değil.
+A_MECH = ROOT / "diagnostics" / "paper_tables" / "run_mechanism_params.json"
+MECH_PARAMS = (json.loads(A_MECH.read_text(encoding="utf-8"))["runs"]
+               if A_MECH.exists() else {})
 OUT_DIR = ROOT / "diagnostics" / "paper_tables"
 
 # mekanizma -> (runs.csv manipulation eşleşmesi, run_args anahtarları)
@@ -84,7 +88,15 @@ def main():
         runs = [r for r in rows if match(r["manipulation"])]
         vals = {k: {} for k in keys}
         for r in runs:
-            ra = json.loads((Path(r["run_dir"]) / "run_args.json").read_text())
+            # Level-1 (8 Ağu): hiperparametreler artık defterin yan dosyasından okunuyor,
+            # koşu dizininden DEĞİL. Değerler birebir aynı (`build_runs_ledger.py` onları
+            # aynı `run_args.json`'lardan çıkarıyor), ama okuma yayımlanan bir artefakttan.
+            ra = MECH_PARAMS.get(r["run_name"])
+            if ra is None:
+                raise RuntimeError(
+                    f"{r['run_name']}: `paper_tables/run_mechanism_params.json` içinde yok. "
+                    f"Defter bu yan dosya eklenmeden önce kurulmuş; "
+                    f"`python diagnostics/build_runs_ledger.py` ile yeniden kurun.")
             for k in keys:
                 vals[k].setdefault(fmt(ra.get(k)), []).append(r["run_name"])
             for k in COMMON_KEYS:

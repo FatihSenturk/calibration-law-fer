@@ -1,7 +1,7 @@
 {
   "mechanisms": {
     "gate": {
-      "n_runs": 15,
+      "n_runs": 25,
       "params": {
         "gate_uncertainty_source": [
           "mean_logvar",
@@ -26,24 +26,24 @@
       },
       "param_variants": {
         "gate_uncertainty_source": {
-          "mean_logvar": 4,
+          "mean_logvar": 10,
           "oracle_error": 9,
-          "target_logvar": 2
+          "target_logvar": 6
         },
         "gate_norm": {
-          "batch": 15
+          "batch": 25
         },
         "gate_alpha_lo": {
-          "0.1": 15
+          "0.1": 25
         },
         "gate_alpha_hi": {
-          "0.7": 15
+          "0.7": 25
         },
         "gate_k": {
-          "2": 15
+          "2": 25
         },
         "gate_tau": {
-          "0": 15
+          "0": 25
         }
       },
       "formula": "α_i = α_lo + (α_hi−α_lo)·sigmoid(k·(û_i − τ_g)); û_i = z-score(u_i) (gate_norm=batch: batch mean/std, eps 1e-6; running: EMA momentum 0.99, frozen at eval). Blend: loss_i = α_i·CE_i + (1−α_i)·KD_i — α_i is the HARD-label weight. Sources: mean/target/top2_logvar, entropy, oracle_error. ORACLE DIRECTION: if the teacher's top-1 is wrong then u_i=1 → û_i high → α_i→α_hi → on that sample the TEACHER's WEIGHT (1−α_i) is MINIMISED (a sample the teacher gets wrong is listened to less). [kd_uncertainty.py:51-66,140-146; kd_common.py:406-438]"
@@ -147,9 +147,15 @@
       ]
     },
     "teacher_temperature_scale": {
-      "1": [
+      "None": [
         "adaptive_t",
         "ctkd",
+        "g2g",
+        "gate",
+        "logit_std"
+      ],
+      "1": [
+        "adaptive_t",
         "g2g",
         "gate",
         "logit_std"
@@ -161,9 +167,15 @@
   },
   "common_exceptions": {
     "teacher_temperature_scale": {
-      "1": [
+      "None": [
         "adaptive_t",
         "ctkd",
+        "g2g",
+        "gate",
+        "logit_std"
+      ],
+      "1": [
+        "adaptive_t",
         "g2g",
         "gate",
         "logit_std"

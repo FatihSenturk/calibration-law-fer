@@ -4,11 +4,10 @@ from dataset_utils import dataset_Cifar10
 
 def build_dataloader(args):
     train_loader,val_loader=None,None
-    # The 'AffectNetPlus' / 'AffectNet+' branch was dropped from this public release:
-    # AffectNet is not used by any run reported in the paper, so its loader, configs and
-    # launchers are not distributed here. RAF-DB and FERPlus both take the image_dataset
-    # path below ('RAFDB' and 'FER2013' respectively).
-    if args.dataset_name in['CUB200-2011','ISIC2024','SCUTv2','AffectNet','RAFDB','AffectNet_RAFDB','FER2013']:
+    if args.dataset_name in ['AffectNetPlus', 'AffectNet+']:
+        from dataset_utils.affectnet_plus_dataset import build_affectnet_plus_dataloader
+        train_loader, val_loader = build_affectnet_plus_dataloader(args)
+    elif args.dataset_name in['CUB200-2011','ISIC2024','SCUTv2','AffectNet','RAFDB','AffectNet_RAFDB','FER2013']:
         from dataset_utils.image_dataset import build_img_dataloader
         train_loader, val_loader=build_img_dataloader(args)
 

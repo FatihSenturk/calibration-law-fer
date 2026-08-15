@@ -246,6 +246,22 @@ def main():
                 "student_pretrained": bool(run_args.get("student_pretrained")),
                 "capacity_tag": capacity_tag(run_args.get("width_mult", 1.0) or 1.0,
                                              bool(run_args.get("student_pretrained"))),
+                # GATE SİNYALİ -- Level-1 DEĞİŞMEZİ İÇİN (8 Ağu, yalıtılmış adım).
+                #
+                # `manipulation` sütunu gate'in beş çeşidini tek bir "gate" değerine çöküyor,
+                # o yüzden `paper_tables.gate_variant()` ayrımı her koşunun KENDİ
+                # `run_args.json`'undan geri okuyordu. Bu, üç tablo üreticisini
+                # (`paper_tables`, `t5_pairing_diff`, `section54_numbers`) koşu dizinlerine
+                # bağımlı yapıyordu ve Level-1 kapısının 13 ihlalinin 8'i tam buydu: makaledeki
+                # sayılar `results/unified_students/` olmadan türetilemiyordu.
+                #
+                # Defter zaten koşu dizinlerini okumak ZORUNDA (Level 3, `ALLOWED`'da beyanlı),
+                # dolayısıyla ayrımı BURADA bir sütuna yazmak doğru yer: bilgi bir kez, en dışta,
+                # okumaya izinli katmanda çıkarılır ve aşağı akış onu defterden okur.
+                # Gate dışı koşularda boş kalır -- "gate" yazmak, gate olmayan bir koşuya gate
+                # etiketi asmak olurdu.
+                "gate_signal": (str(run_args.get("gate_uncertainty_source", "?"))
+                                if run_args.get("gate_enable") else ""),
                 # DECLARED, not inferred -- see load_prereg_blocks(). Empty means "no block
                 # declared for this run", which is reported as a count below rather than defaulted.
                 "preregistration_block": prereg_block_of(run_name_dir.name, PREREG_TABLE),
@@ -271,6 +287,37 @@ def main():
             })
             print(f"  [{ece_src:<8}] {family:<20} {teacher_of(run_args):<10} "
                   f"seed={run_args.get('seed')} acc={metrics.get('accuracy')} {run_name_dir.name}")
+
+    # MEKANİZMA HİPERPARAMETRE YAN DOSYASI -- Level-1 için (8 Ağu, yalıtılmış adım).
+    #
+    # `mechanism_specs.py` 14 ayrı `run_args` anahtarı okuyor (gate_norm, gate_alpha_lo/hi,
+    # gate_k, gate_tau, adaptive_t_gamma, g2g_weight/mode/warmup_epochs, ctkd_t_min/t_max/
+    # grl_lambda_max, lr) ve bunların hiçbiri defterde yoktu; dolayısıyla o tablo
+    # yayımlanmayan koşu dizinleri olmadan üretilemiyordu.
+    #
+    # NEDEN CSV SÜTUNU DEĞİL. On iki sütunun tamamı tek bir tablo için ve çoğu koşuda boş
+    # kalırdı; defterin 199 satırını on iki seyrek sütunla genişletmek okunabilirliği
+    # bozardı. Yan dosya aynı katmanda üretiliyor (defter Level 3, koşu dizinlerini okumaya
+    # BEYANLI izinli) ve tek bir tablonun ihtiyacını tek bir yerde topluyor.
+    MECH_KEYS = ["gate_enable", "gate_uncertainty_source", "gate_norm", "gate_alpha_lo",
+                 "gate_alpha_hi", "gate_k", "gate_tau", "adaptive_t_gamma", "g2g_weight",
+                 "g2g_mode", "g2g_warmup_epochs", "ctkd_t_min", "ctkd_t_max",
+                 "ctkd_grl_lambda_max", "lr", "temperature", "alpha",
+                 "teacher_temperature_scale"]
+    sidecar = {}
+    for r in rows:
+        ra_p = Path(r["run_dir"]) / "run_args.json"
+        if not ra_p.exists():
+            continue
+        ra = json.loads(ra_p.read_text(encoding="utf-8"))
+        sidecar[r["run_name"]] = {k: ra.get(k) for k in MECH_KEYS}
+    OUT_MECH = ROOT / "diagnostics" / "paper_tables" / "run_mechanism_params.json"
+    OUT_MECH.write_text(json.dumps(
+        {"note": "Mekanizma hiperparametreleri, her koşunun kendi run_args.json'undan. "
+                 "Level-1: tablo üreticileri koşu dizinlerine gitmesin diye burada.",
+         "producer": "diagnostics/build_runs_ledger.py",
+         "keys": MECH_KEYS, "runs": sidecar}, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"Wrote {OUT_MECH}  ({len(sidecar)} kosu x {len(MECH_KEYS)} anahtar)")
 
     with open(OUT_CSV, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))

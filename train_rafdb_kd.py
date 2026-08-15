@@ -1001,7 +1001,7 @@ def main(args):
 
 def parse_args():
     parser = argparse.ArgumentParser("RAF-DB POSTER-Var to MobileNetV2Plus KD")
-    parser.add_argument("--teacher-ckpt", type=Path, default=Path(r"checkpoints/teacher_rafdb_posterv2_best.pt"))
+    parser.add_argument("--teacher-ckpt", type=Path, default=Path(r"C:\Users\mfati\21mar\poster-var\logs\RAFDB\POSTERv2\2026-03-30-13-28-13\best.pt"))
     parser.add_argument("--teacher-vae-head", action="store_true")
     parser.add_argument("--teacher-vich-head", action="store_true")
     parser.add_argument("--teacher-layer-embedding", action="store_true", default=True)
@@ -1044,8 +1044,8 @@ def parse_args():
         default=0,
         help="Resize KD images for the teacher only; 0 uses the student input size.",
     )
-    parser.add_argument("--aligned-dir", type=Path, default=Path(r"data/rafdb_aligned"))
-    parser.add_argument("--metadata", type=Path, default=Path(r"data/rafdb_aligned\metadata_rafdb_poster_var.csv"))
+    parser.add_argument("--aligned-dir", type=Path, default=Path(r"C:\dataset\rafdb_aligned"))
+    parser.add_argument("--metadata", type=Path, default=Path(r"C:\dataset\rafdb_aligned\metadata_rafdb_poster_var.csv"))
     parser.add_argument("--train-folds", type=int, nargs="+", default=[2])
     parser.add_argument("--val-folds", type=int, nargs="+", default=[3])
     parser.add_argument("--train-frac", type=float, default=1.0)

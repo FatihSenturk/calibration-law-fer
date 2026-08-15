@@ -37,47 +37,56 @@ Read-only, zero GPU. Outputs -> diagnostics/selection_audit/selection_gain.json
 import csv
 import json
 import statistics as st
+import sys
 from pathlib import Path
 
-from stats_convention import SD_CONVENTION, sample_sd
-
 ROOT = Path(__file__).resolve().parents[1]
-STUDENTS = ROOT / "results" / "unified_students"
+# `sys.path` EKLEMESİ ŞART (9 Ağu). `stats_convention` importu ROOT'tan önce ve hiçbir yol
+# eklemesi olmadan yapılıyordu, dolayısıyla betik yalnız CWD `diagnostics/` iken çalışıyordu.
+# Depo kökünden `python diagnostics/selection_gain_estimator.py` çağrısı `ModuleNotFoundError`
+# veriyordu -- Level-1 kapısında "başka hata" olarak görünüyordu, yani kapı bu betiğe Level-1
+# sorusunu HİÇ sormuyordu. Aynı arıza sınıfı `student_ts_baseline.py`'de gerçek bir ihlali
+# saklamıştı. Public depo okuru da tam bu çağrıyı yapacak.
+sys.path.insert(0, str(ROOT / "diagnostics"))
+
+from publish_epoch_curves import has, load  # noqa: E402
+from stats_convention import SD_CONVENTION, sample_sd  # noqa: E402
+
+MANIFEST = ROOT / "diagnostics" / "epoch_curves_MANIFEST.json"
 AUDIT = ROOT / "diagnostics" / "selection_audit" / "selection_audit.csv"
 OUT = ROOT / "diagnostics" / "selection_audit" / "selection_gain.json"
 KS = (50, 100)
 
 
-def read_log(p):
-    ep, acc, loss = [], [], []
-    for r in csv.DictReader(open(p, encoding="utf-8")):
-        try:
-            a, l = float(r["val_acc"]), float(r["val_loss"])
-        except (KeyError, ValueError):
-            continue
-        ep.append(int(float(r["epoch"])))
-        acc.append(a)
-        loss.append(l)
-    return ep, acc, loss
+def read_curve(run):
+    """(ep, acc, loss) — yayımlanan epok eğrisinden. Koşu dizinine DOKUNMAZ.
+
+    LEVEL-1 (9 Ağu 2026). Eskiden `training_log.csv`'yi koşu dizininden okuyordu ve bu betik
+    Level-1 kapısının iki ihlalinden biriydi. Eğriler `publish_epoch_curves.py` ile yayımlandı
+    (761 KB, sıkıştırılmış .npz); popülasyon oradaki `rafdb_dirs()` içinde bu betiğin kendi
+    filtresiyle bire bir aynı tanımdan türetiliyor, iki taraf ayrışmasın diye.
+    """
+    ep, acc, loss = load(*run)
+    return [int(x) for x in ep], [float(x) for x in acc], [float(x) for x in loss]
 
 
-def main():
-    runs = []
-    for rn in sorted(STUDENTS.iterdir()):
-        if not rn.is_dir():
-            continue
-        for ts in sorted(rn.iterdir()):
-            mb, tl = ts / "metrics_best.json", ts / "training_log.csv"
-            if not (mb.exists() and tl.exists()):
-                continue
-            if str(json.loads(mb.read_text()).get("dataset", "")).upper().replace("-", "") != "RAFDB":
-                continue
-            runs.append(ts)
-    print(f"{len(runs)} finished RAF-DB runs with training logs\n")
+def frozen_runs():
+    """Donmuş denetim kümesinin (koşu adı, zaman damgası) çiftleri — tekil, sıralı.
 
+    `order_stat_trend.frozen_runs()` ile aynı kural; iki betiğin popülasyonu ayrışmasın diye
+    aynı dosyadan aynı biçimde okunur.
+    """
+    seen = {}
+    for r in csv.DictReader(open(AUDIT, encoding="utf-8")):
+        seen[(r["run_name"], r["timestamp"])] = True
+    return sorted(seen)
+
+
+def order_stats(runs):
+    """Sıra-istatistiği bloğunu verilen popülasyon üzerinde hesaplar."""
     per_k = {k: {"a1": [], "a2": [], "loss": [], "argmax_in_window": 0, "n": 0} for k in KS}
     for ts in runs:
-        ep, acc, loss = read_log(ts / "training_log.csv")
+        _ep, acc, loss = read_curve(ts)
         if len(acc) < 20:
             continue
         gmax = max(acc)
@@ -92,23 +101,65 @@ def main():
             d["loss"].append(loss[gargmax] - st.mean(win_loss))
             d["argmax_in_window"] += int(gargmax >= len(acc) - k)
             d["n"] += 1
+    return {k: {
+        "n_runs": d["n"],
+        "a1_max_all_minus_mean_lastK": {"mean": st.mean(d["a1"]), "sd": sample_sd(d["a1"])},
+        "a2_pure_order_statistic": {"mean": st.mean(d["a2"]), "sd": sample_sd(d["a2"])},
+        "argmax_in_last_K_frac": d["argmax_in_window"] / d["n"],
+        "val_loss_at_selected_minus_mean_lastK": {"mean": st.mean(d["loss"]),
+                                                  "sd": sample_sd(d["loss"])},
+    } for k, d in per_k.items() if d["n"]}
+
+
+def main():
+    # cp1252 konsolda Türkçe karakter `UnicodeEncodeError` atıyor; deponun standart bloğu.
+    for s in (sys.stdout, sys.stderr):
+        if hasattr(s, "reconfigure"):
+            s.reconfigure(encoding="utf-8", errors="replace")
+    # POPÜLASYON KARARI (9 Ağu 2026, Fatih). Bu betik sıra-istatistiğini RAF-DB'nin BÜTÜN
+    # bitmiş koşularında hesaplıyordu; (b)/(c) blokları ise donmuş denetim kümesinden. Yani
+    # aynı JSON iki farklı popülasyon taşıyordu ve makale ikisini AYNI PARAGRAFTA veriyor
+    # (§5.6 "Over the frozen inclusion set of 131 RAF-DB runs ... Isolating the pure
+    # order-statistic component ... yields +0.642 at K=50"). Paragraf donmuş kümeyle açılıp
+    # ikinci cümlede sessizce genişliyordu.
+    #
+    # BİRİNCİL POPÜLASYON ARTIK DONMUŞ KÜME. Gerekçe Fatih'in: paragrafın iddiası
+    # "denetlediğimiz koşularda seçim ne kadar şişiriyor"; toplam ile bileşen aynı kümeden
+    # gelmezse toplam-ve-bileşen ilişkisi kurulamaz. Daha çok veri daha iyi kestirim verir
+    # ama BAŞKA bir sorunun kestirimi olur.
+    #
+    # GENİŞ POPÜLASYON SİLİNMEDİ: `per_k_rafdb_all` altında robustluk satırı olarak duruyor.
+    man = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    wide = sorted((r["run_name"], r["timestamp"]) for r in man["runs"].values()
+                  if r["in_rafdb_finished"])
+    frozen = frozen_runs()
+    missing = [r for r in frozen if not has(*r)]
+    if missing:
+        raise RuntimeError(
+            f"donmuş kümenin {len(missing)} koşusunun epok eğrisi yayımlanmamış "
+            f"(ör. {missing[0]}) — python diagnostics/publish_epoch_curves.py")
+    print(f"birincil popülasyon: donmuş denetim kümesi, {len(frozen)} koşu")
+    print(f"robustluk satırı   : RAF-DB bitmiş, {len(wide)} koşu")
+    print("(eğriler diagnostics/epoch_curves.npz'den — koşu dizini okunmuyor)\n")
 
     print("=== (a) PURE selection gain, from training logs (accuracy, pp) ===")
-    out = {"sd_convention": SD_CONVENTION, "per_k": {}}
+    out = {"sd_convention": SD_CONVENTION,
+           "population": {
+               "per_k": f"frozen selection audit set ({len(frozen)} runs)",
+               "per_k_rafdb_all": f"all finished RAF-DB runs ({len(wide)} runs)",
+               "audit_deltas": "frozen selection audit set",
+               "decision": ("9 Aug 2026: the order-statistic component is restricted to the "
+                            "frozen set so that the total (b/c) and its component (a) come "
+                            "from the same runs. The wider population is kept as a "
+                            "robustness row, not as the paper's main sentence."),
+           },
+           "per_k": order_stats(frozen),
+           "per_k_rafdb_all": order_stats(wide)}
     for k in KS:
-        d = per_k[k]
-        if not d["n"]:
+        if k not in out["per_k"]:
             continue
-        out["per_k"][k] = {
-            "n_runs": d["n"],
-            "a1_max_all_minus_mean_lastK": {"mean": st.mean(d["a1"]), "sd": sample_sd(d["a1"])},
-            "a2_pure_order_statistic": {"mean": st.mean(d["a2"]), "sd": sample_sd(d["a2"])},
-            "argmax_in_last_K_frac": d["argmax_in_window"] / d["n"],
-            "val_loss_at_selected_minus_mean_lastK": {"mean": st.mean(d["loss"]),
-                                                     "sd": sample_sd(d["loss"])},
-        }
         o = out["per_k"][k]
-        print(f"  K={k:<4} n={d['n']}")
+        print(f"  K={k:<4} n={o['n_runs']}")
         print(f"    a2 PURE order statistic   max(last K) - mean(last K) = "
               f"{o['a2_pure_order_statistic']['mean']:+.3f} +/- {o['a2_pure_order_statistic']['sd']:.3f} pp"
               f"   <- defensible number")
@@ -122,6 +173,18 @@ def main():
               f"{o['val_loss_at_selected_minus_mean_lastK']['sd']:.4f}"
               f"   (>0 = accuracy-selected epoch has WORSE NLL)")
         print()
+
+    print("=== (a') same block on ALL finished RAF-DB runs — robustness row, NOT the "
+          "paper's main sentence ===")
+    for k in KS:
+        w = out["per_k_rafdb_all"].get(k)
+        if not w:
+            continue
+        print(f"  K={k:<4} n={w['n_runs']}   a2 "
+              f"{w['a2_pure_order_statistic']['mean']:+.3f} +/- "
+              f"{w['a2_pure_order_statistic']['sd']:.3f} pp   "
+              f"argmax in last K {100 * w['argmax_in_last_K_frac']:.1f}%")
+    print()
 
     # (b) and (c) from the audit, for both accuracy and ECE
     by_run = {}

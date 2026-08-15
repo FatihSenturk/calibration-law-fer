@@ -191,7 +191,16 @@ def build():
                 rec["by_ckpt"][ck] = {
                     "n": len(e),
                     "ece_mean": st.mean(e), "ece_sd": st.stdev(e) if len(e) > 1 else 0.0,
-                    "acc_mean": st.mean(a), "acc_sd": st.stdev(a) if len(a) > 1 else 0.0}
+                    "acc_mean": st.mean(a), "acc_sd": st.stdev(a) if len(a) > 1 else 0.0,
+                    # TOHUM BAŞINA DEĞERLER (14 Ağu, B8). Özetin en güçlü niceleyicisi
+                    # "all nine seed curves"; ortalama ± sd o cümleyi doğrulatmaz, çünkü
+                    # dokuz eğrinin AYRI AYRI monoton olduğunu göstermez. Eğriler zaten
+                    # burada kuruluyor, eksik olan yalnız kaydediliyor olmalarıydı.
+                    "per_seed": {str(s): {"run": rn,
+                                          "ece": float(rafdb[(rn, ck)]["ece"]),
+                                          "acc": float(rafdb[(rn, ck)]["acc"])}
+                                 for s, rn in sorted(by_seed.items())
+                                 if (rn, ck) in rafdb}}
             data[arm]["points"].append(rec)
 
     # ---- FERPlus arm ----
@@ -210,7 +219,11 @@ def build():
             rec["by_ckpt"][ck] = {
                 "n": len(e),
                 "ece_mean": st.mean(e), "ece_sd": st.stdev(e) if len(e) > 1 else 0.0,
-                "acc_mean": st.mean(a), "acc_sd": st.stdev(a) if len(a) > 1 else 0.0}
+                "acc_mean": st.mean(a), "acc_sd": st.stdev(a) if len(a) > 1 else 0.0,
+                "per_seed": {str(s): {"run": ferplus[((T, s), ck)].get("run_name", ""),
+                                      "ece": float(ferplus[((T, s), ck)]["ece"]),
+                                      "acc": float(ferplus[((T, s), ck)]["acc"])}
+                             for s in seeds_present if ((T, s), ck) in ferplus}}
         if rec["by_ckpt"]:                       # skip T=0.74 until its students finish
             data["ferplus"]["points"].append(rec)
         else:
@@ -348,8 +361,8 @@ def main():
     # The title must not claim direction-INDEPENDENCE: panel (b) measures a 1.8x direction
     # asymmetry, so "independent of direction" would contradict the figure's own data. The
     # defensible claim is that the law operates in BOTH directions and on BOTH datasets.
-    # Aligned with title v2 (7 Aug 2026): only the SUBJECT changed. The "BOTH directions /
-    # BOTH datasets" emphasis is kept -- FERPlus replicates the law in the opposite direction.
+    # Başlık v2 ile hizalandı (7 Ağu 2026): yalnız ÖZNE değişti. "BOTH directions / BOTH
+    # datasets" vurgusu korundu -- çift yönlülük iddiası sağlam, FERPlus ters yönde tekrarlıyor.
     fig.suptitle("Teacher-side logit scaling governs student calibration in BOTH directions "
                  "and on BOTH datasets\n"
                  f"(selection-independent SWA checkpoint, {note})", fontsize=11)

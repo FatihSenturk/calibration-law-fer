@@ -1,0 +1,127 @@
+{
+  "public": "calibration-law-fer_2026-08-08",
+  "unit": "file (not match)",
+  "total_files": 22,
+  "total_matches": 70,
+  "by_class": {
+    "declared": 15,
+    "dated": 4,
+    "third_party": 3
+  },
+  "skipped_binary": 75,
+  "unreadable": [],
+  "verdict": "GEÇTİ",
+  "undeclared": [],
+  "rows": [
+    {
+      "path": "diagnostics/DIAGNOSTIC_REPORT.md",
+      "class": "declared",
+      "matches": 3
+    },
+    {
+      "path": "diagnostics/ferplus_abstention_entropy.py",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "diagnostics/reports/2026-08-01_calisma_durumu.md",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "diagnostics/reports/2026-08-08_final_devir.md",
+      "class": "dated",
+      "matches": 6
+    },
+    {
+      "path": "diagnostics/reports/2026-08-08_kapanis_turu.md",
+      "class": "dated",
+      "matches": 6
+    },
+    {
+      "path": "diagnostics/reports/2026-08-08_kontrol_turu.md",
+      "class": "dated",
+      "matches": 22
+    },
+    {
+      "path": "diagnostics/reports/2026-08-13_n5_selection.md",
+      "class": "dated",
+      "matches": 1
+    },
+    {
+      "path": "run_affectnetplus_unified_student.ps1",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "run_ferplus_dual_lr_sam.ps1",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "run_ferplus_foreground.ps1",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "run_ferplus_other_splits_10e_pretrain.ps1",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "run_ferplus_unified_student.ps1",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "run_rafdb_kd_resolution_compare.ps1",
+      "class": "declared",
+      "matches": 5
+    },
+    {
+      "path": "run_rafdb_nokd_resolution_compare.ps1",
+      "class": "declared",
+      "matches": 2
+    },
+    {
+      "path": "run_rafdb_unified_student.ps1",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "tools/build_ferplus_majority_metadata.py",
+      "class": "declared",
+      "matches": 2
+    },
+    {
+      "path": "tools/eval_rafdb_teacher_student_table.py",
+      "class": "declared",
+      "matches": 4
+    },
+    {
+      "path": "trails/posterv2/ir50.py",
+      "class": "third_party",
+      "matches": 4
+    },
+    {
+      "path": "trails/posterv2/PosterV2_7cls.py",
+      "class": "third_party",
+      "matches": 1
+    },
+    {
+      "path": "trails/posterv2/vit_vae_model.py",
+      "class": "third_party",
+      "matches": 2
+    },
+    {
+      "path": "train_affectnetplus_kd.py",
+      "class": "declared",
+      "matches": 1
+    },
+    {
+      "path": "train_rafdb_kd.py",
+      "class": "declared",
+      "matches": 3
+    }
+  ]
+}

@@ -28,6 +28,8 @@ ROOT = Path(__file__).resolve().parents[1]
 STUDENTS = ROOT / "results" / "unified_students"
 OUT = ROOT / "diagnostics" / "abandoned_runs.json"
 MARKER = "ABANDONED.json"
+# Bu pencere icinde yazilmis bir dizin CANLI sayilir ve isaretlenmez.
+LIVE_WINDOW_S = 15 * 60
 
 
 def epochs_done(rd):
@@ -44,7 +46,7 @@ def dir_size_mb(rd):
 
 def main():
     apply = "--dry-run" not in sys.argv
-    rows, cleared = [], []
+    rows, cleared, live = [], [], []
     for rn in sorted(STUDENTS.iterdir()):
         if not rn.is_dir():
             continue
@@ -64,6 +66,13 @@ def main():
             last = datetime.fromtimestamp(
                 max((f.stat().st_mtime for f in rd.iterdir() if f.is_file()),
                     default=rd.stat().st_mtime))
+            # CANLILIK KAPISI (6 Ağu 2026'da eklendi). "metrics_best.json yok" iki farklı
+            # duruma uyuyor: koşu ÖLDÜ, ya da koşu HÂLÂ SÜRÜYOR. Ayrım yapılmazsa bu betik
+            # çalışan bir koşuyu "terk edilmiş" diye işaretler; marker koşu bitince silinse
+            # bile aradaki süre boyunca yanlış bilgi verir. Son yazma taze ise dokunulmaz.
+            if (datetime.now() - last).total_seconds() < LIVE_WINDOW_S:
+                live.append(f"{rn.name}/{rd.name} (son yazma {last:%H:%M:%S}, {ep} epoch)")
+                continue
             rec = {
                 "run_name": rn.name,
                 "timestamp_dir": rd.name,
@@ -80,6 +89,11 @@ def main():
             if apply:
                 marker.write_text(json.dumps(rec, indent=2), encoding="utf-8")
 
+    if live:
+        print(f"CANLI (isaretlenmedi): {len(live)}")
+        for x in live:
+            print("   ", x)
+        print()
     dead = [r for r in rows if r["epochs_completed"] == 0]
     partial = [r for r in rows if r["epochs_completed"] > 0]
     print(f"{'DRY RUN — ' if not apply else ''}abandoned run directories: {len(rows)}"

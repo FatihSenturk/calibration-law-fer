@@ -99,12 +99,12 @@ def parse_args():
     parser.add_argument(
         "--annotation-csv",
         type=Path,
-        default=Path(r"data/ferplus/fer2013new.csv"),
+        default=Path(r"C:\Users\mfati\Downloads\fer2013new.csv"),
     )
     parser.add_argument(
         "--image-root",
         type=Path,
-        default=Path(r"data/ferplus_processed"),
+        default=Path(r"C:\datasets\processed"),
     )
     parser.add_argument(
         "--output",

@@ -6,6 +6,8 @@ Producer: `diagnostics/robustness_metrics.py` · metric definitions in `diagnost
 
 **Verification gate.** For every run the `ECE ew-15` column is compared against the value stored in that run's own logit cache (written on a different day by a different script and itself validated against `selection_audit`). A deviation above 1e-09 aborts the whole table — so the six new columns cannot come from a pipeline that fails to reproduce the published one.
 
+**Level-1.** The per-sample caches are read from `diagnostics/student_logits/`, the published byte copies of the 42 run-directory caches (`publish_student_logits.py`; sha256 of source and copy required equal). This table therefore needs no raw run directory — which is the Level-1 promise, and was not true of this script before 8 Aug 2026.
+
 **Metric specifications** (frozen in A10, unchanged since):
 
 | column | specification |
@@ -71,23 +73,23 @@ Producer: `diagnostics/robustness_metrics.py` · metric definitions in `diagnost
 | 1.3406→1.7 | 1 | ECE ew-15 | 0.0425 → 0.0415 | - | + |
 | 1.3406→1.7 | 42 | classwise-ECE | 0.0770 → 0.0720 | - | + |
 
-<details><summary>source files</summary>
+<details><summary>source files (published byte copies) and their origin run directories</summary>
 
-- `T=0.85,seed=1` → `results/unified_students/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed1/2026-07-23-23-14-27/logits_swa.npz`
-- `T=0.85,seed=42` → `results/unified_students/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed42/2026-07-23-10-35-11/logits_swa.npz`
-- `T=0.85,seed=43` → `results/unified_students/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed43/2026-07-23-14-53-49/logits_swa.npz`
-- `T=1,seed=1` → `results/unified_students/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed1/2026-07-21-22-57-33/logits_swa.npz`
-- `T=1,seed=42` → `results/unified_students/RAFDB_vichteacher_stage1_9224_betaKD_b070_T6_224_best_400e_swa200/2026-07-18-01-45-58/logits_swa.npz`
-- `T=1,seed=43` → `results/unified_students/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed43/2026-07-22-03-03-17/logits_swa.npz`
-- `T=1.3406,seed=1` → `results/unified_students/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed1/2026-07-23-10-35-11/logits_swa.npz`
-- `T=1.3406,seed=42` → `results/unified_students/RAFDB_stage1_tempscale_T1341_halfA_baseline_b070_T6_224_400e_swa200/2026-07-21-11-14-32/logits_swa.npz`
-- `T=1.3406,seed=43` → `results/unified_students/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed43/2026-07-24-03-24-24/logits_swa.npz`
-- `T=1.7,seed=1` → `results/unified_students/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed1/2026-07-24-03-24-13/logits_swa.npz`
-- `T=1.7,seed=42` → `results/unified_students/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed42/2026-07-23-14-53-49/logits_swa.npz`
-- `T=1.7,seed=43` → `results/unified_students/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed43/2026-07-23-19-06-06/logits_swa.npz`
-- `T=2.2,seed=1` → `results/unified_students/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed1/2026-07-24-07-29-46/logits_swa.npz`
-- `T=2.2,seed=42` → `results/unified_students/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed42/2026-07-23-19-06-00/logits_swa.npz`
-- `T=2.2,seed=43` → `results/unified_students/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed43/2026-07-23-23-14-30/logits_swa.npz`
+- `T=0.85,seed=1` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed1/2026-07-23-23-14-27` (sha256 `36cea19151ff9465…`)
+- `T=0.85,seed=42` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed42/2026-07-23-10-35-11` (sha256 `ebba1e80263c27eb…`)
+- `T=0.85,seed=43` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed43/2026-07-23-14-53-49` (sha256 `9dea25d97ea664d9…`)
+- `T=1,seed=1` → `diagnostics/student_logits/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed1/2026-07-21-22-57-33` (sha256 `b55feff0fd2d545b…`)
+- `T=1,seed=42` → `diagnostics/student_logits/RAFDB_vichteacher_stage1_9224_betaKD_b070_T6_224_best_400e_swa200.npz`  ← `results/unified_students/RAFDB_vichteacher_stage1_9224_betaKD_b070_T6_224_best_400e_swa200/2026-07-18-01-45-58` (sha256 `0b9dd71bd98a1ff6…`)
+- `T=1,seed=43` → `diagnostics/student_logits/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed43/2026-07-22-03-03-17` (sha256 `3ffe251b8a44d4ab…`)
+- `T=1.3406,seed=1` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed1/2026-07-23-10-35-11` (sha256 `dd4ac1871eacd3eb…`)
+- `T=1.3406,seed=42` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T1341_halfA_baseline_b070_T6_224_400e_swa200.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T1341_halfA_baseline_b070_T6_224_400e_swa200/2026-07-21-11-14-32` (sha256 `504860c889b732b7…`)
+- `T=1.3406,seed=43` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed43/2026-07-24-03-24-24` (sha256 `247922ed26456f76…`)
+- `T=1.7,seed=1` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed1/2026-07-24-03-24-13` (sha256 `bd09d1b0d447ce6c…`)
+- `T=1.7,seed=42` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed42/2026-07-23-14-53-49` (sha256 `040051d9f848b73a…`)
+- `T=1.7,seed=43` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed43/2026-07-23-19-06-06` (sha256 `3e63f9caa5bfa66d…`)
+- `T=2.2,seed=1` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed1/2026-07-24-07-29-46` (sha256 `64e24bf19ba2ceeb…`)
+- `T=2.2,seed=42` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed42/2026-07-23-19-06-00` (sha256 `69de67d9bb6fc52d…`)
+- `T=2.2,seed=43` → `diagnostics/student_logits/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed43/2026-07-23-23-14-30` (sha256 `36886236e96b1302…`)
 
 </details>
 
@@ -143,23 +145,23 @@ Producer: `diagnostics/robustness_metrics.py` · metric definitions in `diagnost
 | 0.85→1 | 42 | Brier | 0.1550 → 0.1570 | + | - |
 | 1→1.3406 | 42 | Brier | 0.1570 → 0.1522 | - | + |
 
-<details><summary>source files</summary>
+<details><summary>source files (published byte copies) and their origin run directories</summary>
 
-- `T=0.85,seed=1` → `results/unified_students/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed1/2026-07-25-10-55-15/logits_swa.npz`
-- `T=0.85,seed=42` → `results/unified_students/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed42/2026-07-24-18-05-50/logits_swa.npz`
-- `T=0.85,seed=43` → `results/unified_students/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed43/2026-07-25-02-43-00/logits_swa.npz`
-- `T=1,seed=1` → `results/unified_students/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed1/2026-07-17-18-01-41/logits_swa.npz`
-- `T=1,seed=42` → `results/unified_students/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200/2026-06-20-08-38-09/logits_swa.npz`
-- `T=1,seed=43` → `results/unified_students/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed43/2026-07-17-22-05-44/logits_swa.npz`
-- `T=1.3406,seed=1` → `results/unified_students/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed1/2026-07-25-15-03-07/logits_swa.npz`
-- `T=1.3406,seed=42` → `results/unified_students/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed42/2026-07-24-22-22-33/logits_swa.npz`
-- `T=1.3406,seed=43` → `results/unified_students/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed43/2026-07-25-06-49-04/logits_swa.npz`
-- `T=1.7,seed=1` → `results/unified_students/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed1/2026-07-24-18-05-50/logits_swa.npz`
-- `T=1.7,seed=42` → `results/unified_students/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed42/2026-07-25-02-43-02/logits_swa.npz`
-- `T=1.7,seed=43` → `results/unified_students/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed43/2026-07-25-10-55-06/logits_swa.npz`
-- `T=2.2,seed=1` → `results/unified_students/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed1/2026-07-24-22-22-33/logits_swa.npz`
-- `T=2.2,seed=42` → `results/unified_students/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed42/2026-07-25-06-49-11/logits_swa.npz`
-- `T=2.2,seed=43` → `results/unified_students/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed43/2026-07-25-15-03-00/logits_swa.npz`
+- `T=0.85,seed=1` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed1/2026-07-25-10-55-15` (sha256 `a1eda73bb39301b7…`)
+- `T=0.85,seed=42` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed42/2026-07-24-18-05-50` (sha256 `2b91bff22489b20f…`)
+- `T=0.85,seed=43` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed43/2026-07-25-02-43-00` (sha256 `ae62947fefb0e84f…`)
+- `T=1,seed=1` → `diagnostics/student_logits/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed1/2026-07-17-18-01-41` (sha256 `22208aada3d9ea19…`)
+- `T=1,seed=42` → `diagnostics/student_logits/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200.npz`  ← `results/unified_students/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200/2026-06-20-08-38-09` (sha256 `d5e65e4b6c016aba…`)
+- `T=1,seed=43` → `diagnostics/student_logits/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed43/2026-07-17-22-05-44` (sha256 `6572d552f8f871e0…`)
+- `T=1.3406,seed=1` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed1/2026-07-25-15-03-07` (sha256 `6c571308d1b4aae8…`)
+- `T=1.3406,seed=42` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed42/2026-07-24-22-22-33` (sha256 `8c02b30d4edd1c94…`)
+- `T=1.3406,seed=43` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed43/2026-07-25-06-49-04` (sha256 `831bf1ed62676264…`)
+- `T=1.7,seed=1` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed1/2026-07-24-18-05-50` (sha256 `26b22a5f67c345c0…`)
+- `T=1.7,seed=42` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed42/2026-07-25-02-43-02` (sha256 `02fd1c019152856c…`)
+- `T=1.7,seed=43` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed43/2026-07-25-10-55-06` (sha256 `6d409382dc93bf5d…`)
+- `T=2.2,seed=1` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed1.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed1/2026-07-24-22-22-33` (sha256 `70591fa4de57a937…`)
+- `T=2.2,seed=42` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed42.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed42/2026-07-25-06-49-11` (sha256 `09add73c86972cbe…`)
+- `T=2.2,seed=43` → `diagnostics/student_logits/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed43.npz`  ← `results/unified_students/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed43/2026-07-25-15-03-00` (sha256 `2f73eb75bda3a3ff…`)
 
 </details>
 
@@ -207,20 +209,20 @@ Producer: `diagnostics/robustness_metrics.py` · metric definitions in `diagnost
 
 **No step disagrees with the other seeds at the same pair** in any of the seven metrics.
 
-<details><summary>source files</summary>
+<details><summary>source files (published byte copies) and their origin run directories</summary>
 
-- `T=0.26,seed=1` → `results/unified_students/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed1/2026-07-26-13-29-57/logits_swa.npz`
-- `T=0.26,seed=42` → `results/unified_students/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed42/2026-07-26-22-58-01/logits_swa.npz`
-- `T=0.26,seed=43` → `results/unified_students/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed43/2026-07-27-03-47-04/logits_swa.npz`
-- `T=0.5063,seed=1` → `results/unified_students/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed1/2026-07-27-03-44-38/logits_swa.npz`
-- `T=0.5063,seed=42` → `results/unified_students/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed42/2026-07-26-13-27-45/logits_swa.npz`
-- `T=0.5063,seed=43` → `results/unified_students/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed43/2026-07-26-18-14-59/logits_swa.npz`
-- `T=0.74,seed=1` → `results/unified_students/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed1/2026-07-28-02-58-40/logits_swa.npz`
-- `T=0.74,seed=42` → `results/unified_students/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed42/2026-07-27-22-09-52/logits_swa.npz`
-- `T=0.74,seed=43` → `results/unified_students/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed43/2026-07-27-22-09-52/logits_swa.npz`
-- `T=1,seed=1` → `results/unified_students/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed1/2026-07-27-08-30-06/logits_swa.npz`
-- `T=1,seed=42` → `results/unified_students/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed42/2026-07-26-18-12-16/logits_swa.npz`
-- `T=1,seed=43` → `results/unified_students/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed43/2026-07-26-23-01-37/logits_swa.npz`
+- `T=0.26,seed=1` → `diagnostics/student_logits/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed1.npz`  ← `results/unified_students/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed1/2026-07-26-13-29-57` (sha256 `43d9f1c9409f14c8…`)
+- `T=0.26,seed=42` → `diagnostics/student_logits/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed42.npz`  ← `results/unified_students/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed42/2026-07-26-22-58-01` (sha256 `0aef19b677e2567b…`)
+- `T=0.26,seed=43` → `diagnostics/student_logits/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed43.npz`  ← `results/unified_students/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed43/2026-07-27-03-47-04` (sha256 `c5164172c571c2ff…`)
+- `T=0.5063,seed=1` → `diagnostics/student_logits/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed1.npz`  ← `results/unified_students/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed1/2026-07-27-03-44-38` (sha256 `4f6fbaf0f207a32b…`)
+- `T=0.5063,seed=42` → `diagnostics/student_logits/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed42.npz`  ← `results/unified_students/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed42/2026-07-26-13-27-45` (sha256 `9c2857c5292a798a…`)
+- `T=0.5063,seed=43` → `diagnostics/student_logits/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed43.npz`  ← `results/unified_students/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed43/2026-07-26-18-14-59` (sha256 `aa0711810589608c…`)
+- `T=0.74,seed=1` → `diagnostics/student_logits/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed1.npz`  ← `results/unified_students/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed1/2026-07-28-02-58-40` (sha256 `c0d933e4e3a2fe90…`)
+- `T=0.74,seed=42` → `diagnostics/student_logits/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed42.npz`  ← `results/unified_students/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed42/2026-07-27-22-09-52` (sha256 `d9425560e439ff3e…`)
+- `T=0.74,seed=43` → `diagnostics/student_logits/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed43.npz`  ← `results/unified_students/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed43/2026-07-27-22-09-52` (sha256 `31fb19600cccac9b…`)
+- `T=1,seed=1` → `diagnostics/student_logits/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed1.npz`  ← `results/unified_students/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed1/2026-07-27-08-30-06` (sha256 `377c1d0ce68c34fe…`)
+- `T=1,seed=42` → `diagnostics/student_logits/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed42.npz`  ← `results/unified_students/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed42/2026-07-26-18-12-16` (sha256 `c958c3cca63d6d58…`)
+- `T=1,seed=43` → `diagnostics/student_logits/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed43.npz`  ← `results/unified_students/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed43/2026-07-26-23-01-37` (sha256 `da4a329fa20580c7…`)
 
 </details>
 

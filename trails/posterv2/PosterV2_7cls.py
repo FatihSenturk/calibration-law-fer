@@ -21,7 +21,7 @@ def _resolve_pretrained_path(filename):
     candidates.extend(
         [
             Path(__file__).resolve().parents[2] / "pretrained" / "posterv2" / filename,
-            Path(r"pretrained") / filename,
+            Path(r"D:\lg\models") / filename,
         ]
     )
     for candidate in candidates:

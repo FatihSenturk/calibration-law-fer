@@ -241,8 +241,9 @@ def main():
         ax.set_xlabel("Teacher ECE at the distilled temperature  (log scale)")
         ax.set_ylabel(ylab)
         ax.grid(alpha=0.25, which="both")
-    # Aligned with title v2 (7 Aug 2026); diagnostic PNG only -- the exporter strips
-    # in-figure titles, so the paper PDF is unaffected.
+    # Başlık v2 ile hizalandı (7 Ağu 2026). Bu başlık ihraç edilen PDF'te görünmüyor
+    # (dışa aktarımda figür-içi başlıklar kaldırılıyor), yalnız tanılama PNG'sini etkiliyor —
+    # yine de değişti, ki repo içinde iki farklı iddia cümlesi dolaşmasın.
     ax1.set_title("Teacher-side logit scaling governs student calibration", fontsize=10)
     ax2.set_title("Accuracy is comparatively insensitive", fontsize=10)
     ax1.legend(fontsize=7, loc="upper left")

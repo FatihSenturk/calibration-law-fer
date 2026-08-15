@@ -171,13 +171,30 @@ def load_audit(path):
     return out
 
 
-def gate_variant(run_dir):
-    """Gate runs differ by which uncertainty signal drives the blend; runs.csv collapses them
-    all to 'gate', so the distinction is read back from the run's own run_args.json."""
-    p = Path(run_dir) / "run_args.json"
-    if not p.exists():
-        return "gate"
-    return "gate:" + str(jload(p).get("gate_uncertainty_source", "?"))
+def gate_variant(r):
+    """Gate runs differ by which uncertainty signal drives the blend; `manipulation` collapses
+    them all to 'gate', so the signal is carried by its own ledger column.
+
+    WAS A LEVEL-1 VIOLATION (fixed 8 Aug 2026, isolated step). This function used to open
+    `<run_dir>/run_args.json`, which made three table producers -- `paper_tables`,
+    `t5_pairing_diff`, `section54_numbers` -- depend on `results/unified_students/` being
+    present. That was 8 of the Level-1 gate's 13 violations from a single root cause: the
+    paper's numbers could not be regenerated without the raw run directories, which are not
+    published. `build_runs_ledger.py` already reads run_args (it is Level 3 and declared
+    `ALLOWED`), so the distinction is now extracted ONCE, at the outermost layer that is
+    permitted to look, and written to `runs.csv` as `gate_signal`.
+
+    Takes the ledger ROW now, not a path. A missing column raises rather than defaulting:
+    silently returning "gate" would merge five distinct mechanism cells into one and the
+    pairing table would average across signals without saying so.
+    """
+    if "gate_signal" not in r:
+        raise RuntimeError(
+            "runs.csv'de `gate_signal` sütunu yok. Defter bu sütun eklenmeden önce kurulmuş; "
+            "`python diagnostics/build_runs_ledger.py` ile yeniden kurun. Sessizce 'gate'e "
+            "düşmek beş ayrı mekanizma hücresini tek hücreye katardı.")
+    sig = (r.get("gate_signal") or "").strip()
+    return "gate:" + sig if sig else "gate"
 
 
 def is_ablation_control(r):
@@ -229,7 +246,7 @@ def mechanism_table(runs, audit):
             # difference would be reported as the mechanism's effect.
             mech = r["manipulation"]
             if mech == "gate":
-                mech = gate_variant(r["run_dir"])
+                mech = gate_variant(r)
             treats.setdefault((r["teacher"], mech, r["class_weight_mode"]), {})[r["seed"]] = key
 
     lines = ["| teacher | mechanism | class weighting (both arms) | Δacc @swa (pp) | ΔECE @swa | "
@@ -266,7 +283,10 @@ def mechanism_table(runs, audit):
                 row[ck] = {"d_acc_mean": st.mean(d_acc) if d_acc else None,
                            "d_acc_sd": sample_sd(d_acc), "d_ece_mean": st.mean(d_ece) if d_ece else None,
                            "d_ece_sd": sample_sd(d_ece), "n": len(d_ece),
-                           "d_ece_signs": "".join("-" if v < 0 else "+" for v in d_ece)}
+                           "d_ece_signs": "".join("-" if v < 0 else "+" for v in d_ece),
+                           # doğruluk işaretleri de saklanıyor: 2×-kontrol-sd ölçütünün işaret
+                           # koşulu (G3.1) her iki eksende de mekanik uygulanabilsin diye.
+                           "d_acc_signs": "".join("-" if v < 0 else "+" for v in d_acc)}
             swa_acc, swa_ece = cells["swa"]
             if not swa_ece:
                 continue
@@ -295,6 +315,91 @@ def mechanism_table(runs, audit):
 
 
 # --------------------------------------------------------------------------- main
+def p6_sections(add, payload):
+    """T11/T12 — P6'nın resmî hükmü (ön-kayıt A9).
+
+    A9 bu iki numarayı P6'ya ayırmıştı ("kendi tabloları olacak: T11/T12"); burada özet
+    satırlar durur, tam tablo `paper_tables/p6_collapse_test.md` içinde. JSON üretilmemişse
+    blok atlanır — paper_tables.py hiçbir koşulda P6 yüzünden çökmemeli.
+    """
+    p = OUT_MD.parent / "p6_collapse_test.json"
+    if not p.exists():
+        return
+    d = jload(p)
+
+    # --- T11: eşleşmiş T·τ çiftleri (P6.1)
+    add("## T11 — Does the law collapse onto the product T·τ? (P6.1)")
+    add("")
+    add("Two matched pairs hold T·τ fixed while moving τ and T in opposite directions. If "
+        "student ECE depended on (T,τ) only through the product, both cells of a pair would "
+        "land within seed noise of each other. The bar was frozen before the runs at "
+        f"2×{d['bar']} = {d['two_bar']} (the seed sd of the control arm's ECE @swa). "
+        "Full table: `paper_tables/p6_collapse_test.md`.")
+    add("")
+    add("| pair (T·τ) | τ, T (low-τ cell) | τ, T (high-τ cell) | mean ΔECE | signs | "
+        "\\|mean\\|/2×bar | verdict |")
+    add("|---|---|---|---|---|---|---|")
+    cells = {}
+    for pname, v in d["p6_1"]["pairs"].items():
+        ratio = abs(v["mean"]) / d["two_bar"]
+        add(f"| {pname} | τ={v['tau_lo']}, T={v['T_lo']} | τ={v['tau_hi']}, T={v['T_hi']} | "
+            f"{v['mean']:+.4f} ± {v['sd']:.4f} | "
+            f"{'3/3 same' if v['same_sign_3of3'] else 'mixed'} | {ratio:.1f}× | "
+            f"{v['status']} |")
+        cells[pname] = {"mean": v["mean"], "sd": v["sd"],
+                        "same_sign_3of3": v["same_sign_3of3"], "status": v["status"]}
+    add("")
+    add(d["p6_1"]["overall"])
+    add("")
+    rep = d["p6_1"].get("reproduces_early_reading", {})
+    if rep.get("checked"):
+        add("The 2 Aug early reading (queue at ~10/42) is reproduced "
+            + ("**bit-identically** — all six ΔECE values and both pair verdicts agree."
+               if rep.get("identical")
+               else "**NOT** reproduced; the deviations are: " + "; ".join(rep.get("diffs", []))))
+        add("")
+    add(src(p))
+    add("")
+
+    # --- T12: α modülasyonu (P6.2, P6.3)
+    add("## T12 — Does the KD weight α modulate the transfer? (P6.2, P6.3)")
+    add("")
+    add("gap(α) := ECE(T=1) − ECE(T=1.3406), within seed, τ=6 throughout. A larger gap means "
+        "the pre-scaling intervention moves the student more. Two rules were frozen before the "
+        "runs: gap(α) is non-increasing in α (P6.2) and gap(0.9) < gap(0.1) strictly (P6.3), "
+        "each required in 3/3 seeds.")
+    add("")
+    add("| α | seed 42 | seed 1 | seed 43 | mean |")
+    add("|---|---|---|---|---|")
+    gaps = {}
+    for a in d["alpha_order"]:
+        row = d["grid2_cells"][a]
+        vals = [row[s]["gap"] for s in ("42", "1", "43")]
+        add(f"| {a} | " + " | ".join(f"{v:+.4f}" for v in vals) +
+            f" | **{st.mean(vals):+.4f}** |")
+        gaps[a] = {"by_seed": {s: row[s]["gap"] for s in ("42", "1", "43")},
+                   "mean": st.mean(vals)}
+    add("")
+    add(f"**P6.2 (monotonicity): {d['p6_2']['verdict']}** — held in "
+        f"{d['p6_2']['n_seeds_ok']}/3 seeds. "
+        f"**P6.3 (extremes): {d['p6_3']['verdict']}** — held in "
+        f"{d['p6_3']['n_seeds_ok']}/3 seeds.")
+    add("")
+    add("The α=0.3 row reuses the existing dose-response arms, as the declaration specified; "
+        "it is not a new run.")
+    add("")
+    add(src(p))
+    add("")
+    payload["T11_collapse"] = {"pairs": cells, "overall": d["p6_1"]["overall"],
+                               "bar": d["bar"], "two_bar": d["two_bar"],
+                               "reproduces_early_reading": rep}
+    payload["T12_alpha"] = {"gaps": gaps,
+                            "P6_2": {"verdict": d["p6_2"]["verdict"],
+                                     "n_seeds_ok": d["p6_2"]["n_seeds_ok"]},
+                            "P6_3": {"verdict": d["p6_3"]["verdict"],
+                                     "n_seeds_ok": d["p6_3"]["n_seeds_ok"]}}
+
+
 def r3_sections(add, payload):
     """T13/T14/T15 — R3 robustluk turunun özet satırları (ön-kayıt A10).
 
@@ -696,12 +801,58 @@ def main():
     add(f"- Does the accuracy rule pick the right teacher: **{p4['accuracy_criterion_correct']}** "
         f"(it picks `{p4['picked_by_accuracy']}`) · ECE rule: **{p4['ece_criterion_correct']}** "
         f"(it picks `{p4['picked_by_ece']}`)")
-    add(f"- **Cost of the wrong pick: {p4['cost_of_wrong_pick_pp']:.2f} pp** of student accuracy.")
+    add(f"- **Cost of the wrong pick: {p4['cost_of_wrong_pick_pp']:.2f} pp** of student accuracy "
+        "(@best; see the per-checkpoint table below — the primary value is @swa).")
     add("")
-    add("> The student columns in this table are **@best** (produced from the `metrics_best.json` "
-        "artefacts). The selection-independent @swa/@last values for the same students are in "
-        "T1/T2; the ranking is identical at all three checkpoints, so the recipe's conclusion "
-        "does not change.")
+    # T6a: THE NOTE USED TO BE AN ASSERTION. Until 2026-08-13 this block ended with a sentence
+    # claiming "the ranking is identical at all three checkpoints" with nothing computing it,
+    # while the cost quoted above was an @best number sourced from a stale side table. N5 asked
+    # for both at once; they are now produced by `p4_teacher_selection_recipe.per_checkpoint_verdict`
+    # and printed, so the claim can never again outlive its evidence.
+    pc = p4.get("per_checkpoint")
+    if pc:
+        add("### T6a — the same question at all three checkpoints")
+        add("")
+        add("| teacher | student acc @swa | @best | @last |")
+        add("|---|---|---|---|")
+        for r in sorted(p4["rows"], key=lambda r: -r["student_by_ckpt"]["swa"]["acc_mean"]):
+            c = r["student_by_ckpt"]
+            add(f"| {r['teacher']} | " + " | ".join(
+                f"{c[ck]['acc_mean']:.2f} ± {c[ck]['acc_sd']:.2f} (n={c[ck]['n']})"
+                for ck in CKPTS) + " |")
+        add("")
+        add("| checkpoint | ranking by student acc | Spearman(teacher acc, student acc) | "
+            "Spearman(−teacher ECE, student acc) | cost of the accuracy-pick |")
+        add("|---|---|---|---|---|")
+        for ck in CKPTS:
+            v = pc["by_ckpt"].get(ck)
+            if not v:
+                continue
+            add(f"| {'**@swa**' if ck == 'swa' else '@' + ck} | {v['ranking_display']} | "
+                f"{v['spearman_teacherACC_vs_studentACC']:+.3f} | "
+                f"{v['spearman_negTeacherECE_vs_studentACC']:+.3f} | "
+                f"**{v['cost_of_wrong_pick_pp']:.2f} pp**" + (" |" if ck != "swa" else " |"))
+        add("")
+        ties = pc.get("ckpts_with_ties") or []
+        add(f"- The best teacher is the same at all three checkpoints: "
+            f"**{pc['best_teacher_identical_across_ckpts']}** (`{pc['by_ckpt']['swa']['best_teacher']}`), "
+            f"and **no pairwise comparison reverses** between checkpoints "
+            f"({pc['pairwise_reversals'] or 'none'}).")
+        if ties:
+            for ck in ties:
+                v = pc["by_ckpt"][ck]
+                a, b = v["ties"][0]
+                add(f"- **Not a strict total order at @{ck}:** `{a}` and `{b}` land on exactly "
+                    f"{v['student_acc'][a]:.4f} pp, so the 2nd/3rd places are tied and the "
+                    f"phrase \"identical ranking\" holds for the *winner*, not for the full order.")
+        add(f"- The cost of the accuracy-criterion mistake is checkpoint-dependent: "
+            f"**{pc['by_ckpt']['swa']['cost_of_wrong_pick_pp']:.2f} pp @swa** (primary), "
+            f"{pc['by_ckpt']['best']['cost_of_wrong_pick_pp']:.2f} pp @best, "
+            f"{pc['by_ckpt']['last']['cost_of_wrong_pick_pp']:.2f} pp @last. Quoting one number "
+            "without its checkpoint is what made the earlier 0.53/0.35 discrepancy look like a "
+            "contradiction.")
+        add("")
+    add(f"> Student columns come from **{p4.get('student_source', 'the ledger')}**.")
     add("")
     add(src(A_P4))
     add("")
@@ -1128,6 +1279,9 @@ def main():
     # dosyalarında. Bir JSON henüz üretilmemişse blok atlanır -- paper_tables.py hiçbir
     # koşulda R3 yüzünden çökmemeli.
     r3_payload = {}
+    # T11/T12 — P6'nın resmî hükmü (A9). R3 bloklarından önce basılır ki tablo numaraları
+    # metinde artan sırada görünsün.
+    p6_sections(add, r3_payload)
     r3_sections(add, r3_payload)   # add() ile dogrudan L'ye yazar
 
     OUT_MD.write_text("\n".join(L) + "\n", encoding="utf-8")

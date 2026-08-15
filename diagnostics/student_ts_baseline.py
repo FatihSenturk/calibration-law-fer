@@ -108,6 +108,49 @@ def build_val_with_names():
     return images[keep], labels[keep], p_human, kept_names
 
 
+def val_from_published():
+    """(labels, p_human, names) — koşu dizinine DOKUNMADAN; build_val_with_names'in eşleniği.
+
+    NEDEN VAR (8 Ağu 2026). `build_val_with_names()` bir koşu dizininin `run_args.json`'unu
+    okuyor (yükleyiciyi kurmak için) ve görüntüleri yüklüyor. İkisi de yalnız FORWARD için
+    gerekli. Logitler yayımlanmış önbellekten geldiğinde forward yoktur, dolayısıyla ne
+    görüntü ne koşu dizini gerekir. `r3w1_joint_optimum.py` bunu kullanır ve böylece Level-1
+    ihlali olmaktan çıkar.
+
+    KOPYALAMA YOK. İsim+etiket `tstar_stability.ferplus_kept()`, oy dağılımı
+    `jsd_sensitivity.load_ferplus()`'tan İTHAL. İkisi de aynı iki dosyayı
+    (`ferplus_jsd/ferplus_val_logits.pt` -- `paths` alanı val yükleyicinin sırasını taşır --
+    ve `configs/FERPlus_majority_metadata.csv`) aynı oy>0 filtresiyle okur. Etiket
+    vektörleri burada AYRICA karşılaştırılır: ayrışırlarsa iki modülün filtresi ayrışmış
+    demektir ve betik durur.
+    """
+    from jsd_sensitivity import load_ferplus
+    from tstar_stability import ferplus_kept
+    _tlogits, labels, names = ferplus_kept()
+    _tlogits2, labels2, p_human, _sums = load_ferplus()
+    if not torch.equal(labels, labels2):
+        raise RuntimeError(
+            "val_from_published: tstar_stability.ferplus_kept() ile "
+            "jsd_sensitivity.load_ferplus() farklı etiket vektörü verdi — iki modülün oy>0 "
+            "filtresi ya da satır sırası ayrışmış. Sayı üretilmez.")
+    if len(names) != labels.shape[0] or p_human.shape[0] != labels.shape[0]:
+        raise RuntimeError(f"val_from_published: n uyuşmuyor — isim {len(names)}, "
+                           f"etiket {labels.shape[0]}, p_human {p_human.shape[0]}")
+    return labels, p_human, names
+
+
+def published_logits(run_name):
+    """@swa öğrenci logitleri, YAYIMLANMIŞ bayt kopyasından (koşu dizini okumaz).
+
+    `cached_logits()`in koşu-dizini-siz eşleniği. İkisinin aynı sayıyı verdiği ölçüldü:
+    `student_logits_swa.pt` ile `logits_swa.npz` 12 FERPlus koşusunda bit düzeyinde aynı
+    (max |fark| = 0.0), yani bu geçiş hiçbir yayımlanmış sayıyı oynatmaz.
+    """
+    from publish_student_logits import published_npz
+    z = np.load(published_npz(run_name, CK), allow_pickle=False)
+    return torch.from_numpy(z["logits"]).float()
+
+
 def latest(run_name):
     d = STUDENTS / run_name
     subs = sorted([x for x in d.iterdir() if x.is_dir()])
@@ -160,22 +203,47 @@ def measure(logits, labels, p_human, T=1.0):
 
 
 def main():
+    # cp1252 konsolda Türkçe karakter `UnicodeEncodeError` atıyordu ve betik SAYIYI ÜRETTİKTEN
+    # DEĞİL, ilk satırı basarken düşüyordu. Kapıda "başka hata" olarak görünüyordu; deponun
+    # geri kalanında zaten standart olan blok buraya da eklendi. (`order_stat_trend.py` ve
+    # `tstar_stability.py` hâlâ bu durumda -- ayrı kalem, işaretli.)
+    for s in (sys.stdout, sys.stderr):
+        if hasattr(s, "reconfigure"):
+            s.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
-    ap.add_argument("--force", action="store_true")
-    args = ap.parse_args()
+    ap.add_argument("--force", action="store_true",
+                    help="logitleri koşu dizinlerinden YENİDEN üret (Level 3: veri kümesi + "
+                         "checkpoint gerekir). Varsayılan yol yayımlanmış önbelleği okur.")
+    # `parse_known_args` -- ŞART, gerekçesi `abs_path_gate.py`'dekiyle aynı: Level-1 kapısı
+    # üreticileri `runpy` ile çağırıp betiğin yolunu argv'de bırakıyor; `parse_args` bunu
+    # tanımadığı argüman sayıp SystemExit atıyor ve kapı "başka hata" yazıyor -- yani LEVEL-1
+    # SORUSU HİÇ SORULMUYOR. Bu betikte tam bu oldu: 8 Ağu'da "başka hata" görünüyordu ve
+    # arkasında GERÇEK bir ihlal duruyordu (aşağıdaki blok). Harness arızası ihlali sakladı.
+    args, _unknown = ap.parse_known_args()
 
-    images, labels, p_human, names = build_val_with_names()
+    # LEVEL-1 (9 Ağu). Varsayılan yol koşu dizinine DOKUNMAZ: logitler yayımlanmış bayt
+    # kopyalarından, raporlama kümesi (etiket / oy dağılımı / dosya adı) yayımlanmış iki
+    # artefakttan gelir. `--force` eski yolu korur -- önbelleği sıfırdan kurmak tanım gereği
+    # Level 3'tür (görüntüler + checkpoint gerekir) ve açık bir opt-in'dir.
+    if args.force:
+        images, labels, p_human, names = build_val_with_names()
+    else:
+        images = None
+        labels, p_human, names = val_from_published()
     n = labels.shape[0]
     mask_a, mask_b = sha_split(names)
     print(f"FERPlus raporlama kümesi n={n} (oy>0 filtresi ferplus_student_jsd ile aynı)")
-    print(f"SHA-sıralı bölme: A={int(mask_a.sum())} / B={int(mask_b.sum())}\n")
+    print(f"SHA-sıralı bölme: A={int(mask_a.sum())} / B={int(mask_b.sum())}")
+    print(f"kaynak: {'koşu dizinleri (--force)' if args.force else 'yayımlanmış önbellek'}\n")
 
     per_seed, rows_md = {}, []
     for s in SEEDS:
-        rd_raw = latest(ARM_RAW.format(s=s))
-        rd_ts = latest(ARM_TSTAR.format(s=s))
-        lg_raw = cached_logits(rd_raw, images, args.force)
-        lg_star = cached_logits(rd_ts, images, args.force)
+        if args.force:
+            lg_raw = cached_logits(latest(ARM_RAW.format(s=s)), images, True)
+            lg_star = cached_logits(latest(ARM_TSTAR.format(s=s)), images, True)
+        else:
+            lg_raw = published_logits(ARM_RAW.format(s=s))
+            lg_star = published_logits(ARM_TSTAR.format(s=s))
 
         raw = measure(lg_raw, labels, p_human)
         star = measure(lg_star, labels, p_human)

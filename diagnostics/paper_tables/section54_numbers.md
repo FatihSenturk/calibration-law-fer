@@ -6,13 +6,13 @@ Producer: `diagnostics/section54_numbers.py` · @swa · sample sd (n-1, Bessel-c
 
 | teacher / variant | Δacc (pp) | acc signs | ΔECE | ECE signs | n |
 |---|---|---|---|---|---|
-| primary/gate:mean_logvar | +0.065 *(n=1)* | `+` | -0.0027 *(n=1)* | `-` | 1 |
+| primary/gate:mean_logvar | +0.196 ± 0.855 | `++-` | -0.0056 ± 0.0092 | `--+` | 3 |
 | primary/gate:oracle_error | -0.011 ± 0.722 | `-+-` | +0.0004 ± 0.0053 | `+-+` | 3 |
-| primary/gate:target_logvar | -0.326 *(n=1)* | `-` | +0.0019 *(n=1)* | `+` | 1 |
-| stage1/gate:mean_logvar | -0.065 *(n=1)* | `-` | +0.0000 *(n=1)* | `+` | 1 |
+| primary/gate:target_logvar | -0.087 ± 0.443 | `-+-` | -0.0008 ± 0.0030 | `+--` | 3 |
+| stage1/gate:mean_logvar | -0.098 ± 0.118 | `---` | -0.0012 ± 0.0010 | `+--` | 3 |
 | stage1/gate:oracle_error | -0.217 ± 0.457 | `-+-` | +0.0015 ± 0.0036 | `+-+` | 3 |
-| stage1/gate:target_logvar | +0.261 *(n=1)* | `+` | -0.0028 *(n=1)* | `-` | 1 |
-| vae9182/gate:mean_logvar | -1.043 *(n=1)* | `-` | +0.0067 *(n=1)* | `+` | 1 |
+| stage1/gate:target_logvar | +0.250 ± 0.277 | `++-` | -0.0041 ± 0.0023 | `---` | 3 |
+| vae9182/gate:mean_logvar | -0.272 ± 0.668 | `-++` | +0.0015 ± 0.0046 | `+--` | 3 |
 | vae9182/gate:oracle_error | -0.228 ± 0.493 | `--+` | +0.0056 ± 0.0040 | `+++` | 3 |
 
 Per seed (`gate:oracle_error`, the only n=3 arm):
@@ -39,13 +39,13 @@ Per seed (`gate:oracle_error`, the only n=3 arm):
 
 ## B3 — T5'in yeni iskeleti
 
-**Rows standing on three paired seeds (12):**
+**Rows standing on three paired seeds (17):**
 
-`primary/adaptive_t`, `primary/g2g_kl`, `primary/gate:oracle_error`, `primary/logit_std`, `stage1/adaptive_t`, `stage1/g2g_kl`, `stage1/gate:oracle_error`, `stage1/logit_std`, `vae9182/adaptive_t`, `vae9182/g2g_kl`, `vae9182/gate:oracle_error`, `vae9182/logit_std`.
+`primary/adaptive_t`, `primary/g2g_kl`, `primary/gate:mean_logvar`, `primary/gate:oracle_error`, `primary/gate:target_logvar`, `primary/logit_std`, `stage1/adaptive_t`, `stage1/g2g_kl`, `stage1/gate:mean_logvar`, `stage1/gate:oracle_error`, `stage1/gate:target_logvar`, `stage1/logit_std`, `vae9182/adaptive_t`, `vae9182/g2g_kl`, `vae9182/gate:mean_logvar`, `vae9182/gate:oracle_error`, `vae9182/logit_std`.
 
-**Tek tohum † (9):**
+**Tek tohum † (4):**
 
-`primary/ctkd`, `primary/gate:mean_logvar`, `primary/gate:target_logvar`, `stage1/ctkd`, `stage1/gate:mean_logvar`, `stage1/gate:target_logvar`, `vae9182/ctkd`, `vae9182/g2g_kl+adaptive_t`, `vae9182/gate:mean_logvar`.
+`primary/ctkd`, `stage1/ctkd`, `vae9182/ctkd`, `vae9182/g2g_kl+adaptive_t`.
 
 **Rows dropped for lack of a control (0):**
 

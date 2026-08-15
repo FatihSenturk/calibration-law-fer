@@ -37,9 +37,9 @@ if (-not (Test-Path $pretrainedPath)) {
 if ([string]::IsNullOrWhiteSpace($DataRoot)) {
     $candidates = @(
         (Join-Path $PSScriptRoot "data\rafdb_aligned"),
-        "data/rafdb_aligned",
+        "C:\dataset\rafdb_aligned",
         "C:\rafdb_aligned",
-        "data/rafdb_aligned"
+        "D:\27may\poster-var\data\rafdb_aligned"
     )
     $DataRoot = $candidates | Where-Object {
         Test-Path (Join-Path $_ "metadata_rafdb_poster_var.csv")
@@ -53,8 +53,8 @@ if ([string]::IsNullOrWhiteSpace($DataRoot)) {
 if ([string]::IsNullOrWhiteSpace($TeacherCheckpoint)) {
     $teacherCandidates = @(
         (Join-Path $PSScriptRoot "checkpoints\teacher_ce9241_best.pt"),
-        "checkpoints/teacher_rafdb_posterv2_best.pt",
-        "checkpoints/teacher_ce9241_best.pt"
+        "C:\Users\mfati\21mar\poster-var\logs\RAFDB\POSTERv2\2026-03-30-13-28-13\best.pt",
+        "D:\27may\poster-var\checkpoints\teacher_ce9241_best.pt"
     )
     $TeacherCheckpoint = $teacherCandidates | Where-Object {
         Test-Path $_

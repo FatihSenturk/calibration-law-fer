@@ -127,7 +127,16 @@ def save_at_width(fig, path, target_mm, tol=1.0, max_iter=5):
     w, h = fig.get_size_inches()
     got = None
     for _ in range(max_iter):
-        fig.savefig(path, format="pdf", bbox_inches="tight")
+        # CreationDate SABİTLENİYOR (13 Ağu 2026). Matplotlib PDF'e koşu anının saatini gömüyordu,
+        # dolayısıyla AYNI veriden üretilen figür her koşuda farklı BAYT veriyordu: ihraç adımı
+        # her seferinde "makale fig: 5 yenilendi" diyordu (hep aynı beş dosya) ve bu satır
+        # gerçek bir içerik değişikliğini gösteremez hâle gelmişti -- 7 Ağu'da tam bu beş PDF bu
+        # yüzden yanlışlıkla "değişti" görünmüştü (`public_repo_staleness.py` başlığında kayıtlı).
+        # Gürültüyü bastırmak yerine KAYNAĞINI kesmek doğrusu: sabit damgayla PDF'ler bayt
+        # yeniden-üretilebilir olur ve "yenilendi" satırı yeniden anlam taşır. Çizim
+        # DEĞİŞMİYOR -- yalnız dosya üstverisi.
+        fig.savefig(path, format="pdf", bbox_inches="tight",
+                    metadata={"CreationDate": None})
         doc = fitz.open(path)
         got = doc[0].rect.width / 72 * 25.4
         doc.close()
@@ -292,11 +301,29 @@ def fig_mechanism_diagnostic():
     # clipped by bbox_inches="tight". The scale difference belongs in the caption anyway.
     axB.set_ylabel(r"$\Delta$ ECE @SWA")
     panel(axB, "b")
+    # OPAK BEYAZ ZEMİN (13 Ağu 2026). `frameon=False` iken uzun yatay hata çubukları lejant
+    # yazısının içinden geçiyordu; eksen kırpması düzelince pencere büyüdüğü için çubuklar daha
+    # da içeri giriyor. Çerçeve çizgisi yok (`edgecolor="none"`) -- istenen zemin, kutu değil.
     axB.legend(handles=[Line2D([], [], ls="none", marker="o", markerfacecolor=mcol[m],
                                markeredgecolor=BLACK, markersize=5, label=m) for m in mechs],
-               frameon=False, loc="upper center", ncol=2, fontsize=TINY)
-    ys = [p["d_ece"] for p in rest]
-    axB.set_ylim(min(ys) - 0.15 * (max(ys) - min(ys)), max(ys) + 0.75 * (max(ys) - min(ys)))
+               frameon=True, facecolor="white", edgecolor="none", framealpha=1.0,
+               loc="upper center", ncol=2, fontsize=TINY).set_zorder(6)
+    # SINIRLAR ORTALAMALARDAN DEĞİL, HATA ÇUBUĞUNUN UÇLARINDAN (13 Ağu 2026).
+    #
+    # Eski hâl `min(d_ece)`/`max(d_ece)` kullanıyordu, yani pencereyi NOKTALARA göre kuruyordu;
+    # çubuklar hesaba girmediği için iki tanesi alt sınırın altında kalıyor ve KIRPILIYORDU:
+    # primary × gate:mean_logvar (−0.00558 ± 0.00923 → alt uç −0.01480) ve vae9182 × adaptive_t
+    # (−0.00420 ± 0.00469 → −0.00889), eski alt sınır −0.00729'a karşı. Kırpılan çubuk okura
+    # belirsizliği OLDUĞUNDAN KÜÇÜK gösterir -- bu panelin varlık sebebi tam da belirsizliği
+    # göstermek olduğu için sessiz ama ciddi bir hata. n=1 noktalarının çubuğu yok, sd'leri
+    # sıfır sayılır. Üst pay (0.45) lejant içindir; alt pay (0.06) yalnız nefes payı.
+    def _ext(key, sd_key):
+        lo = min(p[key] - ((p[sd_key] or 0.0) if p["n"] > 1 else 0.0) for p in rest)
+        hi = max(p[key] + ((p[sd_key] or 0.0) if p["n"] > 1 else 0.0) for p in rest)
+        return lo, hi
+    y_lo, y_hi = _ext("d_ece", "d_ece_sd")
+    y_span = y_hi - y_lo
+    axB.set_ylim(y_lo - 0.06 * y_span, y_hi + 0.45 * y_span)
     fig.tight_layout()
     return finish(fig, "mechanism_diagnostic.pdf")
 

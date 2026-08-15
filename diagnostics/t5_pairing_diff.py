@@ -67,7 +67,7 @@ def build(runs, audit, rule):
         elif is_treatment(r):
             mech = r["manipulation"]
             if mech == "gate":
-                mech = gate_variant(r["run_dir"])
+                mech = gate_variant(r)
             tk = ((r["teacher"], mech) if rule == "old"
                   else (r["teacher"], mech, r["class_weight_mode"]))
             treats.setdefault(tk, {})[r["seed"]] = key
@@ -78,7 +78,7 @@ def build(runs, audit, rule):
         cw = tk[2] if rule == "new" else None
         rec = {"teacher": t, "mechanism": mech, "class_weight_mode": cw, "by_ckpt": {}}
         for ck in CKPTS:
-            d_acc, d_ece, ctrl_names = [], [], []
+            d_acc, d_ece, ctrl_names, seeds = [], [], [], []
             for seed, tkey in sorted(by_seed.items()):
                 ckey = ((t, seed) if rule == "old" else (t, seed, cw))
                 if ckey not in controls:
@@ -90,6 +90,7 @@ def build(runs, audit, rule):
                 d_acc.append(b["acc"] - a["acc"])
                 d_ece.append(b["ece"] - a["ece"])
                 ctrl_names.append(controls[ckey][0])
+                seeds.append(seed)
             if not d_ece:
                 continue
             rec["by_ckpt"][ck] = {
@@ -98,6 +99,12 @@ def build(runs, audit, rule):
                 "n": len(d_ece),
                 "d_ece_signs": "".join("+" if v > 0 else "-" for v in d_ece),
                 "controls_used": sorted(set(ctrl_names)),
+                # TOHUM BAŞINA FARKLAR (14 Ağu, B5). Özet istatistikler bağımlılık
+                # sorusunu cevaplayamaz: "paylaşılan kontrol bağımsızlık varsayımını
+                # deliyor mu" ancak hücrelerin tohum-tohum vektörleri karşılaştırılarak
+                # ölçülebilir. Ortalama ve sd o vektörden türer, tersi değil.
+                "d_acc_list": list(d_acc), "d_ece_list": list(d_ece),
+                "seeds": list(seeds),
             }
         if rec["by_ckpt"]:
             cells[(t, mech)] = rec

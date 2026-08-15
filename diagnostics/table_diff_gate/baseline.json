@@ -1,17 +1,1881 @@
 {
-  "accepted_at": "2026-08-04T01:25:52",
-  "reason": "R3 robustness round (pre-registration A10): three new producers add 56 cells (R3-1 multi-metric dose-response, R3-2 T* criterion sensitivity, R3-3 FERPlus JSD stratum sensitivity). All APPEARED, zero MOVED, zero VANISHED - no previously tracked number changed. The 15-bin ECE column of R3-1 was verified run-by-run against each cache's own recomputed ECE at 1e-9.",
+  "accepted_at": "2026-08-15T02:04:11",
+  "reason": "Round 3 (14 Agu, Fatih) B hatti: yedi yeni tablo uretildi ve AYNI GUN kapiya kaydedildi. 202 sapmanin tamami APPEARED; CHANGED / MOVED / VANISHED yok -- yani onceden kayitli 1050 hucrenin hicbiri kimildamadi. Bu onemli, cunku bu tur BES uretici dosyasina dokundu (t5_pairing_diff, noise_units, two_dataset_overlay, criterion_applied, paper_tables cevresi) ve hicbiri yayimlanmis bir sayiyi degistirmedi.\n\nB2 (regression_line_provenance): \u00a75.3'un iki dogrusu icin IKI AYRI cevap. FERPlus 0.582'nin URETICISI VAR -- b015_verdict.py, havuzlanmis OLS, @best, 9 kosu (3 T kolu x 3 tohum), R2 0.8814 (9 kosu) / 0.8934 (3 grup ort). Karsi-dogrulayicinin bulamamasinin sebebi checkpoint: makalenin birincil checkpoint'i @swa ve orada ayni fit 0.4458 veriyor. RAF-DB 0.765'in URETICISI YOK -- b015_verdict.py:68'de sabit olarak duruyor, hicbir betik hesaplamiyor; 18 spesifikasyon tarandi, uretilen egimler 1.3522..1.8744, en yakini %77 uzak. Cumle makaleden cikarilabilir.\n\nB3+B6 (control_sd_mde): 27x ailesinin 18 paydasi (3 ogretmen x 3 checkpoint x 2 eksen, effective_number kolu) tam hassasiyetle basildi; ikinci kontrol kolu (none) da yaninda, toplam 36 satir. Capraz kontrol: ayni paydalarla noise_units'in dokuz orani yeniden kuruldu, en buyuk sapma 0.00e+00. B6: olcutun tabani 2sigma = 0.0024..0.0067 @swa; kontrol kolunun kendi ECE duzeyine orani %3.2..%19.4. Panelin \"~%3-9\" tahmini TUTMUYOR: vae9182'nin ogrencileri 0.0278-0.0330'da oturdugu icin ayni mutlak taban onun icin %12-19.\n\nB4 (tau_t_factorial): dort kol kurucu (tau, T) degerleriyle basildi ve UC MARJINAL KONTRAST eklendi -- tau etkisi @T=1.70 (+0.0042, +++), tau etkisi @T=0.85 (-0.0025, +--), T etkisi @tau=6 (-0.0349, ---). Uc hakemin \"confounded\" okumasinin cevabi bu: her kontrastta tek faktor oynuyor ve iki kol da defterde mevcut. T etkisi tau etkisinin sekiz katindan buyuk.\n\nB5 (criterion_applied G3.3): aile 17 degil 22 -- ECE ekseninde 17 uc-tohumlu hucre, DOGRULUK ekseninde bes ogrenilmis-sinyal gate hucresi. 1-(1-0.0350)^22 = 0.543 TEYIT EDILDI. Her hucre kendi k'siyle alinirsa 0.740. Gozlenen k araligi 0.30 (stage1/g2g_kl) .. 3.83 (primary/logit_std), hucre-basi oran 0.0000 .. 0.1916. Bagimlilik OLCULDU: ayni kontrol kolunu paylasan hucrelerin ortalama ikili korelasyonu +0.393 (18 cift), paylasmayanlarda -0.077 (213 cift); ortak bilesenli simulasyon 0.733 veriyor, yani bagimsizlik varsayiminin sisirmesi 0.007 -- olculdu, varsayilmadi.\n\nB7 (ferplus_abstention_entropy): kanonik fer2013new.csv'nin unknown+NF sutunlari dogrulama fold'unun 3153 satirinin HEPSINDE bulundu ve on sutunun toplami HER satirda tam 10. \"Eksik oyun sebebi belirlenemez\" cumlesi yanlis. Kosullu-8 entropi 0.4401 (yayimliyi maks sapma 0.00e+00 ile yeniden uretti), abstention-10 entropi 0.5488 (+0.1087, %+24.7). T*_JSD IKISINDE DE 0.74 -- hizalama sonucu eksik oylarin nasil yorumlandigina bagli degil; degisen tek sey JSD'nin tabani (0.0440 -> 0.0588).\n\nB8 (dose_response_per_seed): dokuz tohum egrisinin tamamli tablosu (3 seri x her T x 3 tohum). Monotonluk ekseni YENIDEN TANIMLANMADI, G2.2'den ithal edildi: brans-ici 9/9, ham T ekseninde 0/9. Bu betigin kendi T-ekseni olcumu G2.2 (a) ile birebir tutuyor (0/9 kati monoton, 8/9 rho>0).\n\nB9 (mechanism_grid_gaps): 8x3 izgaranin uc bos hucresi hukum aldi -- stage1 ve primary/g2g_kl+adaptive_t KOSULMADI (defterde hic koslari yok), vae9182/gate:target_logvar ELENDI (sinyal kalitesi AUROC 0.4579, yon \"higher->less error\", gate'in istedigi yon degil; A12 bes hucresini bu taramadan sectti). AYRICA: vae9182/g2g_kl+adaptive_t izgarada n=1 gorunuyor ama defterde ayni kolun 500e hali UC TOHUMLA duruyor -- dogru cumle \"bu butcede n=1, bir ust butcede n=3\".\n\nB10 (number_audit_round3): on ondalik uyusmazliginin hepsi olculdu. Yayimli dogru: 57-77 (olculen 56.68-76.62), 13-14x (13.31-14.32), 62.9x (62.8847; panelin 63.1'i paydayi 8.8'e yuvarlamaktan), %19 bas-izolasyonu (18.58%, payda DOGRUSAL ogrenci). Panel hakli: FERPlus best-last SE 0.00215, yani 0.0021 (0.0022 degil). Ikisi de degil: FERPlus T*_ECE = 0.45305 surekli argmin, 0.46 kaba izgara, 0.5063 ise T*_ECE degil T*_NLL; Ek B'nin \"0.5\" alt siniri hicbir izgaraya ait degil (RAF-DB [0.60,2.95] adim 0.05, FERPlus [0.10,4.00] adim 0.02) ve hicbir optimum sinirda degil, yani headroom sinir-kisitli DEGIL; \"37x\" hicbir sd konvansiyonundan cikmiyor (ortalama sd ile 39.8x, medyan 44.1x, en buyuk 27.4x), \"~40x\" dogru.",
   "sources": [
+    "diagnostics\\epoch_curves_MANIFEST.json",
+    "diagnostics\\paper_tables\\control_sd_mde.json",
+    "diagnostics\\paper_tables\\tau_t_factorial.json",
+    "diagnostics\\paper_tables\\mechanism_grid_gaps.json",
+    "diagnostics\\paper_tables\\dose_response_per_seed.json",
+    "diagnostics\\paper_tables\\ferplus_abstention_entropy.json",
+    "diagnostics\\paper_tables\\regression_line_provenance.json",
+    "diagnostics\\paper_tables\\number_audit_round3.json",
+    "diagnostics\\selection_audit\\selection_gain.json",
+    "diagnostics\\paper_tables\\order_stat_trend.json",
+    "diagnostics\\p4_teacher_selection\\p4_teacher_selection.json",
+    "diagnostics\\paper_tables\\mechanism_specs.json",
+    "diagnostics\\student_logits\\MANIFEST.json",
     "diagnostics\\p1_dose_response\\two_dataset_overlay.json",
+    "diagnostics\\a12_realsignal_gate\\a12_verdict.json",
+    "diagnostics\\a13_scratch_dose\\a13_verdict.json",
+    "diagnostics\\paper_tables\\g42_init_matched_lever.json",
     "diagnostics\\paper_tables\\RESULTS_TABLES.json",
     "diagnostics\\paper_tables\\robustness_metrics.json",
     "diagnostics\\paper_tables\\tstar_sensitivity.json",
     "diagnostics\\paper_tables\\jsd_sensitivity.json",
+    "diagnostics\\paper_tables\\p6_collapse_test.json",
+    "diagnostics\\paper_tables\\r3w1_joint_optimum.json",
+    "diagnostics\\paper_tables\\selection_audit_inference.json",
+    "diagnostics\\paper_tables\\monotonicity_test.json",
+    "diagnostics\\paper_tables\\criterion_applied.json",
+    "diagnostics\\paper_tables\\holm_family.json",
+    "diagnostics\\paper_tables\\equivalence_tests.json",
+    "diagnostics\\paper_tables\\bootstrap_cis.json",
+    "diagnostics\\paper_tables\\asymmetry_estimand.json",
+    "diagnostics\\paper_tables\\efficiency_retention.json",
+    "diagnostics\\paper_tables\\noise_units.json",
+    "diagnostics\\paper_tables\\audit_population.json",
+    "diagnostics\\paper_tables\\tstar_provenance.json",
     "diagnostics\\p5_efficiency\\capacity_law_check.json",
     "diagnostics\\p2_gate_oracle\\p2_verdict.json",
     "diagnostics\\selection_audit\\selection_optimism_headline.json"
   ],
   "cells": {
+    "CURVES/n_runs": [
+      199,
+      null,
+      null
+    ],
+    "CURVES/n_epoch_rows": [
+      76700,
+      null,
+      null
+    ],
+    "CURVES/npz_bytes": [
+      1237133,
+      null,
+      null
+    ],
+    "CURVES/npz_sha256": [
+      "a0f7cc9081243d9962b744055f34cc5117e21a5a89c608a7a8d9c2014ae33e37",
+      null,
+      199
+    ],
+    "B3/swa/primary/effective_number/ece/control_sd": [
+      0.0015160512777447031,
+      null,
+      3
+    ],
+    "B6/swa/primary/effective_number/ece/mde_2sd": [
+      0.0030321025554894063,
+      null,
+      3
+    ],
+    "B6/swa/primary/effective_number/ece/mde_pct": [
+      4.288060222188172,
+      null,
+      3
+    ],
+    "B3/swa/primary/effective_number/acc/control_sd": [
+      0.13037872314453125,
+      null,
+      3
+    ],
+    "B6/swa/primary/effective_number/acc/mde_2sd": [
+      0.2607574462890625,
+      null,
+      3
+    ],
+    "B6/swa/primary/effective_number/acc/mde_pct": [
+      0.29101630834002945,
+      null,
+      3
+    ],
+    "B3/swa/primary/none/ece/control_sd": [
+      0.0033333763685349763,
+      null,
+      3
+    ],
+    "B6/swa/primary/none/ece/mde_2sd": [
+      0.0066667527370699526,
+      null,
+      3
+    ],
+    "B6/swa/primary/none/ece/mde_pct": [
+      8.829465965185769,
+      null,
+      3
+    ],
+    "B3/swa/primary/none/acc/control_sd": [
+      0.3942937816679289,
+      null,
+      3
+    ],
+    "B6/swa/primary/none/acc/mde_2sd": [
+      0.7885875633358578,
+      null,
+      3
+    ],
+    "B6/swa/primary/none/acc/mde_pct": [
+      0.8834176954409565,
+      null,
+      3
+    ],
+    "B3/swa/stage1/effective_number/ece/control_sd": [
+      0.0011822187508027879,
+      null,
+      3
+    ],
+    "B6/swa/stage1/effective_number/ece/mde_2sd": [
+      0.0023644375016055757,
+      null,
+      3
+    ],
+    "B6/swa/stage1/effective_number/ece/mde_pct": [
+      3.233221085051225,
+      null,
+      3
+    ],
+    "B3/swa/stage1/effective_number/acc/control_sd": [
+      0.34029864066348586,
+      null,
+      3
+    ],
+    "B6/swa/stage1/effective_number/acc/mde_2sd": [
+      0.6805972813269717,
+      null,
+      3
+    ],
+    "B6/swa/stage1/effective_number/acc/mde_pct": [
+      0.7595752723336271,
+      null,
+      3
+    ],
+    "B3/swa/stage1/none/ece/control_sd": [
+      0.0021071884659464015,
+      null,
+      3
+    ],
+    "B6/swa/stage1/none/ece/mde_2sd": [
+      0.004214376931892803,
+      null,
+      3
+    ],
+    "B6/swa/stage1/none/ece/mde_pct": [
+      5.657741529427611,
+      null,
+      3
+    ],
+    "B3/swa/stage1/none/acc/control_sd": [
+      0.09957672977697758,
+      null,
+      3
+    ],
+    "B6/swa/stage1/none/acc/mde_2sd": [
+      0.19915345955395516,
+      null,
+      3
+    ],
+    "B6/swa/stage1/none/acc/mde_pct": [
+      0.22212898912746257,
+      null,
+      3
+    ],
+    "B3/swa/vae9182/effective_number/ece/control_sd": [
+      0.001996999098785806,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/effective_number/ece/mde_2sd": [
+      0.003993998197571612,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/effective_number/ece/mde_pct": [
+      12.118729184712207,
+      null,
+      3
+    ],
+    "B3/swa/vae9182/effective_number/acc/control_sd": [
+      0.3663557063958696,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/effective_number/acc/mde_2sd": [
+      0.7327114127917392,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/effective_number/acc/mde_pct": [
+      0.8145761317323036,
+      null,
+      3
+    ],
+    "B3/swa/vae9182/none/ece/control_sd": [
+      0.0026997325636259157,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/none/ece/mde_2sd": [
+      0.0053994651272518315,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/none/ece/mde_pct": [
+      19.446122917778666,
+      null,
+      3
+    ],
+    "B3/swa/vae9182/none/acc/control_sd": [
+      0.20700072136152095,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/none/acc/mde_2sd": [
+      0.4140014427230419,
+      null,
+      3
+    ],
+    "B6/swa/vae9182/none/acc/mde_pct": [
+      0.459258679687602,
+      null,
+      3
+    ],
+    "B3/best/primary/effective_number/ece/control_sd": [
+      0.008490947711198687,
+      null,
+      3
+    ],
+    "B6/best/primary/effective_number/ece/mde_2sd": [
+      0.016981895422397374,
+      null,
+      3
+    ],
+    "B6/best/primary/effective_number/ece/mde_pct": [
+      28.00350457560071,
+      null,
+      3
+    ],
+    "B3/best/primary/effective_number/acc/control_sd": [
+      0.08623669851763957,
+      null,
+      3
+    ],
+    "B6/best/primary/effective_number/acc/mde_2sd": [
+      0.17247339703527914,
+      null,
+      3
+    ],
+    "B6/best/primary/effective_number/acc/mde_pct": [
+      0.19255763384093225,
+      null,
+      3
+    ],
+    "B3/best/primary/none/ece/control_sd": [
+      0.004834177700908321,
+      null,
+      3
+    ],
+    "B6/best/primary/none/ece/mde_2sd": [
+      0.009668355401816642,
+      null,
+      3
+    ],
+    "B6/best/primary/none/ece/mde_pct": [
+      13.667772741184761,
+      null,
+      3
+    ],
+    "B3/best/primary/none/acc/control_sd": [
+      0.19098490466857385,
+      null,
+      3
+    ],
+    "B6/best/primary/none/acc/mde_2sd": [
+      0.3819698093371477,
+      null,
+      3
+    ],
+    "B6/best/primary/none/acc/mde_pct": [
+      0.4288424055373983,
+      null,
+      3
+    ],
+    "B3/best/stage1/effective_number/ece/control_sd": [
+      0.005377395848968684,
+      null,
+      3
+    ],
+    "B6/best/stage1/effective_number/ece/mde_2sd": [
+      0.010754791697937367,
+      null,
+      3
+    ],
+    "B6/best/stage1/effective_number/ece/mde_pct": [
+      17.15623702056606,
+      null,
+      3
+    ],
+    "B3/best/stage1/effective_number/acc/control_sd": [
+      0.08202738991711436,
+      null,
+      3
+    ],
+    "B6/best/stage1/effective_number/acc/mde_2sd": [
+      0.16405477983422873,
+      null,
+      3
+    ],
+    "B6/best/stage1/effective_number/acc/mde_pct": [
+      0.1827817721664314,
+      null,
+      3
+    ],
+    "B3/best/stage1/none/ece/control_sd": [
+      0.0037020774760430156,
+      null,
+      3
+    ],
+    "B6/best/stage1/none/ece/mde_2sd": [
+      0.007404154952086031,
+      null,
+      3
+    ],
+    "B6/best/stage1/none/ece/mde_pct": [
+      11.367043147561708,
+      null,
+      3
+    ],
+    "B3/best/stage1/none/acc/control_sd": [
+      0.0752741909040948,
+      null,
+      3
+    ],
+    "B6/best/stage1/none/acc/mde_2sd": [
+      0.1505483818081896,
+      null,
+      3
+    ],
+    "B6/best/stage1/none/acc/mde_pct": [
+      0.1676118624134076,
+      null,
+      3
+    ],
+    "B3/best/vae9182/effective_number/ece/control_sd": [
+      0.002106648231758117,
+      null,
+      3
+    ],
+    "B6/best/vae9182/effective_number/ece/mde_2sd": [
+      0.004213296463516234,
+      null,
+      3
+    ],
+    "B6/best/vae9182/effective_number/ece/mde_pct": [
+      15.352971971774695,
+      null,
+      3
+    ],
+    "B3/best/vae9182/effective_number/acc/control_sd": [
+      0.19098772580899204,
+      null,
+      3
+    ],
+    "B6/best/vae9182/effective_number/acc/mde_2sd": [
+      0.3819754516179841,
+      null,
+      3
+    ],
+    "B6/best/vae9182/effective_number/acc/mde_pct": [
+      0.4231197520629491,
+      null,
+      3
+    ],
+    "B3/best/vae9182/none/ece/control_sd": [
+      0.0012174427703629184,
+      null,
+      3
+    ],
+    "B6/best/vae9182/none/ece/mde_2sd": [
+      0.002434885540725837,
+      null,
+      3
+    ],
+    "B6/best/vae9182/none/ece/mde_pct": [
+      10.81462003850305,
+      null,
+      3
+    ],
+    "B3/best/vae9182/none/acc/control_sd": [
+      0.2667949993859203,
+      null,
+      3
+    ],
+    "B6/best/vae9182/none/acc/mde_2sd": [
+      0.5335899987718405,
+      null,
+      3
+    ],
+    "B6/best/vae9182/none/acc/mde_pct": [
+      0.5903548909804618,
+      null,
+      3
+    ],
+    "B3/last/primary/effective_number/ece/control_sd": [
+      0.0030779976861328583,
+      null,
+      3
+    ],
+    "B6/last/primary/effective_number/ece/mde_2sd": [
+      0.0061559953722657166,
+      null,
+      3
+    ],
+    "B6/last/primary/effective_number/ece/mde_pct": [
+      8.779625077696744,
+      null,
+      3
+    ],
+    "B3/last/primary/effective_number/acc/control_sd": [
+      0.2587129791822882,
+      null,
+      3
+    ],
+    "B6/last/primary/effective_number/acc/mde_2sd": [
+      0.5174259583645764,
+      null,
+      3
+    ],
+    "B6/last/primary/effective_number/acc/mde_pct": [
+      0.5847008451063753,
+      null,
+      3
+    ],
+    "B3/last/primary/none/ece/control_sd": [
+      0.004765795568573609,
+      null,
+      3
+    ],
+    "B6/last/primary/none/ece/mde_2sd": [
+      0.009531591137147218,
+      null,
+      3
+    ],
+    "B6/last/primary/none/ece/mde_pct": [
+      12.941546667899885,
+      null,
+      3
+    ],
+    "B3/last/primary/none/acc/control_sd": [
+      0.30285716396283935,
+      null,
+      3
+    ],
+    "B6/last/primary/none/acc/mde_2sd": [
+      0.6057143279256787,
+      null,
+      3
+    ],
+    "B6/last/primary/none/acc/mde_pct": [
+      0.6855625326919105,
+      null,
+      3
+    ],
+    "B3/last/stage1/effective_number/ece/control_sd": [
+      0.008143678659054292,
+      null,
+      3
+    ],
+    "B6/last/stage1/effective_number/ece/mde_2sd": [
+      0.016287357318108583,
+      null,
+      3
+    ],
+    "B6/last/stage1/effective_number/ece/mde_pct": [
+      23.24979468289545,
+      null,
+      3
+    ],
+    "B3/last/stage1/effective_number/acc/control_sd": [
+      0.09957672977697758,
+      null,
+      3
+    ],
+    "B6/last/stage1/effective_number/acc/mde_2sd": [
+      0.19915345955395516,
+      null,
+      3
+    ],
+    "B6/last/stage1/effective_number/acc/mde_pct": [
+      0.22378322771843917,
+      null,
+      3
+    ],
+    "B3/last/stage1/none/ece/control_sd": [
+      0.005174486773771958,
+      null,
+      3
+    ],
+    "B6/last/stage1/none/ece/mde_2sd": [
+      0.010348973547543916,
+      null,
+      3
+    ],
+    "B6/last/stage1/none/ece/mde_pct": [
+      14.978989385446019,
+      null,
+      3
+    ],
+    "B3/last/stage1/none/acc/control_sd": [
+      0.19098490466857385,
+      null,
+      3
+    ],
+    "B6/last/stage1/none/acc/mde_2sd": [
+      0.3819698093371477,
+      null,
+      3
+    ],
+    "B6/last/stage1/none/acc/mde_pct": [
+      0.42858101370555657,
+      null,
+      3
+    ],
+    "B3/last/vae9182/effective_number/ece/control_sd": [
+      0.0010717752881161812,
+      null,
+      3
+    ],
+    "B6/last/vae9182/effective_number/ece/mde_2sd": [
+      0.0021435505762323623,
+      null,
+      3
+    ],
+    "B6/last/vae9182/effective_number/ece/mde_pct": [
+      6.9737163399213316,
+      null,
+      3
+    ],
+    "B3/last/vae9182/effective_number/acc/control_sd": [
+      0.16726154800857174,
+      null,
+      3
+    ],
+    "B6/last/vae9182/effective_number/acc/mde_2sd": [
+      0.3345230960171435,
+      null,
+      3
+    ],
+    "B6/last/vae9182/effective_number/acc/mde_pct": [
+      0.3724386808934527,
+      null,
+      3
+    ],
+    "B3/last/vae9182/none/ece/control_sd": [
+      0.003935573403821359,
+      null,
+      3
+    ],
+    "B6/last/vae9182/none/ece/mde_2sd": [
+      0.007871146807642717,
+      null,
+      3
+    ],
+    "B6/last/vae9182/none/ece/mde_pct": [
+      26.52730488783548,
+      null,
+      3
+    ],
+    "B3/last/vae9182/none/acc/control_sd": [
+      0.2667949993859203,
+      null,
+      3
+    ],
+    "B6/last/vae9182/none/acc/mde_2sd": [
+      0.5335899987718405,
+      null,
+      3
+    ],
+    "B6/last/vae9182/none/acc/mde_pct": [
+      0.5955089614005545,
+      null,
+      3
+    ],
+    "B3/n_family_denominators": [
+      18,
+      null,
+      null
+    ],
+    "B4/tau3_T1.70/ece_mean": [
+      0.040542328897790775,
+      0.001984703300561555,
+      3
+    ],
+    "B4/tau3_T1.70/acc_mean": [
+      89.63494110107422,
+      0.1814764189733853,
+      3
+    ],
+    "B4/tau6_T0.85/ece_mean": [
+      0.07967298300447075,
+      0.001631989300491036,
+      3
+    ],
+    "B4/tau6_T0.85/acc_mean": [
+      89.64580535888672,
+      0.17951461794657525,
+      3
+    ],
+    "B4/tau6_T1.70/ece_mean": [
+      0.04474241582790907,
+      0.0029210060770113494,
+      3
+    ],
+    "B4/tau6_T1.70/acc_mean": [
+      89.42851003011067,
+      0.19647108990990797,
+      3
+    ],
+    "B4/tau12_T0.85/ece_mean": [
+      0.07714802330146919,
+      0.003114968431349774,
+      3
+    ],
+    "B4/tau12_T0.85/acc_mean": [
+      89.9826151529948,
+      0.41528680534172224,
+      3
+    ],
+    "B4/T\u00b7\u03c4 = 5.10/d_ece": [
+      -0.03913065410667997,
+      0.0031896736668642375,
+      3
+    ],
+    "B4/T\u00b7\u03c4 = 5.10/d_acc": [
+      -0.0108642578125,
+      0.14697656931214573,
+      3
+    ],
+    "B4/T\u00b7\u03c4 = 5.10/ece_signs": [
+      "---",
+      null,
+      3
+    ],
+    "B4/T\u00b7\u03c4 = 10.20/d_ece": [
+      -0.03240560747356013,
+      0.002906759891641755,
+      3
+    ],
+    "B4/T\u00b7\u03c4 = 10.20/d_acc": [
+      -0.5541051228841146,
+      0.2667949993859203,
+      3
+    ],
+    "B4/T\u00b7\u03c4 = 10.20/ece_signs": [
+      "---",
+      null,
+      3
+    ],
+    "B4/\u03c4 etkisi @ T=1.70/d_ece": [
+      0.004200086930118296,
+      0.0027582328942736345,
+      3
+    ],
+    "B4/\u03c4 etkisi @ T=1.70/d_acc": [
+      -0.20643107096354166,
+      0.37495408844516204,
+      3
+    ],
+    "B4/\u03c4 etkisi @ T=1.70/ece_signs": [
+      "+++",
+      null,
+      3
+    ],
+    "B4/T etkisi @ \u03c4=6/d_ece": [
+      -0.03493056717656168,
+      0.004541047208081418,
+      3
+    ],
+    "B4/T etkisi @ \u03c4=6/d_acc": [
+      -0.21729532877604166,
+      0.3215701956433608,
+      3
+    ],
+    "B4/T etkisi @ \u03c4=6/ece_signs": [
+      "---",
+      null,
+      3
+    ],
+    "B4/\u03c4 etkisi @ T=0.85/d_ece": [
+      -0.0025249597030015483,
+      0.004366016535763783,
+      3
+    ],
+    "B4/\u03c4 etkisi @ T=0.85/d_acc": [
+      0.33680979410807294,
+      0.5760394654602797,
+      3
+    ],
+    "B4/\u03c4 etkisi @ T=0.85/ece_signs": [
+      "+--",
+      null,
+      3
+    ],
+    "B9/n_cells": [
+      24,
+      null,
+      null
+    ],
+    "B9/n_empty": [
+      3,
+      null,
+      null
+    ],
+    "B9/stage1/g2g_kl+adaptive_t/class": [
+      "ko\u015fulmad\u0131",
+      null,
+      null
+    ],
+    "B9/primary/g2g_kl+adaptive_t/class": [
+      "ko\u015fulmad\u0131",
+      null,
+      null
+    ],
+    "B9/vae9182/gate:target_logvar/class": [
+      "elendi",
+      null,
+      null
+    ],
+    "B9/vae9182/g2g_kl+adaptive_t/n_in_grid": [
+      1,
+      null,
+      null
+    ],
+    "B9/vae9182/g2g_kl+adaptive_t/n_in_ledger": [
+      3,
+      null,
+      null
+    ],
+    "B8/n_curves": [
+      9,
+      null,
+      null
+    ],
+    "B8/n_rho_positive": [
+      8,
+      null,
+      null
+    ],
+    "B8/n_strictly_monotone_in_T": [
+      0,
+      null,
+      null
+    ],
+    "B8/rafdb_stage1/seed1/rho_T": [
+      0.0,
+      null,
+      5
+    ],
+    "B8/rafdb_stage1/seed1/span": [
+      0.019918145012047306,
+      null,
+      5
+    ],
+    "B8/rafdb_stage1/seed42/rho_T": [
+      0.1,
+      null,
+      5
+    ],
+    "B8/rafdb_stage1/seed42/span": [
+      0.024917318061907237,
+      null,
+      5
+    ],
+    "B8/rafdb_stage1/seed43/rho_T": [
+      0.1,
+      null,
+      5
+    ],
+    "B8/rafdb_stage1/seed43/span": [
+      0.018490675093686265,
+      null,
+      5
+    ],
+    "B8/rafdb_vae9182/seed1/rho_T": [
+      0.9,
+      null,
+      5
+    ],
+    "B8/rafdb_vae9182/seed1/span": [
+      0.16299414598763068,
+      null,
+      5
+    ],
+    "B8/rafdb_vae9182/seed42/rho_T": [
+      0.9,
+      null,
+      5
+    ],
+    "B8/rafdb_vae9182/seed42/span": [
+      0.1714208161426803,
+      null,
+      5
+    ],
+    "B8/rafdb_vae9182/seed43/rho_T": [
+      0.9,
+      null,
+      5
+    ],
+    "B8/rafdb_vae9182/seed43/span": [
+      0.16437482582271642,
+      null,
+      5
+    ],
+    "B8/ferplus/seed1/rho_T": [
+      0.4,
+      null,
+      4
+    ],
+    "B8/ferplus/seed1/span": [
+      0.01942502873835396,
+      null,
+      4
+    ],
+    "B8/ferplus/seed42/rho_T": [
+      0.4,
+      null,
+      4
+    ],
+    "B8/ferplus/seed42/span": [
+      0.016677727207394945,
+      null,
+      4
+    ],
+    "B8/ferplus/seed43/rho_T": [
+      0.4,
+      null,
+      4
+    ],
+    "B8/ferplus/seed43/span": [
+      0.022575970239348916,
+      null,
+      4
+    ],
+    "B7/mean_entropy_conditional_8": [
+      0.44011032581329346,
+      null,
+      3153
+    ],
+    "B7/mean_entropy_with_abstention_10": [
+      0.5487838387489319,
+      null,
+      3153
+    ],
+    "B7/rows_with_abstention": [
+      1176,
+      null,
+      3153
+    ],
+    "B7/conditional_8/T_star_jsd": [
+      0.74,
+      null,
+      3153
+    ],
+    "B7/conditional_8/mean_jsd": [
+      0.044019557535648346,
+      null,
+      3153
+    ],
+    "B7/abstention_10/T_star_jsd": [
+      0.74,
+      null,
+      3153
+    ],
+    "B7/abstention_10/mean_jsd": [
+      0.05882610008120537,
+      null,
+      3153
+    ],
+    "B2/ferplus/best/slope": [
+      0.5824134587905833,
+      null,
+      9
+    ],
+    "B2/ferplus/best/intercept": [
+      0.020829451582802097,
+      null,
+      9
+    ],
+    "B2/ferplus/best/pearson": [
+      0.9388037549058944,
+      null,
+      9
+    ],
+    "B2/ferplus/best/r2_9runs": [
+      0.8813524902254068,
+      null,
+      9
+    ],
+    "B2/ferplus/swa/slope": [
+      0.4458200105712234,
+      null,
+      9
+    ],
+    "B2/ferplus/swa/intercept": [
+      0.024636715053925947,
+      null,
+      9
+    ],
+    "B2/ferplus/swa/pearson": [
+      0.8620517213486897,
+      null,
+      9
+    ],
+    "B2/ferplus/swa/r2_9runs": [
+      0.743133170280239,
+      null,
+      9
+    ],
+    "B2/ferplus/last/slope": [
+      0.5061726897310551,
+      null,
+      9
+    ],
+    "B2/ferplus/last/intercept": [
+      0.023556443572070877,
+      null,
+      9
+    ],
+    "B2/ferplus/last/pearson": [
+      0.8893839563943767,
+      null,
+      9
+    ],
+    "B2/ferplus/last/r2_9runs": [
+      0.7910038218917147,
+      null,
+      9
+    ],
+    "B2/rafdb/producer_found": [
+      false,
+      null,
+      null
+    ],
+    "B2/rafdb/slope_range_lo": [
+      1.3522449889024615,
+      null,
+      null
+    ],
+    "B2/rafdb/slope_range_hi": [
+      1.8743669629560806,
+      null,
+      null
+    ],
+    "B10/01/verdict": [
+      "yay\u0131ml\u0131 do\u011fru",
+      null,
+      null
+    ],
+    "B10/01/measured": [
+      "56.6764 \u2013 76.6244",
+      null,
+      null
+    ],
+    "B10/02/verdict": [
+      "yay\u0131ml\u0131 do\u011fru",
+      null,
+      null
+    ],
+    "B10/02/measured": [
+      "13.31 \u2013 14.32",
+      null,
+      null
+    ],
+    "B10/03/verdict": [
+      "panel hakl\u0131",
+      null,
+      null
+    ],
+    "B10/03/measured": [
+      "0.00215",
+      null,
+      null
+    ],
+    "B10/04/verdict": [
+      "yay\u0131ml\u0131 do\u011fru",
+      null,
+      null
+    ],
+    "B10/04/measured": [
+      "62.8847\u00d7",
+      null,
+      null
+    ],
+    "B10/05/verdict": [
+      "kollarla e\u015fle\u015ftirilmeli",
+      null,
+      null
+    ],
+    "B10/05/measured": [
+      "scratch0712 0.655 \u00b7 pretrained2248 0.716 \u00b7 scratch2248 0.649",
+      null,
+      null
+    ],
+    "B10/06/verdict": [
+      "yay\u0131ml\u0131 do\u011fru",
+      null,
+      null
+    ],
+    "B10/06/measured": [
+      "%18.58 (do\u011frusal payda) / %22.82 (varyasyonel payda)",
+      null,
+      null
+    ],
+    "B10/07/verdict": [
+      "~40\u00d7 do\u011fru, 37\u00d7 yeniden \u00fcretilemiyor",
+      null,
+      null
+    ],
+    "B10/07/measured": [
+      "a\u00e7\u0131kl\u0131k 0.020083 \u00b7 ~39.8\u00d7",
+      null,
+      null
+    ],
+    "B10/08/verdict": [
+      "ikisi de de\u011fil \u2014 \u00fc\u00e7 say\u0131 \u00fc\u00e7 FARKLI \u015fey",
+      null,
+      null
+    ],
+    "B10/08/measured": [
+      "0.45305",
+      null,
+      null
+    ],
+    "B10/09/verdict": [
+      "ikisi de de\u011fil",
+      null,
+      null
+    ],
+    "B10/09/measured": [
+      "RAF-DB [0.60, 2.95] ad\u0131m 0.05 (48 nokta) \u00b7 FERPlus [0.10, 4.00] ad\u0131m 0.02 (196 nokta) \u00b7 s\u00fcrekli fit [0.1, 3.0] ad\u0131m 0.005",
+      null,
+      null
+    ],
+    "B10/10/verdict": [
+      "ikisi de do\u011fru, ama ayn\u0131 \u015feyi \u00f6l\u00e7m\u00fcyorlar",
+      null,
+      null
+    ],
+    "B10/10/measured": [
+      "bar = 1\u00d7 kontrol sd = 0.0012",
+      null,
+      null
+    ],
+    "T8/K=50/n_runs": [
+      131,
+      null,
+      null
+    ],
+    "T8/K=50/argmax_in_last_K": [
+      0.3435114503816794,
+      null,
+      131
+    ],
+    "T8/K=50/a1_max_all_minus_mean_lastK": [
+      0.8383560320082356,
+      0.4415832092165274,
+      131
+    ],
+    "T8/K=50/a2_pure_order_statistic": [
+      0.6445305842767274,
+      0.20325974256195473,
+      131
+    ],
+    "T8/K=50/val_loss_at_selected_minus_mean_lastK": [
+      -0.015114248355246178,
+      0.02419635144785044,
+      131
+    ],
+    "T8/K=100/n_runs": [
+      131,
+      null,
+      null
+    ],
+    "T8/K=100/argmax_in_last_K": [
+      0.6717557251908397,
+      null,
+      131
+    ],
+    "T8/K=100/a1_max_all_minus_mean_lastK": [
+      0.8057540442113855,
+      0.25809907248070824,
+      131
+    ],
+    "T8/K=100/a2_pure_order_statistic": [
+      0.7639534297093329,
+      0.25876803535423654,
+      131
+    ],
+    "T8/K=100/val_loss_at_selected_minus_mean_lastK": [
+      -0.013652593618214547,
+      0.016073766245412877,
+      131
+    ],
+    "T8w/K=50/n_runs": [
+      199,
+      null,
+      null
+    ],
+    "T8w/K=50/argmax_in_last_K": [
+      0.3417085427135678,
+      null,
+      199
+    ],
+    "T8w/K=50/a1_max_all_minus_mean_lastK": [
+      0.8077872981458946,
+      0.38025268585099675,
+      199
+    ],
+    "T8w/K=50/a2_pure_order_statistic": [
+      0.6312199827294698,
+      0.18404940272594952,
+      199
+    ],
+    "T8w/K=50/val_loss_at_selected_minus_mean_lastK": [
+      -0.013179494249105575,
+      0.02063541423554724,
+      199
+    ],
+    "T8w/K=100/n_runs": [
+      199,
+      null,
+      null
+    ],
+    "T8w/K=100/argmax_in_last_K": [
+      0.6482412060301508,
+      null,
+      199
+    ],
+    "T8w/K=100/a1_max_all_minus_mean_lastK": [
+      0.7916996902751043,
+      0.23506363039174746,
+      199
+    ],
+    "T8w/K=100/a2_pure_order_statistic": [
+      0.7442001277637699,
+      0.226152032696426,
+      199
+    ],
+    "T8w/K=100/val_loss_at_selected_minus_mean_lastK": [
+      -0.012613629769308302,
+      0.014277291987231872,
+      199
+    ],
+    "T8/b_best_minus_last/d_acc": [
+      0.7658466018793237,
+      0.43107852109679157,
+      131
+    ],
+    "T8/b_best_minus_last/d_ece": [
+      -0.002878700403167627,
+      0.009218824488955835,
+      131
+    ],
+    "T8/c_best_minus_swa/d_acc": [
+      0.1292732368081303,
+      0.262038968256677,
+      118
+    ],
+    "T8/c_best_minus_swa/d_ece": [
+      -0.0005773924487635059,
+      0.011751979016303862,
+      118
+    ],
+    "OST/K=50/a2_raw": [
+      0.6445305842767274,
+      0.20325974256195473,
+      131
+    ],
+    "OST/K=50/a2_detrended": [
+      0.640246212793552,
+      0.21816718766601323,
+      131
+    ],
+    "OST/K=50/slope": [
+      0.0029883266824495915,
+      0.010515100210478863,
+      131
+    ],
+    "OST/K=50/drift": [
+      0.14642800744002998,
+      0.5152399103134643,
+      131
+    ],
+    "OST/K=50/published_a2": [
+      0.6445,
+      null,
+      131
+    ],
+    "OST/K=50/anchor_dev": [
+      3.0584276727418924e-05,
+      null,
+      131
+    ],
+    "OST/K=50/anchor_pop_matches": [
+      true,
+      null,
+      null
+    ],
+    "OST/K=100/a2_raw": [
+      0.7639534297093329,
+      0.25876803535423654,
+      131
+    ],
+    "OST/K=100/a2_detrended": [
+      0.7280360726105741,
+      0.23832015276655166,
+      131
+    ],
+    "OST/K=100/slope": [
+      -0.00015622300374403816,
+      0.0043937526011379015,
+      131
+    ],
+    "OST/K=100/drift": [
+      -0.015466077370659774,
+      0.43498150751265224,
+      131
+    ],
+    "OST/K=100/published_a2": [
+      0.764,
+      null,
+      131
+    ],
+    "OST/K=100/anchor_dev": [
+      4.6570290667125036e-05,
+      null,
+      131
+    ],
+    "OST/K=100/anchor_pop_matches": [
+      true,
+      null,
+      null
+    ],
+    "OST/growth_raw": [
+      1.1852865455044592,
+      null,
+      null
+    ],
+    "OST/growth_detrended": [
+      1.13711890529422,
+      null,
+      null
+    ],
+    "T6/stage1/teacher_acc": [
+      92.24250030517578,
+      null,
+      null
+    ],
+    "T6/stage1/teacher_ece": [
+      0.03779733980455796,
+      null,
+      null
+    ],
+    "T6/stage1/T_star": [
+      1.3493927210953593,
+      null,
+      null
+    ],
+    "T6/stage1/teacher_headroom": [
+      0.0219672559584446,
+      null,
+      null
+    ],
+    "T6a/stage1/swa/student_acc": [
+      89.60234832763672,
+      0.34029864066348586,
+      3
+    ],
+    "T6a/stage1/swa/student_ece": [
+      0.07312947179942429,
+      0.0011822187508027879,
+      3
+    ],
+    "T6a/stage1/best/student_acc": [
+      89.75445302327473,
+      0.08202738991711436,
+      3
+    ],
+    "T6a/stage1/best/student_ece": [
+      0.06268735786900734,
+      0.005377395848968684,
+      3
+    ],
+    "T6a/stage1/last/student_acc": [
+      88.99391682942708,
+      0.09957672977697758,
+      3
+    ],
+    "T6a/stage1/last/student_ece": [
+      0.07005376838915041,
+      0.008143678659054292,
+      3
+    ],
+    "T6/primary/teacher_acc": [
+      92.01434326171875,
+      null,
+      null
+    ],
+    "T6/primary/teacher_ece": [
+      0.039575973411504727,
+      null,
+      null
+    ],
+    "T6/primary/T_star": [
+      1.2613411785961113,
+      null,
+      null
+    ],
+    "T6/primary/teacher_headroom": [
+      0.020571786764586607,
+      null,
+      null
+    ],
+    "T6a/primary/swa/student_acc": [
+      89.60234832763672,
+      0.13037872314453125,
+      3
+    ],
+    "T6a/primary/swa/student_ece": [
+      0.07071035382852302,
+      0.0015160512777447031,
+      3
+    ],
+    "T6a/primary/best/student_acc": [
+      89.5697530110677,
+      0.08623669851763957,
+      3
+    ],
+    "T6a/primary/best/student_ece": [
+      0.06064203634424243,
+      0.008490947711198687,
+      3
+    ],
+    "T6a/primary/last/student_acc": [
+      88.49413553873698,
+      0.2587129791822882,
+      3
+    ],
+    "T6a/primary/last/student_ece": [
+      0.0701168366278425,
+      0.0030779976861328583,
+      3
+    ],
+    "T6/vae9182/teacher_acc": [
+      91.81877136230469,
+      null,
+      null
+    ],
+    "T6/vae9182/teacher_ece": [
+      0.013553927899028671,
+      null,
+      null
+    ],
+    "T6/vae9182/T_star": [
+      0.9829375448886304,
+      null,
+      null
+    ],
+    "T6/vae9182/teacher_headroom": [
+      0.0017450385019085989,
+      null,
+      null
+    ],
+    "T6a/vae9182/swa/student_acc": [
+      89.9500223795573,
+      0.3663557063958696,
+      3
+    ],
+    "T6a/vae9182/swa/student_ece": [
+      0.032957236164746107,
+      0.001996999098785806,
+      3
+    ],
+    "T6a/vae9182/best/student_acc": [
+      90.27596791585286,
+      0.19098772580899204,
+      3
+    ],
+    "T6a/vae9182/best/student_ece": [
+      0.027442872111419655,
+      0.002106648231758117,
+      3
+    ],
+    "T6a/vae9182/last/student_acc": [
+      89.81964365641277,
+      0.16726154800857174,
+      3
+    ],
+    "T6a/vae9182/last/student_ece": [
+      0.03073756476100866,
+      0.0010717752881161812,
+      3
+    ],
+    "T6a/swa/cost_wrong_pick": [
+      0.34767405192057765,
+      null,
+      null
+    ],
+    "T6a/swa/rho_teacherACC": [
+      -0.8660254037844387,
+      null,
+      null
+    ],
+    "T6a/swa/rho_negTeacherECE": [
+      0.8660254037844387,
+      null,
+      null
+    ],
+    "T6a/swa/ranking": [
+      "vae9182 > {stage1 = primary}",
+      null,
+      null
+    ],
+    "T6a/swa/best_teacher": [
+      "vae9182",
+      null,
+      null
+    ],
+    "T6a/swa/strict_total_order": [
+      false,
+      null,
+      null
+    ],
+    "T6a/best/cost_wrong_pick": [
+      0.521514892578125,
+      null,
+      null
+    ],
+    "T6a/best/rho_teacherACC": [
+      -0.5,
+      null,
+      null
+    ],
+    "T6a/best/rho_negTeacherECE": [
+      1.0,
+      null,
+      null
+    ],
+    "T6a/best/ranking": [
+      "vae9182 > stage1 > primary",
+      null,
+      null
+    ],
+    "T6a/best/best_teacher": [
+      "vae9182",
+      null,
+      null
+    ],
+    "T6a/best/strict_total_order": [
+      true,
+      null,
+      null
+    ],
+    "T6a/last/cost_wrong_pick": [
+      0.8257268269856866,
+      null,
+      null
+    ],
+    "T6a/last/rho_teacherACC": [
+      -0.5,
+      null,
+      null
+    ],
+    "T6a/last/rho_negTeacherECE": [
+      1.0,
+      null,
+      null
+    ],
+    "T6a/last/ranking": [
+      "vae9182 > stage1 > primary",
+      null,
+      null
+    ],
+    "T6a/last/best_teacher": [
+      "vae9182",
+      null,
+      null
+    ],
+    "T6a/last/strict_total_order": [
+      true,
+      null,
+      null
+    ],
+    "T6a/best_identical_all_ckpts": [
+      true,
+      null,
+      null
+    ],
+    "T6a/ranking_identical_all_ckpts": [
+      false,
+      null,
+      null
+    ],
+    "T6a/n_pairwise_reversals": [
+      0,
+      null,
+      null
+    ],
+    "MECH/gate/n_runs": [
+      25,
+      null,
+      null
+    ],
+    "MECH/gate/gate_uncertainty_source=mean_logvar": [
+      10,
+      null,
+      25
+    ],
+    "MECH/gate/gate_uncertainty_source=oracle_error": [
+      9,
+      null,
+      25
+    ],
+    "MECH/gate/gate_uncertainty_source=target_logvar": [
+      6,
+      null,
+      25
+    ],
+    "MECH/gate/gate_norm=batch": [
+      25,
+      null,
+      25
+    ],
+    "MECH/gate/gate_alpha_lo=0.1": [
+      25,
+      null,
+      25
+    ],
+    "MECH/gate/gate_alpha_hi=0.7": [
+      25,
+      null,
+      25
+    ],
+    "MECH/gate/gate_k=2": [
+      25,
+      null,
+      25
+    ],
+    "MECH/gate/gate_tau=0": [
+      25,
+      null,
+      25
+    ],
+    "MECH/adaptive_t/n_runs": [
+      19,
+      null,
+      null
+    ],
+    "MECH/adaptive_t/adaptive_t_gamma=0.5": [
+      19,
+      null,
+      19
+    ],
+    "MECH/g2g/n_runs": [
+      14,
+      null,
+      null
+    ],
+    "MECH/g2g/g2g_weight=0.1": [
+      14,
+      null,
+      14
+    ],
+    "MECH/g2g/g2g_mode=kl": [
+      14,
+      null,
+      14
+    ],
+    "MECH/g2g/g2g_warmup_epochs=0": [
+      14,
+      null,
+      14
+    ],
+    "MECH/logit_std/n_runs": [
+      10,
+      null,
+      null
+    ],
+    "MECH/ctkd/n_runs": [
+      4,
+      null,
+      null
+    ],
+    "MECH/ctkd/ctkd_t_min=1": [
+      4,
+      null,
+      4
+    ],
+    "MECH/ctkd/ctkd_t_max=8": [
+      4,
+      null,
+      4
+    ],
+    "MECH/ctkd/ctkd_grl_lambda_max=1": [
+      4,
+      null,
+      4
+    ],
+    "MECH/ctkd/lr=0.0003": [
+      4,
+      null,
+      4
+    ],
+    "MECH/common/temperature=6": [
+      5,
+      null,
+      null
+    ],
+    "MECH/common/alpha=0.3": [
+      5,
+      null,
+      null
+    ],
+    "MECH/common/teacher_temperature_scale=None": [
+      5,
+      null,
+      null
+    ],
+    "MECH/common/teacher_temperature_scale=1": [
+      4,
+      null,
+      null
+    ],
+    "MECH/common/teacher_temperature_scale=0.7311": [
+      1,
+      null,
+      null
+    ],
+    "LOGITS/total": [
+      42,
+      null,
+      3518317
+    ],
+    "LOGITS/identical": [
+      42,
+      null,
+      42
+    ],
+    "LOGITS/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed1/sha256": [
+      "43d9f1c9409f14c85349d0e416ff13537b6a4cef89ef9e2e17842b2e1d925720",
+      null,
+      95428
+    ],
+    "LOGITS/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed42/sha256": [
+      "0aef19b677e2567bad338e448dba2a482321fa448cf764acccd9077e40607d8b",
+      null,
+      95419
+    ],
+    "LOGITS/FERPlus_tempscale_T026_vich_T6_224_200e_swa100_seed43/sha256": [
+      "c5164172c571c2ff366920fe6ea1ca7c827fd058d65d5f3c02daa66af8b134e2",
+      null,
+      95399
+    ],
+    "LOGITS/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed1/sha256": [
+      "4f6fbaf0f207a32baa8575cdeba54c3046600980aa28698bb0e61b71b5d52c88",
+      null,
+      95639
+    ],
+    "LOGITS/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed42/sha256": [
+      "9c2857c5292a798a308cfdaafcb46343fe39be1465d825eb1cc7c9977c338c28",
+      null,
+      95655
+    ],
+    "LOGITS/FERPlus_tempscale_T051_vich_T6_224_200e_swa100_seed43/sha256": [
+      "aa0711810589608cfe215eee7ad55177421a4ee69f0491c6f4b46651cebd5613",
+      null,
+      95645
+    ],
+    "LOGITS/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed1/sha256": [
+      "c0d933e4e3a2fe907e136e598ac0e4f2d58586bb01cc1e3018d3e8935e727d0c",
+      null,
+      95644
+    ],
+    "LOGITS/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed42/sha256": [
+      "d9425560e439ff3e3a045f5f4cb31f1078202e5d1971148fff8108a0271b0b55",
+      null,
+      95645
+    ],
+    "LOGITS/FERPlus_tempscale_T074_vich_T6_224_200e_swa100_seed43/sha256": [
+      "31fb19600cccac9b9e8fc17881bb6b5070bb9dcb06153570254adcc9f43637b5",
+      null,
+      95730
+    ],
+    "LOGITS/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed1/sha256": [
+      "377c1d0ce68c34fec0271c5f8f9f59fc999a8922a8b249b73c9ac41a806db40f",
+      null,
+      95271
+    ],
+    "LOGITS/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed42/sha256": [
+      "c958c3cca63d6d58fbba97e6ff6c00bbed76c9663e2b0ddb408652660c0b073a",
+      null,
+      95268
+    ],
+    "LOGITS/FERPlus_tempscale_T100_vich_T6_224_200e_swa100_seed43/sha256": [
+      "da4a329fa20580c784681242c3061b2aecfe26d8a4726eeb2f40520d91c1be00",
+      null,
+      95280
+    ],
+    "LOGITS/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed1/sha256": [
+      "b55feff0fd2d545b5f3dc6c83f480b66fc454c3996776e06c3441081ef980c89",
+      null,
+      78952
+    ],
+    "LOGITS/RAFDB_stage1_baseline_b070_T6_224_400e_swa200_seed43/sha256": [
+      "3ffe251b8a44d4abc4b09993dca117a05b76bf0f9f1c9700be073b44aa930edf",
+      null,
+      78957
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed1/sha256": [
+      "36cea19151ff94653998ce3f37fc73c7e73d83bf0f4fa5b66967952c61119db5",
+      null,
+      79339
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed42/sha256": [
+      "ebba1e80263c27eb2ba71307173c5698b73260f8999902ef5129d242f0978b86",
+      null,
+      79373
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T085_b070_T6_224_400e_swa200_seed43/sha256": [
+      "9dea25d97ea664d994c6ea529a8ff6bd34a3e200b6f61f271a46b6616968dd17",
+      null,
+      79387
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T1341_halfA_baseline_b070_T6_224_400e_swa200/sha256": [
+      "504860c889b732b72a5d5a67ceb0b4eb1bcbcf4742e8950dd07d158fa4e449b8",
+      null,
+      78595
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed1/sha256": [
+      "dd4ac1871eacd3eb9dccb2efccb9d8e933cd41791608e824f0715203136796a7",
+      null,
+      78490
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T134_b070_T6_224_400e_swa200_seed43/sha256": [
+      "247922ed26456f76205b458437b50292e87a9dafc3b971e21d2ccbd5edc31dfe",
+      null,
+      78567
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed1/sha256": [
+      "bd09d1b0d447ce6ca448281a8d20e6782697720b6a87556d44243941235f71db",
+      null,
+      78807
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed42/sha256": [
+      "040051d9f848b73a90fb1df78bceeff35a0550ba425aabf53955eb3b02e52f9c",
+      null,
+      78784
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T170_b070_T6_224_400e_swa200_seed43/sha256": [
+      "3e63f9caa5bfa66d850faf5cc5c43339e3334632a52782dae746ef69b325601e",
+      null,
+      78768
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed1/sha256": [
+      "64e24bf19ba2ceeb842f1e43cca667b9f5398586a1875753ff6b7d5f35041525",
+      null,
+      79050
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed42/sha256": [
+      "69de67d9bb6fc52dced10336f42fac1760c13e100308852c0c83c9b4ae957bb4",
+      null,
+      79006
+    ],
+    "LOGITS/RAFDB_stage1_tempscale_T220_b070_T6_224_400e_swa200_seed43/sha256": [
+      "36886236e96b1302fea8c89921af122e0e488b75a94780f98f4487c687a0c14f",
+      null,
+      79044
+    ],
+    "LOGITS/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200/sha256": [
+      "d5e65e4b6c016aba6280810e381d85bb0d17965c64fce5e7a6909c93566db26b",
+      null,
+      78946
+    ],
+    "LOGITS/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed1/sha256": [
+      "22208aada3d9ea19dbfaf4553585f3e1f308b4d99b1830ca0a1f0e898d849a99",
+      null,
+      78909
+    ],
+    "LOGITS/RAFDB_vae9182_betaKD_b070_T6_224_best_400e_swa200_seed43/sha256": [
+      "6572d552f8f871e0ca007533a767365780aeee570a56b79a5d713d46f471aab6",
+      null,
+      78929
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed1/sha256": [
+      "a1eda73bb39301b7c5daad0d2c0381291be07a49aa1cc79019df354f64a49926",
+      null,
+      79146
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed42/sha256": [
+      "2b91bff22489b20fe28ffb83dd3ce3f6dd5209ea3c76e8016f91af7ddb8bb905",
+      null,
+      79080
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T085_b070_T6_224_400e_swa200_seed43/sha256": [
+      "ae62947fefb0e84ff5127bb1dfe91b7336d0ebdfd8f91310c5a197b981a3a2c7",
+      null,
+      79067
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed1/sha256": [
+      "6c571308d1b4aae8eb400911560bd7a516d2151189f1c193430d053f26b71455",
+      null,
+      79096
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed42/sha256": [
+      "8c02b30d4edd1c94e6d7ee22c3865b0be79da85083407c4fe0fd7eb333502dd2",
+      null,
+      79143
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T134_b070_T6_224_400e_swa200_seed43/sha256": [
+      "831bf1ed6267626465ea8b5e5b13848cfe27e0f230b3cf19ef79520ad0f2ae70",
+      null,
+      79172
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed1/sha256": [
+      "26b22a5f67c345c02e5b875d0ae20845a4d1ed8be70d9309626ac30bcf33d42a",
+      null,
+      79359
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed42/sha256": [
+      "02fd1c019152856c01174b9d9aab6e7f60e8b3152a0316114d91be182c5bbeea",
+      null,
+      79367
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T170_b070_T6_224_400e_swa200_seed43/sha256": [
+      "6d409382dc93bf5d823f308c687536f7ddfd8216bb6197a0811ac146e4fd00c9",
+      null,
+      79338
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed1/sha256": [
+      "70591fa4de57a937e6afb122aac775f274421f8c0f23a45d1f3deef99997abb6",
+      null,
+      79596
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed42/sha256": [
+      "09add73c86972cbe5277fd98e05411937043259b93d76acbd9dd8ce63a97f6ed",
+      null,
+      79528
+    ],
+    "LOGITS/RAFDB_vae9182_tempscale_T220_b070_T6_224_400e_swa200_seed43/sha256": [
+      "2f73eb75bda3a3ffba605f8d76d875c691abe0d64e19584f1ec058a979b51577",
+      null,
+      79546
+    ],
+    "LOGITS/RAFDB_vichteacher_stage1_9224_betaKD_b070_T6_224_best_400e_swa200/sha256": [
+      "0b9dd71bd98a1ff6cee6d7f6cddbc405a1dccdf6b2ed48ed90f13e57c76ad9bc",
+      null,
+      78953
+    ],
     "dose/rafdb_stage1/T=0.85/teacher_ece": [
       0.04538044133351088,
       null,
@@ -502,6 +2366,531 @@
       0.32960043787118626,
       3
     ],
+    "A12/stage1/mean_logvar/swa/ece/mean": [
+      -0.0011666860813513748,
+      0.0010212460044153478,
+      3
+    ],
+    "A12/stage1/mean_logvar/swa/ece/ratio": [
+      0.5529317921096563,
+      null,
+      3
+    ],
+    "A12/stage1/mean_logvar/swa/acc/mean": [
+      -0.09778340657552083,
+      0.11752337991717336,
+      3
+    ],
+    "A12/stage1/mean_logvar/swa/acc/ratio": [
+      0.9817611101959923,
+      null,
+      3
+    ],
+    "A12/stage1/mean_logvar/best/ece/mean": [
+      0.00243529823747525,
+      0.0038659108609523387,
+      3
+    ],
+    "A12/stage1/mean_logvar/best/ece/ratio": [
+      1.1541697807939575,
+      null,
+      3
+    ],
+    "A12/stage1/mean_logvar/best/acc/mean": [
+      -0.17383829752604166,
+      0.1047754593458533,
+      3
+    ],
+    "A12/stage1/mean_logvar/best/acc/ratio": [
+      1.7453644329923863,
+      null,
+      3
+    ],
+    "A12/stage1/mean_logvar/last/ece/mean": [
+      0.002327937404521909,
+      0.002824201799540052,
+      3
+    ],
+    "A12/stage1/mean_logvar/last/ece/ratio": [
+      1.103287869441663,
+      null,
+      3
+    ],
+    "A12/stage1/mean_logvar/last/acc/mean": [
+      -0.2281621297200521,
+      0.4005284357402885,
+      3
+    ],
+    "A12/stage1/mean_logvar/last/acc/ratio": [
+      2.2907844349402824,
+      null,
+      3
+    ],
+    "A12/stage1/target_logvar/swa/ece/mean": [
+      -0.00414632082710779,
+      0.0022763297781124158,
+      3
+    ],
+    "A12/stage1/target_logvar/swa/ece/ratio": [
+      1.9650809607145923,
+      null,
+      3
+    ],
+    "A12/stage1/target_logvar/swa/acc/mean": [
+      0.2498906453450521,
+      0.2772098089316861,
+      3
+    ],
+    "A12/stage1/target_logvar/swa/acc/ratio": [
+      2.5089422223398805,
+      null,
+      3
+    ],
+    "A12/stage1/target_logvar/best/ece/mean": [
+      0.00043607652770182487,
+      0.002094068206555228,
+      3
+    ],
+    "A12/stage1/target_logvar/best/ece/ratio": [
+      0.20667134014304497,
+      null,
+      3
+    ],
+    "A12/stage1/target_logvar/best/acc/mean": [
+      0.07605234781901042,
+      0.228935341536199,
+      3
+    ],
+    "A12/stage1/target_logvar/best/acc/ratio": [
+      0.7635777893474942,
+      null,
+      3
+    ],
+    "A12/stage1/target_logvar/last/ece/mean": [
+      -0.0005680123641147958,
+      0.004016003834528109,
+      3
+    ],
+    "A12/stage1/target_logvar/last/ece/ratio": [
+      0.26920017256625395,
+      null,
+      3
+    ],
+    "A12/stage1/target_logvar/last/acc/mean": [
+      0.17383575439453125,
+      0.2289393243436128,
+      3
+    ],
+    "A12/stage1/target_logvar/last/acc/ratio": [
+      1.7453388995434866,
+      null,
+      3
+    ],
+    "A12/primary/mean_logvar/swa/ece/mean": [
+      -0.005575578808719728,
+      0.009227493803646833,
+      3
+    ],
+    "A12/primary/mean_logvar/swa/ece/ratio": [
+      1.6743479906065248,
+      null,
+      3
+    ],
+    "A12/primary/mean_logvar/swa/acc/mean": [
+      0.19556681315104166,
+      0.8549469714862008,
+      3
+    ],
+    "A12/primary/mean_logvar/swa/acc/ratio": [
+      0.49598481651291315,
+      null,
+      3
+    ],
+    "A12/primary/mean_logvar/best/ece/mean": [
+      -0.007496601015148037,
+      0.005736711428393478,
+      3
+    ],
+    "A12/primary/mean_logvar/best/ece/ratio": [
+      2.2512315360804913,
+      null,
+      3
+    ],
+    "A12/primary/mean_logvar/best/acc/mean": [
+      0.17383575439453125,
+      0.4659181022738799,
+      3
+    ],
+    "A12/primary/mean_logvar/best/acc/ratio": [
+      0.44087180926840286,
+      null,
+      3
+    ],
+    "A12/primary/mean_logvar/last/ece/mean": [
+      -0.0029766162090822668,
+      0.00551028776090564,
+      3
+    ],
+    "A12/primary/mean_logvar/last/ece/ratio": [
+      0.8938787414661462,
+      null,
+      3
+    ],
+    "A12/primary/mean_logvar/last/acc/mean": [
+      0.10864766438802083,
+      0.4727155167202002,
+      3
+    ],
+    "A12/primary/mean_logvar/last/acc/ratio": [
+      0.2755456870099438,
+      null,
+      3
+    ],
+    "A12/primary/target_logvar/swa/ece/mean": [
+      -0.000783022242180941,
+      0.0029891563718939056,
+      3
+    ],
+    "A12/primary/target_logvar/swa/ece/ratio": [
+      0.23514181446875104,
+      null,
+      3
+    ],
+    "A12/primary/target_logvar/swa/acc/mean": [
+      -0.08692169189453125,
+      0.44253658075913777,
+      3
+    ],
+    "A12/primary/target_logvar/swa/acc/ratio": [
+      0.22044557924050534,
+      null,
+      3
+    ],
+    "A12/primary/target_logvar/best/ece/mean": [
+      -0.00637207214584148,
+      0.002253351834609622,
+      3
+    ],
+    "A12/primary/target_logvar/best/ece/ratio": [
+      1.9135351789313753,
+      null,
+      3
+    ],
+    "A12/primary/target_logvar/best/acc/mean": [
+      0.14124043782552084,
+      0.3329304234235088,
+      3
+    ],
+    "A12/primary/target_logvar/best/acc/ratio": [
+      0.3582055232704054,
+      null,
+      3
+    ],
+    "A12/primary/target_logvar/last/ece/mean": [
+      -0.0041803592918800885,
+      0.003637198431791402,
+      3
+    ],
+    "A12/primary/target_logvar/last/ece/ratio": [
+      1.2553631507147414,
+      null,
+      3
+    ],
+    "A12/primary/target_logvar/last/acc/mean": [
+      0.21729532877604166,
+      0.5299349199793332,
+      3
+    ],
+    "A12/primary/target_logvar/last/acc/ratio": [
+      0.5510913740198876,
+      null,
+      3
+    ],
+    "A12/vae9182/mean_logvar/swa/ece/mean": [
+      0.0014772778445743887,
+      0.004581379876241869,
+      3
+    ],
+    "A12/vae9182/mean_logvar/swa/ece/ratio": [
+      0.5471399424349588,
+      null,
+      3
+    ],
+    "A12/vae9182/mean_logvar/swa/acc/mean": [
+      -0.27161916097005206,
+      0.6682533258430152,
+      3
+    ],
+    "A12/vae9182/mean_logvar/swa/acc/ratio": [
+      1.3121698597587057,
+      null,
+      3
+    ],
+    "A12/vae9182/mean_logvar/best/ece/mean": [
+      0.004980483755747789,
+      0.005201312177703201,
+      3
+    ],
+    "A12/vae9182/mean_logvar/best/ece/ratio": [
+      1.8446236132399216,
+      null,
+      3
+    ],
+    "A12/vae9182/mean_logvar/best/acc/mean": [
+      -0.32594553629557294,
+      0.22816085816492673,
+      3
+    ],
+    "A12/vae9182/mean_logvar/best/acc/ratio": [
+      1.5746161173699176,
+      null,
+      3
+    ],
+    "A12/vae9182/mean_logvar/last/ece/mean": [
+      0.0015732085592121945,
+      0.006420419285652081,
+      3
+    ],
+    "A12/vae9182/mean_logvar/last/ece/ratio": [
+      0.5826698367452572,
+      null,
+      3
+    ],
+    "A12/vae9182/mean_logvar/last/acc/mean": [
+      -0.18470001220703125,
+      0.419104606334769,
+      3
+    ],
+    "A12/vae9182/mean_logvar/last/acc/ratio": [
+      0.8922705903721316,
+      null,
+      3
+    ],
+    "A12/bar/stage1/ece_sd": [
+      0.0021071884659464015,
+      null,
+      3
+    ],
+    "A12/bar/stage1/acc_sd": [
+      0.09957672977697758,
+      null,
+      3
+    ],
+    "A12/bar/primary/ece_sd": [
+      0.0033333763685349763,
+      null,
+      3
+    ],
+    "A12/bar/primary/acc_sd": [
+      0.3942937816679289,
+      null,
+      3
+    ],
+    "A12/bar/vae9182/ece_sd": [
+      0.0026997325636259157,
+      null,
+      3
+    ],
+    "A12/bar/vae9182/acc_sd": [
+      0.20700072136152095,
+      null,
+      3
+    ],
+    "A13/fit/scratch0712/slope": [
+      0.6547068722514588,
+      null,
+      null
+    ],
+    "A13/fit/scratch0712/envelope": [
+      0.058456546540507005,
+      null,
+      null
+    ],
+    "A13/fit/scratch0712/r2": [
+      0.9999645299723947,
+      null,
+      null
+    ],
+    "A13/fit/scratch0712/cell0/ece": [
+      0.03645689697245679,
+      0.0057123664918960985,
+      null
+    ],
+    "A13/fit/scratch0712/cell1/ece": [
+      0.12361117747686368,
+      0.003962944527397044,
+      null
+    ],
+    "A13/fit/scratch0712/cell2/ece": [
+      0.19918508699462498,
+      0.00873869378270836,
+      null
+    ],
+    "A13/fit/pretrained2248/slope": [
+      0.7160652787380302,
+      null,
+      null
+    ],
+    "A13/fit/pretrained2248/envelope": [
+      0.021906323710570122,
+      null,
+      null
+    ],
+    "A13/fit/pretrained2248/r2": [
+      0.9999691373688872,
+      null,
+      null
+    ],
+    "A13/fit/pretrained2248/cell0/ece": [
+      0.032957236164746107,
+      0.001996999098785806,
+      null
+    ],
+    "A13/fit/pretrained2248/cell1/ece": [
+      0.12821906177518888,
+      0.0030105325448677826,
+      null
+    ],
+    "A13/fit/pretrained2248/cell2/ece": [
+      0.21093863546071184,
+      0.0033612721423117073,
+      null
+    ],
+    "A13/fit/scratch2248/slope": [
+      0.6488331093375835,
+      null,
+      null
+    ],
+    "A13/fit/scratch2248/envelope": [
+      0.013902609746009603,
+      null,
+      null
+    ],
+    "A13/fit/scratch2248/r2": [
+      0.998817814674116,
+      null,
+      null
+    ],
+    "A13/fit/scratch2248/cell0/ece": [
+      0.03744166230022752,
+      0.0030384886023834203,
+      null
+    ],
+    "A13/fit/scratch2248/cell1/ece": [
+      0.11829053233177286,
+      0.001083843108556422,
+      null
+    ],
+    "A13/fit/scratch2248/cell2/ece": [
+      0.19893856618597114,
+      0.00032298832098165485,
+      null
+    ],
+    "A13/cmp/scratch2248_vs_pretrained2248/d_slope": [
+      -0.06723216940044663,
+      null,
+      null
+    ],
+    "A13/cmp/scratch2248_vs_pretrained2248/envelope": [
+      0.03580893345657973,
+      null,
+      null
+    ],
+    "A13/cmp/scratch2248_vs_scratch0712/d_slope": [
+      -0.005873762913875313,
+      null,
+      null
+    ],
+    "A13/cmp/scratch2248_vs_scratch0712/envelope": [
+      0.07235915628651661,
+      null,
+      null
+    ],
+    "A13/cmp/pretrained2248_vs_scratch0712/d_slope": [
+      0.061358406486571315,
+      null,
+      null
+    ],
+    "A13/cmp/pretrained2248_vs_scratch0712/envelope": [
+      0.08036287025107713,
+      null,
+      null
+    ],
+    "G4.2/swa/capacity_span": [
+      0.0023508643920086905,
+      null,
+      null
+    ],
+    "G4.2/swa/teacher_span_pretrained": [
+      0.17798139929596574,
+      null,
+      null
+    ],
+    "G4.2/swa/teacher_span_scratch": [
+      0.16149690388574361,
+      null,
+      null
+    ],
+    "G4.2/swa/ratio_published": [
+      75.70891792013998,
+      null,
+      null
+    ],
+    "G4.2/swa/ratio_init_matched": [
+      68.69681825745506,
+      null,
+      null
+    ],
+    "G4.2/best/capacity_span": [
+      0.0025448729087805474,
+      null,
+      null
+    ],
+    "G4.2/best/teacher_span_pretrained": [
+      0.2009923288882789,
+      null,
+      null
+    ],
+    "G4.2/best/teacher_span_scratch": [
+      0.18995956236861652,
+      null,
+      null
+    ],
+    "G4.2/best/ratio_published": [
+      78.97931884723879,
+      null,
+      null
+    ],
+    "G4.2/best/ratio_init_matched": [
+      74.64402709982141,
+      null,
+      null
+    ],
+    "G4.2/last/capacity_span": [
+      0.0074337361374791425,
+      null,
+      null
+    ],
+    "G4.2/last/teacher_span_pretrained": [
+      0.19747462097890528,
+      null,
+      null
+    ],
+    "G4.2/last/teacher_span_scratch": [
+      0.19585618119960452,
+      null,
+      null
+    ],
+    "G4.2/last/ratio_published": [
+      26.564652999086807,
+      null,
+      null
+    ],
+    "G4.2/last/ratio_init_matched": [
+      26.34693747228179,
+      null,
+      null
+    ],
     "T5/stage1/adaptive_t/swa/d_acc": [
       0.16297149658203125,
       0.32101630928264163,
@@ -593,34 +2982,34 @@
       3
     ],
     "T5/stage1/gate:mean_logvar/swa/d_acc": [
-      -0.065185546875,
-      0.0,
-      1
+      -0.09778340657552083,
+      0.11752337991717336,
+      3
     ],
     "T5/stage1/gate:mean_logvar/swa/d_ece": [
-      5.4096752071103316e-06,
-      0.0,
-      1
+      -0.0011666860813513748,
+      0.0010212460044153478,
+      3
     ],
     "T5/stage1/gate:mean_logvar/best/d_acc": [
-      -0.2933502197265625,
-      0.0,
-      1
+      -0.17383829752604166,
+      0.1047754593458533,
+      3
     ],
     "T5/stage1/gate:mean_logvar/best/d_ece": [
-      0.006899003905998222,
-      0.0,
-      1
+      0.00243529823747525,
+      0.0038659108609523387,
+      3
     ],
     "T5/stage1/gate:mean_logvar/last/d_acc": [
-      0.065185546875,
-      0.0,
-      1
+      -0.2281621297200521,
+      0.4005284357402885,
+      3
     ],
     "T5/stage1/gate:mean_logvar/last/d_ece": [
-      -0.0005588283837618668,
-      0.0,
-      1
+      0.002327937404521909,
+      0.002824201799540052,
+      3
     ],
     "T5/stage1/gate:oracle_error/swa/d_acc": [
       -0.21729532877604166,
@@ -653,34 +3042,34 @@
       3
     ],
     "T5/stage1/gate:target_logvar/swa/d_acc": [
-      0.2607574462890625,
-      0.0,
-      1
+      0.2498906453450521,
+      0.2772098089316861,
+      3
     ],
     "T5/stage1/gate:target_logvar/swa/d_ece": [
-      -0.002777351627449312,
-      0.0,
-      1
+      -0.00414632082710779,
+      0.0022763297781124158,
+      3
     ],
     "T5/stage1/gate:target_logvar/best/d_acc": [
-      0.0977783203125,
-      0.0,
-      1
+      0.07605234781901042,
+      0.228935341536199,
+      3
     ],
     "T5/stage1/gate:target_logvar/best/d_ece": [
-      -0.0019526687369352813,
-      0.0,
-      1
+      0.00043607652770182487,
+      0.002094068206555228,
+      3
     ],
     "T5/stage1/gate:target_logvar/last/d_acc": [
-      -0.06519317626953125,
-      0.0,
-      1
+      0.17383575439453125,
+      0.2289393243436128,
+      3
     ],
     "T5/stage1/gate:target_logvar/last/d_ece": [
-      0.003961229480735018,
-      0.0,
-      1
+      -0.0005680123641147958,
+      0.004016003834528109,
+      3
     ],
     "T5/stage1/logit_std/swa/d_acc": [
       -0.22815958658854166,
@@ -803,34 +3192,34 @@
       3
     ],
     "T5/primary/gate:mean_logvar/swa/d_acc": [
-      0.065185546875,
-      0.0,
-      1
+      0.19556681315104166,
+      0.8549469714862008,
+      3
     ],
     "T5/primary/gate:mean_logvar/swa/d_ece": [
-      -0.0026642248238469696,
-      0.0,
-      1
+      -0.005575578808719728,
+      0.009227493803646833,
+      3
     ],
     "T5/primary/gate:mean_logvar/best/d_acc": [
-      0.065185546875,
-      0.0,
-      1
+      0.17383575439453125,
+      0.4659181022738799,
+      3
     ],
     "T5/primary/gate:mean_logvar/best/d_ece": [
-      -0.00759869698323358,
-      0.0,
-      1
+      -0.007496601015148037,
+      0.005736711428393478,
+      3
     ],
     "T5/primary/gate:mean_logvar/last/d_acc": [
-      -0.35854339599609375,
-      0.0,
-      1
+      0.10864766438802083,
+      0.4727155167202002,
+      3
     ],
     "T5/primary/gate:mean_logvar/last/d_ece": [
-      0.002404915695861848,
-      0.0,
-      1
+      -0.0029766162090822668,
+      0.00551028776090564,
+      3
     ],
     "T5/primary/gate:oracle_error/swa/d_acc": [
       -0.010866800944010416,
@@ -863,34 +3252,34 @@
       3
     ],
     "T5/primary/gate:target_logvar/swa/d_acc": [
-      -0.32595062255859375,
-      0.0,
-      1
+      -0.08692169189453125,
+      0.44253658075913777,
+      3
     ],
     "T5/primary/gate:target_logvar/swa/d_ece": [
-      0.0019063761766218018,
-      0.0,
-      1
+      -0.000783022242180941,
+      0.0029891563718939056,
+      3
     ],
     "T5/primary/gate:target_logvar/best/d_acc": [
-      0.0,
-      0.0,
-      1
+      0.14124043782552084,
+      0.3329304234235088,
+      3
     ],
     "T5/primary/gate:target_logvar/best/d_ece": [
-      -0.007247983131951116,
-      0.0,
-      1
+      -0.00637207214584148,
+      0.002253351834609622,
+      3
     ],
     "T5/primary/gate:target_logvar/last/d_acc": [
-      -0.35854339599609375,
-      0.0,
-      1
+      0.21729532877604166,
+      0.5299349199793332,
+      3
     ],
     "T5/primary/gate:target_logvar/last/d_ece": [
-      -0.00025776359877965893,
-      0.0,
-      1
+      -0.0041803592918800885,
+      0.003637198431791402,
+      3
     ],
     "T5/primary/logit_std/swa/d_acc": [
       -0.31508127848307294,
@@ -1043,34 +3432,34 @@
       1
     ],
     "T5/vae9182/gate:mean_logvar/swa/d_acc": [
-      -1.0430221557617188,
-      0.0,
-      1
+      -0.27161916097005206,
+      0.6682533258430152,
+      3
     ],
     "T5/vae9182/gate:mean_logvar/swa/d_ece": [
-      0.006703103871863077,
-      0.0,
-      1
+      0.0014772778445743887,
+      0.004581379876241869,
+      3
     ],
     "T5/vae9182/gate:mean_logvar/best/d_acc": [
-      -0.586700439453125,
-      0.0,
-      1
+      -0.32594553629557294,
+      0.22816085816492673,
+      3
     ],
     "T5/vae9182/gate:mean_logvar/best/d_ece": [
-      0.009754464792808937,
-      0.0,
-      1
+      0.004980483755747789,
+      0.005201312177703201,
+      3
     ],
     "T5/vae9182/gate:mean_logvar/last/d_acc": [
-      -0.48891448974609375,
-      0.0,
-      1
+      -0.18470001220703125,
+      0.419104606334769,
+      3
     ],
     "T5/vae9182/gate:mean_logvar/last/d_ece": [
-      0.004330416016931488,
-      0.0,
-      1
+      0.0015732085592121945,
+      0.006420419285652081,
+      3
     ],
     "T5/vae9182/gate:oracle_error/swa/d_acc": [
       -0.2281621297200521,
@@ -2066,6 +4455,1746 @@
       0.74,
       null,
       1977
+    ],
+    "P6.1/Tx\u03c4_=_5.10/mean_dECE": [
+      -0.03913065410667997,
+      0.0031896736668642375,
+      3
+    ],
+    "P6.1/Tx\u03c4_=_5.10/seed42/dECE": [
+      -0.035452032376765585,
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_5.10/seed1/dECE": [
+      -0.04112752361861793,
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_5.10/seed43/dECE": [
+      -0.04081240632465641,
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_5.10/status": [
+      "YANLI\u015eLAMA-baca\u011f\u0131 sa\u011fland\u0131 (3/3 ayn\u0131 i\u015faret VE |ort| \u2265 2\u00d7bar)",
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_10.20/mean_dECE": [
+      -0.03240560747356013,
+      0.002906759891641755,
+      3
+    ],
+    "P6.1/Tx\u03c4_=_10.20/seed42/dECE": [
+      -0.03340835389444384,
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_10.20/seed1/dECE": [
+      -0.03467824359605334,
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_10.20/seed43/dECE": [
+      -0.029130224930183204,
+      null,
+      null
+    ],
+    "P6.1/Tx\u03c4_=_10.20/status": [
+      "YANLI\u015eLAMA-baca\u011f\u0131 sa\u011fland\u0131 (3/3 ayn\u0131 i\u015faret VE |ort| \u2265 2\u00d7bar)",
+      null,
+      null
+    ],
+    "P6.2/alpha=0.1/seed42/gap": [
+      0.019685229167555884,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.1/seed1/gap": [
+      0.021476582528093188,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.1/seed43/gap": [
+      0.026154078144915258,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.3/seed42/gap": [
+      0.029680987040486766,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.3/seed1/gap": [
+      0.029607888961980675,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.3/seed43/gap": [
+      0.03167726117947577,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.5/seed42/gap": [
+      0.0344054573925875,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.5/seed1/gap": [
+      0.03654092911635725,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.5/seed43/gap": [
+      0.027098944442251985,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.7/seed42/gap": [
+      -0.0070761686878223,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.7/seed1/gap": [
+      0.0002569632296301125,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.7/seed43/gap": [
+      -0.0006984388297897326,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.9/seed42/gap": [
+      -0.030731134174933186,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.9/seed1/gap": [
+      -0.03965799212261473,
+      null,
+      null
+    ],
+    "P6.2/alpha=0.9/seed43/gap": [
+      -0.03512787289499769,
+      null,
+      null
+    ],
+    "P6.2/verdict": [
+      "DO\u011eRULANMADI",
+      null,
+      0
+    ],
+    "P6.3/verdict": [
+      "DO\u011eRULANDI",
+      null,
+      3
+    ],
+    "R3W1/T=0.26/ece_arm": [
+      0.058740805600987316,
+      0.003831888418531751,
+      3
+    ],
+    "R3W1/T=0.26/jsd_arm": [
+      0.07368071377277374,
+      0.0007331671660701203,
+      3
+    ],
+    "R3W1/T=0.26/ece_ts": [
+      0.026590545011229615,
+      0.0005390404980543267,
+      3
+    ],
+    "R3W1/T=0.26/jsd_ts": [
+      0.05404462955891298,
+      0.00039916229348837574,
+      3
+    ],
+    "R3W1/T=0.5063/ece_arm": [
+      0.018498602500361613,
+      0.0015881954147709731,
+      3
+    ],
+    "R3W1/T=0.5063/jsd_arm": [
+      0.058690217634042106,
+      0.0004615663733709948,
+      3
+    ],
+    "R3W1/T=0.5063/ece_ts": [
+      0.029646180016392822,
+      0.0016483823776464203,
+      3
+    ],
+    "R3W1/T=0.5063/jsd_ts": [
+      0.054273864072206496,
+      0.00020913379900477892,
+      3
+    ],
+    "R3W1/T=0.74/ece_arm": [
+      0.034363226014547714,
+      0.0012025338139968638,
+      3
+    ],
+    "R3W1/T=0.74/jsd_arm": [
+      0.05359788859883944,
+      0.0003727677382411302,
+      3
+    ],
+    "R3W1/T=0.74/ece_ts": [
+      0.024559433540389003,
+      0.0041417624161009985,
+      3
+    ],
+    "R3W1/T=0.74/jsd_ts": [
+      0.05458399447143702,
+      0.0002493870765654314,
+      3
+    ],
+    "R3W1/T=1.0/ece_arm": [
+      0.07830038099601992,
+      0.00460023162590826,
+      3
+    ],
+    "R3W1/T=1.0/jsd_arm": [
+      0.05510709931453069,
+      0.00045023334519684265,
+      3
+    ],
+    "R3W1/T=1.0/ece_ts": [
+      0.02026964695235112,
+      0.0017399872522243173,
+      3
+    ],
+    "R3W1/T=1.0/jsd_ts": [
+      0.05454465795715183,
+      0.0005060496740959768,
+      3
+    ],
+    "R3W1/T=0.26/occupies": [
+      false,
+      null,
+      null
+    ],
+    "R3W1/T=0.5063/occupies": [
+      false,
+      null,
+      null
+    ],
+    "R3W1/T=0.74/occupies": [
+      false,
+      null,
+      null
+    ],
+    "R3W1/T=1.0/occupies": [
+      true,
+      null,
+      null
+    ],
+    "R3W1/corner/ECE_min": [
+      0.018498602500361613,
+      null,
+      null
+    ],
+    "R3W1/corner/JSD_min": [
+      0.05359788859883944,
+      null,
+      null
+    ],
+    "R3W1/verdict": [
+      "ALT YAZI YANLI\u015eLANDI",
+      null,
+      null
+    ],
+    "G2.1/RAF-DB/best-last/acc_pp/mean": [
+      0.7658466018793237,
+      0.43107852109679157,
+      131
+    ],
+    "G2.1/RAF-DB/best-last/acc_pp/t": [
+      20.33391731726416,
+      null,
+      130
+    ],
+    "G2.1/RAF-DB/best-last/acc_pp/p": [
+      3.3301981039638085e-42,
+      null,
+      null
+    ],
+    "G2.1/RAF-DB/best-last/ece/mean": [
+      -0.002878700403167627,
+      0.009218824488955835,
+      131
+    ],
+    "G2.1/RAF-DB/best-last/ece/t": [
+      -3.574016635587231,
+      null,
+      130
+    ],
+    "G2.1/RAF-DB/best-last/ece/p": [
+      0.0004940655648359725,
+      null,
+      null
+    ],
+    "G2.1/RAF-DB/best-swa/acc_pp/mean": [
+      0.1292732368081303,
+      0.262038968256677,
+      118
+    ],
+    "G2.1/RAF-DB/best-swa/acc_pp/t": [
+      5.358999862410279,
+      null,
+      117
+    ],
+    "G2.1/RAF-DB/best-swa/acc_pp/p": [
+      4.256018138298504e-07,
+      null,
+      null
+    ],
+    "G2.1/RAF-DB/best-swa/ece/mean": [
+      -0.0005773924487635059,
+      0.011751979016303862,
+      118
+    ],
+    "G2.1/RAF-DB/best-swa/ece/t": [
+      -0.5337047844871985,
+      null,
+      117
+    ],
+    "G2.1/RAF-DB/best-swa/ece/p": [
+      0.5945582991992364,
+      null,
+      null
+    ],
+    "G2.1/FERPlus/best-last/acc_pp/mean": [
+      0.4995263417561849,
+      0.2104346770893655,
+      12
+    ],
+    "G2.1/FERPlus/best-last/acc_pp/t": [
+      8.223026885186794,
+      null,
+      11
+    ],
+    "G2.1/FERPlus/best-last/acc_pp/p": [
+      5.024608671291819e-06,
+      null,
+      null
+    ],
+    "G2.1/FERPlus/best-last/ece/mean": [
+      0.004085516836523745,
+      0.007446682592579257,
+      12
+    ],
+    "G2.1/FERPlus/best-last/ece/t": [
+      1.900530242309205,
+      null,
+      11
+    ],
+    "G2.1/FERPlus/best-last/ece/p": [
+      0.083875130522093,
+      null,
+      null
+    ],
+    "G2.1/FERPlus/best-swa/acc_pp/mean": [
+      0.2246545155843099,
+      0.20970803859941384,
+      12
+    ],
+    "G2.1/FERPlus/best-swa/acc_pp/t": [
+      3.710997801901968,
+      null,
+      11
+    ],
+    "G2.1/FERPlus/best-swa/acc_pp/p": [
+      0.0034351816755036992,
+      null,
+      null
+    ],
+    "G2.1/FERPlus/best-swa/ece/mean": [
+      0.006881735070898713,
+      0.008788135189382823,
+      12
+    ],
+    "G2.1/FERPlus/best-swa/ece/t": [
+      2.712638012538874,
+      null,
+      11
+    ],
+    "G2.1/FERPlus/best-swa/ece/p": [
+      0.020195446739927764,
+      null,
+      null
+    ],
+    "G2.2/summary/a_T_axis": [
+      0,
+      null,
+      9
+    ],
+    "G2.2/summary/b_signed_gap_within_branch": [
+      9,
+      null,
+      9
+    ],
+    "G2.2/summary/c_unsigned_gap_pooled": [
+      3,
+      null,
+      9
+    ],
+    "G2.2/RAF-DB_stage1/seed42/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed42/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed42/c": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed1/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed1/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed1/c": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed43/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed43/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_stage1/seed43/c": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed42/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed42/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed42/c": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed1/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed1/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed1/c": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed43/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed43/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/RAF-DB_vae9182/seed43/c": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed42/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed42/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed42/c": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed1/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed1/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed1/c": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed43/a": [
+      false,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed43/b": [
+      true,
+      null,
+      null
+    ],
+    "G2.2/FERPlus/seed43/c": [
+      false,
+      null,
+      null
+    ],
+    "G3.1/primary/adaptive_t/ratio_ctrl": [
+      1.5211308441221054,
+      null,
+      3
+    ],
+    "G3.1/primary/adaptive_t/ratio_paired": [
+      3.2221350860402604,
+      null,
+      3
+    ],
+    "G3.1/primary/adaptive_t/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/primary/ctkd/ratio_ctrl": [
+      2.4889576940807188,
+      null,
+      1
+    ],
+    "G3.1/primary/ctkd/ratio_paired": [
+      null,
+      null,
+      1
+    ],
+    "G3.1/primary/ctkd/verdict": [
+      "n/a",
+      null,
+      null
+    ],
+    "G3.1/primary/g2g_kl/ratio_ctrl": [
+      1.060201199397464,
+      null,
+      3
+    ],
+    "G3.1/primary/g2g_kl/ratio_paired": [
+      0.5884363740872871,
+      null,
+      3
+    ],
+    "G3.1/primary/g2g_kl/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/primary/gate:mean_logvar/ratio_ctrl": [
+      1.6726520477404725,
+      null,
+      3
+    ],
+    "G3.1/primary/gate:mean_logvar/ratio_paired": [
+      0.6042354432702173,
+      null,
+      3
+    ],
+    "G3.1/primary/gate:mean_logvar/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/primary/gate:oracle_error/ratio_ctrl": [
+      0.11275182660577747,
+      null,
+      3
+    ],
+    "G3.1/primary/gate:oracle_error/ratio_paired": [
+      0.07104366468889871,
+      null,
+      3
+    ],
+    "G3.1/primary/gate:oracle_error/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/primary/gate:target_logvar/ratio_ctrl": [
+      0.23490363991662916,
+      null,
+      3
+    ],
+    "G3.1/primary/gate:target_logvar/ratio_paired": [
+      0.26195425891514146,
+      null,
+      3
+    ],
+    "G3.1/primary/gate:target_logvar/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/primary/logit_std/ratio_ctrl": [
+      56.676381165466225,
+      null,
+      3
+    ],
+    "G3.1/primary/logit_std/ratio_paired": [
+      14.800969148943018,
+      null,
+      3
+    ],
+    "G3.1/primary/logit_std/verdict": [
+      "established",
+      null,
+      null
+    ],
+    "G3.1/stage1/adaptive_t/ratio_ctrl": [
+      0.9260426974236218,
+      null,
+      3
+    ],
+    "G3.1/stage1/adaptive_t/ratio_paired": [
+      0.3321097548836608,
+      null,
+      3
+    ],
+    "G3.1/stage1/adaptive_t/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/stage1/ctkd/ratio_ctrl": [
+      4.924674511996015,
+      null,
+      1
+    ],
+    "G3.1/stage1/ctkd/ratio_paired": [
+      null,
+      null,
+      1
+    ],
+    "G3.1/stage1/ctkd/verdict": [
+      "n/a",
+      null,
+      null
+    ],
+    "G3.1/stage1/g2g_kl/ratio_ctrl": [
+      3.5736276813144405,
+      null,
+      3
+    ],
+    "G3.1/stage1/g2g_kl/ratio_paired": [
+      11.923103330585713,
+      null,
+      3
+    ],
+    "G3.1/stage1/g2g_kl/verdict": [
+      "established",
+      null,
+      null
+    ],
+    "G3.1/stage1/gate:mean_logvar/ratio_ctrl": [
+      0.5536695460353049,
+      null,
+      3
+    ],
+    "G3.1/stage1/gate:mean_logvar/ratio_paired": [
+      1.14241434121379,
+      null,
+      3
+    ],
+    "G3.1/stage1/gate:mean_logvar/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/stage1/gate:oracle_error/ratio_ctrl": [
+      0.7328269829705132,
+      null,
+      3
+    ],
+    "G3.1/stage1/gate:oracle_error/ratio_paired": [
+      0.43219516483190423,
+      null,
+      3
+    ],
+    "G3.1/stage1/gate:oracle_error/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/stage1/gate:target_logvar/ratio_ctrl": [
+      1.9677028866260202,
+      null,
+      3
+    ],
+    "G3.1/stage1/gate:target_logvar/ratio_paired": [
+      1.8214939096153338,
+      null,
+      3
+    ],
+    "G3.1/stage1/gate:target_logvar/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/stage1/logit_std/ratio_ctrl": [
+      76.6244115424183,
+      null,
+      3
+    ],
+    "G3.1/stage1/logit_std/ratio_paired": [
+      38.9199913899619,
+      null,
+      3
+    ],
+    "G3.1/stage1/logit_std/verdict": [
+      "established",
+      null,
+      null
+    ],
+    "G3.1/vae9182/adaptive_t/ratio_ctrl": [
+      2.102232726678273,
+      null,
+      3
+    ],
+    "G3.1/vae9182/adaptive_t/ratio_paired": [
+      0.895100326548747,
+      null,
+      3
+    ],
+    "G3.1/vae9182/adaptive_t/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/vae9182/ctkd/ratio_ctrl": [
+      1.90954285459482,
+      null,
+      1
+    ],
+    "G3.1/vae9182/ctkd/ratio_paired": [
+      null,
+      null,
+      1
+    ],
+    "G3.1/vae9182/ctkd/verdict": [
+      "n/a",
+      null,
+      null
+    ],
+    "G3.1/vae9182/g2g_kl/ratio_ctrl": [
+      0.4686966472484287,
+      null,
+      3
+    ],
+    "G3.1/vae9182/g2g_kl/ratio_paired": [
+      0.21575275643501685,
+      null,
+      3
+    ],
+    "G3.1/vae9182/g2g_kl/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/vae9182/g2g_kl+adaptive_t/ratio_ctrl": [
+      0.9163830223447293,
+      null,
+      1
+    ],
+    "G3.1/vae9182/g2g_kl+adaptive_t/ratio_paired": [
+      null,
+      null,
+      1
+    ],
+    "G3.1/vae9182/g2g_kl+adaptive_t/verdict": [
+      "n/a",
+      null,
+      null
+    ],
+    "G3.1/vae9182/gate:mean_logvar/ratio_ctrl": [
+      0.547194142293231,
+      null,
+      3
+    ],
+    "G3.1/vae9182/gate:mean_logvar/ratio_paired": [
+      0.322452598230341,
+      null,
+      3
+    ],
+    "G3.1/vae9182/gate:mean_logvar/verdict": [
+      "unresolved",
+      null,
+      null
+    ],
+    "G3.1/vae9182/gate:oracle_error/ratio_ctrl": [
+      2.077787279223308,
+      null,
+      3
+    ],
+    "G3.1/vae9182/gate:oracle_error/ratio_paired": [
+      1.4147435852303207,
+      null,
+      3
+    ],
+    "G3.1/vae9182/gate:oracle_error/verdict": [
+      "established",
+      null,
+      null
+    ],
+    "G3.1/vae9182/logit_std/ratio_ctrl": [
+      69.49311401773625,
+      null,
+      3
+    ],
+    "G3.1/vae9182/logit_std/ratio_paired": [
+      107.27512961642783,
+      null,
+      3
+    ],
+    "G3.1/vae9182/logit_std/verdict": [
+      "established",
+      null,
+      null
+    ],
+    "G3.2/k_observed_median": [
+      1.695592738191634,
+      null,
+      17
+    ],
+    "G3.2/per_cell_fpr": [
+      0.034975,
+      null,
+      null
+    ],
+    "G3.2/family_wise": [
+      0.45404657612306754,
+      null,
+      17
+    ],
+    "G3.3/vae9182: logit_std vs kontrol/p_raw": [
+      2.896421620059295e-05,
+      null,
+      3
+    ],
+    "G3.3/vae9182: logit_std vs kontrol/p_holm": [
+      0.0001737852972035577,
+      null,
+      3
+    ],
+    "G3.3/stage1: logit_std vs kontrol/p_raw": [
+      0.00021998341994553205,
+      null,
+      3
+    ],
+    "G3.3/stage1: logit_std vs kontrol/p_holm": [
+      0.0010999170997276603,
+      null,
+      3
+    ],
+    "G3.3/stage1: T*(1.3406) vs T=1/p_raw": [
+      0.0004994996389512498,
+      null,
+      3
+    ],
+    "G3.3/stage1: T*(1.3406) vs T=1/p_holm": [
+      0.001997998555804999,
+      null,
+      3
+    ],
+    "G3.3/FERPlus: T*_NLL(0.5063) vs T=1/p_raw": [
+      0.0009949469178449125,
+      null,
+      3
+    ],
+    "G3.3/FERPlus: T*_NLL(0.5063) vs T=1/p_holm": [
+      0.0029848407535347375,
+      null,
+      3
+    ],
+    "G3.3/primary: logit_std vs kontrol/p_raw": [
+      0.001518128695660902,
+      null,
+      3
+    ],
+    "G3.3/primary: logit_std vs kontrol/p_holm": [
+      0.003036257391321804,
+      null,
+      3
+    ],
+    "G3.3/vae9182: gate:oracle_error vs temiz kontrol (P2)/p_raw": [
+      0.13389348756910502,
+      null,
+      3
+    ],
+    "G3.3/vae9182: gate:oracle_error vs temiz kontrol (P2)/p_holm": [
+      0.13389348756910502,
+      null,
+      3
+    ],
+    "G3.4/primary/gate:oracle_error/mean": [
+      -0.010866800944010416,
+      0.7217591290348079,
+      3
+    ],
+    "G3.4/primary/gate:oracle_error/p_tost": [
+      0.1014863527719482,
+      null,
+      null
+    ],
+    "G3.4/primary/gate:oracle_error/class": [
+      "inconclusive",
+      null,
+      null
+    ],
+    "G3.4/stage1/gate:oracle_error/mean": [
+      -0.21729532877604166,
+      0.4567099042483196,
+      3
+    ],
+    "G3.4/stage1/gate:oracle_error/p_tost": [
+      0.524296509370344,
+      null,
+      null
+    ],
+    "G3.4/stage1/gate:oracle_error/class": [
+      "inconclusive",
+      null,
+      null
+    ],
+    "G3.4/vae9182/gate:oracle_error/mean": [
+      -0.2281621297200521,
+      0.4932413518255879,
+      3
+    ],
+    "G3.4/vae9182/gate:oracle_error/p_tost": [
+      0.2905043816760751,
+      null,
+      null
+    ],
+    "G3.4/vae9182/gate:oracle_error/class": [
+      "inconclusive",
+      null,
+      null
+    ],
+    "G3.4/FERPlus ECE: student-TS \u2212 T*-arm/mean": [
+      0.00177104445198951,
+      0.003038276855643356,
+      3
+    ],
+    "G3.4/FERPlus ECE: student-TS \u2212 T*-arm/p_tost": [
+      0.2535478481672203,
+      null,
+      null
+    ],
+    "G3.4/FERPlus ECE: student-TS \u2212 T*-arm/class": [
+      "inconclusive",
+      null,
+      null
+    ],
+    "G3.4/FERPlus JSD: student-TS \u2212 T*-arm/mean": [
+      -0.004145559676890269,
+      0.00045844544246071545,
+      3
+    ],
+    "G3.4/FERPlus JSD: student-TS \u2212 T*-arm/p_tost": [
+      0.9966604356568327,
+      null,
+      null
+    ],
+    "G3.4/FERPlus JSD: student-TS \u2212 T*-arm/class": [
+      "difference beyond margin",
+      null,
+      null
+    ],
+    "G3.5/stage1/ece_T1": [
+      0.03779733467756024,
+      null,
+      3068
+    ],
+    "G3.5/stage1/T_star_nll": [
+      1.34,
+      null,
+      3068
+    ],
+    "G3.5/stage1/T_star_ece": [
+      1.32,
+      null,
+      3068
+    ],
+    "G3.5/stage1/ece_at_T_star_nll": [
+      0.015884848829942046,
+      null,
+      3068
+    ],
+    "G3.5/stage1/headroom_nllstar": [
+      0.021912485847618193,
+      null,
+      3068
+    ],
+    "G3.5/stage1/headroom_eq8": [
+      0.023182216800611284,
+      null,
+      3068
+    ],
+    "G3.5/stage1/n_val": [
+      3068,
+      null,
+      3068
+    ],
+    "G3.5/stage1/ece_T1/ci_lo": [
+      0.0310919820877319,
+      null,
+      null
+    ],
+    "G3.5/stage1/ece_T1/ci_hi": [
+      0.04689287658595336,
+      null,
+      null
+    ],
+    "G3.5/stage1/T_star_nll/ci_lo": [
+      1.3,
+      null,
+      null
+    ],
+    "G3.5/stage1/T_star_nll/ci_hi": [
+      1.4,
+      null,
+      null
+    ],
+    "G3.5/stage1/T_star_ece/ci_lo": [
+      1.28,
+      null,
+      null
+    ],
+    "G3.5/stage1/T_star_ece/ci_hi": [
+      1.38,
+      null,
+      null
+    ],
+    "G3.5/stage1/headroom_nllstar/ci_lo": [
+      0.01183686742161204,
+      null,
+      null
+    ],
+    "G3.5/stage1/headroom_nllstar/ci_hi": [
+      0.02912299014841696,
+      null,
+      null
+    ],
+    "G3.5/stage1/headroom_eq8/ci_lo": [
+      0.015066928598754031,
+      null,
+      null
+    ],
+    "G3.5/stage1/headroom_eq8/ci_hi": [
+      0.030511916218245894,
+      null,
+      null
+    ],
+    "G3.5/primary/ece_T1": [
+      0.039575946082314586,
+      null,
+      3068
+    ],
+    "G3.5/primary/T_star_nll": [
+      1.26,
+      null,
+      3068
+    ],
+    "G3.5/primary/T_star_ece": [
+      1.24,
+      null,
+      3068
+    ],
+    "G3.5/primary/ece_at_T_star_nll": [
+      0.019655215941276765,
+      null,
+      3068
+    ],
+    "G3.5/primary/headroom_nllstar": [
+      0.01992073014103782,
+      null,
+      3068
+    ],
+    "G3.5/primary/headroom_eq8": [
+      0.02128259222665189,
+      null,
+      3068
+    ],
+    "G3.5/primary/n_val": [
+      3068,
+      null,
+      3068
+    ],
+    "G3.5/primary/ece_T1/ci_lo": [
+      0.03387218967787214,
+      null,
+      null
+    ],
+    "G3.5/primary/ece_T1/ci_hi": [
+      0.05009006460090843,
+      null,
+      null
+    ],
+    "G3.5/primary/T_star_nll/ci_lo": [
+      1.22,
+      null,
+      null
+    ],
+    "G3.5/primary/T_star_nll/ci_hi": [
+      1.3,
+      null,
+      null
+    ],
+    "G3.5/primary/T_star_ece/ci_lo": [
+      1.18,
+      null,
+      null
+    ],
+    "G3.5/primary/T_star_ece/ci_hi": [
+      1.28,
+      null,
+      null
+    ],
+    "G3.5/primary/headroom_nllstar/ci_lo": [
+      0.0111650248375333,
+      null,
+      null
+    ],
+    "G3.5/primary/headroom_nllstar/ci_hi": [
+      0.026361551746686286,
+      null,
+      null
+    ],
+    "G3.5/primary/headroom_eq8/ci_lo": [
+      0.015355234704390671,
+      null,
+      null
+    ],
+    "G3.5/primary/headroom_eq8/ci_hi": [
+      0.028018683451127117,
+      null,
+      null
+    ],
+    "G3.5/vae9182/ece_T1": [
+      0.013553885725858002,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/T_star_nll": [
+      0.98,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/T_star_ece": [
+      1.06,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/ece_at_T_star_nll": [
+      0.01324002010630941,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/headroom_nllstar": [
+      0.0003138656195485912,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/headroom_eq8": [
+      0.002347633688678111,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/n_val": [
+      3068,
+      null,
+      3068
+    ],
+    "G3.5/vae9182/ece_T1/ci_lo": [
+      0.010725603522522232,
+      null,
+      null
+    ],
+    "G3.5/vae9182/ece_T1/ci_hi": [
+      0.024093739187641464,
+      null,
+      null
+    ],
+    "G3.5/vae9182/T_star_nll/ci_lo": [
+      0.94,
+      null,
+      null
+    ],
+    "G3.5/vae9182/T_star_nll/ci_hi": [
+      1.02,
+      null,
+      null
+    ],
+    "G3.5/vae9182/T_star_ece/ci_lo": [
+      0.92,
+      null,
+      null
+    ],
+    "G3.5/vae9182/T_star_ece/ci_hi": [
+      1.08,
+      null,
+      null
+    ],
+    "G3.5/vae9182/headroom_nllstar/ci_lo": [
+      -0.003240502519961239,
+      null,
+      null
+    ],
+    "G3.5/vae9182/headroom_nllstar/ci_hi": [
+      0.005857808278323927,
+      null,
+      null
+    ],
+    "G3.5/vae9182/headroom_eq8/ci_lo": [
+      0.0,
+      null,
+      null
+    ],
+    "G3.5/vae9182/headroom_eq8/ci_hi": [
+      0.007993710613149156,
+      null,
+      null
+    ],
+    "G3.5/ferplus/ece_T1": [
+      0.12823279536251556,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/T_star_nll": [
+      0.5,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/T_star_ece": [
+      0.5,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/ece_at_T_star_nll": [
+      0.015119580719196434,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/headroom_nllstar": [
+      0.11311321464331912,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/headroom_eq8": [
+      0.11311321464331912,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/n_val": [
+      3153,
+      null,
+      3153
+    ],
+    "G3.5/ferplus/ece_T1/ci_lo": [
+      0.11956618669150414,
+      null,
+      null
+    ],
+    "G3.5/ferplus/ece_T1/ci_hi": [
+      0.13751812663532118,
+      null,
+      null
+    ],
+    "G3.5/ferplus/T_star_nll/ci_lo": [
+      0.5,
+      null,
+      null
+    ],
+    "G3.5/ferplus/T_star_nll/ci_hi": [
+      0.54,
+      null,
+      null
+    ],
+    "G3.5/ferplus/T_star_ece/ci_lo": [
+      0.5,
+      null,
+      null
+    ],
+    "G3.5/ferplus/T_star_ece/ci_hi": [
+      0.54,
+      null,
+      null
+    ],
+    "G3.5/ferplus/headroom_nllstar/ci_lo": [
+      0.10161093973020068,
+      null,
+      null
+    ],
+    "G3.5/ferplus/headroom_nllstar/ci_hi": [
+      0.11722708261693822,
+      null,
+      null
+    ],
+    "G3.5/ferplus/headroom_eq8/ci_lo": [
+      0.1039068471014824,
+      null,
+      null
+    ],
+    "G3.5/ferplus/headroom_eq8/ci_hi": [
+      0.11743215540716863,
+      null,
+      null
+    ],
+    "G3.5/rho/point": [
+      0.789010989010989,
+      null,
+      14
+    ],
+    "G3.5/rho/ci95_cluster_bootstrap/lo": [
+      0.5769230769230769,
+      null,
+      null
+    ],
+    "G3.5/rho/ci95_cluster_bootstrap/hi": [
+      1.0,
+      null,
+      null
+    ],
+    "G3.5/rho/ci95_naive_point_bootstrap/lo": [
+      0.3801098901098901,
+      null,
+      null
+    ],
+    "G3.5/rho/ci95_naive_point_bootstrap/hi": [
+      0.9604395604395605,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/0/ratio_absolute": [
+      2.253858676541919,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/0/ratio_excess": [
+      null,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/0/ci_absolute/lo": [
+      1.408582314046977,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/0/ci_absolute/hi": [
+      4.527303958598907,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/0/ci_excess/lo": [
+      0.0,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/0/ci_excess/hi": [
+      1.3868032241127324,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/1/ratio_absolute": [
+      1.8833913566365226,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/1/ratio_excess": [
+      null,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/1/ci_absolute/lo": [
+      1.5457590165958905,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/1/ci_absolute/hi": [
+      2.3820135922804773,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/1/ci_excess/lo": [
+      1.049689616339765,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/1/ci_excess/hi": [
+      543.467933495879,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/2/ratio_absolute": [
+      1.7706481288468956,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/2/ratio_excess": [
+      16.84064607989991,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/2/ci_absolute/lo": [
+      1.5020601711237918,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/2/ci_absolute/hi": [
+      2.132892167762496,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/2/ci_excess/lo": [
+      3.7848845136844065,
+      null,
+      null
+    ],
+    "G4.1/rafdb_stage1/2/ci_excess/hi": [
+      154.17876064619742,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/0/ratio_absolute": [
+      1.3315866788369917,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/0/ratio_excess": [
+      null,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/0/ci_absolute/lo": [
+      0.8926823962407642,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/0/ci_absolute/hi": [
+      2.1905172805262016,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/0/ci_excess/lo": [
+      0.0,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/0/ci_excess/hi": [
+      0.0,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/1/ratio_absolute": [
+      1.1265071891391658,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/1/ratio_excess": [
+      1.7486950042541878,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/1/ci_absolute/lo": [
+      0.8989679973362937,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/1/ci_absolute/hi": [
+      1.4590305476668326,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/1/ci_excess/lo": [
+      0.6422487334116701,
+      null,
+      null
+    ],
+    "G4.1/rafdb_vae9182/1/ci_excess/hi": [
+      9.743462328329196,
+      null,
+      null
+    ],
+    "G4.1/ferplus/0/ratio_absolute": [
+      2.0443106766882515,
+      null,
+      null
+    ],
+    "G4.1/ferplus/0/ratio_excess": [
+      3.931748213931758,
+      null,
+      null
+    ],
+    "G4.1/ferplus/0/ci_absolute/lo": [
+      1.6445666583698295,
+      null,
+      null
+    ],
+    "G4.1/ferplus/0/ci_absolute/hi": [
+      2.4808178983998825,
+      null,
+      null
+    ],
+    "G4.1/ferplus/0/ci_excess/lo": [
+      2.807153838774682,
+      null,
+      null
+    ],
+    "G4.1/ferplus/0/ci_excess/hi": [
+      5.298203608347627,
+      null,
+      null
+    ],
+    "G4.4/swa/acc_mean": [
+      89.9500223795573,
+      0.3663557063958696,
+      3
+    ],
+    "G4.4/swa/retention_pct": [
+      97.96473860861973,
+      null,
+      3
+    ],
+    "G4.4/best/acc_mean": [
+      90.27596791585286,
+      0.19098772580899204,
+      3
+    ],
+    "G4.4/best/retention_pct": [
+      98.31972650544428,
+      null,
+      3
+    ],
+    "G4.4/last/acc_mean": [
+      89.81964365641277,
+      0.16726154800857174,
+      3
+    ],
+    "G4.4/last/retention_pct": [
+      97.82274289594405,
+      null,
+      3
+    ],
+    "G4.5/swa|stage1/ratio": [
+      114.28484544262398,
+      null,
+      3
+    ],
+    "G4.5/swa|stage1/d_ece_mean": [
+      0.09058681609467649,
+      0.0023275137752995574,
+      3
+    ],
+    "G4.5/swa|primary/ratio": [
+      23.452342977601653,
+      null,
+      3
+    ],
+    "G4.5/swa|primary/d_ece_mean": [
+      0.0859243000838509,
+      0.0058053158019038915,
+      3
+    ],
+    "G4.5/swa|vae9182/ratio": [
+      213.02190328916706,
+      null,
+      3
+    ],
+    "G4.5/swa|vae9182/d_ece_mean": [
+      0.13877768606523855,
+      0.0012936613226332237,
+      3
+    ],
+    "G4.5/best|stage1/ratio": [
+      6.062952991621421,
+      null,
+      3
+    ],
+    "G4.5/best|stage1/d_ece_mean": [
+      0.12523130439982783,
+      0.0032952692810438032,
+      3
+    ],
+    "G4.5/best|primary/ratio": [
+      2.7831475150323906,
+      null,
+      3
+    ],
+    "G4.5/best|primary/d_ece_mean": [
+      0.11909216706977364,
+      0.011257873896763172,
+      3
+    ],
+    "G4.5/best|vae9182/ratio": [
+      27.34409375226454,
+      null,
+      3
+    ],
+    "G4.5/best|vae9182/d_ece_mean": [
+      0.1572956871540844,
+      0.009574882350333448,
+      3
+    ],
+    "G4.5/last|stage1/ratio": [
+      2.5567632846736426,
+      null,
+      3
+    ],
+    "G4.5/last|stage1/d_ece_mean": [
+      0.10904804582843983,
+      0.010645780539681517,
+      3
+    ],
+    "G4.5/last|primary/ratio": [
+      32.30754305173955,
+      null,
+      3
+    ],
+    "G4.5/last|primary/d_ece_mean": [
+      0.10440529850851914,
+      0.006785818497853476,
+      3
+    ],
+    "G4.5/last|vae9182/ratio": [
+      43.16368330570743,
+      null,
+      3
+    ],
+    "G4.5/last|vae9182/d_ece_mean": [
+      0.1592660306465983,
+      0.011493020122791362,
+      3
+    ],
+    "G4.5/pooled/swa/median": [
+      47.57080978973189,
+      null,
+      3
+    ],
+    "G4.5/pooled/swa/mean": [
+      73.12428681121135,
+      null,
+      3
+    ],
+    "G4.5/pooled/swa/min": [
+      32.67440398140596,
+      null,
+      3
+    ],
+    "G4.5/pooled/best/median": [
+      10.46034959627995,
+      null,
+      3
+    ],
+    "G4.5/pooled/best/mean": [
+      11.249568529659628,
+      null,
+      3
+    ],
+    "G4.5/pooled/best/min": [
+      9.503779899338086,
+      null,
+      3
+    ],
+    "G4.5/pooled/last/median": [
+      13.59372436336349,
+      null,
+      3
+    ],
+    "G4.5/pooled/last/mean": [
+      14.254067506446301,
+      null,
+      3
+    ],
+    "G4.5/pooled/last/min": [
+      10.276982689752312,
+      null,
+      3
+    ],
+    "G4.6/off_standard_count": [
+      28,
+      null,
+      131
+    ],
+    "G4.6/200/d_acc_mean": [
+      1.0155776174444902,
+      0.9039561060186865,
+      19
+    ],
+    "G4.6/200/d_ece_mean": [
+      -0.005965503067895797,
+      0.014540490005203648,
+      19
+    ],
+    "G4.6/400/d_acc_mean": [
+      0.721509544594774,
+      0.26986622324876924,
+      103
+    ],
+    "G4.6/400/d_ece_mean": [
+      -0.0022868193687234457,
+      0.008190004192198015,
+      103
+    ],
+    "G4.6/500/d_acc_mean": [
+      0.7460496690538194,
+      0.2805995470409467,
+      9
+    ],
+    "G4.6/500/d_ece_mean": [
+      -0.0031358666162693404,
+      0.004784383308077503,
+      9
+    ],
+    "G4.7/T=1.3406/fit_value": [
+      1.3405690339579057,
+      null,
+      24
+    ],
+    "G4.7/T=1.3406/source": [
+      "half:stage1",
+      null,
+      null
     ],
     "capacity_law/big/slope": [
       0.7160652787380302,

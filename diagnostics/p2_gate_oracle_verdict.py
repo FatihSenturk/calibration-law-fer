@@ -144,8 +144,10 @@ def unmovable_gate_rows():
         if r["family"] == "baseline" and r["manipulation"] == "none":
             ctrl.add((r["teacher"], r["seed"], r["class_weight_mode"]))
         elif r["family"] == "mechanism_ablation" and r["manipulation"] == "gate":
-            src = json.loads((Path(r["run_dir"]) / "run_args.json").read_text()
-                             ).get("gate_uncertainty_source", "?")
+            # Level-1: gate sinyali artık DEFTERDE bir sütun (`gate_signal`, 8 Ağu). Eskiden
+            # burada koşunun `run_args.json`'u açılıyordu ve bu betik yayımlanmayan
+            # `results/unified_students/` olmadan çalışamıyordu. Bilgi aynı, kaynağı farklı.
+            src = (r.get("gate_signal") or "?").strip() or "?"
             gates.append((r["teacher"], src, r["seed"], r["class_weight_mode"]))
     movable = [g for g in gates if (g[0], g[2], g[3]) in ctrl]
     stuck = [g for g in gates if (g[0], g[2], g[3]) not in ctrl]
@@ -279,9 +281,13 @@ def main():
                   "`diagnostics/p5_oracle_replication/p5_verdict.md`: the calibration harm "
                   "**did not resolve** for stage1/primary, so the claim below stays conditional on "
                   "VAE9182.", "",
-          "> The gate claim does not rest on those four rows: `gate:oracle_error` is the upper bound "
-          "measured with a **perfect** signal, against a **clean** control, at **three seeds**. If even "
-          "perfect information brings no gain, weaker signals cannot.", ""]
+          "> The gate claim does not rest on those four rows: `gate:oracle_error` is an "
+          "**error-informed diagnostic** — a perfect signal *of the student's own error*, against "
+          "a **clean** control, at **three seeds**. If even that brings no gain, no weaker "
+          "**error-derived** signal can. **Scope, stated (11 Aug 2026):** this is not a bound "
+          "over all signals. A signal that is not derived from the error — teacher variance, "
+          "input difficulty, human disagreement — is outside it and has to be tested on its own; "
+          "A12 does exactly that for the learned ones.", ""]
 
     (OUT_DIR / "p2_verdict.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     (OUT_DIR / "p2_verdict.json").write_text(json.dumps({

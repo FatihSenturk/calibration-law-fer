@@ -232,12 +232,24 @@
     "note": "against this control the same runs read as ECE-neutral with mixed signs; the clean control shows +0.0056 with 3/3 agreeing signs"
   },
   "gate_row_repair": {
-    "n_gate_rows": 14,
+    "n_gate_rows": 24,
     "moved_to_clean_control": [
       [
         "primary",
         "mean_logvar",
+        "1",
+        "none"
+      ],
+      [
+        "primary",
+        "mean_logvar",
         "42",
+        "none"
+      ],
+      [
+        "primary",
+        "mean_logvar",
+        "43",
         "none"
       ],
       [
@@ -261,7 +273,25 @@
       [
         "primary",
         "target_logvar",
+        "1",
+        "none"
+      ],
+      [
+        "primary",
+        "target_logvar",
         "42",
+        "none"
+      ],
+      [
+        "primary",
+        "target_logvar",
+        "43",
+        "none"
+      ],
+      [
+        "stage1",
+        "mean_logvar",
+        "1",
         "none"
       ],
       [
@@ -272,6 +302,12 @@
       ],
       [
         "stage1",
+        "mean_logvar",
+        "43",
+        "none"
+      ],
+      [
+        "stage1",
         "oracle_error",
         "1",
         "none"
@@ -291,13 +327,37 @@
       [
         "stage1",
         "target_logvar",
+        "1",
+        "none"
+      ],
+      [
+        "stage1",
+        "target_logvar",
         "42",
+        "none"
+      ],
+      [
+        "stage1",
+        "target_logvar",
+        "43",
+        "none"
+      ],
+      [
+        "vae9182",
+        "mean_logvar",
+        "1",
         "none"
       ],
       [
         "vae9182",
         "mean_logvar",
         "42",
+        "none"
+      ],
+      [
+        "vae9182",
+        "mean_logvar",
+        "43",
         "none"
       ],
       [

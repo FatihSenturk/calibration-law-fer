@@ -113,10 +113,24 @@ def main():
 
     # Right: zoom on everything else, where the real trade-offs live.
     draw(axR, rest, annotate=True)
-    pad_x = 0.12 * (max(p["d_acc"] for p in rest) - min(p["d_acc"] for p in rest))
-    pad_y = 0.18 * (max(p["d_ece"] for p in rest) - min(p["d_ece"] for p in rest))
-    axR.set_xlim(min(p["d_acc"] for p in rest) - pad_x, max(p["d_acc"] for p in rest) + 1.15 * pad_x)
-    axR.set_ylim(min(p["d_ece"] for p in rest) - pad_y, max(p["d_ece"] for p in rest) + 2.2 * pad_y)
+    # SINIRLAR HATA ÇUBUĞUNUN UÇLARINDAN (13 Ağu 2026) -- aynı düzeltme
+    # `export_paper_figures.fig_mechanism_diagnostic` içinde de var (kural üç satırlık aritmetik
+    # olduğu için ithal edilmiyor, ama iki yerde de aynı olmak ZORUNDA: aynı veriyi gösteren iki
+    # çıktı farklı pencere gösteremez).
+    #
+    # Eski hâl pencereyi NOKTA ORTALAMALARINDAN kuruyordu ve bu panelde **9 yatay + 2 dikey**
+    # çubuğu kırpıyordu (ölçüldü). Kırpılan çubuk belirsizliği olduğundan küçük gösterir; bu
+    # panelin işi tam da belirsizliği göstermek. n=1 noktalarının sd'si sıfır sayılır.
+    def _ext(key, sd_key):
+        lo = min(p[key] - ((p[sd_key] or 0.0) if p["n"] > 1 else 0.0) for p in rest)
+        hi = max(p[key] + ((p[sd_key] or 0.0) if p["n"] > 1 else 0.0) for p in rest)
+        return lo, hi
+    x_lo, x_hi = _ext("d_acc", "d_acc_sd")
+    y_lo, y_hi = _ext("d_ece", "d_ece_sd")
+    x_span, y_span = x_hi - x_lo, y_hi - y_lo
+    axR.set_xlim(x_lo - 0.05 * x_span, x_hi + 0.05 * x_span)
+    # üst pay lejant için (loc="upper center"), alt pay yalnız nefes payı
+    axR.set_ylim(y_lo - 0.06 * y_span, y_hi + 0.45 * y_span)
     axR.set_title("B · `logit_std` hariç yakınlaştırma:\nasıl takaslar burada  (y ölçeği 24× daha dar)",
                   fontsize=10.5)
     axR.text(0.98, 0.03, "sağ-alt çeyrek = kesin iyileşme", transform=axR.transAxes,

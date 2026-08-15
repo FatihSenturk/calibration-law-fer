@@ -59,11 +59,39 @@ def load_audit():
 
 
 def pick(runs, **flags):
-    """runs.csv'den bayrak eşleşmesiyle seç; seed -> run_name."""
-    out = {}
+    """runs.csv'den bayrak eşleşmesiyle seç; seed -> run_name.
+
+    TOHUM TEKİLLİĞİ KAPISI (6 Ağu 2026'da eklendi, gerçek bir hatadan sonra).
+    Bu fonksiyon eskiden `out[seed] = run_name` diye SESSİZCE üzerine yazıyordu: bir tohuma
+    birden çok koşu uyuyorsa runs.csv'de EN SON gelen kazanıyordu. Yani sonuç, defterin satır
+    sırasına bağlıydı.
+
+    Bu teorik bir risk değil, gerçekleşti. P6'nın 42 koşusu (`p6alpha_*`, `p6tau_*`) deftere
+    girdiğinde 1 numaralı kontrastın yordamına uydular — `*_ts100` olanlar KONTROL yordamına
+    (t_scale=1.0, manipulation=none), `*_ts134` olanlar TEDAVİ yordamına. Defter 6 Ağu'da
+    yeniden kurulunca seçilen koşular değişti ve "RAF-DB doz-yanıtının nedensel çekirdeği"
+    diye etiketlenen kontrastın Holm p'si 0.0020'den 0.0192'ye taşındı. Hiçbir hata mesajı
+    çıkmadı; her hücre kendi içinde tutarlıydı.
+
+    Aynı hata sınıfı bu kampanyada bir kez daha yaşandı (P3'ün T10 hücresine karışması) ve
+    `paper_tables.py`'ye tam olarak bu kapı eklenmişti. Buraya taşınmamıştı; şimdi taşındı.
+
+    Bir tohuma birden çok koşu uyuyorsa yordam yeterince dar değildir — bu, seçimi sıraya
+    bırakmak yerine YÜKSELTİLECEK bir hatadır.
+    """
+    out, seen = {}, {}
     for r in runs:
         if all(str(r.get(k, "")) == str(v) for k, v in flags.items()):
-            out[int(r["seed"])] = r["run_name"]
+            s = int(r["seed"])
+            seen.setdefault(s, []).append(r["run_name"])
+            out[s] = r["run_name"]
+    dup = {s: n for s, n in seen.items() if len(n) > 1}
+    if dup:
+        detail = "\n".join(f"    seed {s}: " + ", ".join(sorted(n)) for s, n in sorted(dup.items()))
+        raise RuntimeError(
+            "pick(): bir tohuma birden çok koşu uyuyor — yordam yeterince dar değil, ve "
+            "hangisinin seçileceği defterin satır sırasına kalırdı.\n"
+            f"  yordam: {flags}\n{detail}")
     return out
 
 
@@ -101,20 +129,25 @@ def main():
 
     contrasts = []
 
+    # ORTAK YORDAM. `alpha` ve `kd_temperature` 6 Ağu 2026'da EKLENDİ, çünkü onlarsız yordam
+    # P6'nın α-modülasyon (α ∈ {0.10,0.50,0.70,0.90}) ve τ-faktöriyel (T ∈ {0.3,1.2}) kollarını
+    # da yakalıyordu: o koşular tam olarak bu iki ekseni oynatmak için koşuldu, dolayısıyla
+    # kampanyanın standart tarifini (α=0.3, T_KD=6) şart koşmak onları tanım gereği dışarıda
+    # bırakır. Bu bir sonuç-sonrası daraltma DEĞİL; eksik kalmış bir tarif şartının
+    # tamamlanması — ve doğruluğu, P6 öncesi sayıları birebir yeniden üretmesiyle sınandı.
+    BASE = dict(epochs="400", swa_start="200", student_head="vich",
+                class_weight_mode="effective_number", alpha="0.3", kd_temperature="6.0")
+
     # 1. stage1 T* vs T=1
-    treat = pick(runs, teacher="stage1", t_scale="1.3406", epochs="400", swa_start="200",
-                 student_head="vich", class_weight_mode="effective_number")
-    ctrl = pick(runs, teacher="stage1", family="baseline", manipulation="none", epochs="400",
-                swa_start="200", student_head="vich", class_weight_mode="effective_number")
+    treat = pick(runs, teacher="stage1", t_scale="1.3406", **BASE)
+    ctrl = pick(runs, teacher="stage1", family="baseline", manipulation="none", **BASE)
     contrasts.append(("stage1: T*(1.3406) vs T=1", paired_from(audit, treat, ctrl)))
 
     # 2-4. logit_std vs kontrol, üç öğretmen
     for t in ("stage1", "primary", "vae9182"):
         treat = pick(runs, teacher=t, family="mechanism_ablation", manipulation="logit_std",
-                     epochs="400", swa_start="200", class_weight_mode="effective_number")
-        ctrl = pick(runs, teacher=t, family="baseline", manipulation="none", epochs="400",
-                    swa_start="200", student_head="vich",
-                    class_weight_mode="effective_number")
+                     **{k: v for k, v in BASE.items() if k != "student_head"})
+        ctrl = pick(runs, teacher=t, family="baseline", manipulation="none", **BASE)
         contrasts.append((f"{t}: logit_std vs kontrol", paired_from(audit, treat, ctrl)))
 
     # 5. vae9182 oracle vs temiz kontrol — P2'nin ön-kayıtlı verdict artefaktından

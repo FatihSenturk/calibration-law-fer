@@ -19,6 +19,10 @@ were launched.
 training logs, and the manuscript sources. See [Data](#data) and
 [PROVENANCE.md](PROVENANCE.md).
 
+**Which version this is.** This snapshot corresponds to the manuscript currently
+under review; the submitted version will be tagged, and a DOI minted from that
+tag on the day of submission.
+
 ---
 
 ## What can be reproduced, and at what cost
@@ -154,11 +158,56 @@ Reproducing a *single* arm is cheap; reproducing the campaign is not.
 | the per-run raw outputs under `results/` | size | yes |
 | the datasets (RAF-DB, FERPlus) | licensed by their owners, not ours to redistribute | obtain from the original providers |
 
-The cached teacher and student logits under `diagnostics/` **are** included (554 KB in
-total): they let you re-derive the joint-optimum, robustness and FERPlus-JSD tables
-without any run directory. They are **model outputs computed on the validation split, not
+The cached model outputs under `diagnostics/` **are** included (5.3 MB in total): they let
+you re-derive the joint-optimum, robustness, selection-gain and FERPlus-JSD tables without
+any run directory. They are **model outputs computed on the validation split, not
 redistributed dataset content** — no image, label or annotation from RAF-DB or FERPlus is
 republished here.
+
+Three groups make up that total.
+
+| group | size | what it is |
+|---|---|---|
+| `diagnostics/ferplus_jsd/`, `diagnostics/teacher_ece_grid/` | 554 KB | four teacher/validation logit caches, here from the start |
+| `diagnostics/student_logits/` | 3.4 MB | 42 student logit caches, added 8 Aug 2026 |
+| `diagnostics/epoch_curves.npz` | 1.2 MB | per-epoch validation accuracy and loss — 199 runs, 76,700 epochs, added 9 Aug 2026 |
+
+The logit caches each hold one logit matrix (3068 rows for RAF-DB, 3153 for FERPlus) and
+its label vector. `epoch_curves.npz` holds three arrays per run — epoch number, validation
+accuracy at that epoch, validation loss at that epoch. There are no images, no vote
+distributions and no file names in any of them.
+
+The **42 student caches** were added for one reason: without them,
+`diagnostics/robustness_metrics.py` (the seven-metric dose–response inventory) and
+`diagnostics/r3w1_joint_optimum.py` (the FERPlus joint-optimum test) read
+`results/unified_students/`, so those two tables could **not** be reproduced here. They are
+**byte copies**
+of the caches written inside each run directory, not repackaged: the collector
+(`diagnostics/publish_student_logits.py`) hashes source and copy separately and stops
+unless the two sha256 digests are equal. `diagnostics/student_logits/MANIFEST.json` records
+for each file which run directory it came from, its sha256, and the accuracy and ECE stored
+in its own metadata — so the copy's provenance is checkable, not asserted.
+
+One consequence of insisting on byte copies is stated rather than hidden: each `.npz` still
+carries, inside its own `meta` field, the **absolute path of the run directory it was
+written in** on the machine that trained it. It was not scrubbed, because scrubbing means
+repacking, and repacking would void the sha256 identity that makes the copy provable in the
+first place. `MANIFEST.json` publishes the same provenance in repository-relative form
+(`results/unified_students/<run>/<timestamp>`), so nothing here depends on reading the
+embedded string. Every one of the 42 shares the same root, `…\poster-var\results`: a local
+directory layout and nothing else, with no user name and no credential in it.
+
+`epoch_curves.npz` was written by `diagnostics/publish_epoch_curves.py` and is **not** a byte
+copy — it is a repack, because the source is ten-column CSV and only three columns are used.
+That is why its arrays are `float64` rather than `float32`, and the reason is worth stating
+because it is not obvious: the training logs record `val_acc` at full double precision, and
+rounding to `float32` makes distinct epoch accuracies compare equal. `argmax` then picks an
+earlier epoch, and `argmax_in_last_K` moved by 1.5–2 points before the dtype was fixed. With
+`float64` both consumers reproduce their previously published numbers exactly. A repack is
+only safe once you have checked that it is.
+
+**So please do not shrink this file.** `float32` halves it to 761 KB and the two tables it
+feeds stop reproducing — that was measured, not feared.
 
 This is the honest consequence: **a reader who clones this repository and runs the
 analysis scripts gets Level 1 and Level 2, not Level 3.** Level 1 works precisely
@@ -253,6 +302,25 @@ impossible. It is built from the public FER+ vote file by
 
 Model checkpoints are excluded for size and are available on request from the
 corresponding author.
+
+**Where the config files expect your copy.** Because the datasets are licensed to
+their owners and are not ours to redistribute, no config in `configs/` can point at
+a real directory in this repository. Every dataset path is therefore written as the
+placeholder `<DATASET_ROOT>` — **the directory holding your own copies of the image
+sets** — for example `train_root: <DATASET_ROOT>/AffectNet+` and
+`metadata: <DATASET_ROOT>/FERPlus_processed_metadata.csv`. A second placeholder,
+`<CHECKPOINT_ROOT>`, marks **the directory holding locally pre-trained backbone
+weights**, and appears only in the `pretrained_local:` field, e.g.
+`pretrained_local: <CHECKPOINT_ROOT>/best.pt`. The two are separate because they are
+separate things: a checkpoint root is not a dataset root, and on most machines they do
+not live under the same parent. **Replace both with the paths to your own copies before
+running anything at Level 3.** Configs whose data path is already repo-relative
+(`train_root: data/rafdb_aligned`) are left as they are — nothing to substitute there,
+you just place your copy under `data/`. The placeholder is
+deliberate rather than a relative path that happens to resolve: a config that
+silently points at an empty `data/` directory fails later and less clearly than one
+that states outright that a path is required. Level 1 (regenerating every table and
+number in the paper) needs none of this — it reads only the artefacts committed here.
 
 ---
 

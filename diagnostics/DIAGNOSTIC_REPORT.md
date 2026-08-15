@@ -1,7 +1,7 @@
 # FER-KD Training Regression — Diagnostic Report
 
-Repo: `<repo root>` (verified as the active copy; `clean_core` and
-`.` were not used except where explicitly cited as archaeology).
+Repo: `poster-var` (verified as the active copy; `clean_core` and
+`D:\Veriseti\poster-var` were not used except where explicitly cited as archaeology).
 Scope: RAF-DB KD pipeline (`train_rafdb_kd.py`, `kd_common.py`, `kd_uncertainty.py`,
 `kd_g2g.py`, `kd_baselines.py`). Read-only investigation; two throwaway scripts were
 run under `diagnostics/` (≤2 GPU-minutes total, single val-set forward passes, no
@@ -62,7 +62,7 @@ is hard-disabled repo-wide (`train_rafdb_kd.py:616`, confirmed, matches `PHASE0_
 |---|---|---|
 | (i) Student-only, no-KD baseline | **UNKNOWN — no `disable_kd: true` run found** (`grep -rl '"disable_kd": true' --include=run_args.json .` → zero hits repo-wide). Would need a fresh `--disable-kd` run to establish. |
 | (ii) Vanilla-KD baseline (no Phase-0 components) | 90.74% (best, historical, see below) down to 88.75%/88.46% (recent) — see delta table |
-| (iii) Best historical run overall | **90.74%** — `reference_90_74/metrics_best.json`, checkpoint `results/rafdb_kd_ce9241_mbv2_lightle_vich/2026-05-27-12-17-20/best_checkpoint.pth`, teacher=`teacher_ce9241_best.pt`, `epochs=200, img_size=256, student_head_type=vich, student_layer_embedding=True(LightLE)`. `ALL_RESULTS_SUMMARY.md` additionally cites a "LE-VAE KD 200e, 91.00%" run as the nominal best — **UNKNOWN, unverified**: no `metrics_best.json` anywhere in this repo instance reports 91.00%±0.05 (checked every `metrics_best.json` in the repo); likely lives only in the historical `.` copy or was computed by a script/table not re-run here. Treat 90.74% as the provenance-backed ceiling for this repo. |
+| (iii) Best historical run overall | **90.74%** — `reference_90_74/metrics_best.json`, checkpoint `results/rafdb_kd_ce9241_mbv2_lightle_vich/2026-05-27-12-17-20/best_checkpoint.pth`, teacher=`teacher_ce9241_best.pt`, `epochs=200, img_size=256, student_head_type=vich, student_layer_embedding=True(LightLE)`. `ALL_RESULTS_SUMMARY.md` additionally cites a "LE-VAE KD 200e, 91.00%" run as the nominal best — **UNKNOWN, unverified**: no `metrics_best.json` anywhere in this repo instance reports 91.00%±0.05 (checked every `metrics_best.json` in the repo); likely lives only in the historical `D:\Veriseti\poster-var` copy or was computed by a script/table not re-run here. Treat 90.74% as the provenance-backed ceiling for this repo. |
 | (iv) Recent failing runs (new-recipe grid, 2026-07-16, `teacher_rafdb_vich_recipe_best.pt`, 224px, LightLE+SWA) | baseline 88.75%/88.46%(SWA), gate 88.62%/88.72%, g2g_kl 89.05%/**89.47%**, logit_std 88.49%/88.53%, adaptive_t 89.15%/88.92%, ctkd 88.62%/88.59% | `kd_logs_rafdb_newrecipe_lightle_swa/*/2026-07-16-*` |
 
 **Delta table** (recent failing run best-acc minus each reference; SWA-final used where the
@@ -394,7 +394,7 @@ Take the existing new-recipe baseline config (`kd_logs_rafdb_newrecipe_lightle_s
 
 ### C3. Open questions for the author
 
-1. What produced the "91.00% LE-VAE KD 200e" figure in `ALL_RESULTS_SUMMARY.md`? No matching `metrics_best.json` exists anywhere in this repo copy — is it from `.`, a since-deleted run, or a different eval script/table not re-run here?
+1. What produced the "91.00% LE-VAE KD 200e" figure in `ALL_RESULTS_SUMMARY.md`? No matching `metrics_best.json` exists anywhere in this repo copy — is it from `D:\Veriseti\poster-var`, a since-deleted run, or a different eval script/table not re-run here?
 2. Is there a deliberate reason `teacher_vich9237_best.pt` ("untraceable provenance") was the teacher for every historical 88–90% run, while the new, better-documented `teacher_rafdb_vich_recipe_best.pt` is now standard — was the switch itself evaluated in a controlled, single-variable way anywhere outside this session's confounded grid?
 3. Was `--no-vich-sampling` (student) a deliberate design change for the new recipe, or an incidental default drift? (`use_vich_sampling` is `True` by default in `parse_args()`, `train_rafdb_kd.py:1002-1003`, but every 2026-07-16 run explicitly passes `--no-vich-sampling`.)
 4. Is there a `--disable-kd` (student-only, no-KD) baseline anywhere, even historically, to anchor how much of the 88–91% range is actually attributable to distillation at all versus the LightLE+VICH student architecture and augmentation recipe alone? None was found in this repo.

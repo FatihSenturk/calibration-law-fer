@@ -1,6 +1,8 @@
 """R2-4/5: sıra-istatistiği penceresinde trend var mı? (K=50 → K=100 büyümesinin kaynağı)
 
-SORU (R2 hakem turu): §4'ün saf sıra-istatistiği tahmini K=50'de +0.642, K=100'de +0.768 pp.
+SORU (R2 hakem turu): §5.6'nın saf sıra-istatistiği tahmini K=50'de +0.6445, K=100'de +0.7640 pp
+(9 Ağu 2026'da donmuş denetim kümesine güncellendi; öncesi +0.642 / +0.768 idi ve geniş RAF-DB
+popülasyonundan geliyordu -- bkz. PUBLISHED_A2'nin üstündeki kayıt).
 Büyüme son-K penceresindeki bir TRENDDEN mi (doğruluk hâlâ tırmanıyor → max−ort şişer),
 yoksa salt mekanik mi (daha çok çekilişin maksimumu büyür)? Trend varsa detrend'li değer,
 yoksa "plato" teyidi.
@@ -13,9 +15,9 @@ yoksa "plato" teyidi.
 
 KAPSAM DONMUŞ DENETİM KÜMESİ: selection_audit.csv'nin (N=131) run_dir sütunundan.
 DİKKAT — selection_gain_estimator.py kesme filtresi UYGULAMIYOR; bugün yeniden koşulsa
-P5/P6 koşularını da katar ve §4'teki sayılar kayardı. Bu betik bu yüzden denetim CSV'sine
-sabitlenir ve ham a2'yi §4 değerlerine karşı çapalar (tolerans 0.02 pp — §4 sayıları
-üretildiğinde log'u olan koşu kümesi birebir aynı olmayabilir; sapma bundan büyükse DUR).
+P5/P6 koşularını da katar ve §5.6'daki sayılar kayardı. Bu betik bu yüzden denetim CSV'sine
+sabitlenir ve ham a2'yi §5.6 değerlerine karşı çapalar (tolerans 0.001 pp: makaledeki 4 haneli
+yuvarlamayı taşır, popülasyon kaymasını taşımaz; sapma bundan büyükse DUR).
 
 Salt-okunur, GPU yok. Çıktı -> diagnostics/paper_tables/order_stat_trend.{md,json}
 """
@@ -28,33 +30,52 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "diagnostics"))
 
+from publish_epoch_curves import has, load  # noqa: E402
 from stats_convention import SD_CONVENTION, sample_sd  # noqa: E402
 
 AUDIT = ROOT / "diagnostics" / "selection_audit" / "selection_audit.csv"
 OUT_DIR = ROOT / "diagnostics" / "paper_tables"
 KS = (50, 100)
-PUBLISHED_A2 = {50: 0.642, 100: 0.768}   # §4 m6'daki değerler (pp)
-ANCHOR_TOL = 0.02
+# §5.6/T8'in yayımlı değerleri (pp).
+#
+# 9 Ağu 2026, makale güncellemesinden SONRA: §5.6'nın ham a2 çifti ve iki argmax oranı donmuş
+# kümeye çevrildi (T8 n=105 -> 131), dolayısıyla çapa da o değerlere çevrildi. Artık çapa BU
+# BETİĞİN hesapladığı popülasyonun ta kendisinden geliyor; tek fark makaledeki 4 haneli
+# yuvarlama, yani beklenen sapma ~5e-5.
+#
+# ÖNCEKİ HÂLİN KAYDI (silmiyorum, ders burada): çapa {50: 0.642, 100: 0.768} idi ve o iki sayı
+# `selection_gain.json`'ın o günkü hâlinden, RAF-DB'nin BÜTÜN bitmiş koşularından (n=105)
+# geliyordu. Donmuş 131'e karşı sapma 0.0025 / 0.0040, yani ANCHOR_TOL=0.02'nin ALTINDA -- çapa
+# GEÇTİ ve popülasyon uyuşmazlığını **MASKELEDİ**. Gevşek bir çapa çapa değildir.
+PUBLISHED_A2 = {50: 0.6445, 100: 0.7640}
+POPULATION = "frozen selection audit set"
+ANCHOR_POPULATION = POPULATION
+# 0.02 -> 0.001: eşiğin taşıması gereken tek şey makaledeki yuvarlama (~5e-5); yakalaması gereken
+# şey popülasyon kayması. Donmuş 131 ile geniş 199 arasındaki fark 0.0133 (K=50) ve 0.0198
+# (K=100) pp -- ikisi de 0.001'in üstünde, yani bugün maskelenen olay bu eşikle DURDURULUR.
+ANCHOR_TOL = 0.001
 
 
-def frozen_run_dirs():
-    dirs = {}
+def frozen_runs():
+    """Donmuş denetimin (koşu adı, zaman damgası) çiftleri — tekil, sıralı.
+
+    LEVEL-1 (9 Ağu 2026). Eskiden `Path(r["run_dir"])` döndürüyordu ve eğri o dizinin
+    `training_log.csv`'sinden okunuyordu; bu betik Level-1 kapısının iki ihlalinden biriydi.
+    Denetim dosyası koşu DİZİNİNİ yazıyor ama buradan yalnız ad + zaman damgası alınır (saf
+    metin işlemi) ve eğri `publish_epoch_curves` ile yayımlanan diziden okunur.
+    """
+    seen = {}
     for r in csv.DictReader(open(AUDIT, encoding="utf-8")):
-        dirs[(r["run_name"], r["timestamp"])] = Path(r["run_dir"])
-    return sorted(set(dirs.values()))
+        seen[(r["run_name"], r["timestamp"])] = True
+    return sorted(seen)
 
 
-def val_acc_series(run_dir):
-    p = run_dir / "training_log.csv"
-    if not p.exists():
+def val_acc_series(run):
+    """Yayımlanan epok eğrisinden `val_acc` serisi. Koşu dizinine dokunmaz."""
+    if not has(*run):
         return []
-    acc = []
-    for r in csv.DictReader(open(p, encoding="utf-8")):
-        try:
-            acc.append(float(r["val_acc"]))
-        except (KeyError, ValueError):
-            continue
-    return acc
+    _ep, va, _vl = load(*run)
+    return [float(x) for x in va]
 
 
 def ols_residual_stats(win):
@@ -69,8 +90,15 @@ def ols_residual_stats(win):
 
 
 def main():
-    runs = frozen_run_dirs()
-    print(f"donmuş denetim kümesi: {len(runs)} koşu dizini")
+    # cp1252 konsolda Türkçe karakter `UnicodeEncodeError` atıyor ve betik SAYIYI ÜRETMEDEN
+    # ilk satırı basarken düşüyordu; Level-1 kapısında "başka hata" görünüyordu, yani soru
+    # hiç sorulmuyordu (9 Ağu). Deponun geri kalanındaki standart blok buraya da eklendi.
+    for s in (sys.stdout, sys.stderr):
+        if hasattr(s, "reconfigure"):
+            s.reconfigure(encoding="utf-8", errors="replace")
+    runs = frozen_runs()
+    print(f"donmuş denetim kümesi: {len(runs)} koşu "
+          f"(eğriler diagnostics/epoch_curves.npz'den — koşu dizini okunmuyor)")
 
     agg = {k: {"a2": [], "slope": [], "drift": [], "a2_detr": []} for k in KS}
     for rd in runs:
@@ -93,11 +121,16 @@ def main():
         m_a2 = st.mean(d["a2"])
         anchor_dev = abs(m_a2 - PUBLISHED_A2[k])
         if anchor_dev > ANCHOR_TOL:
-            raise RuntimeError(f"K={k}: ham a2 {m_a2:.3f}, §4 {PUBLISHED_A2[k]} — sapma "
-                               f"{anchor_dev:.3f} > {ANCHOR_TOL}. Küme uyuşmuyor, DUR.")
+            raise RuntimeError(f"K={k}: ham a2 {m_a2:.4f}, §5.6 {PUBLISHED_A2[k]} — sapma "
+                               f"{anchor_dev:.4f} > {ANCHOR_TOL}. Küme uyuşmuyor, DUR.")
         res[k] = {"n_runs": len(d["a2"]),
+                  "population": POPULATION,
                   "a2_raw": {"mean": m_a2, "sd": sample_sd(d["a2"])},
                   "published_a2": PUBLISHED_A2[k], "anchor_dev": anchor_dev,
+                  "anchor_population": ANCHOR_POPULATION,
+                  # Elle çevrilen bir bayrak değil: iki tanımın karşılaştırması. Çapa başka bir
+                  # popülasyona geri alınırsa bu alan kendiliğinden `false` olur.
+                  "anchor_population_matches": ANCHOR_POPULATION == POPULATION,
                   "slope_pp_per_epoch": {"mean": st.mean(d["slope"]),
                                          "sd": sample_sd(d["slope"])},
                   "window_drift_pp": {"mean": st.mean(d["drift"]),
@@ -112,13 +145,13 @@ def main():
          f"Producer: `diagnostics/order_stat_trend.py` · frozen audit set (N=131 runs, "
          f"those with a long enough log are in the table) · {SD_CONVENTION} · window = last K "
          f"epochs, OLS detrend.", "",
-         "| K | n | raw a2 (max−mean) | §4 value | OLS drift (over the window) | "
+         "| K | n | raw a2 (max−mean) | §5.6 value | OLS drift (over the window) | "
          "**detrended a2** |",
          "|---|---|---|---|---|---|"]
     for k in KS:
         r = res[k]
         L.append(f"| {k} | {r['n_runs']} | {r['a2_raw']['mean']:+.3f} ± "
-                 f"{r['a2_raw']['sd']:.3f} | +{r['published_a2']:.3f} | "
+                 f"{r['a2_raw']['sd']:.3f} | +{r['published_a2']:.4f} | "
                  f"{r['window_drift_pp']['mean']:+.3f} ± {r['window_drift_pp']['sd']:.3f} pp | "
                  f"**{r['a2_detrended']['mean']:+.3f} ± {r['a2_detrended']['sd']:.3f}** |")
     L += ["",

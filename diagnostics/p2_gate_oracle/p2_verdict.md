@@ -59,26 +59,36 @@ Same treatment, same seeds; the only difference is which control it is differenc
 
 ## Re-differencing the six gate rows — how far it got
 
-Gate runs on the 400e/SWA@200 budget: **14**. With a control in their own class-weighting mode: **14**; hâlâ olmayan: **0**.
+Gate runs on the 400e/SWA@200 budget: **24**. With a control in their own class-weighting mode: **24**; hâlâ olmayan: **0**.
 
 | teacher | signal | seed | moved onto the clean control |
 |---|---|---|---|
+| primary | mean_logvar | 1 | ✅ yes |
 | primary | mean_logvar | 42 | ✅ yes |
+| primary | mean_logvar | 43 | ✅ yes |
 | primary | oracle_error | 1 | ✅ yes |
 | primary | oracle_error | 42 | ✅ yes |
 | primary | oracle_error | 43 | ✅ yes |
+| primary | target_logvar | 1 | ✅ yes |
 | primary | target_logvar | 42 | ✅ yes |
+| primary | target_logvar | 43 | ✅ yes |
+| stage1 | mean_logvar | 1 | ✅ yes |
 | stage1 | mean_logvar | 42 | ✅ yes |
+| stage1 | mean_logvar | 43 | ✅ yes |
 | stage1 | oracle_error | 1 | ✅ yes |
 | stage1 | oracle_error | 42 | ✅ yes |
 | stage1 | oracle_error | 43 | ✅ yes |
+| stage1 | target_logvar | 1 | ✅ yes |
 | stage1 | target_logvar | 42 | ✅ yes |
+| stage1 | target_logvar | 43 | ✅ yes |
+| vae9182 | mean_logvar | 1 | ✅ yes |
 | vae9182 | mean_logvar | 42 | ✅ yes |
+| vae9182 | mean_logvar | 43 | ✅ yes |
 | vae9182 | oracle_error | 1 | ✅ yes |
 | vae9182 | oracle_error | 42 | ✅ yes |
 | vae9182 | oracle_error | 43 | ✅ yes |
 
 > **A8's note that 'all six gate rows can be moved' is fully satisfied.** P4 (6 controls, 30 Jul) landed the missing `class_weight_mode=none` baselines for stage1 and primary, and P5 (6 runs, 31 Jul–1 Aug) the oracle replication: **every gate row is now differenced against the control in its own mode**, with no unpaired rows. P5's verdict is also in `diagnostics/p5_oracle_replication/p5_verdict.md`: the calibration harm **did not resolve** for stage1/primary, so the claim below stays conditional on VAE9182.
 
-> The gate claim does not rest on those four rows: `gate:oracle_error` is the upper bound measured with a **perfect** signal, against a **clean** control, at **three seeds**. If even perfect information brings no gain, weaker signals cannot.
+> The gate claim does not rest on those four rows: `gate:oracle_error` is an **error-informed diagnostic** — a perfect signal *of the student's own error*, against a **clean** control, at **three seeds**. If even that brings no gain, no weaker **error-derived** signal can. **Scope, stated (11 Aug 2026):** this is not a bound over all signals. A signal that is not derived from the error — teacher variance, input difficulty, human disagreement — is outside it and has to be tested on its own; A12 does exactly that for the learned ones.
 

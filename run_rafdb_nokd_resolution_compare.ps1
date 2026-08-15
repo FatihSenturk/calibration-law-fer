@@ -26,7 +26,7 @@ if (-not (Test-Path $pretrainedPath)) {
 if ([string]::IsNullOrWhiteSpace($DataRoot)) {
     $candidates = @(
         (Join-Path $PSScriptRoot "data\rafdb_aligned"),
-        "data/rafdb_aligned",
+        "C:\dataset\rafdb_aligned",
         "C:\rafdb_aligned"
     )
     $DataRoot = $candidates | Where-Object {

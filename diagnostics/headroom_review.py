@@ -10,9 +10,16 @@ Hiçbir sayı elle yazılmaz: hepsi `teacher_ece_grid.json`, `ferplus_jsd.json` 
   headroom'u yapısal olarak ≥ 0 kılar; doğru değer aşağıda hesaplanıyor.
 
 İTİRAZ 2 — "FERPlus headroom: metin 0.120, tablo 0.1282−0.0156 = 0.1126."
-  İki sayı iki farklı T*'a ait. 0.120, Eq.8 tanımının değeri (ECE argmin, T*_ECE); 0.1126 ise
-  fiilen KOŞULAN kalibre kolun T*_NLL sıcaklığındaki gerçekleşen azalma. İkisi de doğru, ama
-  aynı cümlede tek isim altında kullanılamaz — hangisinin nerede geçeceği aşağıda bağlanıyor.
+  İki sayı iki farklı T*'a ait. 0.120 ince taramanın argmin'i (196 nokta, T∈[0.1,4.0], adım 0.02
+  → T=0.46); 0.1126 ise fiilen KOŞULAN dört noktalı ızgaranın argmin'i (T=0.5063). İkisi de
+  doğru, ama aynı cümlede tek isim altında kullanılamaz.
+
+  ÇAPA GÜNCELLEMESİ (11 Ağu 2026): Eq.8 artık `min_{T∈G}` — yani headroom'un tanımı FİİLEN
+  TARANAN ızgaraya bağlandı. Bunun sonucu birincil sayının değişmesidir: **0.113** (= 0.128233 −
+  0.015628, dört noktalı G üzerinde argmin) artık manşet; 0.120 ise "finer-resolution" olarak
+  anılıyor. Sayılar yine değişmedi, tanımın kapsadığı ızgara değişti. Dikkat: bu redefinasyonla
+  "koşulan kolun gerçekleşen azalması" ile "tanımın değeri" ARTIK AYNI SAYI — eskiden bu ikisi
+  ayrı isimlere muhtaçtı, çünkü tanım ince taramayı işaret ediyordu.
 
 İTİRAZ 3 — "76× ✓ ama dipnottaki 0.0024 ile okur 74 hesaplıyor."
   Gösterim hatası: 0.002351, 4 hanede 0.0024'e yuvarlanınca oran okur elinde 74.2'ye düşüyor.
@@ -66,6 +73,18 @@ def main():
     # raporun kapattığı hata sınıfı.)
     sg = {r["T"]: r for r in jload(A_FER_SG)["grid"]}
     dep = sg[0.5063]
+    # Izgara boyutlari ELLE YAZILMIYOR: Eq.8 artik `min_{T∈G}` oldugu icin G'nin kac noktali
+    # oldugu tanimin PARCASI. Ince tarama da ayni yerden olculur (adim = ilk iki nokta farki).
+    n_grid = len(sg)
+    fine_T = sorted(float(r["T"]) for r in fer["sweep"])
+    n_fine = len(fine_T)
+    fine_step = round(fine_T[1] - fine_T[0], 4)
+    # Tanimin dogrulugu KONTROL EDILIYOR: G uzerindeki argmin gercekten kosulan sicaklik mi?
+    # Degilse manset sayisi (0.113) bu izgaranin minimumu DEGIL demektir ve durulur.
+    g_argmin = min(sg.values(), key=lambda r: r["teacher_ece"])["T"]
+    if g_argmin != 0.5063:
+        raise RuntimeError(f"G uzerindeki ECE argmin T={g_argmin}, kosulan kol 0.5063 degil — "
+                           f"Eq.8'in min_{{T in G}} degeri kosulan kola ait DEGIL, DUR.")
     fer_row = {
         "ece_T1": f_t1,
         "eq8": {"T": f_ece["T"], "ece": f_ece["ece"], "headroom": f_t1 - f_ece["ece"]},
@@ -106,20 +125,25 @@ def main():
           f"decimals (0.0220); for primary they do not ({rows['primary']['headroom_nllstar']:.4f} vs "
           f"{rows['primary']['headroom_eq8']:.4f}) — whichever convention the text adopts, it must "
           "use the same one for ALL THREE teachers; Eq.8 is the recommendation.", "",
-          "## 2 · FERPlus 0.120 vs 0.1126: two T*, two numbers", "",
+          "## 2 · FERPlus 0.113 vs 0.120: one definition, two grid resolutions", "",
           f"| quantity | T | ECE | value |", "|---|---|---|---|",
           f"| ECE(T=1) | 1.0 | {fer_row['ece_T1']:.4f} | — |",
-          f"| **Eq.8 headroom** (ECE argmin) | **{fer_row['eq8']['T']:g}** | "
-          f"{fer_row['eq8']['ece']:.4f} | **{fer_row['eq8']['headroom']:.4f} → metindeki "
-          f"\"0.120\"** |",
-          f"| reduction realised by the arm that was run (T*_NLL) | {fer_row['deployed_nll']['T']:g} | "
-          f"{fer_row['deployed_nll']['ece']:.4f} | {fer_row['deployed_nll']['reduction']:.4f} → "
-          f"the table's \"0.1282−0.0156\" |", "",
-          "Both are correct; they are names for different things. **Binding rule:** the word "
-          "*headroom* carries only the Eq.8 value (0.1198 ≈ 0.120, T*_ECE=0.46); any sentence "
-          "speaking about the table instead says \"the realized reduction at the deployed "
-          "T*_NLL=0.5063 is 0.1126\". The arm was actually run at 0.5063, so the table does not "
-          "change — the text simply stops calling two numbers by one name.",
+          f"| **Eq.8 headroom** — `min` over the swept grid G ({n_grid} points) | "
+          f"**{fer_row['deployed_nll']['T']:g}** | {fer_row['deployed_nll']['ece']:.4f} | "
+          f"**{fer_row['deployed_nll']['reduction']:.4f} → the paper's \"0.113\"** |",
+          f"| finer-resolution refinement ({n_fine}-point sweep, step {fine_step:g}) | "
+          f"{fer_row['eq8']['T']:g} | {fer_row['eq8']['ece']:.4f} | "
+          f"{fer_row['eq8']['headroom']:.4f} → the paper's \"0.120\" |", "",
+          "**Binding rule (updated 11 Aug 2026).** Eq.8 is now `min_{T∈G}`, i.e. the definition "
+          f"is tied to the grid that was ACTUALLY SWEPT. So *headroom* carries "
+          f"**{fer_row['deployed_nll']['reduction']:.4f} ≈ 0.113** "
+          f"(T={fer_row['deployed_nll']['T']:g}), and "
+          f"{fer_row['eq8']['headroom']:.4f} ≈ 0.120 (T={fer_row['eq8']['T']:g}) is quoted only "
+          "as what a finer resolution would reach. The arm was run at "
+          f"T={fer_row['deployed_nll']['T']:g}, so under the new definition the table's "
+          "\"0.1282−0.0156\" and the definition's value are THE SAME NUMBER — which is the point "
+          "of the redefinition: the earlier version needed two names because the definition "
+          "pointed at a grid nobody had run.",
           "",
           "## 3 · The capacity \"76×\" footnote: rounding dropped the ratio to 74 for the reader",
           "",

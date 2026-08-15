@@ -19,11 +19,17 @@ Outputs -> diagnostics/selection_audit/selection_robustness.json
 import csv
 import json
 import statistics as st
+import sys
 from pathlib import Path
 
-from stats_convention import SD_CONVENTION, sample_sd
-
 ROOT = Path(__file__).resolve().parents[1]
+# `sys.path` eklemesi ŞART -- gerekçe `selection_gain_estimator.py`'dekiyle aynı: import
+# ROOT'tan önce ve yol eklemesi olmadan yapılıyordu, betik yalnız CWD `diagnostics/` iken
+# çalışıyordu ve Level-1 kapısı ona soruyu hiç sormuyordu.
+sys.path.insert(0, str(ROOT / "diagnostics"))
+
+from stats_convention import SD_CONVENTION, sample_sd  # noqa: E402
+
 AUDIT = ROOT / "diagnostics" / "selection_audit" / "selection_audit.csv"
 TEACHER_GRID = json.loads((ROOT / "diagnostics" / "teacher_ece_grid" / "teacher_ece_grid.json").read_text())
 OUT = ROOT / "diagnostics" / "selection_audit" / "selection_robustness.json"

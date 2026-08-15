@@ -39,13 +39,19 @@ OUT_PNG = ROOT / "paper" / "figures" / "graphical_abstract.png"
 W, H = 130 * MM, 50 * MM
 # Tek cümle, iki satırda: 8 pt'de tek satır 130 mm'ye sığmıyor (ilk denemede tight-bbox tuvali
 # 149 mm'ye genişletip 130x50'yi bozdu — GA'da tuval sabittir, metin tuvale uyar, tersi değil).
-# Aligned with title v2 (7 Aug 2026). The old subject was "Teacher calibration"; the
-# intervention is T (logit scaling) and calibration is the property it moves.
+# Başlık v2 ile hizalandı (7 Ağu 2026). Eski özne "Teacher calibration" idi; müdahale edilen
+# şey T (logit ölçekleme), kalibrasyon onun HAREKET ETTİRDİĞİ özellik. İki inceleme turunun
+# başlığa itirazının özü buydu ve grafik özet gönderim paketine girdiği için tutarsızlık
+# hakemin ilk sayfada göreceği türdendi.
 HEADLINE_1 = "Teacher-side logit scaling governs student calibration"
-# The old subtitle read "— causal evidence via prediction-preserving logit rescaling —".
-# "Causal Evidence" was deliberately dropped from the title after external review; restating
-# it on the graphical abstract would reintroduce the same title/figure mismatch. The new line
-# names the design feature that licenses the causal reading instead of asserting it.
+# 7 Ağu 2026, Fatih'in kararı. Eski hâli "— causal evidence via prediction-preserving logit
+# rescaling —" idi ve iki sorunu vardı: (a) HEADLINE_1 v2'ye geçince "logit scaling … logit
+# rescaling" diye tekrarlıyordu, (b) daha önemlisi, başlıktan "Causal Evidence" ifadesi dış
+# inceleme sonrası BİLEREK çıkarılmıştı (nedensel öznenin müdahaleyle uyumsuzluğu); grafik özet
+# gönderim paketinin en görünür parçası olduğu için orada geri çekilen ifadeyi yeniden kurmak,
+# başlık-figür tutarsızlığının ikinci bir hâli olurdu.
+# Yeni hâli nedenselliği İDDİA etmek yerine onu sağlayan TASARIM ÖZELLİĞİNİ söylüyor (sabit
+# öğretmen doğruluğu, çift yön) -- yani daha zayıf değil, daha savunulabilir.
 HEADLINE_2 = "— dose–response at fixed teacher accuracy, in both directions —"
 
 
