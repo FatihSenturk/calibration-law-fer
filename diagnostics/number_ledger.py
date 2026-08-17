@@ -61,6 +61,11 @@ A_JCA = "paper_tables/jsd_collapse_audit.json"
 A_ASY = "paper_tables/asymmetry_estimand.json"
 A_HR = "paper_tables/headroom_review.json"
 A_CRIT = "paper_tables/criterion_applied.json"
+# --- N14 (17 Agu 2026): kayitsiz 28 kalemin kapatilmasi icin acilan artefaktlar
+A_NU = "paper_tables/noise_units.json"
+A_TSS = "paper_tables/tstar_sensitivity.json"
+A_TSP = "paper_tables/tstar_provenance.json"
+A_SAI = "paper_tables/selection_audit_inference.json"
 
 BINDINGS = []      # alan baglari
 DERIVED = []       # turetilmis nicelikler
@@ -129,17 +134,39 @@ for sec, arm, i_T1 in ((0, "rafdb_stage1", 1), (1, "rafdb_vae9182", 1)):
       ident=f"tab_dose_response.{arm}.header.teacher_ece_T1")
     ex("tab_dose_response", sec, "§header", 0, "teacher_name_digits",
        "blok basliginda gecen ogretmen adinin icindeki basamak (Stage1 / VAE9182)", opt=True)
-# Baslikta 'T*' diye basilan sayi: Stage1'de DAGITILAN sicaklik, VAE9182'de FIT. Ayni ad, iki
-# nicelik -- deftere birbirinden AYRI baglandi, acik kalem olarak da yazildi.
-b("tab_dose_response", 0, "§header", 2, A_TDO, "arms.rafdb_stage1.points[2].T", "2dp",
-  ident="tab_dose_response.rafdb_stage1.header.T_deployed")
-b("tab_dose_response", 1, "§header", 2, A_P4,
-  "recipe_step3_ranking.rows[teacher=vae9182].T_star", "2dp",
-  ident="tab_dose_response.rafdb_vae9182.header.T_star_fit")
+# Baslikta 'T*' diye basilan sayi 17 Agu'a kadar IKI FARKLI niceligi tasiyordu: Stage1'de
+# DAGITILAN sicaklik (1.3406), VAE9182'de FIT (0.98294). Defter ikisini ayri alanlara baglayinca
+# cakisma gorunur oldu ve makale tarafinda duzeltildi -- artik UC baslik da FIT degeri basiyor
+# (T^*_NLL) ve dagitilan kol alt yazida ayrica adlandiriliyor. Bag da o yuzden tek alan ailesine
+# tasindi: ucu de `tstar_sensitivity.results.<ogretmen>.published_full_nll`, yani alt yazidaki
+# 1.3494 ile basliktaki 1.35 KANITLANABILIR bicimde ayni sayi.
+# DIKKAT — BEYAN OLAN ALANA BAGLANMAZ. `tstar_sensitivity.results.*.published_full_nll` ve
+# `.deployed_T` ELLE YAZILMIS sabit sozluklerdir (`tstar_stability.PUBLISHED`,
+# `tstar_sensitivity.DEPLOYED`): "kampanyada su deger yayimlandi/dagitildi" BEYANI, olcum degil.
+# Basili sayiyi oraya baglamak dairesel olurdu -- alan, basili sayinin elle yazilmis kopyasi.
+# Bag bu yuzden OLCULEN fite kuruluyor: `T_star_nll`, uretici tarafindan hesaplanan tam-fold NLL
+# optimumu (n=3068/3153).
+for sec, t in ((0, "stage1"), (1, "vae9182"), (2, "ferplus")):
+    b("tab_dose_response", sec, "§header", 2 if sec < 2 else 1, A_TSS,
+      f"results.{t}.T_star_nll", "2dp",
+      ident=f"tab_dose_response.{t}.header.T_star_fit")
 b("tab_dose_response", 2, "§header", 0, A_TDO, "arms.ferplus.points[3].teacher_ece", "4dp",
   ident="tab_dose_response.ferplus.header.teacher_ece_T1")
-b("tab_dose_response", 2, "§header", 1, A_TDO, "arms.ferplus.points[1].T", "2dp",
-  ident="tab_dose_response.ferplus.header.T_deployed")
+# Alt yazi (17 Agu'da eklendi): dagitilan kol ile tam-fold fit yan yana adlandiriliyor. Ikisi de
+# AYNI artefaktta duruyor -- cumlenin karsilastirdigi iki sayi tek kaynaktan geliyor.
+DOSE_CAP = "under-confident so their corrections act in"
+# 1.3406 = YARI-FOLD fit (dagitilan kolun kokeni), OLCULEN deger: `tstar_provenance` bu ayrimin
+# artefakti ve iki fiti de kendisi hesapliyor. 1.3494 = tam-fold fit.
+b("tab_dose_response", -1, DOSE_CAP, 1, A_TSP, "half_fold_fits.stage1", "4dp",
+  ident="tab_dose_response.caption.stage1_half_fold_fit")
+b("tab_dose_response", -1, DOSE_CAP, 2, A_TSS, "results.stage1.T_star_nll", "4dp",
+  ident="tab_dose_response.caption.stage1_full_fold_fit")
+b("tab_dose_response", -1, DOSE_CAP, 3, A_TSS, "results.vae9182.T_star_nll", "2dp",
+  ident="tab_dose_response.caption.vae9182_fit")
+ex("tab_dose_response", -1, DOSE_CAP, 0, "teacher_name_digits",
+   "alt yazidaki 'Stage1' adinin icindeki basamak")
+ex("tab_dose_response", -1, DOSE_CAP, 4, "hyperparameter",
+   "kontrolun fit'ine en yakin EGITILMIS kol: T=1 -- tasarim degeri, olcum degil")
 
 # =============================================================================
 # 2 · app_seeds (S10) — tohum basina ogrenci ECE'si
@@ -199,8 +226,11 @@ ex("app_mde", -1, "2 of the control arm absolutely and as a fraction of", None,
 # 4 · tab_mechanisms (T5) + tab_logitstd (T5a) — RESULTS_TABLES.T5
 # =============================================================================
 # Hangi hucre DOLU: `---` yazan hucre jeton uretmez, dolayisiyla jeton indisleri kayar.
-# "G2G + adaptive T" satirinda yalniz VAE9182 dolu ve o hucrenin kaynagi RESULTS_TABLES'ta
-# YOK (T5 yalniz 3x7 = 21 tekil mekanizma tasiyor) -> iki hucre KAYITSIZ kaliyor, acik kalem.
+# "G2G + adaptive T" satirinda yalniz VAE9182 dolu. N13'te "T5'te bu bilesik hucre YOK" diye
+# kayitsiz birakilmisti; DUZELTME (17 Agu): T5 gercekten 21 hucre tasiyor ama bilesimi baska --
+# stage1/primary yedi mekanizma, vae9182 ise `gate:target_logvar` yerine `g2g_kl+adaptive_t`.
+# Yani hucre artefaktta VARDI, eksik olan beyandi. Tek tohumlu kol (n=1, sd=0), tabloda da
+# dagger ile isaretli.
 MECH_ROWS = [("Adaptive temperature", "adaptive_t", ["stage1", "primary", "vae9182"]),
              ("CTKD", "ctkd", ["stage1", "primary", "vae9182"]),
              ("G2G (class-space KL)", "g2g_kl", ["stage1", "primary", "vae9182"]),
@@ -217,6 +247,23 @@ for row, mech, teachers in MECH_ROWS:
         b("tab_mechanisms", -1, row, k + 1, A_RT, f"{cell}.d_ece_mean", "4dp",
           ident=f"tab_mechanisms.{t}.{mech}.d_ece")
         k += 2
+b("tab_mechanisms", -1, "G2G + adaptive T ^", 0, A_RT,
+  'T5_mechanisms["vae9182/g2g_kl+adaptive_t"].swa.d_acc_mean', "2dp",
+  ident="tab_mechanisms.vae9182.g2g_kl+adaptive_t.d_acc")
+b("tab_mechanisms", -1, "G2G + adaptive T ^", 1, A_RT,
+  'T5_mechanisms["vae9182/g2g_kl+adaptive_t"].swa.d_ece_mean', "4dp",
+  ident="tab_mechanisms.vae9182.g2g_kl+adaptive_t.d_ece")
+# T5a (`tab_logitstd`) alt yazisinin dort gurultu-birimi orani. Tanim `noise_units.py`de:
+# (|dECE|/sigma_ECE) ÷ (|dacc|/sigma_acc), her kol KENDI kontrol sd'siyle. Dordu de o
+# artefaktin ALANI -- yeniden bolme yok, basili yuvarlak degerden turetme hic yok.
+b("tab_mechanisms", 0, "23 in the narrowest SWA comparison", 0, A_NU,
+  'nine_cell_grid["swa|primary"].ratio', "int", ident="tab_logitstd.caption.narrowest_swa")
+b("tab_mechanisms", 0, "of 27 (mean 52", 0, A_NU, "summary.median", "int",
+  ident="tab_logitstd.caption.median")
+b("tab_mechanisms", 0, "of 27 (mean 52", 1, A_NU, "summary.mean", "int",
+  ident="tab_logitstd.caption.mean")
+b("tab_mechanisms", 0, "the all-checkpoint floor is 2.6", 0, A_NU, "summary.min", "1dp",
+  ident="tab_logitstd.caption.floor")
 for t_tex, t in (("Primary", "primary"), ("Stage1", "stage1"), ("VAE9182", "vae9182")):
     for k, ck in enumerate(("swa", "best", "last")):
         b("tab_mechanisms", 0, t_tex, k, A_RT,
@@ -266,6 +313,14 @@ b("tab_selection", -1, "( 89.60 pp each) and the cost of the accuracy rule i", 0
 # Dipnot TEK mantiksal satir: [0] rho_s(acc,acc) [1] rho_s(-ECE,acc) [2] 0.52 pp maliyet
 # [3] kazanan tam deger [4] dogruluk-kuralinin tam degeri.
 SEL_FOOT = "_s(teacher acc. student acc.)"
+# Dipnotun iki sira korelasyonu: uc ogretmen uzerinden. N13'te "artefakti yok" diye kayitsiz
+# birakilmisti; yanlis -- `p4_teacher_selection` ikisini de HESAPLIYOR, yalniz beyan edilmemisti.
+b("tab_selection", -1, SEL_FOOT, 0, A_P4,
+  "recipe_step3_ranking.spearman_teacherACC_vs_studentACC", "2dp",
+  ident="tab_selection.rho_teacherACC_studentACC")
+b("tab_selection", -1, SEL_FOOT, 1, A_P4,
+  "recipe_step3_ranking.spearman_negTeacherECE_vs_studentACC", "2dp",
+  ident="tab_selection.rho_negTeacherECE_studentACC")
 b("tab_selection", -1, SEL_FOOT, 3, A_P4,
   "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean", "4dp",
   ident="tab_selection.best_winner_exact")
@@ -316,6 +371,11 @@ b("tab_human", -1, HUM_FOOT, 0, A_FSJ, "human_mean_entropy", "3dp",
 for row, ck in (("SWA", "swa"), ("best", "best"), ("last", "last")):
     b("tab_pooled", -1, row, 0, A_TDO, f"pooled_stats.{ck}.spearman_abs_signed_gap", "3dp",
       ident=f"tab_pooled.{ck}.spearman_unsigned")
+    # `r` (unsigned) sutunu 17 Agu'a kadar KAYITSIZDI: makalede duruyordu, hicbir artefakt
+    # havuzlanmis 14 nokta uzerinde Pearson hesaplamiyordu. Karar (Fatih): sutunu silmek yerine
+    # kaynagini uretmek -- `two_dataset_overlay.pearson`, Spearman'in yanina, ayni dongude.
+    b("tab_pooled", -1, row, 1, A_TDO, f"pooled_stats.{ck}.pearson_abs_signed_gap", "3dp",
+      ident=f"tab_pooled.{ck}.pearson_unsigned")
     b("tab_pooled", -1, row, 2, A_TDO, f"pooled_stats.{ck}.spearman_signed_gap", "3dp",
       ident=f"tab_pooled.{ck}.spearman_signed")
 b("tab_pooled", -1, "Checkpoint _s (unsigned) r (unsigned) _s (signed)", None, None, None,
@@ -444,15 +504,29 @@ for row, key, slug in AUDIT_ROWS:
           ident=f"tab_selection_audit.{slug}.{field}_{sub}")
     b("tab_selection_audit", -1, row, 4, A_SG, f"audit_deltas.{key}.n", "int",
       ident=f"tab_selection_audit.{slug}.n")
-# FERPlus satirlari: ayni artefaktta FERPlus kirilimi YOK -> kayitsiz kaliyor, acik kalem.
+# FERPlus satirlari (N14, 17 Agu): `selection_gain.audit_deltas` yalniz RAF-DB kirilimi tasiyor,
+# ama ayni ESTIMAND FERPlus icin de uretilmis -- `selection_audit_inference` dort kontrastin
+# hepsini ayni CSV'lerden ve ayni tanimla hesapliyor. YENI URETICI YAZILMADI: ikinci bir tanim
+# getirmek yerine var olan alan baglandi. Iki artefaktin ORTUSEN sekiz RAF-DB degeri birebir
+# ayni (bit duzeyinde dogrulandi, 17 Agu), yani bolunme bir tanim ayrismasi degil.
+for row, con, slug in (("FERPlus best - last", "best-last", "ferplus_best_last"),
+                       ("FERPlus best - SWA", "best-swa", "ferplus_best_swa")):
+    sel = f'datasets["FERPlus"].contrasts["{con}"]'
+    for k, (path, rnd) in enumerate(((f"{sel}.acc_pp.mean", "2dp"), (f"{sel}.acc_pp.sd", "2dp"),
+                                     (f"{sel}.ece.mean", "4dp"), (f"{sel}.ece.sd", "4dp"),
+                                     (f"{sel}.acc_pp.n", "int"))):
+        b("tab_selection_audit", -1, row, k, A_SAI, path, rnd,
+          ident=f"tab_selection_audit.{slug}." + ["d_acc_mean", "d_acc_sd", "d_ece_mean",
+                                                  "d_ece_sd", "n"][k])
+# Sira-istatistigi satirlari: 17 Agu'da makale tarafinda ACIKCA RAF-DB etiketi verildi (once
+# birinci sutun bostu ve satir ustteki FERPlus etiketini miras aliyordu). Bag da o gun guncellendi
+# -- eski etiketle duran beyan `binding_matched_nothing` veriyordu, yani denetci degisikligi gordu.
 for k, K in enumerate(("50", "100")):
-    # Anahtar sutunlari yapiskan oldugu icin bu satirlarin etiketi ustteki FERPlus'tan tasiniyor;
-    # tablonun kendi yapisi bu (bos birinci sutun), defter oldugu gibi kaydeder.
-    b("tab_selection_audit", 0, f"FERPlus K = {K}", 0, A_OST,
+    b("tab_selection_audit", 0, f"RAF-DB K = {K}", 0, A_OST,
       f'results["{K}"].a2_raw.mean', "3dp", ident=f"tab_selection_audit.order_stat.K{K}.mean")
-    b("tab_selection_audit", 0, f"FERPlus K = {K}", 1, A_OST,
+    b("tab_selection_audit", 0, f"RAF-DB K = {K}", 1, A_OST,
       f'results["{K}"].a2_raw.sd', "3dp", ident=f"tab_selection_audit.order_stat.K{K}.sd")
-    b("tab_selection_audit", 0, f"FERPlus K = {K}", 2, A_OST,
+    b("tab_selection_audit", 0, f"RAF-DB K = {K}", 2, A_OST,
       f'results["{K}"].n_runs', "int", ident=f"tab_selection_audit.order_stat.K{K}.n")
 
 
@@ -503,6 +577,14 @@ b("abstract", -1, "stochastic-weight-averaging checkpoints because a 13", 0, A_S
   "audit_deltas.b_best_minus_last.n", "int", ident="abstract.audit_n_runs")
 b("abstract", -1, "best-validation-accuracy selection inflates accuracy", 0, A_SG,
   "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="abstract.selection_inflation")
+# Asimetri araligi: iki UC, ikisi de alan. Ozetin "1.8--2.0x"i, ARA DEGERLENDIRME yapilmamis
+# (extrapole edilmemis) iki karsilastirmanin min/max'i -- artefaktin kendi ozet blogu.
+b("abstract", -1, "over-confidence costs 1.8", 0, A_ASY,
+  "summary.interpolated_only.absolute.min", "1dp", ident="abstract.asymmetry_min")
+b("abstract", -1, "over-confidence costs 1.8", 1, A_ASY,
+  "summary.interpolated_only.absolute.max", "1dp", ident="abstract.asymmetry_max")
+b("abstract", -1, "standardisation harms calibration at a media", 0, A_NU, "summary.median",
+  "int", ident="abstract.logitstd_noise_median")
 
 
 # --- olcum olmayan kalan jetonlar (beyan)
@@ -569,6 +651,47 @@ dv("collapse_ratio_5_10", "16.3", "ratio",
 dv("collapse_ratio_10_20", "13.5", "ratio",
    [op(A_RT, 'T11_collapse.pairs["T·τ = 10.20"].mean'), op(A_RT, "T11_collapse.two_bar")],
    "1dp", "tab_collapse", 0, "T = 10.20", 4, note="|ort|/esik; isaret disi")
+
+# --- N14 (17 Agu 2026): kayitsiz kalan turetilmis nicelikler
+dv("selection_cost_best_caption", "0.52", "diff",
+   [op(A_P4, "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean"),
+    op(A_P4, "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean")],
+   "2dp", "tab_selection", -1, "there 0.52 pp here and 0.83 pp at the last c", 0,
+   note="AYNI nicelik, ikinci gecis: alt yazi. Dipnottaki `selection_cost_best` ile ayni "
+        "pay/payda; iki yerde basildigi icin iki kez kaydediliyor")
+# Ozetin ECE azalmasi araligi: iki UC, ikisi de 'duzeltilmemis kol T=1' -> 'duzeltilmis kol T*'
+# yuzde dususu. AYRI AYRI kaydedildi, cunku bir aralik tek bir olcum degil iki olcumdur.
+dv("ece_reduction_min", "41", "pct_drop",
+   [op(A_TDO, "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean")],
+   "int", "abstract", -1, "41 -- 76 % at no accuracy cost", 0,
+   note="Stage1: T=1 -> T=1.3406 (dagitilan kol), @SWA ogrenci ECE'si")
+dv("ece_reduction_max", "76", "pct_drop",
+   [op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.ece_mean"),
+    op(A_TDO, "arms.ferplus.points[1].by_ckpt.swa.ece_mean")],
+   "int", "abstract", -1, "41 -- 76 % at no accuracy cost", 1,
+   note="FERPlus: T=1 -> T=0.5063 (dagitilan kol), @SWA ogrenci ECE'si")
+# Ozetin "accuracy stays within 0.51 pp"i: KOL ICI dogruluk acikligi, uc kolun EN GENISI.
+# §3.6 ayni niceligi iki RAF-DB kolu icin veriyor (0.30 ve 0.51), yani estimand adlandirilmis.
+dv("accuracy_band_widest_arm", "0.51", "diff",
+   [op(A_TDO, "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "abstract", -1, "pooled Spearman = 0.79 ) while accuracy stays within", 1,
+   note="VAE9182 kolunun en yuksek (T=1.3406) ve en dusuk (T=1.70) @SWA dogrulugu; olculen kol "
+        "aciklikleri 0.304 / 0.511 / 0.486, ozet en genisi basiyor")
+# §3.2, DUZYAZI -- kapsam disi metinden TEK TEK beyanla iceri alinan iki uc. Fatih'in 17 Agu
+# kurali: turetilmis nicelik asla basili yuvarlak degerden hesaplanmaz. Bu iki sayi 14 Agu'da
+# tam o hatayla (0.0015/0.0220) yeniden uretilmisti; artik pay ve payda alan yolu.
+dv("tstar_criterion_cost_min", "13", "ratio",
+   [op(A_TSS, "results.ferplus.ece_removed_by_ts"), op(A_TSS, "results.ferplus.d_ece")],
+   "int", None, None, None, None,
+   where="sections/03_methodology.tex#times smaller than the ECE the scaling removes",
+   note="FERPlus 13.31x -- uc ogretmenin en dusugu (primary 13.60, stage1 14.32)")
+dv("tstar_criterion_cost_max", "14", "ratio",
+   [op(A_TSS, "results.stage1.ece_removed_by_ts"), op(A_TSS, "results.stage1.d_ece")],
+   "int", None, None, None, None,
+   where="sections/03_methodology.tex#times smaller than the ECE the scaling removes",
+   note="Stage1 14.32x -- uc ogretmenin en yuksegi; vae9182 disarida cunku TS orada ECE EKLIYOR")
 
 # =============================================================================
 # COZUMLEYICI + YUVARLAMA
@@ -772,6 +895,10 @@ def build(paper_root):
             val = abs(vals[0]) / abs(vals[1])
         elif d["formula"] == "diff":
             val = vals[0] - vals[1]
+        elif d["formula"] == "pct_drop":
+            # yuzde AZALMA: (taban - duzeltilmis) / taban x 100. Payda ACIKCA TABAN -- bir oranin
+            # paydasi cumlede adlandirilmali (17 Agu kurali), burada da alan yolu olarak duruyor.
+            val = 100.0 * (vals[0] - vals[1]) / vals[0]
         else:
             problems.append({"kind": "unknown_formula", "id": d["id"], "detail": d["formula"]})
             continue
@@ -844,8 +971,10 @@ def build(paper_root):
     unbound = [t for t in toks if t["key"] not in bound_keys and t["key"] not in exempt_keys]
     payload = {
         "note": "review-responsive, not pre-declared",
-        "scope": {"in": ["paper/tables/*.tex", "abstract", "supplementary S8-S11"],
-                  "out": ["sections/*.tex prose (revision window)",
+        "scope": {"in": ["paper/tables/*.tex", "abstract", "supplementary S8-S11",
+                         "individually anchored prose sentences (declared one by one)"],
+                  "out": ["sections/*.tex prose, except the individually anchored sentences "
+                          "(revision window)",
                           "supplementary S1-S3 (today's headroom verdict not applied yet)"],
                   "not_a_measurement": sorted({e["class"] for e in EXEMPT})},
         "paper_files": files, "sections": secs,

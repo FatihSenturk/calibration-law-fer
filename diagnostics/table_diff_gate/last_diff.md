@@ -1,9 +1,6 @@
 # Table diff gate — last comparison
 
-Baseline: **2026-08-17T12:59:16** — N12 (17 Agu, Fatih tek-soru turu): jsd_collapse_audit AYNI GUN kapiya kaydedildi. 38 sapmanin tamami APPEARED; CHANGED / MOVED / VANISHED yok -- r3w1_joint_optimum.py'nin crossfit blogu fonksiyona cikarildi (jsd_collapse_audit ondan ITHAL ediyor) ve ciktilari BAYT BAYT ayni kaldi, yani refactor atil. Olculen: tek pay 0.02008283 (ham JSD acikligi T=0.26 - T=0.74), iki payda -> TS-sonrasi aciklik 0.00053936 => R_collapse 37.2342 ('37x'), ortalama tohum sd 0.00050443 => R_noise 39.8126 ('40x'). Ikisi de dort basamakta 0.0005 basiliyor; tam 40 icin gereken payda 0.00050207 (ortalama tohum sd'sinden %0.47 uzak, TS acikligindan %6.91). 35 capraz kontrol 0.00e+00 sapmayla gecti.  
-Cells compared: 1364 (1332 in the baseline)
+Baseline: **2026-08-18T01:50:42** — N14 ikinci tur: dort APPEARED, hepsi tstar_provenance icindeki OLCULEN fitler (full_fold_fits stage1/primary/vae9182 + half_fold_fits stage1). tab_dose_response'un uc blok basligi ve alt yazisi (1.35 / 1.3494 / 1.3406 / 0.98) tam bu alanlardan basiliyor; kapi bugune kadar yalniz deployed satirlarini okuyordu. CHANGED/VANISHED yok.  
+Cells compared: 1412 (1412 in the baseline)
 
-## Cells appeared / vanished
-
-**appeared:** `N13/count/bound`, `N13/count/derived`, `N13/count/derived_mismatch`, `N13/count/exempt`, `N13/count/layout_dropped`, `N13/count/mismatch`, `N13/count/problems`, `N13/count/prose`, `N13/count/tokens`, `N13/count/unbound`, `N13/derived/capacity_vs_teacher_lever`, `N13/derived/capacity_vs_teacher_lever/ok`, `N13/derived/collapse_ratio_10_20`, `N13/derived/collapse_ratio_10_20/ok`, `N13/derived/collapse_ratio_5_10`, `N13/derived/collapse_ratio_5_10/ok`, `N13/derived/human_trade_ece`, `N13/derived/human_trade_ece/ok`, `N13/derived/human_trade_jsd`, `N13/derived/human_trade_jsd/ok`, `N13/derived/jsd_collapse`, `N13/derived/jsd_collapse/ok`, `N13/derived/jsd_noise_ratio`, `N13/derived/jsd_noise_ratio/ok`, `N13/derived/selection_cost_best`, `N13/derived/selection_cost_best/ok`, `N13/derived/selection_cost_last`, `N13/derived/selection_cost_last/ok`, `N13/derived/selection_cost_swa`, `N13/derived/selection_cost_swa/ok`, `N13/prose/methodology.entropy_pearson_T1`, `N13/unbound_ids`
-
+✅ No deviation — every cell is at its baseline value.

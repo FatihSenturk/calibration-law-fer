@@ -1,7 +1,7 @@
 {
   "note": "review-responsive, not pre-declared",
   "counts": {
-    "derived": 10,
+    "derived": 16,
     "mismatch": 0
   },
   "entries": [
@@ -270,6 +270,164 @@
       "where": [
         "paper/tables/tab_collapse.tex:26"
       ]
+    },
+    {
+      "id": "selection_cost_best_caption",
+      "printed": "0.52",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean"
+        },
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean"
+        }
+      ],
+      "operand_values": [
+        90.27596791585286,
+        89.75445302327473
+      ],
+      "exact": 0.521514892578125,
+      "rounding": "2dp",
+      "rounded": "0.52",
+      "matches": true,
+      "note": "AYNI nicelik, ikinci gecis: alt yazi. Dipnottaki `selection_cost_best` ile ayni pay/payda; iki yerde basildigi icin iki kez kaydediliyor",
+      "where": [
+        "paper/tables/tab_selection.tex:11"
+      ]
+    },
+    {
+      "id": "ece_reduction_min",
+      "printed": "41",
+      "formula": "pct_drop",
+      "operands": [
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean"
+        },
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean"
+        }
+      ],
+      "operand_values": [
+        0.07312947179942429,
+        0.04280742607210989
+      ],
+      "exact": 41.46350982881447,
+      "rounding": "int",
+      "rounded": "41",
+      "matches": true,
+      "note": "Stage1: T=1 -> T=1.3406 (dagitilan kol), @SWA ogrenci ECE'si",
+      "where": [
+        "paper/main_elsarticle.tex:131"
+      ]
+    },
+    {
+      "id": "ece_reduction_max",
+      "printed": "76",
+      "formula": "pct_drop",
+      "operands": [
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.ferplus.points[3].by_ckpt.swa.ece_mean"
+        },
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.ferplus.points[1].by_ckpt.swa.ece_mean"
+        }
+      ],
+      "operand_values": [
+        0.07830038099601992,
+        0.018498602500361613
+      ],
+      "exact": 76.37482440691838,
+      "rounding": "int",
+      "rounded": "76",
+      "matches": true,
+      "note": "FERPlus: T=1 -> T=0.5063 (dagitilan kol), @SWA ogrenci ECE'si",
+      "where": [
+        "paper/main_elsarticle.tex:131"
+      ]
+    },
+    {
+      "id": "accuracy_band_widest_arm",
+      "printed": "0.51",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"
+        },
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean"
+        }
+      ],
+      "operand_values": [
+        90.09126281738281,
+        89.5806172688802
+      ],
+      "exact": 0.5106455485026089,
+      "rounding": "2dp",
+      "rounded": "0.51",
+      "matches": true,
+      "note": "VAE9182 kolunun en yuksek (T=1.3406) ve en dusuk (T=1.70) @SWA dogrulugu; olculen kol aciklikleri 0.304 / 0.511 / 0.486, ozet en genisi basiyor",
+      "where": [
+        "paper/main_elsarticle.tex:128"
+      ]
+    },
+    {
+      "id": "tstar_criterion_cost_min",
+      "printed": "13",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.ferplus.ece_removed_by_ts"
+        },
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.ferplus.d_ece"
+        }
+      ],
+      "operand_values": [
+        0.11259259962672624,
+        0.008461177850049375
+      ],
+      "exact": 13.306965250242223,
+      "rounding": "int",
+      "rounded": "13",
+      "matches": true,
+      "note": "FERPlus 13.31x -- uc ogretmenin en dusugu (primary 13.60, stage1 14.32)",
+      "where": []
+    },
+    {
+      "id": "tstar_criterion_cost_max",
+      "printed": "14",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.stage1.ece_removed_by_ts"
+        },
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.stage1.d_ece"
+        }
+      ],
+      "operand_values": [
+        0.0219799084042477,
+        0.0015353928119760125
+      ],
+      "exact": 14.315495183255484,
+      "rounding": "int",
+      "rounded": "14",
+      "matches": true,
+      "note": "Stage1 14.32x -- uc ogretmenin en yuksegi; vae9182 disarida cunku TS orada ECE EKLIYOR",
+      "where": []
     }
   ]
 }

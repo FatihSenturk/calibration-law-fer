@@ -23,6 +23,35 @@ note = A12 gercek-sinyal gate n=3 (5 hucre x 2 yeni tohum). ON-BEYANLI: PREREGIS
 # 4 Ağu ikinci güncelleme (ide_prompt_baslik_v2.md): BAŞLIK v2 seçildi ve gönderim tarihi
 # artık bir hedef değil — P6 entegrasyonu + konsolide tur bitmeden tarih verilmiyor.
 pending:
+- N14 defterin 28 kayitsiz kalemi (17 Agu, N13'un devami): KAYITSIZ 0. Denetci makaleye karsi
+  artik CIKIS 0 veriyor -- ama bu tek basina okunmaz, oz sinama 7/7'den 11/11'e cikti ve BUGUN
+  BAGLANAN sayilar da geri konup yakalandi. Sayim: 719 jeton · 617 bagli · 16 turetilmis ·
+  1 duzyazi bagi · 90 muaf (15 sinif) · 0 KAYITSIZ · 0 uyusmazlik · 0 tanim sorunu.
+  28'in kapanisi: 3 sayi icin KAYNAK URETILDI (tab_pooled Pearson sutunu -> two_dataset_overlay
+  .pearson; yayimli +0.930/+0.970/+0.948 BIREBIR tuttu, duzeltme gerekmedi), 20 sayi icin var
+  olan alan BULUNDU (FERPlus secim-denetimi 10 -> selection_audit_inference; gurultu-birimi 4 ->
+  noise_units; rho_s ikilisi -> p4; asimetri ucu 2 -> asymmetry_estimand; G2G+adaptive T 2 ->
+  T5), 5 sayi TURETILMIS olarak kaydedildi (41-76% ECE azalmasi, 0.51 pp band, 0.52 tekrari,
+  13-14x olcut maliyeti). N13'un IKI hukmu DUZELTILDI: (a) rho_s'lerin "artefakti yok" degil,
+  beyani yoktu; (b) T5'te bilesik hucre VAR (vae9182 kolunda gate:target_logvar yerine
+  g2g_kl+adaptive_t) -- sayim 21 dogruydu, bilesim yanlisti.
+  TUZAK: `tstar_sensitivity.published_full_nll` ve `.deployed_T` ELLE YAZILMIS sabit sozlukler
+  (PUBLISHED/DEPLOYED), olcum degil; oraya baglamak DAIRESEL olurdu. Bag olculen fite kuruldu
+  (results.*.T_star_nll + tstar_provenance.half_fold_fits.stage1). KURAL: baglanabilir alan,
+  ureticisinin HESAPLADIGI alandir.
+  YAN BULGU: two_dataset_overlay.json kendi ureticisine gore BAYATTI (14 Agu'da eklenen 42
+  per_seed blogu eksikti). Yeniden uretimde 48 alan eklendi, 0 silindi, 0 DEGISTI.
+  Kapilar: tablo 1412/1412 (53 sapma: 5 MOVED = defterin kendi sayaclari, 48 APPEARED,
+  CHANGED/VANISHED YOK) · Level-1 gecti 53 · figur 10/10 · mutlak yol beyansiz 0 · kapsam 0.
+  ACIK KALEM (Fatih karari): iki artefakt ayni T*_NLL'i ayri fit ediyor ve 5. basamakta
+  ayrisiyor (p4 1.3493927 vs tstar_sensitivity 1.3493829); basili hassasiyet ayirt etmiyor,
+  tek kaynaga indirilsin mi? IKINCI KARAR: bagli 19 artefaktin 5'i IHRAC BANDININ DISINDA ve
+  198 basili hucre tasiyor (two_dataset_overlay 131 · p4_teacher_selection 31 ·
+  ferplus_student_jsd 29 · latency_benchmark 6 · ferplus_jsd 1); sayilar number_ledger.json
+  uzerinden ulasilabiliyor ama artefaktin kendisi Drive'a gitmiyor. Bandi genislemek disa
+  donuk bir karar oldugu icin YAPILMADI. Sirada: supplementary S1-S3 (headroom S2'ye islendi,
+  artik baglanabilir) ve sections/*.tex duzyazisi (~470 sayi, revizyon penceresi kapaninca).
+  Rapor: diagnostics/reports/2026-08-17b_ledger_28.md
 - N13 sayi provenans defteri (17 Agu): KURULDU ve CALISIYOR, MAKALEYE + DEFTERE IS DUSUYOR.
   Deger degil DEGER<->ALAN BAGI kaydedildi (varlik kontrolu bayat degeri yakalayamaz; r=0.724
   vakasinda sayi dogru, artefakt dogru, bag yanlisti). Kapsam: paper/tables/*.tex (11 tablo) +

@@ -4,10 +4,11 @@
     "in": [
       "paper/tables/*.tex",
       "abstract",
-      "supplementary S8-S11"
+      "supplementary S8-S11",
+      "individually anchored prose sentences (declared one by one)"
     ],
     "out": [
-      "sections/*.tex prose (revision window)",
+      "sections/*.tex prose, except the individually anchored sentences (revision window)",
       "supplementary S1-S3 (today's headroom verdict not applied yet)"
     ],
     "not_a_measurement": [
@@ -38,8 +39,8 @@
       "bytes": 1901
     },
     "tables/tab_dose_response.tex": {
-      "sha256": "e0f63c4a889649eec8e2d375b6466141d880958782ce0b63d825f9a9cc3efd7b",
-      "bytes": 2811
+      "sha256": "8487272f5d22710a34c1b46c5165e191f1213a59f7897e1a16a315a822ba7c8b",
+      "bytes": 3141
     },
     "tables/tab_efficiency.tex": {
       "sha256": "4ff9b2481d12f41c40717404241c93faa28ab817ec5c5f87744e329f29024c8c",
@@ -66,7 +67,7 @@
       "bytes": 1375
     },
     "tables/tab_selection_audit.tex": {
-      "sha256": "a2c9cb4f882b866d6c4fda6bb704e690a8ecc8d2f1872c03868f7017b9b42363",
+      "sha256": "466b4c257290223f8211588d69d2dd5a2d8161056ed9d637c013f9bb61e00e81",
       "bytes": 1337
     },
     "supplementary.tex": {
@@ -94,20 +95,20 @@
     {
       "unit": "tab_dose_response",
       "index": 0,
-      "line": 23,
-      "text": "RAF-DB Stage1 teacher --- over-confident ECE=0.0378 T^ * =1.34"
+      "line": 22,
+      "text": "RAF-DB Stage1 teacher --- over-confident ECE=0.0378 T^ * _ NLL = 1.35"
     },
     {
       "unit": "tab_dose_response",
       "index": 1,
-      "line": 30,
-      "text": "RAF-DB VAE9182 teacher --- well calibrated (control) ECE=0.0136 T^ * =0.98"
+      "line": 29,
+      "text": "RAF-DB VAE9182 teacher --- well calibrated (control) ECE=0.0136 T^ * _ NLL = 0.98"
     },
     {
       "unit": "tab_dose_response",
       "index": 2,
-      "line": 37,
-      "text": "FERPlus --- under-confident ECE=0.1282 T^ * =0.51"
+      "line": 36,
+      "text": "FERPlus --- under-confident ECE=0.1282 T^ * _ NLL = 0.51"
     },
     {
       "unit": "tab_efficiency",
@@ -171,11 +172,11 @@
     }
   ],
   "counts": {
-    "tokens": 714,
-    "bound": 590,
-    "derived": 10,
-    "exempt": 88,
-    "unbound": 28,
+    "tokens": 719,
+    "bound": 617,
+    "derived": 16,
+    "exempt": 90,
+    "unbound": 0,
     "layout_dropped": 166,
     "mismatch": 0,
     "derived_mismatch": 0,
@@ -193,7 +194,7 @@
       "rounded": "0.0454",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|0",
       "row": "0.85",
@@ -209,7 +210,7 @@
       "rounded": "0.0431",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|1",
       "row": "0.85",
@@ -225,7 +226,7 @@
       "rounded": "0.0797",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|2",
       "row": "0.85",
@@ -241,7 +242,7 @@
       "rounded": "0.0016",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|3",
       "row": "0.85",
@@ -257,7 +258,7 @@
       "rounded": "0.0803",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|4",
       "row": "0.85",
@@ -273,7 +274,7 @@
       "rounded": "0.0059",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|5",
       "row": "0.85",
@@ -289,7 +290,7 @@
       "rounded": "89.65",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|6",
       "row": "0.85",
@@ -305,7 +306,7 @@
       "rounded": "0.18",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:25"
+        "paper/tables/tab_dose_response.tex:24"
       ],
       "token": "tab_dose_response|s0|0.85|7",
       "row": "0.85",
@@ -321,7 +322,7 @@
       "rounded": "0.0378",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|0",
       "row": "1.00",
@@ -337,7 +338,7 @@
       "rounded": "0.0338",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|1",
       "row": "1.00",
@@ -353,7 +354,7 @@
       "rounded": "0.0731",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|2",
       "row": "1.00",
@@ -369,7 +370,7 @@
       "rounded": "0.0012",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|3",
       "row": "1.00",
@@ -385,7 +386,7 @@
       "rounded": "0.0701",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|4",
       "row": "1.00",
@@ -401,7 +402,7 @@
       "rounded": "0.0081",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|5",
       "row": "1.00",
@@ -417,7 +418,7 @@
       "rounded": "89.60",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|6",
       "row": "1.00",
@@ -433,7 +434,7 @@
       "rounded": "0.34",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:26"
+        "paper/tables/tab_dose_response.tex:25"
       ],
       "token": "tab_dose_response|s0|1.00|7",
       "row": "1.00",
@@ -449,7 +450,7 @@
       "rounded": "0.0159",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|0",
       "row": "1.34",
@@ -465,7 +466,7 @@
       "rounded": "0.0040",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|1",
       "row": "1.34",
@@ -481,7 +482,7 @@
       "rounded": "0.0428",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|2",
       "row": "1.34",
@@ -497,7 +498,7 @@
       "rounded": "0.0003",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|3",
       "row": "1.34",
@@ -513,7 +514,7 @@
       "rounded": "0.0365",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|4",
       "row": "1.34",
@@ -529,7 +530,7 @@
       "rounded": "0.0005",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|5",
       "row": "1.34",
@@ -545,7 +546,7 @@
       "rounded": "89.73",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|6",
       "row": "1.34",
@@ -561,7 +562,7 @@
       "rounded": "0.07",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:27"
+        "paper/tables/tab_dose_response.tex:26"
       ],
       "token": "tab_dose_response|s0|1.34|7",
       "row": "1.34",
@@ -577,7 +578,7 @@
       "rounded": "0.0429",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|0",
       "row": "1.70",
@@ -593,7 +594,7 @@
       "rounded": "-0.0427",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|1",
       "row": "1.70",
@@ -609,7 +610,7 @@
       "rounded": "0.0447",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|2",
       "row": "1.70",
@@ -625,7 +626,7 @@
       "rounded": "0.0029",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|3",
       "row": "1.70",
@@ -641,7 +642,7 @@
       "rounded": "0.0572",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|4",
       "row": "1.70",
@@ -657,7 +658,7 @@
       "rounded": "0.0059",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|5",
       "row": "1.70",
@@ -673,7 +674,7 @@
       "rounded": "89.43",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|6",
       "row": "1.70",
@@ -689,7 +690,7 @@
       "rounded": "0.20",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:28"
+        "paper/tables/tab_dose_response.tex:27"
       ],
       "token": "tab_dose_response|s0|1.70|7",
       "row": "1.70",
@@ -705,7 +706,7 @@
       "rounded": "0.1270",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|0",
       "row": "2.20",
@@ -721,7 +722,7 @@
       "rounded": "-0.1270",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|1",
       "row": "2.20",
@@ -737,7 +738,7 @@
       "rounded": "0.1008",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|2",
       "row": "2.20",
@@ -753,7 +754,7 @@
       "rounded": "0.0025",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|3",
       "row": "2.20",
@@ -769,7 +770,7 @@
       "rounded": "0.1189",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|4",
       "row": "2.20",
@@ -785,7 +786,7 @@
       "rounded": "0.0091",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|5",
       "row": "2.20",
@@ -801,7 +802,7 @@
       "rounded": "89.63",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|6",
       "row": "2.20",
@@ -817,7 +818,7 @@
       "rounded": "0.28",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:29"
+        "paper/tables/tab_dose_response.tex:28"
       ],
       "token": "tab_dose_response|s0|2.20|7",
       "row": "2.20",
@@ -833,7 +834,7 @@
       "rounded": "0.0250",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|0",
       "row": "0.85",
@@ -849,7 +850,7 @@
       "rounded": "0.0248",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|1",
       "row": "0.85",
@@ -865,7 +866,7 @@
       "rounded": "0.0447",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|2",
       "row": "0.85",
@@ -881,7 +882,7 @@
       "rounded": "0.0013",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|3",
       "row": "0.85",
@@ -897,7 +898,7 @@
       "rounded": "0.0358",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|4",
       "row": "0.85",
@@ -913,7 +914,7 @@
       "rounded": "0.0053",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|5",
       "row": "0.85",
@@ -929,7 +930,7 @@
       "rounded": "89.93",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|6",
       "row": "0.85",
@@ -945,7 +946,7 @@
       "rounded": "0.06",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:32"
+        "paper/tables/tab_dose_response.tex:31"
       ],
       "token": "tab_dose_response|s1|0.85|7",
       "row": "0.85",
@@ -961,7 +962,7 @@
       "rounded": "0.0136",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|0",
       "row": "1.00",
@@ -977,7 +978,7 @@
       "rounded": "0.0042",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|1",
       "row": "1.00",
@@ -993,7 +994,7 @@
       "rounded": "0.0330",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|2",
       "row": "1.00",
@@ -1009,7 +1010,7 @@
       "rounded": "0.0020",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|3",
       "row": "1.00",
@@ -1025,7 +1026,7 @@
       "rounded": "0.0307",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|4",
       "row": "1.00",
@@ -1041,7 +1042,7 @@
       "rounded": "0.0011",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|5",
       "row": "1.00",
@@ -1057,7 +1058,7 @@
       "rounded": "89.95",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|6",
       "row": "1.00",
@@ -1073,7 +1074,7 @@
       "rounded": "0.37",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:33"
+        "paper/tables/tab_dose_response.tex:32"
       ],
       "token": "tab_dose_response|s1|1.00|7",
       "row": "1.00",
@@ -1089,7 +1090,7 @@
       "rounded": "0.0627",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|0",
       "row": "1.34",
@@ -1105,7 +1106,7 @@
       "rounded": "-0.0605",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|1",
       "row": "1.34",
@@ -1121,7 +1122,7 @@
       "rounded": "0.0647",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|2",
       "row": "1.34",
@@ -1137,7 +1138,7 @@
       "rounded": "0.0030",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|3",
       "row": "1.34",
@@ -1153,7 +1154,7 @@
       "rounded": "0.0795",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|4",
       "row": "1.34",
@@ -1169,7 +1170,7 @@
       "rounded": "0.0056",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|5",
       "row": "1.34",
@@ -1185,7 +1186,7 @@
       "rounded": "90.09",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|6",
       "row": "1.34",
@@ -1201,7 +1202,7 @@
       "rounded": "0.29",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:34"
+        "paper/tables/tab_dose_response.tex:33"
       ],
       "token": "tab_dose_response|s1|1.34|7",
       "row": "1.34",
@@ -1217,7 +1218,7 @@
       "rounded": "0.1454",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|0",
       "row": "1.70",
@@ -1233,7 +1234,7 @@
       "rounded": "-0.1453",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|1",
       "row": "1.70",
@@ -1249,7 +1250,7 @@
       "rounded": "0.1282",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|2",
       "row": "1.70",
@@ -1265,7 +1266,7 @@
       "rounded": "0.0030",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|3",
       "row": "1.70",
@@ -1281,7 +1282,7 @@
       "rounded": "0.1456",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|4",
       "row": "1.70",
@@ -1297,7 +1298,7 @@
       "rounded": "0.0125",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|5",
       "row": "1.70",
@@ -1313,7 +1314,7 @@
       "rounded": "89.58",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|6",
       "row": "1.70",
@@ -1329,7 +1330,7 @@
       "rounded": "0.52",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:35"
+        "paper/tables/tab_dose_response.tex:34"
       ],
       "token": "tab_dose_response|s1|1.70|7",
       "row": "1.70",
@@ -1345,7 +1346,7 @@
       "rounded": "0.2622",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|0",
       "row": "2.20",
@@ -1361,7 +1362,7 @@
       "rounded": "-0.2622",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|1",
       "row": "2.20",
@@ -1377,7 +1378,7 @@
       "rounded": "0.2109",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|2",
       "row": "2.20",
@@ -1393,7 +1394,7 @@
       "rounded": "0.0034",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|3",
       "row": "2.20",
@@ -1409,7 +1410,7 @@
       "rounded": "0.2282",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|4",
       "row": "2.20",
@@ -1425,7 +1426,7 @@
       "rounded": "0.0090",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|5",
       "row": "2.20",
@@ -1441,7 +1442,7 @@
       "rounded": "89.92",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|6",
       "row": "2.20",
@@ -1457,7 +1458,7 @@
       "rounded": "0.33",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:36"
+        "paper/tables/tab_dose_response.tex:35"
       ],
       "token": "tab_dose_response|s1|2.20|7",
       "row": "2.20",
@@ -1473,7 +1474,7 @@
       "rounded": "0.0393",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|0",
       "row": "0.26",
@@ -1489,7 +1490,7 @@
       "rounded": "0.0393",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|1",
       "row": "0.26",
@@ -1505,7 +1506,7 @@
       "rounded": "0.0587",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|2",
       "row": "0.26",
@@ -1521,7 +1522,7 @@
       "rounded": "0.0038",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|3",
       "row": "0.26",
@@ -1537,7 +1538,7 @@
       "rounded": "0.0591",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|4",
       "row": "0.26",
@@ -1553,7 +1554,7 @@
       "rounded": "0.0015",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|5",
       "row": "0.26",
@@ -1569,7 +1570,7 @@
       "rounded": "89.21",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|6",
       "row": "0.26",
@@ -1585,7 +1586,7 @@
       "rounded": "0.29",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:39"
+        "paper/tables/tab_dose_response.tex:38"
       ],
       "token": "tab_dose_response|s2|0.26|7",
       "row": "0.26",
@@ -1601,7 +1602,7 @@
       "rounded": "0.0156",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|0",
       "row": "0.51",
@@ -1617,7 +1618,7 @@
       "rounded": "-0.0117",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|1",
       "row": "0.51",
@@ -1633,7 +1634,7 @@
       "rounded": "0.0185",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|2",
       "row": "0.51",
@@ -1649,7 +1650,7 @@
       "rounded": "0.0016",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|3",
       "row": "0.51",
@@ -1665,7 +1666,7 @@
       "rounded": "0.0191",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|4",
       "row": "0.51",
@@ -1681,7 +1682,7 @@
       "rounded": "0.0061",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|5",
       "row": "0.51",
@@ -1697,7 +1698,7 @@
       "rounded": "89.12",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|6",
       "row": "0.51",
@@ -1713,7 +1714,7 @@
       "rounded": "0.14",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:40"
+        "paper/tables/tab_dose_response.tex:39"
       ],
       "token": "tab_dose_response|s2|0.51|7",
       "row": "0.51",
@@ -1729,7 +1730,7 @@
       "rounded": "0.0665",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|0",
       "row": "0.74",
@@ -1745,7 +1746,7 @@
       "rounded": "-0.0649",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|1",
       "row": "0.74",
@@ -1761,7 +1762,7 @@
       "rounded": "0.0344",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|2",
       "row": "0.74",
@@ -1777,7 +1778,7 @@
       "rounded": "0.0012",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|3",
       "row": "0.74",
@@ -1793,7 +1794,7 @@
       "rounded": "0.0377",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|4",
       "row": "0.74",
@@ -1809,7 +1810,7 @@
       "rounded": "0.0007",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|5",
       "row": "0.74",
@@ -1825,7 +1826,7 @@
       "rounded": "88.78",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|6",
       "row": "0.74",
@@ -1841,7 +1842,7 @@
       "rounded": "0.05",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:41"
+        "paper/tables/tab_dose_response.tex:40"
       ],
       "token": "tab_dose_response|s2|0.74|7",
       "row": "0.74",
@@ -1857,7 +1858,7 @@
       "rounded": "0.1282",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|0",
       "row": "1.00",
@@ -1873,7 +1874,7 @@
       "rounded": "-0.1277",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|1",
       "row": "1.00",
@@ -1889,7 +1890,7 @@
       "rounded": "0.0783",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|2",
       "row": "1.00",
@@ -1905,7 +1906,7 @@
       "rounded": "0.0046",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|3",
       "row": "1.00",
@@ -1921,7 +1922,7 @@
       "rounded": "0.0852",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|4",
       "row": "1.00",
@@ -1937,7 +1938,7 @@
       "rounded": "0.0082",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|5",
       "row": "1.00",
@@ -1953,7 +1954,7 @@
       "rounded": "88.72",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|6",
       "row": "1.00",
@@ -1969,7 +1970,7 @@
       "rounded": "0.37",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:42"
+        "paper/tables/tab_dose_response.tex:41"
       ],
       "token": "tab_dose_response|s2|1.00|7",
       "row": "1.00",
@@ -1985,7 +1986,7 @@
       "rounded": "0.0378",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:23"
+        "paper/tables/tab_dose_response.tex:22"
       ],
       "token": "tab_dose_response|s0|§header|1",
       "row": "§header",
@@ -2001,43 +2002,59 @@
       "rounded": "0.0136",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:30"
+        "paper/tables/tab_dose_response.tex:29"
       ],
       "token": "tab_dose_response|s1|§header|1",
       "row": "§header",
       "idx": 1
     },
     {
-      "id": "tab_dose_response.rafdb_stage1.header.T_deployed",
-      "printed": "1.34",
-      "artifact": "p1_dose_response/two_dataset_overlay.json",
-      "path": "arms.rafdb_stage1.points[2].T",
-      "exact": 1.3406,
+      "id": "tab_dose_response.stage1.header.T_star_fit",
+      "printed": "1.35",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.T_star_nll",
+      "exact": 1.3493828549261861,
       "rounding": "2dp",
-      "rounded": "1.34",
+      "rounded": "1.35",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:23"
+        "paper/tables/tab_dose_response.tex:22"
       ],
       "token": "tab_dose_response|s0|§header|2",
       "row": "§header",
       "idx": 2
     },
     {
-      "id": "tab_dose_response.rafdb_vae9182.header.T_star_fit",
+      "id": "tab_dose_response.vae9182.header.T_star_fit",
       "printed": "0.98",
-      "artifact": "p4_teacher_selection/p4_teacher_selection.json",
-      "path": "recipe_step3_ranking.rows[teacher=vae9182].T_star",
-      "exact": 0.9829375448886304,
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_nll",
+      "exact": 0.9830836723309966,
       "rounding": "2dp",
       "rounded": "0.98",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:30"
+        "paper/tables/tab_dose_response.tex:29"
       ],
       "token": "tab_dose_response|s1|§header|2",
       "row": "§header",
       "idx": 2
+    },
+    {
+      "id": "tab_dose_response.ferplus.header.T_star_fit",
+      "printed": "0.51",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.ferplus.T_star_nll",
+      "exact": 0.5063844589955608,
+      "rounding": "2dp",
+      "rounded": "0.51",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_dose_response.tex:36"
+      ],
+      "token": "tab_dose_response|s2|§header|1",
+      "row": "§header",
+      "idx": 1
     },
     {
       "id": "tab_dose_response.ferplus.header.teacher_ece_T1",
@@ -2049,27 +2066,59 @@
       "rounded": "0.1282",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:37"
+        "paper/tables/tab_dose_response.tex:36"
       ],
       "token": "tab_dose_response|s2|§header|0",
       "row": "§header",
       "idx": 0
     },
     {
-      "id": "tab_dose_response.ferplus.header.T_deployed",
-      "printed": "0.51",
-      "artifact": "p1_dose_response/two_dataset_overlay.json",
-      "path": "arms.ferplus.points[1].T",
-      "exact": 0.5063,
-      "rounding": "2dp",
-      "rounded": "0.51",
+      "id": "tab_dose_response.caption.stage1_half_fold_fit",
+      "printed": "1.3406",
+      "artifact": "paper_tables/tstar_provenance.json",
+      "path": "half_fold_fits.stage1",
+      "exact": 1.3405690339579057,
+      "rounding": "4dp",
+      "rounded": "1.3406",
       "matches": true,
       "where": [
-        "paper/tables/tab_dose_response.tex:37"
+        "paper/tables/tab_dose_response.tex:14"
       ],
-      "token": "tab_dose_response|s2|§header|1",
-      "row": "§header",
+      "token": "tab_dose_response|s-1|under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .|1",
+      "row": "under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .",
       "idx": 1
+    },
+    {
+      "id": "tab_dose_response.caption.stage1_full_fold_fit",
+      "printed": "1.3494",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.T_star_nll",
+      "exact": 1.3493828549261861,
+      "rounding": "4dp",
+      "rounded": "1.3494",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_dose_response.tex:14"
+      ],
+      "token": "tab_dose_response|s-1|under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .|2",
+      "row": "under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .",
+      "idx": 2
+    },
+    {
+      "id": "tab_dose_response.caption.vae9182_fit",
+      "printed": "0.98",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_nll",
+      "exact": 0.9830836723309966,
+      "rounding": "2dp",
+      "rounded": "0.98",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_dose_response.tex:14"
+      ],
+      "token": "tab_dose_response|s-1|under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .|3",
+      "row": "under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .",
+      "idx": 3
     },
     {
       "id": "app_seeds.rafdb_stage1.T0.85.teacher_ece",
@@ -6584,6 +6633,102 @@
       "idx": 5
     },
     {
+      "id": "tab_mechanisms.vae9182.g2g_kl+adaptive_t.d_acc",
+      "printed": "-0.07",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "path": "T5_mechanisms[\"vae9182/g2g_kl+adaptive_t\"].swa.d_acc_mean",
+      "exact": -0.065185546875,
+      "rounding": "2dp",
+      "rounded": "-0.07",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_mechanisms.tex:46"
+      ],
+      "token": "tab_mechanisms|s-1|G2G + adaptive T ^|0",
+      "row": "G2G + adaptive T ^",
+      "idx": 0
+    },
+    {
+      "id": "tab_mechanisms.vae9182.g2g_kl+adaptive_t.d_ece",
+      "printed": "-0.0018",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "path": "T5_mechanisms[\"vae9182/g2g_kl+adaptive_t\"].swa.d_ece_mean",
+      "exact": -0.0018300160697650378,
+      "rounding": "4dp",
+      "rounded": "-0.0018",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_mechanisms.tex:46"
+      ],
+      "token": "tab_mechanisms|s-1|G2G + adaptive T ^|1",
+      "row": "G2G + adaptive T ^",
+      "idx": 1
+    },
+    {
+      "id": "tab_logitstd.caption.narrowest_swa",
+      "printed": "23",
+      "artifact": "paper_tables/noise_units.json",
+      "path": "nine_cell_grid[\"swa|primary\"].ratio",
+      "exact": 23.452342977601653,
+      "rounding": "int",
+      "rounded": "23",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_mechanisms.tex:91"
+      ],
+      "token": "tab_mechanisms|s0|23 in the narrowest SWA comparison with a nine-cell median|0",
+      "row": "23 in the narrowest SWA comparison with a nine-cell median",
+      "idx": 0
+    },
+    {
+      "id": "tab_logitstd.caption.median",
+      "printed": "27",
+      "artifact": "paper_tables/noise_units.json",
+      "path": "summary.median",
+      "exact": 27.34409375226454,
+      "rounding": "int",
+      "rounded": "27",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_mechanisms.tex:92"
+      ],
+      "token": "tab_mechanisms|s0|of 27 (mean 52 ); under each cell's own denominator|0",
+      "row": "of 27 (mean 52 ); under each cell's own denominator",
+      "idx": 0
+    },
+    {
+      "id": "tab_logitstd.caption.mean",
+      "printed": "52",
+      "artifact": "paper_tables/noise_units.json",
+      "path": "summary.mean",
+      "exact": 51.664141734492404,
+      "rounding": "int",
+      "rounded": "52",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_mechanisms.tex:92"
+      ],
+      "token": "tab_mechanisms|s0|of 27 (mean 52 ); under each cell's own denominator|1",
+      "row": "of 27 (mean 52 ); under each cell's own denominator",
+      "idx": 1
+    },
+    {
+      "id": "tab_logitstd.caption.floor",
+      "printed": "2.6",
+      "artifact": "paper_tables/noise_units.json",
+      "path": "summary.min",
+      "exact": 2.5567632846736426,
+      "rounding": "1dp",
+      "rounded": "2.6",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_mechanisms.tex:93"
+      ],
+      "token": "tab_mechanisms|s0|the all-checkpoint floor is 2.6 . The nine denominators behind|0",
+      "row": "the all-checkpoint floor is 2.6 . The nine denominators behind",
+      "idx": 0
+    },
+    {
       "id": "tab_logitstd.primary.swa.d_acc",
       "printed": "-0.32",
       "artifact": "paper_tables/RESULTS_TABLES.json",
@@ -7334,6 +7479,38 @@
       "token": "tab_selection|s-1|( 89.60 pp each) and the cost of the accuracy rule is 0.35 pp|0",
       "row": "( 89.60 pp each) and the cost of the accuracy rule is 0.35 pp",
       "idx": 0
+    },
+    {
+      "id": "tab_selection.rho_teacherACC_studentACC",
+      "printed": "-0.50",
+      "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+      "path": "recipe_step3_ranking.spearman_teacherACC_vs_studentACC",
+      "exact": -0.5,
+      "rounding": "2dp",
+      "rounded": "-0.50",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection.tex:21"
+      ],
+      "token": "tab_selection|s-1|_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).|0",
+      "row": "_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).",
+      "idx": 0
+    },
+    {
+      "id": "tab_selection.rho_negTeacherECE_studentACC",
+      "printed": "+1.00",
+      "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+      "path": "recipe_step3_ranking.spearman_negTeacherECE_vs_studentACC",
+      "exact": 1.0,
+      "rounding": "2dp",
+      "rounded": "1.00",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection.tex:21"
+      ],
+      "token": "tab_selection|s-1|_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).|1",
+      "row": "_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).",
+      "idx": 1
     },
     {
       "id": "tab_selection.best_winner_exact",
@@ -8168,6 +8345,22 @@
       "idx": 0
     },
     {
+      "id": "tab_pooled.swa.pearson_unsigned",
+      "printed": "+0.930",
+      "artifact": "p1_dose_response/two_dataset_overlay.json",
+      "path": "pooled_stats.swa.pearson_abs_signed_gap",
+      "exact": 0.930083283281512,
+      "rounding": "3dp",
+      "rounded": "0.930",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_pooled.tex:14"
+      ],
+      "token": "tab_pooled|s-1|SWA|1",
+      "row": "SWA",
+      "idx": 1
+    },
+    {
       "id": "tab_pooled.swa.spearman_signed",
       "printed": "-0.407",
       "artifact": "p1_dose_response/two_dataset_overlay.json",
@@ -8200,6 +8393,22 @@
       "idx": 0
     },
     {
+      "id": "tab_pooled.best.pearson_unsigned",
+      "printed": "+0.970",
+      "artifact": "p1_dose_response/two_dataset_overlay.json",
+      "path": "pooled_stats.best.pearson_abs_signed_gap",
+      "exact": 0.9701354026870961,
+      "rounding": "3dp",
+      "rounded": "0.970",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_pooled.tex:16"
+      ],
+      "token": "tab_pooled|s-1|best|1",
+      "row": "best",
+      "idx": 1
+    },
+    {
       "id": "tab_pooled.best.spearman_signed",
       "printed": "-0.560",
       "artifact": "p1_dose_response/two_dataset_overlay.json",
@@ -8230,6 +8439,22 @@
       "token": "tab_pooled|s-1|last|0",
       "row": "last",
       "idx": 0
+    },
+    {
+      "id": "tab_pooled.last.pearson_unsigned",
+      "printed": "+0.948",
+      "artifact": "p1_dose_response/two_dataset_overlay.json",
+      "path": "pooled_stats.last.pearson_abs_signed_gap",
+      "exact": 0.9481781848120957,
+      "rounding": "3dp",
+      "rounded": "0.948",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_pooled.tex:17"
+      ],
+      "token": "tab_pooled|s-1|last|1",
+      "row": "last",
+      "idx": 1
     },
     {
       "id": "tab_pooled.last.spearman_signed",
@@ -9416,6 +9641,166 @@
       "idx": 4
     },
     {
+      "id": "tab_selection_audit.ferplus_best_last.d_acc_mean",
+      "printed": "+0.50",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.mean",
+      "exact": 0.4995263417561849,
+      "rounding": "2dp",
+      "rounded": "0.50",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:21"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - last|0",
+      "row": "FERPlus best - last",
+      "idx": 0
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_last.d_acc_sd",
+      "printed": "0.21",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.sd",
+      "exact": 0.2104346770893655,
+      "rounding": "2dp",
+      "rounded": "0.21",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:21"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - last|1",
+      "row": "FERPlus best - last",
+      "idx": 1
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_last.d_ece_mean",
+      "printed": "+0.0041",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.mean",
+      "exact": 0.004085516836523745,
+      "rounding": "4dp",
+      "rounded": "0.0041",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:21"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - last|2",
+      "row": "FERPlus best - last",
+      "idx": 2
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_last.d_ece_sd",
+      "printed": "0.0074",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.sd",
+      "exact": 0.007446682592579257,
+      "rounding": "4dp",
+      "rounded": "0.0074",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:21"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - last|3",
+      "row": "FERPlus best - last",
+      "idx": 3
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_last.n",
+      "printed": "12",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.n",
+      "exact": 12.0,
+      "rounding": "int",
+      "rounded": "12",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:21"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - last|4",
+      "row": "FERPlus best - last",
+      "idx": 4
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_swa.d_acc_mean",
+      "printed": "+0.22",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.mean",
+      "exact": 0.2246545155843099,
+      "rounding": "2dp",
+      "rounded": "0.22",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:22"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - SWA|0",
+      "row": "FERPlus best - SWA",
+      "idx": 0
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_swa.d_acc_sd",
+      "printed": "0.21",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.sd",
+      "exact": 0.20970803859941384,
+      "rounding": "2dp",
+      "rounded": "0.21",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:22"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - SWA|1",
+      "row": "FERPlus best - SWA",
+      "idx": 1
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_swa.d_ece_mean",
+      "printed": "+0.0069",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.mean",
+      "exact": 0.006881735070898713,
+      "rounding": "4dp",
+      "rounded": "0.0069",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:22"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - SWA|2",
+      "row": "FERPlus best - SWA",
+      "idx": 2
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_swa.d_ece_sd",
+      "printed": "0.0088",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.sd",
+      "exact": 0.008788135189382823,
+      "rounding": "4dp",
+      "rounded": "0.0088",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:22"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - SWA|3",
+      "row": "FERPlus best - SWA",
+      "idx": 3
+    },
+    {
+      "id": "tab_selection_audit.ferplus_best_swa.n",
+      "printed": "12",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.n",
+      "exact": 12.0,
+      "rounding": "int",
+      "rounded": "12",
+      "matches": true,
+      "where": [
+        "paper/tables/tab_selection_audit.tex:22"
+      ],
+      "token": "tab_selection_audit|s-1|FERPlus best - SWA|4",
+      "row": "FERPlus best - SWA",
+      "idx": 4
+    },
+    {
       "id": "tab_selection_audit.order_stat.K50.mean",
       "printed": "+0.645",
       "artifact": "paper_tables/order_stat_trend.json",
@@ -9427,8 +9812,8 @@
       "where": [
         "paper/tables/tab_selection_audit.tex:25"
       ],
-      "token": "tab_selection_audit|s0|FERPlus K = 50|0",
-      "row": "FERPlus K = 50",
+      "token": "tab_selection_audit|s0|RAF-DB K = 50|0",
+      "row": "RAF-DB K = 50",
       "idx": 0
     },
     {
@@ -9443,8 +9828,8 @@
       "where": [
         "paper/tables/tab_selection_audit.tex:25"
       ],
-      "token": "tab_selection_audit|s0|FERPlus K = 50|1",
-      "row": "FERPlus K = 50",
+      "token": "tab_selection_audit|s0|RAF-DB K = 50|1",
+      "row": "RAF-DB K = 50",
       "idx": 1
     },
     {
@@ -9459,8 +9844,8 @@
       "where": [
         "paper/tables/tab_selection_audit.tex:25"
       ],
-      "token": "tab_selection_audit|s0|FERPlus K = 50|2",
-      "row": "FERPlus K = 50",
+      "token": "tab_selection_audit|s0|RAF-DB K = 50|2",
+      "row": "RAF-DB K = 50",
       "idx": 2
     },
     {
@@ -9475,8 +9860,8 @@
       "where": [
         "paper/tables/tab_selection_audit.tex:26"
       ],
-      "token": "tab_selection_audit|s0|FERPlus K = 100|0",
-      "row": "FERPlus K = 100",
+      "token": "tab_selection_audit|s0|RAF-DB K = 100|0",
+      "row": "RAF-DB K = 100",
       "idx": 0
     },
     {
@@ -9491,8 +9876,8 @@
       "where": [
         "paper/tables/tab_selection_audit.tex:26"
       ],
-      "token": "tab_selection_audit|s0|FERPlus K = 100|1",
-      "row": "FERPlus K = 100",
+      "token": "tab_selection_audit|s0|RAF-DB K = 100|1",
+      "row": "RAF-DB K = 100",
       "idx": 1
     },
     {
@@ -9507,8 +9892,8 @@
       "where": [
         "paper/tables/tab_selection_audit.tex:26"
       ],
-      "token": "tab_selection_audit|s0|FERPlus K = 100|2",
-      "row": "FERPlus K = 100",
+      "token": "tab_selection_audit|s0|RAF-DB K = 100|2",
+      "row": "RAF-DB K = 100",
       "idx": 2
     },
     {
@@ -9622,6 +10007,54 @@
       "token": "abstract|s-1|best-validation-accuracy selection inflates accuracy by +0.77|0",
       "row": "best-validation-accuracy selection inflates accuracy by +0.77",
       "idx": 0
+    },
+    {
+      "id": "abstract.asymmetry_min",
+      "printed": "1.8",
+      "artifact": "paper_tables/asymmetry_estimand.json",
+      "path": "summary.interpolated_only.absolute.min",
+      "exact": 1.7706481288468956,
+      "rounding": "1dp",
+      "rounded": "1.8",
+      "matches": true,
+      "where": [
+        "paper/main_elsarticle.tex:136"
+      ],
+      "token": "abstract|s-1|over-confidence costs 1.8 -- 2.0 as much as equal|0",
+      "row": "over-confidence costs 1.8 -- 2.0 as much as equal",
+      "idx": 0
+    },
+    {
+      "id": "abstract.asymmetry_max",
+      "printed": "2.0",
+      "artifact": "paper_tables/asymmetry_estimand.json",
+      "path": "summary.interpolated_only.absolute.max",
+      "exact": 2.0443106766882515,
+      "rounding": "1dp",
+      "rounded": "2.0",
+      "matches": true,
+      "where": [
+        "paper/main_elsarticle.tex:136"
+      ],
+      "token": "abstract|s-1|over-confidence costs 1.8 -- 2.0 as much as equal|1",
+      "row": "over-confidence costs 1.8 -- 2.0 as much as equal",
+      "idx": 1
+    },
+    {
+      "id": "abstract.logitstd_noise_median",
+      "printed": "27",
+      "artifact": "paper_tables/noise_units.json",
+      "path": "summary.median",
+      "exact": 27.34409375226454,
+      "rounding": "int",
+      "rounded": "27",
+      "matches": true,
+      "where": [
+        "paper/main_elsarticle.tex:141"
+      ],
+      "token": "abstract|s-1|standardisation harms calibration at a median 27 its|0",
+      "row": "standardisation harms calibration at a median 27 its",
+      "idx": 0
     }
   ],
   "exempt": [
@@ -9636,6 +10069,18 @@
       "class": "teacher_name_digits",
       "why": "blok basliginda gecen ogretmen adinin icindeki basamak (Stage1 / VAE9182)",
       "printed": "9182"
+    },
+    {
+      "key": "tab_dose_response|s-1|under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .|0",
+      "class": "teacher_name_digits",
+      "why": "alt yazidaki 'Stage1' adinin icindeki basamak",
+      "printed": "1"
+    },
+    {
+      "key": "tab_dose_response|s-1|under-confident so their corrections act in opposite directions. Block headings give each teacher's fitted optimum T^ * _ NLL which is not always an arm we trained: Stage1's nearest arm is 1.3406 (a half-fold fit; the full fold returns 1.3494 ) and no arm was trained at the control's 0.98 whose nearest is T = 1 .|4",
+      "class": "hyperparameter",
+      "why": "kontrolun fit'ine en yakin EGITILMIS kol: T=1 -- tasarim degeri, olcum degil",
+      "printed": "1"
     },
     {
       "key": "app_seeds|s0|§header|0",
@@ -10176,232 +10621,7 @@
       ]
     }
   ],
-  "unbound": [
-    {
-      "key": "tab_mechanisms|s-1|G2G + adaptive T ^|0",
-      "printed": "-0.07",
-      "unit": "tab_mechanisms",
-      "row": "G2G + adaptive T ^",
-      "idx": 0,
-      "where": "paper/tables/tab_mechanisms.tex:46"
-    },
-    {
-      "key": "tab_mechanisms|s-1|G2G + adaptive T ^|1",
-      "printed": "-0.0018",
-      "unit": "tab_mechanisms",
-      "row": "G2G + adaptive T ^",
-      "idx": 1,
-      "where": "paper/tables/tab_mechanisms.tex:46"
-    },
-    {
-      "key": "tab_mechanisms|s0|23 in the narrowest SWA comparison with a nine-cell median|0",
-      "printed": "23",
-      "unit": "tab_mechanisms",
-      "row": "23 in the narrowest SWA comparison with a nine-cell median",
-      "idx": 0,
-      "where": "paper/tables/tab_mechanisms.tex:91"
-    },
-    {
-      "key": "tab_mechanisms|s0|of 27 (mean 52 ); under each cell's own denominator|0",
-      "printed": "27",
-      "unit": "tab_mechanisms",
-      "row": "of 27 (mean 52 ); under each cell's own denominator",
-      "idx": 0,
-      "where": "paper/tables/tab_mechanisms.tex:92"
-    },
-    {
-      "key": "tab_mechanisms|s0|of 27 (mean 52 ); under each cell's own denominator|1",
-      "printed": "52",
-      "unit": "tab_mechanisms",
-      "row": "of 27 (mean 52 ); under each cell's own denominator",
-      "idx": 1,
-      "where": "paper/tables/tab_mechanisms.tex:92"
-    },
-    {
-      "key": "tab_mechanisms|s0|the all-checkpoint floor is 2.6 . The nine denominators behind|0",
-      "printed": "2.6",
-      "unit": "tab_mechanisms",
-      "row": "the all-checkpoint floor is 2.6 . The nine denominators behind",
-      "idx": 0,
-      "where": "paper/tables/tab_mechanisms.tex:93"
-    },
-    {
-      "key": "tab_pooled|s-1|SWA|1",
-      "printed": "+0.930",
-      "unit": "tab_pooled",
-      "row": "SWA",
-      "idx": 1,
-      "where": "paper/tables/tab_pooled.tex:14"
-    },
-    {
-      "key": "tab_pooled|s-1|best|1",
-      "printed": "+0.970",
-      "unit": "tab_pooled",
-      "row": "best",
-      "idx": 1,
-      "where": "paper/tables/tab_pooled.tex:16"
-    },
-    {
-      "key": "tab_pooled|s-1|last|1",
-      "printed": "+0.948",
-      "unit": "tab_pooled",
-      "row": "last",
-      "idx": 1,
-      "where": "paper/tables/tab_pooled.tex:17"
-    },
-    {
-      "key": "tab_selection|s-1|there 0.52 pp here and 0.83 pp at the last checkpoint.|0",
-      "printed": "0.52",
-      "unit": "tab_selection",
-      "row": "there 0.52 pp here and 0.83 pp at the last checkpoint.",
-      "idx": 0,
-      "where": "paper/tables/tab_selection.tex:11"
-    },
-    {
-      "key": "tab_selection|s-1|_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).|0",
-      "printed": "-0.50",
-      "unit": "tab_selection",
-      "row": "_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).",
-      "idx": 0,
-      "where": "paper/tables/tab_selection.tex:21"
-    },
-    {
-      "key": "tab_selection|s-1|_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).|1",
-      "printed": "+1.00",
-      "unit": "tab_selection",
-      "row": "_s(teacher acc. student acc.)=-0.50 ; _s(-teacher ECE student acc.)=+1.00 . Cost of the accuracy rule at this checkpoint: 0.52 pp of student accuracy ( 90.2760-89.7545 computed from unrounded values; the displayed accuracies are rounded to two decimals).",
-      "idx": 1,
-      "where": "paper/tables/tab_selection.tex:21"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - last|0",
-      "printed": "+0.50",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - last",
-      "idx": 0,
-      "where": "paper/tables/tab_selection_audit.tex:21"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - last|1",
-      "printed": "0.21",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - last",
-      "idx": 1,
-      "where": "paper/tables/tab_selection_audit.tex:21"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - last|2",
-      "printed": "+0.0041",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - last",
-      "idx": 2,
-      "where": "paper/tables/tab_selection_audit.tex:21"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - last|3",
-      "printed": "0.0074",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - last",
-      "idx": 3,
-      "where": "paper/tables/tab_selection_audit.tex:21"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - last|4",
-      "printed": "12",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - last",
-      "idx": 4,
-      "where": "paper/tables/tab_selection_audit.tex:21"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - SWA|0",
-      "printed": "+0.22",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - SWA",
-      "idx": 0,
-      "where": "paper/tables/tab_selection_audit.tex:22"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - SWA|1",
-      "printed": "0.21",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - SWA",
-      "idx": 1,
-      "where": "paper/tables/tab_selection_audit.tex:22"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - SWA|2",
-      "printed": "+0.0069",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - SWA",
-      "idx": 2,
-      "where": "paper/tables/tab_selection_audit.tex:22"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - SWA|3",
-      "printed": "0.0088",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - SWA",
-      "idx": 3,
-      "where": "paper/tables/tab_selection_audit.tex:22"
-    },
-    {
-      "key": "tab_selection_audit|s-1|FERPlus best - SWA|4",
-      "printed": "12",
-      "unit": "tab_selection_audit",
-      "row": "FERPlus best - SWA",
-      "idx": 4,
-      "where": "paper/tables/tab_selection_audit.tex:22"
-    },
-    {
-      "key": "abstract|s-1|pooled Spearman = 0.79 ) while accuracy stays within 0.51|1",
-      "printed": "0.51",
-      "unit": "abstract",
-      "row": "pooled Spearman = 0.79 ) while accuracy stays within 0.51",
-      "idx": 1,
-      "where": "paper/main_elsarticle.tex:128"
-    },
-    {
-      "key": "abstract|s-1|41 -- 76 % at no accuracy cost and no additional training.|0",
-      "printed": "41",
-      "unit": "abstract",
-      "row": "41 -- 76 % at no accuracy cost and no additional training.",
-      "idx": 0,
-      "where": "paper/main_elsarticle.tex:131"
-    },
-    {
-      "key": "abstract|s-1|41 -- 76 % at no accuracy cost and no additional training.|1",
-      "printed": "76",
-      "unit": "abstract",
-      "row": "41 -- 76 % at no accuracy cost and no additional training.",
-      "idx": 1,
-      "where": "paper/main_elsarticle.tex:131"
-    },
-    {
-      "key": "abstract|s-1|over-confidence costs 1.8 -- 2.0 as much as equal|0",
-      "printed": "1.8",
-      "unit": "abstract",
-      "row": "over-confidence costs 1.8 -- 2.0 as much as equal",
-      "idx": 0,
-      "where": "paper/main_elsarticle.tex:136"
-    },
-    {
-      "key": "abstract|s-1|over-confidence costs 1.8 -- 2.0 as much as equal|1",
-      "printed": "2.0",
-      "unit": "abstract",
-      "row": "over-confidence costs 1.8 -- 2.0 as much as equal",
-      "idx": 1,
-      "where": "paper/main_elsarticle.tex:136"
-    },
-    {
-      "key": "abstract|s-1|standardisation harms calibration at a median 27 its|0",
-      "printed": "27",
-      "unit": "abstract",
-      "row": "standardisation harms calibration at a median 27 its",
-      "idx": 0,
-      "where": "paper/main_elsarticle.tex:141"
-    }
-  ],
+  "unbound": [],
   "problems": [],
   "dropped_layout_classes": [
     "cmidrule",

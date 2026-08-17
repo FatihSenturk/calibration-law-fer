@@ -147,6 +147,17 @@ def cells_from_dose_response(p):
                 if _num(b.get("acc_mean")):
                     out[f"dose/{arm}/T={T:g}/{ck}/student_acc"] = (b["acc_mean"], b.get("acc_sd"),
                                                                    b.get("n"))
+    # HAVUZ ISTATISTIKLERI (17 Agu 2026, N14). `tab_pooled`'un uc sutunu da buradan basiliyor
+    # ama kapi yalniz kol noktalarini izliyordu -- yani makalede duran alti korelasyon
+    # korumasizdi. Pearson sutunu bugun uretildi; ayni gun kapiya da giriyor, cunku kayitsiz
+    # artefakt korumasiz artefakttir.
+    for ck, s in (d.get("pooled_stats") or {}).items():
+        if not isinstance(s, dict):
+            continue
+        for stat in ("spearman_abs_signed_gap", "spearman_signed_gap",
+                     "pearson_abs_signed_gap", "pearson_signed_gap"):
+            if _num(s.get(stat)):
+                out[f"dose/pooled/{ck}/{stat}"] = (s[stat], None, s.get("n_points"))
     return out
 
 
@@ -343,6 +354,18 @@ def cells_from_g4(p):
     for ck, q in (d.get("pooled") or {}).items():
         for stat in ("median", "mean", "min"):
             out[f"G4.5/pooled/{ck}/{stat}"] = (q.get(stat), None, q.get("n_cells"))
+    # OZET ISTATISTIKLER (17 Agu 2026, N14). `tab_logitstd` alt yazisinin bastigi 27x (medyan),
+    # 52x (ortalama) ve 2.6x (taban) tam olarak bu blokta yasiyor; kapi dokuz hucreyi izlerken
+    # OZETI izlemiyordu, yani makaleye giren uc sayi korumasizdi.
+    if item == "G4.5" and isinstance(d.get("summary"), dict):   # G4.5 dokuz hucrenin ozeti
+        for stat in ("median", "mean", "min", "max"):
+            out[f"G4.5/summary/{stat}"] = (d["summary"].get(stat), None,
+                                           d["summary"].get("n_cells"))
+    if item == "G4.1":                                       # G4.1 asimetri ozeti
+        for grp, gv in (d.get("summary") or {}).items():
+            for est, ev in (gv or {}).items():
+                for stat in ("mean", "sd", "min", "max"):
+                    out[f"G4.1/summary/{grp}/{est}/{stat}"] = (ev.get(stat), None, ev.get("n"))
 
     if item == "G4.6":                                       # G4.6 denetim populasyonu
         out["G4.6/off_standard_count"] = (d.get("off_standard_count"), None, d.get("n_total"))
@@ -350,6 +373,12 @@ def cells_from_g4(p):
             out[f"G4.6/{b}/d_acc_mean"] = (s.get("d_acc_mean"), s.get("d_acc_sd"), s.get("n"))
             out[f"G4.6/{b}/d_ece_mean"] = (s.get("d_ece_mean"), s.get("d_ece_sd"), s.get("n"))
 
+    # G4.7'nin OLCULEN fitleri (17 Agu, N14). `tab_dose_response` blok basliklari ve alt yazisi
+    # tam bu iki sozlukten basiliyor (1.35 / 1.3494 / 1.3406 / 0.98); kapi bugune kadar yalniz
+    # `deployed` satirlarini okuyordu.
+    for blk in ("full_fold_fits", "half_fold_fits"):
+        for t, v in (d.get(blk) or {}).items():
+            out[f"G4.7/{blk}/{t}"] = (v, None, None)
     for r in d.get("deployed", []):                          # G4.7 T* kokeni
         if r.get("kind", "").startswith("FİT") and r.get("fit_value") is not None:
             out[f"G4.7/T={r['T']:g}/fit_value"] = (r["fit_value"], None, r.get("n_runs"))

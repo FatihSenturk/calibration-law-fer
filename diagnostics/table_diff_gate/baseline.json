@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-17T15:43:06",
-  "reason": "N13 (17 Agu, Fatih tek-soru turu): number_ledger + derived_registry AYNI GUN kapiya kaydedildi. 32 sapmanin tamami APPEARED. Kapida duran sey 590 hucre degil KAPSAMIN KENDISI: jeton 714 \u00b7 bagli 590 \u00b7 turetilmis 10 \u00b7 duzyazi bagi 1 \u00b7 muaf 88 \u00b7 KAYITSIZ 28 \u00b7 uyusmazlik 0. Turetilmis on nicelik (37x cokus, 40x gurultu, 76x kaldirac, secim maliyeti, insan-hizasi takas, T11 oranlari) yeniden hesaplanmis degerleriyle kayitli.",
+  "accepted_at": "2026-08-18T01:50:42",
+  "reason": "N14 ikinci tur: dort APPEARED, hepsi tstar_provenance icindeki OLCULEN fitler (full_fold_fits stage1/primary/vae9182 + half_fold_fits stage1). tab_dose_response'un uc blok basligi ve alt yazisi (1.35 / 1.3494 / 1.3406 / 0.98) tam bu alanlardan basiliyor; kapi bugune kadar yalniz deployed satirlarini okuyordu. CHANGED/VANISHED yok.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -466,27 +466,27 @@
       null
     ],
     "N13/count/tokens": [
-      714,
+      719,
       null,
       null
     ],
     "N13/count/bound": [
-      590,
+      617,
       null,
       null
     ],
     "N13/count/derived": [
-      10,
+      16,
       null,
       null
     ],
     "N13/count/exempt": [
-      88,
+      90,
       null,
       null
     ],
     "N13/count/unbound": [
-      28,
+      0,
       null,
       null
     ],
@@ -521,7 +521,7 @@
       null
     ],
     "N13/unbound_ids": [
-      28,
+      0,
       null,
       null
     ],
@@ -621,6 +621,66 @@
       null
     ],
     "N13/derived/collapse_ratio_10_20/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_best_caption": [
+      0.521514892578125,
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_best_caption/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/ece_reduction_min": [
+      41.46350982881447,
+      null,
+      null
+    ],
+    "N13/derived/ece_reduction_min/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/ece_reduction_max": [
+      76.37482440691838,
+      null,
+      null
+    ],
+    "N13/derived/ece_reduction_max/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/accuracy_band_widest_arm": [
+      0.5106455485026089,
+      null,
+      null
+    ],
+    "N13/derived/accuracy_band_widest_arm/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_min": [
+      13.306965250242223,
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_min/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_max": [
+      14.315495183255484,
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_max/ok": [
       "True",
       null,
       null
@@ -2929,6 +2989,66 @@
       88.45543924967448,
       0.32960043787118626,
       3
+    ],
+    "dose/pooled/swa/spearman_abs_signed_gap": [
+      0.789010989010989,
+      null,
+      14
+    ],
+    "dose/pooled/swa/spearman_signed_gap": [
+      -0.4065934065934066,
+      null,
+      14
+    ],
+    "dose/pooled/swa/pearson_abs_signed_gap": [
+      0.930083283281512,
+      null,
+      14
+    ],
+    "dose/pooled/swa/pearson_signed_gap": [
+      -0.7911945490436716,
+      null,
+      14
+    ],
+    "dose/pooled/best/spearman_abs_signed_gap": [
+      0.8945054945054945,
+      null,
+      14
+    ],
+    "dose/pooled/best/spearman_signed_gap": [
+      -0.5604395604395604,
+      null,
+      14
+    ],
+    "dose/pooled/best/pearson_abs_signed_gap": [
+      0.9701354026870961,
+      null,
+      14
+    ],
+    "dose/pooled/best/pearson_signed_gap": [
+      -0.8663886817932394,
+      null,
+      14
+    ],
+    "dose/pooled/last/spearman_abs_signed_gap": [
+      0.8769230769230769,
+      null,
+      14
+    ],
+    "dose/pooled/last/spearman_signed_gap": [
+      -0.5340659340659341,
+      null,
+      14
+    ],
+    "dose/pooled/last/pearson_abs_signed_gap": [
+      0.9481781848120957,
+      null,
+      14
+    ],
+    "dose/pooled/last/pearson_signed_gap": [
+      -0.8345819229474392,
+      null,
+      14
     ],
     "A12/stage1/mean_logvar/swa/ece/mean": [
       -0.0011666860813513748,
@@ -6550,6 +6670,86 @@
       null,
       null
     ],
+    "G4.1/summary/all_six/absolute/mean": [
+      1.7350504511149576,
+      null,
+      6
+    ],
+    "G4.1/summary/all_six/absolute/sd": [
+      0.4292281440073765,
+      null,
+      6
+    ],
+    "G4.1/summary/all_six/absolute/min": [
+      1.1265071891391658,
+      null,
+      6
+    ],
+    "G4.1/summary/all_six/absolute/max": [
+      2.253858676541919,
+      null,
+      6
+    ],
+    "G4.1/summary/all_six/excess/mean": [
+      7.507029766028618,
+      null,
+      3
+    ],
+    "G4.1/summary/all_six/excess/sd": [
+      8.15651429533438,
+      null,
+      3
+    ],
+    "G4.1/summary/all_six/excess/min": [
+      1.7486950042541878,
+      null,
+      3
+    ],
+    "G4.1/summary/all_six/excess/max": [
+      16.84064607989991,
+      null,
+      3
+    ],
+    "G4.1/summary/interpolated_only/absolute/mean": [
+      1.9074794027675734,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/absolute/sd": [
+      0.19350864333541073,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/absolute/min": [
+      1.7706481288468956,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/absolute/max": [
+      2.0443106766882515,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/excess/mean": [
+      10.386197146915833,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/excess/sd": [
+      9.127969218670632,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/excess/min": [
+      3.931748213931758,
+      null,
+      2
+    ],
+    "G4.1/summary/interpolated_only/excess/max": [
+      16.84064607989991,
+      null,
+      2
+    ],
     "G4.4/swa/acc_mean": [
       89.9500223795573,
       0.3663557063958696,
@@ -6715,6 +6915,26 @@
       null,
       3
     ],
+    "G4.5/summary/median": [
+      27.34409375226454,
+      null,
+      9
+    ],
+    "G4.5/summary/mean": [
+      51.664141734492404,
+      null,
+      9
+    ],
+    "G4.5/summary/min": [
+      2.5567632846736426,
+      null,
+      9
+    ],
+    "G4.5/summary/max": [
+      213.02190328916706,
+      null,
+      9
+    ],
     "G4.6/off_standard_count": [
       28,
       null,
@@ -6749,6 +6969,26 @@
       -0.0031358666162693404,
       0.004784383308077503,
       9
+    ],
+    "G4.7/full_fold_fits/stage1": [
+      1.3493927210953593,
+      null,
+      null
+    ],
+    "G4.7/full_fold_fits/primary": [
+      1.2613411785961113,
+      null,
+      null
+    ],
+    "G4.7/full_fold_fits/vae9182": [
+      0.9829375448886304,
+      null,
+      null
+    ],
+    "G4.7/half_fold_fits/stage1": [
+      1.3405690339579057,
+      null,
+      null
     ],
     "G4.7/T=1.3406/fit_value": [
       1.3405690339579057,

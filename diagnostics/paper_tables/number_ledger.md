@@ -6,52 +6,23 @@ Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_s
 
 | | count |
 |---|---|
-| numeric tokens in scope | 714 |
-| bound to an artifact field | 590 |
-| derived (ratio / difference) | 10 |
-| declared not-a-measurement | 88 |
-| **unregistered** | **28** |
+| numeric tokens in scope | 719 |
+| bound to an artifact field | 617 |
+| derived (ratio / difference) | 16 |
+| declared not-a-measurement | 90 |
+| **unregistered** | **0** |
 | printed-vs-field mismatch | 0 |
 | layout tokens dropped by the scanner | 166 |
 
 ## Scope (declared)
 
-**In:** `paper/tables/*.tex`, `abstract`, `supplementary S8-S11`  
-**Out:** sections/*.tex prose (revision window) · supplementary S1-S3 (today's headroom verdict not applied yet)  
+**In:** `paper/tables/*.tex`, `abstract`, `supplementary S8-S11`, `individually anchored prose sentences (declared one by one)`  
+**Out:** sections/*.tex prose, except the individually anchored sentences (revision window) · supplementary S1-S3 (today's headroom verdict not applied yet)  
 **Not a measurement:** `architecture_dim`, `benchmark_protocol`, `column_header`, `criterion_constant`, `date`, `dtype_name`, `hardware_name`, `hyperparameter`, `population_count`, `preregistration_provenance`, `rounding_caveat`, `sample_size`, `sign_count`, `table_reference`, `teacher_name_digits`
 
 ## Unregistered numbers
 
-| printed | unit | row | where |
-|---|---|---|---|
-| `-0.07` | tab_mechanisms | G2G + adaptive T ^ | paper/tables/tab_mechanisms.tex:46 |
-| `-0.0018` | tab_mechanisms | G2G + adaptive T ^ | paper/tables/tab_mechanisms.tex:46 |
-| `23` | tab_mechanisms | 23 in the narrowest SWA comparison with a nine | paper/tables/tab_mechanisms.tex:91 |
-| `27` | tab_mechanisms | of 27 (mean 52 ); under each cell's own denomi | paper/tables/tab_mechanisms.tex:92 |
-| `52` | tab_mechanisms | of 27 (mean 52 ); under each cell's own denomi | paper/tables/tab_mechanisms.tex:92 |
-| `2.6` | tab_mechanisms | the all-checkpoint floor is 2.6 . The nine den | paper/tables/tab_mechanisms.tex:93 |
-| `+0.930` | tab_pooled | SWA | paper/tables/tab_pooled.tex:14 |
-| `+0.970` | tab_pooled | best | paper/tables/tab_pooled.tex:16 |
-| `+0.948` | tab_pooled | last | paper/tables/tab_pooled.tex:17 |
-| `0.52` | tab_selection | there 0.52 pp here and 0.83 pp at the last che | paper/tables/tab_selection.tex:11 |
-| `-0.50` | tab_selection | _s(teacher acc. student acc.)=-0.50 ; _s(-teac | paper/tables/tab_selection.tex:21 |
-| `+1.00` | tab_selection | _s(teacher acc. student acc.)=-0.50 ; _s(-teac | paper/tables/tab_selection.tex:21 |
-| `+0.50` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
-| `0.21` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
-| `+0.0041` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
-| `0.0074` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
-| `12` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
-| `+0.22` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
-| `0.21` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
-| `+0.0069` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
-| `0.0088` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
-| `12` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
-| `0.51` | abstract | pooled Spearman = 0.79 ) while accuracy stays  | paper/main_elsarticle.tex:128 |
-| `41` | abstract | 41 -- 76 % at no accuracy cost and no addition | paper/main_elsarticle.tex:131 |
-| `76` | abstract | 41 -- 76 % at no accuracy cost and no addition | paper/main_elsarticle.tex:131 |
-| `1.8` | abstract | over-confidence costs 1.8 -- 2.0 as much as eq | paper/main_elsarticle.tex:136 |
-| `2.0` | abstract | over-confidence costs 1.8 -- 2.0 as much as eq | paper/main_elsarticle.tex:136 |
-| `27` | abstract | standardisation harms calibration at a median  | paper/main_elsarticle.tex:141 |
+None — every in-scope number is bound, derived or declared.
 
 ## Mismatches
 
@@ -71,6 +42,12 @@ None.
 | `human_trade_jsd` | -0.0051 | diff | -0.00509233 | yes |
 | `collapse_ratio_5_10` | 16.3 | ratio | 16.3044 | yes |
 | `collapse_ratio_10_20` | 13.5 | ratio | 13.5023 | yes |
+| `selection_cost_best_caption` | 0.52 | diff | 0.521515 | yes |
+| `ece_reduction_min` | 41 | pct_drop | 41.4635 | yes |
+| `ece_reduction_max` | 76 | pct_drop | 76.3748 | yes |
+| `accuracy_band_widest_arm` | 0.51 | diff | 0.510646 | yes |
+| `tstar_criterion_cost_min` | 13 | ratio | 13.307 | yes |
+| `tstar_criterion_cost_max` | 14 | ratio | 14.3155 | yes |
 
 ## Bindings
 
@@ -190,10 +167,13 @@ None.
 | `tab_dose_response.ferplus.T1.00.acc_swa_sd` | 0.37 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.acc_sd` | 2dp |
 | `tab_dose_response.rafdb_stage1.header.teacher_ece_T1` | 0.0378 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].teacher_ece` | 4dp |
 | `tab_dose_response.rafdb_vae9182.header.teacher_ece_T1` | 0.0136 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].teacher_ece` | 4dp |
-| `tab_dose_response.rafdb_stage1.header.T_deployed` | 1.34 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].T` | 2dp |
-| `tab_dose_response.rafdb_vae9182.header.T_star_fit` | 0.98 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].T_star` | 2dp |
+| `tab_dose_response.stage1.header.T_star_fit` | 1.35 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 2dp |
+| `tab_dose_response.vae9182.header.T_star_fit` | 0.98 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 2dp |
+| `tab_dose_response.ferplus.header.T_star_fit` | 0.51 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 2dp |
 | `tab_dose_response.ferplus.header.teacher_ece_T1` | 0.1282 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].teacher_ece` | 4dp |
-| `tab_dose_response.ferplus.header.T_deployed` | 0.51 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].T` | 2dp |
+| `tab_dose_response.caption.stage1_half_fold_fit` | 1.3406 | `paper_tables/tstar_provenance.json` | `half_fold_fits.stage1` | 4dp |
+| `tab_dose_response.caption.stage1_full_fold_fit` | 1.3494 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 4dp |
+| `tab_dose_response.caption.vae9182_fit` | 0.98 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 2dp |
 | `app_seeds.rafdb_stage1.T0.85.teacher_ece` | 0.0454 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].teacher_ece` | 4dp |
 | `app_seeds.rafdb_stage1.T0.85.signed_gap` | +0.0431 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].signed_gap` | 4dp |
 | `app_seeds.rafdb_stage1.T0.85.seed1` | 0.0814 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].per_seed["1"].ece` | 4dp |
@@ -476,6 +456,12 @@ None.
 | `tab_mechanisms.primary.logit_std.d_ece` | +0.0859 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_ece_mean` | 4dp |
 | `tab_mechanisms.vae9182.logit_std.d_acc` | -0.12 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_acc_mean` | 2dp |
 | `tab_mechanisms.vae9182.logit_std.d_ece` | +0.1388 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.g2g_kl+adaptive_t.d_acc` | -0.07 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl+adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.g2g_kl+adaptive_t.d_ece` | -0.0018 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl+adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_logitstd.caption.narrowest_swa` | 23 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|primary"].ratio` | int |
+| `tab_logitstd.caption.median` | 27 | `paper_tables/noise_units.json` | `summary.median` | int |
+| `tab_logitstd.caption.mean` | 52 | `paper_tables/noise_units.json` | `summary.mean` | int |
+| `tab_logitstd.caption.floor` | 2.6 | `paper_tables/noise_units.json` | `summary.min` | 1dp |
 | `tab_logitstd.primary.swa.d_acc` | -0.32 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_acc_mean` | 2dp |
 | `tab_logitstd.primary.swa.d_ece` | +0.0859 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_ece_mean` | 4dp |
 | `tab_logitstd.primary.best.d_acc` | -0.43 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].best.d_acc_mean` | 2dp |
@@ -523,6 +509,8 @@ None.
 | `tab_selection.vae9182.student_acc_sd` | 0.19 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_sd` | 2dp |
 | `tab_selection.vae9182.student_ece` | 0.0274 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.ece_mean` | 4dp |
 | `tab_selection.swa_tie` | 89.60 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.swa.acc_mean` | 2dp |
+| `tab_selection.rho_teacherACC_studentACC` | -0.50 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.spearman_teacherACC_vs_studentACC` | 2dp |
+| `tab_selection.rho_negTeacherECE_studentACC` | +1.00 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.spearman_negTeacherECE_vs_studentACC` | 2dp |
 | `tab_selection.best_winner_exact` | 90.2760 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean` | 4dp |
 | `tab_selection.best_acc_rule_exact` | 89.7545 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean` | 4dp |
 | `tab_holm.rank1.mean` | +0.1388 | `paper_tables/inferential_tests.json` | `results[3].mean` | 4dp |
@@ -575,10 +563,13 @@ None.
 | `tab_human.T1.0.entropy` | 0.547 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].entropy` | 3dp |
 | `tab_human.human_entropy` | 0.440 | `ferplus_jsd/ferplus_student_jsd.json` | `human_mean_entropy` | 3dp |
 | `tab_pooled.swa.spearman_unsigned` | +0.789 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 3dp |
+| `tab_pooled.swa.pearson_unsigned` | +0.930 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.pearson_abs_signed_gap` | 3dp |
 | `tab_pooled.swa.spearman_signed` | -0.407 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_signed_gap` | 3dp |
 | `tab_pooled.best.spearman_unsigned` | +0.895 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.best.spearman_abs_signed_gap` | 3dp |
+| `tab_pooled.best.pearson_unsigned` | +0.970 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.best.pearson_abs_signed_gap` | 3dp |
 | `tab_pooled.best.spearman_signed` | -0.560 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.best.spearman_signed_gap` | 3dp |
 | `tab_pooled.last.spearman_unsigned` | +0.877 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.last.spearman_abs_signed_gap` | 3dp |
+| `tab_pooled.last.pearson_unsigned` | +0.948 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.last.pearson_abs_signed_gap` | 3dp |
 | `tab_pooled.last.spearman_signed` | -0.534 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.last.spearman_signed_gap` | 3dp |
 | `tab_capacity.scratch w050.acc_mean` | 86.15 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w050"].acc_mean` | 2dp |
 | `tab_capacity.scratch w050.acc_sd` | 0.07 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w050"].acc_sd` | 2dp |
@@ -653,6 +644,16 @@ None.
 | `tab_selection_audit.rafdb_best_swa.d_ece_mean` | -0.0006 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_ece.mean` | 4dp |
 | `tab_selection_audit.rafdb_best_swa.d_ece_sd` | 0.0118 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_ece.sd` | 4dp |
 | `tab_selection_audit.rafdb_best_swa.n` | 118 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.n` | int |
+| `tab_selection_audit.ferplus_best_last.d_acc_mean` | +0.50 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.mean` | 2dp |
+| `tab_selection_audit.ferplus_best_last.d_acc_sd` | 0.21 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.sd` | 2dp |
+| `tab_selection_audit.ferplus_best_last.d_ece_mean` | +0.0041 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.mean` | 4dp |
+| `tab_selection_audit.ferplus_best_last.d_ece_sd` | 0.0074 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.sd` | 4dp |
+| `tab_selection_audit.ferplus_best_last.n` | 12 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.n` | int |
+| `tab_selection_audit.ferplus_best_swa.d_acc_mean` | +0.22 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.mean` | 2dp |
+| `tab_selection_audit.ferplus_best_swa.d_acc_sd` | 0.21 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.sd` | 2dp |
+| `tab_selection_audit.ferplus_best_swa.d_ece_mean` | +0.0069 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.mean` | 4dp |
+| `tab_selection_audit.ferplus_best_swa.d_ece_sd` | 0.0088 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.sd` | 4dp |
+| `tab_selection_audit.ferplus_best_swa.n` | 12 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.n` | int |
 | `tab_selection_audit.order_stat.K50.mean` | +0.645 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.mean` | 3dp |
 | `tab_selection_audit.order_stat.K50.sd` | 0.203 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.sd` | 3dp |
 | `tab_selection_audit.order_stat.K50.n` | 131 | `paper_tables/order_stat_trend.json` | `results["50"].n_runs` | int |
@@ -666,3 +667,6 @@ None.
 | `abstract.pooled_rho` | 0.79 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 2dp |
 | `abstract.audit_n_runs` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
 | `abstract.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `abstract.asymmetry_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
+| `abstract.asymmetry_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
+| `abstract.logitstd_noise_median` | 27 | `paper_tables/noise_units.json` | `summary.median` | int |

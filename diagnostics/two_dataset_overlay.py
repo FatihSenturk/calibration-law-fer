@@ -123,6 +123,23 @@ def spearman(xs, ys):
     return num / den if den else float("nan")
 
 
+def pearson(xs, ys):
+    """Ham (sıralanmamış) doğrusal korelasyon — `tab_pooled`'un `r` (unsigned) sütunu.
+
+    NEDEN 17 AĞU 2026'DA EKLENDİ. Sütun makalede duruyordu ama ÜRETİCİSİ YOKTU: sayı
+    provenans defteri (N13) üç hücreyi "kayıtsız" diye işaretledi, çünkü havuzlanmış 14 nokta
+    üzerinde Pearson hesaplayan hiçbir artefakt yoktu. Karar (Fatih, 17 Ağu): kanıtı silmek
+    yerine kaynağı üretmek. Bu yüzden Spearman'ın YANINA, AYNI 14 noktayı toplayan AYNI
+    döngüden hesaplanıyor — ikinci bir nokta kümesi ya da ikinci bir tanım getirmeden.
+    Yardımcı istatistiktir: makale ilişkiyi zaten "a rank association, not a monotone
+    response" diye niteliyor.
+    """
+    mx, my = st.mean(xs), st.mean(ys)
+    num = sum((a - mx) * (b - my) for a, b in zip(xs, ys))
+    den = (sum((a - mx) ** 2 for a in xs) * sum((b - my) ** 2 for b in ys)) ** 0.5
+    return num / den if den else float("nan")
+
+
 def branch_asymmetry(points, ck):
     """Is over-confidence as costly to the student as EQUAL-magnitude under-confidence?
 
@@ -293,11 +310,16 @@ def main():
                 ys.append(p["by_ckpt"][ck]["ece_mean"])
         stats[ck] = {"n_points": len(xs),
                      "spearman_abs_signed_gap": spearman(xs, ys),
-                     "spearman_signed_gap": spearman(xs_signed, ys)}
+                     "spearman_signed_gap": spearman(xs_signed, ys),
+                     "pearson_abs_signed_gap": pearson(xs, ys),
+                     "pearson_signed_gap": pearson(xs_signed, ys)}
         print(f"pooled across both datasets @{ck}: n={len(xs)} points   "
               f"Spearman(|signed gap|, student ECE) = {stats[ck]['spearman_abs_signed_gap']:+.3f}"
               f"   [signed version {stats[ck]['spearman_signed_gap']:+.3f}, expected ~0 "
               f"because the relation is V-shaped, not monotone, in the SIGNED variable]")
+        print(f"    Pearson r on the same points = "
+              f"{stats[ck]['pearson_abs_signed_gap']:+.3f} (unsigned) · "
+              f"{stats[ck]['pearson_signed_gap']:+.3f} (signed)")
 
     # ---- direction asymmetry: is the folded axis actually sufficient? ----
     print("\n=== DIRECTION ASYMMETRY (within-arm, @swa): over-confident vs equally "

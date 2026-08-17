@@ -40,6 +40,25 @@ PAPER_CASES = [
     ("tab_pooled'a kayitsiz bir sayi eklendi",
      "tables/tab_pooled.tex", [("$+0.930$", "$+0.930$ & $+0.111$")],
      "unregistered", 1),
+    # --- N14 (17 Agu): bu turda BAGLANAN sayilar da geri konup denenmeli. Bir bag ancak
+    # bozuldugunda yakalanabiliyorsa kurulmustur; kurulup denenmemis bag, kurulmamis bagdir.
+    ("§3.2 olcut maliyeti orani '13--15' yazildi (13--14 yerine)",
+     "sections/03_methodology.tex", [("$13$--$14$", "$13$--$15$")],
+     "printed_not_found_at_location", 1),
+    ("tab_pooled Pearson sutunu bayat (+0.930 -> +0.931)",
+     "tables/tab_pooled.tex", [("$+0.930$", "$+0.931$")], "rounding_mismatch", 1),
+    ("tab_selection_audit FERPlus satiri bayat (+0.50 -> +0.51)",
+     "tables/tab_selection_audit.tex", [("$+0.50 \\pm 0.21$", "$+0.51 \\pm 0.21$")],
+     "rounding_mismatch", 1),
+]
+
+# (ad, beyan kimligi, bozuk yol, beklenen sinif) -- DEFTERI bozan senaryolar: sayi dogru,
+# artefakt dogru, BAG yanlis. Asagidaki vaka 17 Agu'da GERCEKTEN oldu: 'T*' adi bir baslikta
+# fit degeri, komsu blokta dagitilan kolu tasiyordu. Ayni artefaktin KOMSU alani, ayni ad.
+BINDING_CASES = [
+    ("tab_dose_response basligi FIT yerine DAGITILAN kola baglandi (T*, 17 Agu vakasi)",
+     "tab_dose_response.stage1.header.T_star_fit", "results.stage1.deployed_T",
+     "rounding_mismatch"),
 ]
 
 
@@ -112,6 +131,19 @@ def main():
                  "unresolved_path / printed_not_found_at_location", 1, got,
                  len(pl["unbound"]), "YAKALANDI" if good else "KACIRILDI"))
     NL.PROSE[0].update(saved)
+
+    # --- yanlis bag: dogru artefakt, KOMSU alan (N14)
+    for name, ident, bad_path, want in BINDING_CASES:
+        bd = next(x for x in NL.BINDINGS if x["id"] == ident)
+        keep = dict(bd)
+        bd["path"] = bad_path
+        pl, kinds = run(clean)
+        got = kinds.count(want)
+        good = got >= 1
+        ok &= good
+        rows.append((name, want, 1, got, len(pl["unbound"]),
+                     "YAKALANDI" if good else "KACIRILDI"))
+        bd.update(keep)
 
     # --- bayat alan: bagli alan artefaktta yok
     saved_b = dict(NL.BINDINGS[0])
