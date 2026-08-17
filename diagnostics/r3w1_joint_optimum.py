@@ -65,6 +65,27 @@ def agg(per_seed, arm, kind, met):
     return st.mean(v), sample_sd(v)
 
 
+def crossfit_arm(lg, labels, p_human, mask_a, mask_b):
+    """Bir kol/tohum için ham ölçüm + çapraz-uyarlanmış öğrenci-TS ölçümü.
+
+    17 Ağu 2026'da fonksiyona ÇIKARILDI (`jsd_collapse_audit`). Gerekçe: "JSD çöküşü 40× mi
+    37× mi" sorusunun cevabı tam olarak bu bloğun çıktısına dayanıyor, dolayısıyla ikinci bir
+    betik onu KOPYALAMAK yerine buradan çağırmak zorunda — kopya, cevabın kendisi olan tanımı
+    ikiye bölerdi. Gövde main()'den birebir taşındı; bu betiğin ürettiği hiçbir sayı
+    değişmez (`.md`/`.json` bayt karşılaştırmasıyla doğrulandı).
+    """
+    n = labels.shape[0]
+    na, nb = int(mask_a.sum()), int(mask_b.sum())
+    raw = measure(lg, labels, p_human)
+    # çapraz-fit: A'da fit -> B'de ölç ve tersi; birleşik = örnek-ağırlıklı
+    t_ab = fit_ts(lg[mask_a], labels[mask_a])
+    t_ba = fit_ts(lg[mask_b], labels[mask_b])
+    m_b = measure(lg[mask_b], labels[mask_b], p_human[mask_b], T=t_ab)
+    m_a = measure(lg[mask_a], labels[mask_a], p_human[mask_a], T=t_ba)
+    ts = {k: (m_a[k] * na + m_b[k] * nb) / n for k in ("ece", "jsd", "entropy")}
+    return {"raw": raw, "ts": ts, "T_s": [t_ab, t_ba]}
+
+
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -80,14 +101,9 @@ def main():
         per_seed[T] = {}
         for s in SEEDS:
             lg = published_logits(tmpl.format(s=s))
-            raw = measure(lg, labels, p_human)
-            # çapraz-fit: A'da fit -> B'de ölç ve tersi; birleşik = örnek-ağırlıklı
-            t_ab = fit_ts(lg[mask_a], labels[mask_a])
-            t_ba = fit_ts(lg[mask_b], labels[mask_b])
-            m_b = measure(lg[mask_b], labels[mask_b], p_human[mask_b], T=t_ab)
-            m_a = measure(lg[mask_a], labels[mask_a], p_human[mask_a], T=t_ba)
-            ts = {k: (m_a[k] * na + m_b[k] * nb) / n for k in ("ece", "jsd", "entropy")}
-            per_seed[T][str(s)] = {"raw": raw, "ts": ts, "T_s": [t_ab, t_ba]}
+            r = crossfit_arm(lg, labels, p_human, mask_a, mask_b)
+            per_seed[T][str(s)] = r
+            raw, ts, (t_ab, t_ba) = r["raw"], r["ts"], r["T_s"]
             print(f"  T={T:<7} seed{s}: ham ({raw['ece']:.4f}, {raw['jsd']:.4f}) -> "
                   f"TS ({ts['ece']:.4f}, {ts['jsd']:.4f})  T_s {t_ab:.3f}/{t_ba:.3f}")
 

@@ -121,6 +121,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/jsd_collapse_audit.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/jsd_sensitivity.py",
       "status": "GEÇTİ",
       "note": ""

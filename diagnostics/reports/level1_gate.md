@@ -36,6 +36,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/headroom_review.py` | GEÇTİ | — |
 | `diagnostics/holm_family.py` | GEÇTİ | — |
 | `diagnostics/inferential_tests.py` | GEÇTİ | — |
+| `diagnostics/jsd_collapse_audit.py` | GEÇTİ | — |
 | `diagnostics/jsd_sensitivity.py` | GEÇTİ | — |
 | `diagnostics/level1_gate.py` | muaf | kapının kendisi — kendini koşturmak özyineleme olur |
 | `diagnostics/mechanism_diagnostic_figure.py` | GEÇTİ | — |

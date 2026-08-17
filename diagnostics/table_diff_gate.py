@@ -704,9 +704,50 @@ def cells_from_headroom_audit(p):
     return out
 
 
+def cells_from_jsd_collapse(p):
+    """N12 (17 Agu) — JSD çöküşü: tek pay, iki payda (TS-sonrası açıklık ve tohum sd'si).
+
+    Neden kayıtlı: makalede iki cümle var, paylari ayni, paydalari FARKLI ve ikisi de dort
+    basamakta 0.0005 basiliyor. Payda sessizce kayarsa (kol eklenir, tohum eklenir, TS
+    protokolu degisir) iki oran birbirine daha da yaklasir ya da uzaklasir ve metindeki 37/40
+    ayrimi kapiya gorunmeden bozulur. Kapinin gormesi gereken tam olarak bu iki paydadir.
+    """
+    out = {}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    n = d.get("n_val")
+    for T, a in (d.get("arms") or {}).items():
+        for k in ("jsd_raw", "jsd_ts", "ece_raw", "ece_ts"):
+            out[f"N12/arm/{T}/{k}"] = (a[k][0], a[k][1], n)
+    num = d.get("numerator") or {}
+    out["N12/numerator"] = (num.get("value"), None, n)
+    out["N12/numerator/arms"] = (f"{num.get('arm_hi')}-{num.get('arm_lo')}", None, None)
+    rc = d.get("R_collapse") or {}
+    out["N12/R_collapse"] = (rc.get("value"), None, n)
+    out["N12/R_collapse/denominator"] = (rc.get("denominator"), None, n)
+    out["N12/R_collapse/per_seed_mean"] = (rc.get("per_seed_mean"), rc.get("per_seed_sd"), 3)
+    out["N12/R_collapse/denominator_bar"] = (rc.get("denominator_bar"), None, None)
+    out["N12/R_collapse/denom_within_noise"] = (str(rc.get("denominator_within_noise")),
+                                                None, None)
+    rn = d.get("R_noise") or {}
+    for k, v in (rn.get("by_convention") or {}).items():
+        out[f"N12/R_noise/{k}"] = (v, None, n)
+    for k, v in (rn.get("seed_sd_by_convention") or {}).items():
+        out[f"N12/seed_sd/{k}"] = (v, None, n)
+    tr = d.get("rounding_trap") or {}
+    out["N12/trap/ratio_from_printed"] = (tr.get("ratio_from_printed"), None, None)
+    out["N12/trap/denom_for_exactly_40"] = (tr.get("denominator_that_gives_exactly_40"),
+                                            None, None)
+    out["N12/max_abs_dev"] = (d.get("max_abs_dev"), None, None)
+    v = d.get("verdict") or {}
+    out["N12/verdict/collapse_printed"] = (v.get("R_collapse_printed"), None, None)
+    out["N12/verdict/noise_printed"] = (v.get("R_noise_printed"), None, None)
+    return out
+
+
 SOURCES = [
     (D / "epoch_curves_MANIFEST.json", cells_from_epoch_curves),
     (D / "paper_tables" / "headroom_grid_audit.json", cells_from_headroom_audit),
+    (D / "paper_tables" / "jsd_collapse_audit.json", cells_from_jsd_collapse),
     (D / "paper_tables" / "control_sd_mde.json", cells_from_round3),
     (D / "paper_tables" / "tau_t_factorial.json", cells_from_round3),
     (D / "paper_tables" / "mechanism_grid_gaps.json", cells_from_round3),

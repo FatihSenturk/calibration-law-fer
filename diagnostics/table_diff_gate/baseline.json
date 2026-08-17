@@ -1,9 +1,10 @@
 {
-  "accepted_at": "2026-08-15T21:53:21",
-  "reason": "N11 (15 Agu, Fatih tek-soru turu): headroom_grid_audit AYNI GUN kapiya kaydedildi. 42 sapmanin tamami APPEARED; CHANGED / MOVED / VANISHED yok. Bu onemli, cunku bu tur bootstrap_cis.py'nin precompute'una dokundu (izgara artik parametre) -- cikti dosyalari BAYT BAYT ayni kaldi, yani refactor atil. FERPlus headroom'un uc izgaradaki degeri: kosulan 4 nokta 0.1126 [0.1018,0.1165] (T=0.5063, ic nokta), bootstrap izgarasi 101 nokta 0.1131 [0.1039,0.1174] (T=0.50, ALT SINIRDA, tekrarlarin %78.5'inde), ince tarama 196 nokta 0.1198 [0.1069,0.1269] (T=0.46, ic nokta). Yayimli alti sayi 0.00e+00..2.2e-08 sapmayla yeniden uretildi.",
+  "accepted_at": "2026-08-17T12:59:16",
+  "reason": "N12 (17 Agu, Fatih tek-soru turu): jsd_collapse_audit AYNI GUN kapiya kaydedildi. 38 sapmanin tamami APPEARED; CHANGED / MOVED / VANISHED yok -- r3w1_joint_optimum.py'nin crossfit blogu fonksiyona cikarildi (jsd_collapse_audit ondan ITHAL ediyor) ve ciktilari BAYT BAYT ayni kaldi, yani refactor atil. Olculen: tek pay 0.02008283 (ham JSD acikligi T=0.26 - T=0.74), iki payda -> TS-sonrasi aciklik 0.00053936 => R_collapse 37.2342 ('37x'), ortalama tohum sd 0.00050443 => R_noise 39.8126 ('40x'). Ikisi de dort basamakta 0.0005 basiliyor; tam 40 icin gereken payda 0.00050207 (ortalama tohum sd'sinden %0.47 uzak, TS acikligindan %6.91). 35 capraz kontrol 0.00e+00 sapmayla gecti.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
+    "diagnostics\\paper_tables\\jsd_collapse_audit.json",
     "diagnostics\\paper_tables\\control_sd_mde.json",
     "diagnostics\\paper_tables\\tau_t_factorial.json",
     "diagnostics\\paper_tables\\mechanism_grid_gaps.json",
@@ -269,6 +270,196 @@
     ],
     "N11/verdict/primary_T": [
       0.5063,
+      null,
+      null
+    ],
+    "N12/arm/0.26/jsd_raw": [
+      0.07368071377277374,
+      0.0007331671660701203,
+      3153
+    ],
+    "N12/arm/0.26/jsd_ts": [
+      0.05404462955891298,
+      0.00039916229348837574,
+      3153
+    ],
+    "N12/arm/0.26/ece_raw": [
+      0.058740805600987316,
+      0.003831888418531751,
+      3153
+    ],
+    "N12/arm/0.26/ece_ts": [
+      0.026590545011229615,
+      0.0005390404980543267,
+      3153
+    ],
+    "N12/arm/0.5063/jsd_raw": [
+      0.058690217634042106,
+      0.0004615663733709948,
+      3153
+    ],
+    "N12/arm/0.5063/jsd_ts": [
+      0.054273864072206496,
+      0.00020913379900477892,
+      3153
+    ],
+    "N12/arm/0.5063/ece_raw": [
+      0.018498602500361613,
+      0.0015881954147709731,
+      3153
+    ],
+    "N12/arm/0.5063/ece_ts": [
+      0.029646180016392822,
+      0.0016483823776464203,
+      3153
+    ],
+    "N12/arm/0.74/jsd_raw": [
+      0.05359788859883944,
+      0.0003727677382411302,
+      3153
+    ],
+    "N12/arm/0.74/jsd_ts": [
+      0.05458399447143702,
+      0.0002493870765654314,
+      3153
+    ],
+    "N12/arm/0.74/ece_raw": [
+      0.034363226014547714,
+      0.0012025338139968638,
+      3153
+    ],
+    "N12/arm/0.74/ece_ts": [
+      0.024559433540389003,
+      0.0041417624161009985,
+      3153
+    ],
+    "N12/arm/1.0/jsd_raw": [
+      0.05510709931453069,
+      0.00045023334519684265,
+      3153
+    ],
+    "N12/arm/1.0/jsd_ts": [
+      0.05454465795715183,
+      0.0005060496740959768,
+      3153
+    ],
+    "N12/arm/1.0/ece_raw": [
+      0.07830038099601992,
+      0.00460023162590826,
+      3153
+    ],
+    "N12/arm/1.0/ece_ts": [
+      0.02026964695235112,
+      0.0017399872522243173,
+      3153
+    ],
+    "N12/numerator": [
+      0.020082825173934303,
+      null,
+      3153
+    ],
+    "N12/numerator/arms": [
+      "0.26-0.74",
+      null,
+      null
+    ],
+    "N12/R_collapse": [
+      37.23420769058525,
+      null,
+      3153
+    ],
+    "N12/R_collapse/denominator": [
+      0.000539364912524036,
+      null,
+      3153
+    ],
+    "N12/R_collapse/per_seed_mean": [
+      24.396578442694373,
+      9.754663037287237,
+      3
+    ],
+    "N12/R_collapse/denominator_bar": [
+      0.0010120993481919536,
+      null,
+      null
+    ],
+    "N12/R_collapse/denom_within_noise": [
+      "True",
+      null,
+      null
+    ],
+    "N12/R_noise/mean sd": [
+      39.812619451964,
+      null,
+      3153
+    ],
+    "N12/R_noise/median sd": [
+      44.050957167388404,
+      null,
+      3153
+    ],
+    "N12/R_noise/largest sd": [
+      27.391877464427502,
+      null,
+      3153
+    ],
+    "N12/R_noise/smallest sd": [
+      53.87490148340959,
+      null,
+      3153
+    ],
+    "N12/R_noise/pooled sd": [
+      38.43218500768999,
+      null,
+      3153
+    ],
+    "N12/seed_sd/mean sd": [
+      0.000504433655719772,
+      null,
+      3153
+    ],
+    "N12/seed_sd/median sd": [
+      0.0004558998592839187,
+      null,
+      3153
+    ],
+    "N12/seed_sd/largest sd": [
+      0.0007331671660701203,
+      null,
+      3153
+    ],
+    "N12/seed_sd/smallest sd": [
+      0.0003727677382411302,
+      null,
+      3153
+    ],
+    "N12/seed_sd/pooled sd": [
+      0.000522552261077945,
+      null,
+      3153
+    ],
+    "N12/trap/ratio_from_printed": [
+      40.199999999999996,
+      null,
+      null
+    ],
+    "N12/trap/denom_for_exactly_40": [
+      0.0005020706293483576,
+      null,
+      null
+    ],
+    "N12/max_abs_dev": [
+      0.0,
+      null,
+      null
+    ],
+    "N12/verdict/collapse_printed": [
+      "37\u00d7",
+      null,
+      null
+    ],
+    "N12/verdict/noise_printed": [
+      "40\u00d7",
       null,
       null
     ],

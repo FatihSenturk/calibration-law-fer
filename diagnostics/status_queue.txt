@@ -23,6 +23,29 @@ note = A12 gercek-sinyal gate n=3 (5 hucre x 2 yeni tohum). ON-BEYANLI: PREREGIS
 # 4 Ağu ikinci güncelleme (ide_prompt_baslik_v2.md): BAŞLIK v2 seçildi ve gönderim tarihi
 # artık bir hedef değil — P6 entegrasyonu + konsolide tur bitmeden tarih verilmiyor.
 pending:
+- N12 JSD çöküşü 37× / 40× (17 Ağu): KAPANDI repo tarafında, MAKALEYE İŞ DÜŞÜYOR.
+  İki merci ters yönde hüküm verdi (number_audit_round3 kalem 7 "~40 doğru, 37 üretilemiyor" ·
+  dış inceleme "37 doğru") ve ikisi de kendi aritmetiğinde haklıydı: **iki ayrı nicelik var, pay
+  ortak, payda farklı ve iki payda dört basamakta ikisi de 0.0005 basılıyor.** Pay = ham JSD
+  açıklığı **0.02008283** (T=0.26 0.073681 − T=0.74 0.053598). Payda A = TS sonrası açıklık
+  **0.00053936** → **R_collapse 37.2342** ("collapse" cümlesi, 05_results_discussion.tex:693).
+  Payda B = ortalama tohum sd **0.00050443** → **R_noise 39.8126** ("times the noise" cümlesi,
+  aynı alt bölümün gövdesi, satır 636). Tam 40 için gereken payda 0.00050207: ortalama tohum
+  sd'sinden %0.47, TS açıklığından %6.91 uzak — yani 40 çöküş oranının yuvarlanması DEĞİL,
+  gürültü oranının kendisi. Basılı bölme 0.0201/0.0005 = 40.20. Yeni üretici
+  jsd_collapse_audit.py; r3w1_joint_optimum'un çapraz-fit bloğu crossfit_arm()'a çıkarıldı ve
+  ithal ediliyor (çıktılar bayt bayt aynı). 35 çapraz kontrol 0.00e+00. MAKALEDE: (1) :693'te
+  40× → **37×**; (2) :636'da payda adlandırılıp beş basamak yazılacak ("a typical seed spread of
+  0.00050 (the mean of the four arms' seed sds)") — indirgeme serbest ve oran konvansiyona göre
+  27–54 arası geziyor, havuzlanmış okuma 0.00052 → 38.4×; (3) "collapse" kelimesi gürültü
+  cümlesinde, "noise" çöküş cümlesinde geçmeyecek. DÜRÜSTLÜK KAYDI: TS sonrası açıklık
+  0.000539, bir bar 0.001012 — payda kendisi gürültü seviyesinde; oran tohum içinde kurulursa
+  24.4 ± 9.8. Çarpan iki anlamlı basamaktan fazla taşımıyor. 14 Ağu kalem 7 DÜZELTİLDİ: o gün
+  beş paydanın hepsi tohum sd'siydi ve r3w1_joint_optimum.json hiç açılmadı; 37× üreticinin
+  kendi raporunda yazılı. 14 Ağu kaydı olduğu gibi duruyor. Kalem 9 (15 Ağu) ile AYNI YAPIDA
+  üçüncü olay: kapsamı eksik kontrol + kesin hüküm. KALICI KURAL: türetilmiş oranlar basılı
+  yuvarlak değerlerden değil defterden hesaplanır ve bir oranın paydası cümlede adlandırılır.
+  Rapor: reports/2026-08-17_jsd_collapse.md.
 - N11 FERPlus headroom çelişkisi (15 Ağu): KAPANDI repo tarafında, MAKALEYE İŞ DÜŞÜYOR.
   0.1198 ile 0.1131 aynı formül/veri/binleme; tek fark `min_{T∈G}`'deki G. 0.1198 = 196 nokta
   [0.10,4.00], argmin T=0.46. 0.1131 = bootstrap_cis'in kendi T_GRID'i [0.50,2.50] 101 nokta,
