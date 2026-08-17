@@ -23,6 +23,31 @@ note = A12 gercek-sinyal gate n=3 (5 hucre x 2 yeni tohum). ON-BEYANLI: PREREGIS
 # 4 Ağu ikinci güncelleme (ide_prompt_baslik_v2.md): BAŞLIK v2 seçildi ve gönderim tarihi
 # artık bir hedef değil — P6 entegrasyonu + konsolide tur bitmeden tarih verilmiyor.
 pending:
+- N13 sayi provenans defteri (17 Agu): KURULDU ve CALISIYOR, MAKALEYE + DEFTERE IS DUSUYOR.
+  Deger degil DEGER<->ALAN BAGI kaydedildi (varlik kontrolu bayat degeri yakalayamaz; r=0.724
+  vakasinda sayi dogru, artefakt dogru, bag yanlisti). Kapsam: paper/tables/*.tex (11 tablo) +
+  ozet + supplementary S8-S11 => 714 jeton. Sonuc: 590 alana bagli · 10 turetilmis (pay+payda
+  alan yoluyla) · 1 duzyazi bagi · 88 "olcum degil" beyanli (14 sinif) · 28 KAYITSIZ ·
+  uyusmazlik 0 · tanim sorunu 0. Yuvarlama konvansiyonu ROUND_HALF_UP beyan edildi.
+  Yeni dosyalar: paper_number_scan.py (ORTAK tarayici) · number_ledger.py (beyanlar+uretici) ·
+  check_numbers.py (denetci, ihlalde cikis 1) · check_numbers_selftest.py (7 senaryo).
+  DOGRULAMA 7/7: bugunun bes hatasi (tab_selection ECE x3, acc x1, tab_collapse orani,
+  §5.7 40x, kayitsiz sayi) + bag hatasi (r=0.724 T=0.74'e baglanirsa) + bayat alan. Ilk surum
+  16.3->18.0'i KACIRDI (koda yazili degere bakiyordu); duzeltildi -- yetkili deger artik
+  MAKALENIN KENDISI. check_numbers su an makaleye karsi CIKIS 1 veriyor cunku 28 sayi gercekten
+  kayitsiz; yesil kapi onlari gizlerdi. KAYITSIZ 28: tab_pooled Pearson sutunu 3 (hicbir
+  artefakt havuzlanmis 14 nokta uzerinde Pearson hesaplamiyor) · tab_selection_audit FERPlus
+  satirlari 10 (selection_gain yalniz RAF-DB kirilimi tasiyor) · ozet 6 (0.51, 41-76%,
+  1.8-2.0x, 27x) · tab_logitstd alt yazisi 4 (23/27/52/2.6x) · tab_selection rho_s 2 + 0.52
+  tekrari 1 · tab_mechanisms "G2G + adaptive T" 2 (T5'te bilesik hucre yok). MAKALEYE DUSEN:
+  (1) tab_dose_response blok basliklarinda "T*" IKI FARKLI niceligi tasiyor -- Stage1'de
+  DAGITILAN (1.3406), VAE9182'de FIT (0.98294); adlandirma duzeltilmeli. (2)
+  tab_selection_audit'in sira-istatistigi satirlari ilk sutun bos oldugu icin ustteki FERPlus
+  etiketini miras aliyor, sayilar RAF-DB'nin 131 kosusundan; satir etiketi verilmeli.
+  (3) 28 kayitsiz sayinin kaynagi gosterilmeli ya da cikarilmali. DEFTERIN KUYRUGU: operand
+  alanlari bulunup turetilmis kutuge yazilacak (ozet oranlari, gurultu-birimi oranlari, §3.2'nin
+  13-14x'i -- operandlar TAHMIN EDILMEDI, bu turun amaci tahmin edilmis bagi yasaklamak);
+  kapsam S1-S3 ve duzyazi ile genisletilecek. Rapor: reports/2026-08-17_number_ledger.md.
 - N12 JSD çöküşü 37× / 40× (17 Ağu): KAPANDI repo tarafında, MAKALEYE İŞ DÜŞÜYOR.
   İki merci ters yönde hüküm verdi (number_audit_round3 kalem 7 "~40 doğru, 37 üretilemiyor" ·
   dış inceleme "37 doğru") ve ikisi de kendi aritmetiğinde haklıydı: **iki ayrı nicelik var, pay

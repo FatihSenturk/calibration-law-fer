@@ -1,0 +1,668 @@
+# N13 — Number provenance ledger
+
+> **Review-responsive, not pre-declared (17 Aug 2026).** The ledger records the value-to-FIELD binding, not the value: a stale number exists somewhere too, so existence proves nothing.
+
+Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_scan.py` · auditor: `diagnostics/check_numbers.py`
+
+| | count |
+|---|---|
+| numeric tokens in scope | 714 |
+| bound to an artifact field | 590 |
+| derived (ratio / difference) | 10 |
+| declared not-a-measurement | 88 |
+| **unregistered** | **28** |
+| printed-vs-field mismatch | 0 |
+| layout tokens dropped by the scanner | 166 |
+
+## Scope (declared)
+
+**In:** `paper/tables/*.tex`, `abstract`, `supplementary S8-S11`  
+**Out:** sections/*.tex prose (revision window) · supplementary S1-S3 (today's headroom verdict not applied yet)  
+**Not a measurement:** `architecture_dim`, `benchmark_protocol`, `column_header`, `criterion_constant`, `date`, `dtype_name`, `hardware_name`, `hyperparameter`, `population_count`, `preregistration_provenance`, `rounding_caveat`, `sample_size`, `sign_count`, `table_reference`, `teacher_name_digits`
+
+## Unregistered numbers
+
+| printed | unit | row | where |
+|---|---|---|---|
+| `-0.07` | tab_mechanisms | G2G + adaptive T ^ | paper/tables/tab_mechanisms.tex:46 |
+| `-0.0018` | tab_mechanisms | G2G + adaptive T ^ | paper/tables/tab_mechanisms.tex:46 |
+| `23` | tab_mechanisms | 23 in the narrowest SWA comparison with a nine | paper/tables/tab_mechanisms.tex:91 |
+| `27` | tab_mechanisms | of 27 (mean 52 ); under each cell's own denomi | paper/tables/tab_mechanisms.tex:92 |
+| `52` | tab_mechanisms | of 27 (mean 52 ); under each cell's own denomi | paper/tables/tab_mechanisms.tex:92 |
+| `2.6` | tab_mechanisms | the all-checkpoint floor is 2.6 . The nine den | paper/tables/tab_mechanisms.tex:93 |
+| `+0.930` | tab_pooled | SWA | paper/tables/tab_pooled.tex:14 |
+| `+0.970` | tab_pooled | best | paper/tables/tab_pooled.tex:16 |
+| `+0.948` | tab_pooled | last | paper/tables/tab_pooled.tex:17 |
+| `0.52` | tab_selection | there 0.52 pp here and 0.83 pp at the last che | paper/tables/tab_selection.tex:11 |
+| `-0.50` | tab_selection | _s(teacher acc. student acc.)=-0.50 ; _s(-teac | paper/tables/tab_selection.tex:21 |
+| `+1.00` | tab_selection | _s(teacher acc. student acc.)=-0.50 ; _s(-teac | paper/tables/tab_selection.tex:21 |
+| `+0.50` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
+| `0.21` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
+| `+0.0041` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
+| `0.0074` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
+| `12` | tab_selection_audit | FERPlus best - last | paper/tables/tab_selection_audit.tex:21 |
+| `+0.22` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
+| `0.21` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
+| `+0.0069` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
+| `0.0088` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
+| `12` | tab_selection_audit | FERPlus best - SWA | paper/tables/tab_selection_audit.tex:22 |
+| `0.51` | abstract | pooled Spearman = 0.79 ) while accuracy stays  | paper/main_elsarticle.tex:128 |
+| `41` | abstract | 41 -- 76 % at no accuracy cost and no addition | paper/main_elsarticle.tex:131 |
+| `76` | abstract | 41 -- 76 % at no accuracy cost and no addition | paper/main_elsarticle.tex:131 |
+| `1.8` | abstract | over-confidence costs 1.8 -- 2.0 as much as eq | paper/main_elsarticle.tex:136 |
+| `2.0` | abstract | over-confidence costs 1.8 -- 2.0 as much as eq | paper/main_elsarticle.tex:136 |
+| `27` | abstract | standardisation harms calibration at a median  | paper/main_elsarticle.tex:141 |
+
+## Mismatches
+
+None.
+
+## Derived quantities
+
+| id | printed | formula | recomputed | ok |
+|---|---|---|---|---|
+| `jsd_collapse` | 37 | ratio | 37.2342 | yes |
+| `jsd_noise_ratio` | 40 | ratio | 39.8126 | yes |
+| `capacity_vs_teacher_lever` | 76 | ratio | 75.7089 | yes |
+| `selection_cost_best` | 0.52 | diff | 0.521515 | yes |
+| `selection_cost_swa` | 0.35 | diff | 0.347674 | yes |
+| `selection_cost_last` | 0.83 | diff | 0.825727 | yes |
+| `human_trade_ece` | +0.0159 | diff | 0.0158646 | yes |
+| `human_trade_jsd` | -0.0051 | diff | -0.00509233 | yes |
+| `collapse_ratio_5_10` | 16.3 | ratio | 16.3044 | yes |
+| `collapse_ratio_10_20` | 13.5 | ratio | 13.5023 | yes |
+
+## Bindings
+
+| id | printed | artifact | path | rounding |
+|---|---|---|---|---|
+| `tab_dose_response.rafdb_stage1.T0.85.teacher_ece` | 0.0454 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_stage1.T0.85.signed_gap` | +0.0431 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_stage1.T0.85.ece_swa_mean` | 0.0797 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T0.85.ece_swa_sd` | 0.0016 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T0.85.ece_last_mean` | 0.0803 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T0.85.ece_last_sd` | 0.0059 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T0.85.acc_swa_mean` | 89.65 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_stage1.T0.85.acc_swa_sd` | 0.18 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[0].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_stage1.T1.00.teacher_ece` | 0.0378 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.00.signed_gap` | +0.0338 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.00.ece_swa_mean` | 0.0731 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.00.ece_swa_sd` | 0.0012 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.00.ece_last_mean` | 0.0701 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.00.ece_last_sd` | 0.0081 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.00.acc_swa_mean` | 89.60 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_stage1.T1.00.acc_swa_sd` | 0.34 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_stage1.T1.34.teacher_ece` | 0.0159 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.34.signed_gap` | +0.0040 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.34.ece_swa_mean` | 0.0428 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.34.ece_swa_sd` | 0.0003 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.34.ece_last_mean` | 0.0365 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.34.ece_last_sd` | 0.0005 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.34.acc_swa_mean` | 89.73 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_stage1.T1.34.acc_swa_sd` | 0.07 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_stage1.T1.70.teacher_ece` | 0.0429 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.70.signed_gap` | -0.0427 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.70.ece_swa_mean` | 0.0447 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.70.ece_swa_sd` | 0.0029 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.70.ece_last_mean` | 0.0572 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.70.ece_last_sd` | 0.0059 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T1.70.acc_swa_mean` | 89.43 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_stage1.T1.70.acc_swa_sd` | 0.20 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_stage1.T2.20.teacher_ece` | 0.1270 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_stage1.T2.20.signed_gap` | -0.1270 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_stage1.T2.20.ece_swa_mean` | 0.1008 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T2.20.ece_swa_sd` | 0.0025 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T2.20.ece_last_mean` | 0.1189 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_stage1.T2.20.ece_last_sd` | 0.0091 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_stage1.T2.20.acc_swa_mean` | 89.63 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_stage1.T2.20.acc_swa_sd` | 0.28 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.teacher_ece` | 0.0250 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.signed_gap` | +0.0248 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.ece_swa_mean` | 0.0447 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.ece_swa_sd` | 0.0013 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.ece_last_mean` | 0.0358 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.ece_last_sd` | 0.0053 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.acc_swa_mean` | 89.93 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T0.85.acc_swa_sd` | 0.06 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.teacher_ece` | 0.0136 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.signed_gap` | +0.0042 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.ece_swa_mean` | 0.0330 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.ece_swa_sd` | 0.0020 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.ece_last_mean` | 0.0307 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.ece_last_sd` | 0.0011 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.acc_swa_mean` | 89.95 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T1.00.acc_swa_sd` | 0.37 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.teacher_ece` | 0.0627 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.signed_gap` | -0.0605 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.ece_swa_mean` | 0.0647 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.ece_swa_sd` | 0.0030 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.ece_last_mean` | 0.0795 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.ece_last_sd` | 0.0056 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.acc_swa_mean` | 90.09 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T1.34.acc_swa_sd` | 0.29 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.teacher_ece` | 0.1454 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.signed_gap` | -0.1453 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.ece_swa_mean` | 0.1282 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.ece_swa_sd` | 0.0030 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.ece_last_mean` | 0.1456 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.ece_last_sd` | 0.0125 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.acc_swa_mean` | 89.58 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T1.70.acc_swa_sd` | 0.52 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.teacher_ece` | 0.2622 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.signed_gap` | -0.2622 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].signed_gap` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.ece_swa_mean` | 0.2109 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.ece_swa_sd` | 0.0034 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.ece_last_mean` | 0.2282 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.ece_last_sd` | 0.0090 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.acc_swa_mean` | 89.92 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.rafdb_vae9182.T2.20.acc_swa_sd` | 0.33 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.ferplus.T0.26.teacher_ece` | 0.0393 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].teacher_ece` | 4dp |
+| `tab_dose_response.ferplus.T0.26.signed_gap` | +0.0393 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].signed_gap` | 4dp |
+| `tab_dose_response.ferplus.T0.26.ece_swa_mean` | 0.0587 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T0.26.ece_swa_sd` | 0.0038 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T0.26.ece_last_mean` | 0.0591 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T0.26.ece_last_sd` | 0.0015 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T0.26.acc_swa_mean` | 89.21 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.ferplus.T0.26.acc_swa_sd` | 0.29 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[0].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.ferplus.T0.51.teacher_ece` | 0.0156 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].teacher_ece` | 4dp |
+| `tab_dose_response.ferplus.T0.51.signed_gap` | -0.0117 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].signed_gap` | 4dp |
+| `tab_dose_response.ferplus.T0.51.ece_swa_mean` | 0.0185 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T0.51.ece_swa_sd` | 0.0016 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T0.51.ece_last_mean` | 0.0191 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T0.51.ece_last_sd` | 0.0061 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T0.51.acc_swa_mean` | 89.12 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.ferplus.T0.51.acc_swa_sd` | 0.14 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.ferplus.T0.74.teacher_ece` | 0.0665 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].teacher_ece` | 4dp |
+| `tab_dose_response.ferplus.T0.74.signed_gap` | -0.0649 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].signed_gap` | 4dp |
+| `tab_dose_response.ferplus.T0.74.ece_swa_mean` | 0.0344 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T0.74.ece_swa_sd` | 0.0012 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T0.74.ece_last_mean` | 0.0377 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T0.74.ece_last_sd` | 0.0007 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T0.74.acc_swa_mean` | 88.78 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.ferplus.T0.74.acc_swa_sd` | 0.05 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[2].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.ferplus.T1.00.teacher_ece` | 0.1282 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].teacher_ece` | 4dp |
+| `tab_dose_response.ferplus.T1.00.signed_gap` | -0.1277 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].signed_gap` | 4dp |
+| `tab_dose_response.ferplus.T1.00.ece_swa_mean` | 0.0783 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T1.00.ece_swa_sd` | 0.0046 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T1.00.ece_last_mean` | 0.0852 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.last.ece_mean` | 4dp |
+| `tab_dose_response.ferplus.T1.00.ece_last_sd` | 0.0082 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.last.ece_sd` | 4dp |
+| `tab_dose_response.ferplus.T1.00.acc_swa_mean` | 88.72 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.acc_mean` | 2dp |
+| `tab_dose_response.ferplus.T1.00.acc_swa_sd` | 0.37 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.acc_sd` | 2dp |
+| `tab_dose_response.rafdb_stage1.header.teacher_ece_T1` | 0.0378 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_vae9182.header.teacher_ece_T1` | 0.0136 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].teacher_ece` | 4dp |
+| `tab_dose_response.rafdb_stage1.header.T_deployed` | 1.34 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].T` | 2dp |
+| `tab_dose_response.rafdb_vae9182.header.T_star_fit` | 0.98 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].T_star` | 2dp |
+| `tab_dose_response.ferplus.header.teacher_ece_T1` | 0.1282 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].teacher_ece` | 4dp |
+| `tab_dose_response.ferplus.header.T_deployed` | 0.51 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].T` | 2dp |
+| `app_seeds.rafdb_stage1.T0.85.teacher_ece` | 0.0454 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].teacher_ece` | 4dp |
+| `app_seeds.rafdb_stage1.T0.85.signed_gap` | +0.0431 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].signed_gap` | 4dp |
+| `app_seeds.rafdb_stage1.T0.85.seed1` | 0.0814 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T0.85.seed42` | 0.0781 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T0.85.seed43` | 0.0795 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T0.85.mean` | 0.0797 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].ece_mean` | 4dp |
+| `app_seeds.rafdb_stage1.T0.85.sd` | 0.0016 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[0].ece_sd` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.teacher_ece` | 0.0378 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].teacher_ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.signed_gap` | +0.0338 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].signed_gap` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.seed1` | 0.0721 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.seed42` | 0.0728 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.seed43` | 0.0744 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.mean` | 0.0731 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].ece_mean` | 4dp |
+| `app_seeds.rafdb_stage1.T1.00.sd` | 0.0012 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[1].ece_sd` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.teacher_ece` | 0.0159 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].teacher_ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.signed_gap` | +0.0040 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].signed_gap` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.seed1` | 0.0425 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.seed42` | 0.0432 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.seed43` | 0.0428 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.mean` | 0.0428 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].ece_mean` | 4dp |
+| `app_seeds.rafdb_stage1.T1.3406.sd` | 0.0003 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[2].ece_sd` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.teacher_ece` | 0.0429 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].teacher_ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.signed_gap` | -0.0427 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].signed_gap` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.seed1` | 0.0415 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.seed42` | 0.0472 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.seed43` | 0.0455 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.mean` | 0.0447 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].ece_mean` | 4dp |
+| `app_seeds.rafdb_stage1.T1.70.sd` | 0.0029 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[3].ece_sd` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.teacher_ece` | 0.1270 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].teacher_ece` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.signed_gap` | -0.1270 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].signed_gap` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.seed1` | 0.1013 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.seed42` | 0.1030 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.seed43` | 0.0980 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.mean` | 0.1008 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].ece_mean` | 4dp |
+| `app_seeds.rafdb_stage1.T2.20.sd` | 0.0025 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_stage1.points[4].ece_sd` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.teacher_ece` | 0.0250 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].teacher_ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.signed_gap` | +0.0248 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].signed_gap` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.seed1` | 0.0460 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.seed42` | 0.0434 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.seed43` | 0.0446 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.mean` | 0.0447 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].ece_mean` | 4dp |
+| `app_seeds.rafdb_vae9182.T0.85.sd` | 0.0013 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[0].ece_sd` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.teacher_ece` | 0.0136 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].teacher_ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.signed_gap` | +0.0042 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].signed_gap` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.seed1` | 0.0343 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.seed42` | 0.0340 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.seed43` | 0.0307 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.mean` | 0.0330 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].ece_mean` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.00.sd` | 0.0020 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[1].ece_sd` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.teacher_ece` | 0.0627 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].teacher_ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.signed_gap` | -0.0605 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].signed_gap` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.seed1` | 0.0628 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.seed42` | 0.0682 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.seed43` | 0.0632 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.mean` | 0.0647 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].ece_mean` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.3406.sd` | 0.0030 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[2].ece_sd` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.teacher_ece` | 0.1454 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].teacher_ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.signed_gap` | -0.1453 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].signed_gap` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.seed1` | 0.1270 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.seed42` | 0.1260 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.seed43` | 0.1316 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.mean` | 0.1282 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].ece_mean` | 4dp |
+| `app_seeds.rafdb_vae9182.T1.70.sd` | 0.0030 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[3].ece_sd` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.teacher_ece` | 0.2622 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].teacher_ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.signed_gap` | -0.2622 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].signed_gap` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.seed1` | 0.2090 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].per_seed["1"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.seed42` | 0.2148 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].per_seed["42"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.seed43` | 0.2090 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].per_seed["43"].ece` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.mean` | 0.2109 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].ece_mean` | 4dp |
+| `app_seeds.rafdb_vae9182.T2.20.sd` | 0.0034 | `paper_tables/dose_response_per_seed.json` | `series.rafdb_vae9182.points[4].ece_sd` | 4dp |
+| `app_seeds.ferplus.T0.26.teacher_ece` | 0.0393 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].teacher_ece` | 4dp |
+| `app_seeds.ferplus.T0.26.signed_gap` | +0.0393 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].signed_gap` | 4dp |
+| `app_seeds.ferplus.T0.26.seed1` | 0.0632 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].per_seed["1"].ece` | 4dp |
+| `app_seeds.ferplus.T0.26.seed42` | 0.0568 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].per_seed["42"].ece` | 4dp |
+| `app_seeds.ferplus.T0.26.seed43` | 0.0563 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].per_seed["43"].ece` | 4dp |
+| `app_seeds.ferplus.T0.26.mean` | 0.0587 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].ece_mean` | 4dp |
+| `app_seeds.ferplus.T0.26.sd` | 0.0038 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[0].ece_sd` | 4dp |
+| `app_seeds.ferplus.T0.5063.teacher_ece` | 0.0156 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].teacher_ece` | 4dp |
+| `app_seeds.ferplus.T0.5063.signed_gap` | -0.0117 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].signed_gap` | 4dp |
+| `app_seeds.ferplus.T0.5063.seed1` | 0.0193 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].per_seed["1"].ece` | 4dp |
+| `app_seeds.ferplus.T0.5063.seed42` | 0.0167 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].per_seed["42"].ece` | 4dp |
+| `app_seeds.ferplus.T0.5063.seed43` | 0.0195 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].per_seed["43"].ece` | 4dp |
+| `app_seeds.ferplus.T0.5063.mean` | 0.0185 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].ece_mean` | 4dp |
+| `app_seeds.ferplus.T0.5063.sd` | 0.0016 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[1].ece_sd` | 4dp |
+| `app_seeds.ferplus.T0.74.teacher_ece` | 0.0665 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].teacher_ece` | 4dp |
+| `app_seeds.ferplus.T0.74.signed_gap` | -0.0649 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].signed_gap` | 4dp |
+| `app_seeds.ferplus.T0.74.seed1` | 0.0332 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].per_seed["1"].ece` | 4dp |
+| `app_seeds.ferplus.T0.74.seed42` | 0.0356 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].per_seed["42"].ece` | 4dp |
+| `app_seeds.ferplus.T0.74.seed43` | 0.0343 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].per_seed["43"].ece` | 4dp |
+| `app_seeds.ferplus.T0.74.mean` | 0.0344 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].ece_mean` | 4dp |
+| `app_seeds.ferplus.T0.74.sd` | 0.0012 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[2].ece_sd` | 4dp |
+| `app_seeds.ferplus.T1.00.teacher_ece` | 0.1282 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].teacher_ece` | 4dp |
+| `app_seeds.ferplus.T1.00.signed_gap` | -0.1277 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].signed_gap` | 4dp |
+| `app_seeds.ferplus.T1.00.seed1` | 0.0826 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].per_seed["1"].ece` | 4dp |
+| `app_seeds.ferplus.T1.00.seed42` | 0.0734 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].per_seed["42"].ece` | 4dp |
+| `app_seeds.ferplus.T1.00.seed43` | 0.0789 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].per_seed["43"].ece` | 4dp |
+| `app_seeds.ferplus.T1.00.mean` | 0.0783 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].ece_mean` | 4dp |
+| `app_seeds.ferplus.T1.00.sd` | 0.0046 | `paper_tables/dose_response_per_seed.json` | `series.ferplus.points[3].ece_sd` | 4dp |
+| `app_sd.swa.stage1.effective_number.ece_control_level` | 0.0731 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.swa.stage1.effective_number.ece_control_sd` | 0.0012 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.swa.stage1.effective_number.acc_control_level` | 89.602 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.swa.stage1.effective_number.acc_control_sd` | 0.340 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.swa.stage1.effective_number.ece_mde_2sd` | 0.0024 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.swa.stage1.effective_number.ece_mde_pct_of_level` | 3.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.swa.stage1.effective_number.acc_mde_2sd` | 0.681 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.swa.stage1.effective_number.acc_mde_pct_of_level` | 0.8 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.swa.stage1.none.ece_control_level` | 0.0745 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.swa.stage1.none.ece_control_sd` | 0.0021 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.swa.stage1.none.acc_control_level` | 89.657 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.swa.stage1.none.acc_control_sd` | 0.100 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.swa.stage1.none.ece_mde_2sd` | 0.0042 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.swa.stage1.none.ece_mde_pct_of_level` | 5.7 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.swa.stage1.none.acc_mde_2sd` | 0.199 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.swa.stage1.none.acc_mde_pct_of_level` | 0.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.swa.primary.effective_number.ece_control_level` | 0.0707 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.swa.primary.effective_number.ece_control_sd` | 0.0015 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.swa.primary.effective_number.acc_control_level` | 89.602 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.swa.primary.effective_number.acc_control_sd` | 0.130 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.swa.primary.effective_number.ece_mde_2sd` | 0.0030 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.swa.primary.effective_number.ece_mde_pct_of_level` | 4.3 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.swa.primary.effective_number.acc_mde_2sd` | 0.261 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.swa.primary.effective_number.acc_mde_pct_of_level` | 0.3 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.swa.primary.none.ece_control_level` | 0.0755 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.swa.primary.none.ece_control_sd` | 0.0033 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.swa.primary.none.acc_control_level` | 89.266 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.swa.primary.none.acc_control_sd` | 0.394 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.swa.primary.none.ece_mde_2sd` | 0.0067 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.swa.primary.none.ece_mde_pct_of_level` | 8.8 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.swa.primary.none.acc_mde_2sd` | 0.789 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.swa.primary.none.acc_mde_pct_of_level` | 0.9 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.swa.vae9182.effective_number.ece_control_level` | 0.0330 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.swa.vae9182.effective_number.ece_control_sd` | 0.0020 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.swa.vae9182.effective_number.acc_control_level` | 89.950 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.swa.vae9182.effective_number.acc_control_sd` | 0.366 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.swa.vae9182.effective_number.ece_mde_2sd` | 0.0040 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.swa.vae9182.effective_number.ece_mde_pct_of_level` | 12.1 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.swa.vae9182.effective_number.acc_mde_2sd` | 0.733 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.swa.vae9182.effective_number.acc_mde_pct_of_level` | 0.8 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.swa.vae9182.none.ece_control_level` | 0.0278 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.swa.vae9182.none.ece_control_sd` | 0.0027 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.swa.vae9182.none.acc_control_level` | 90.146 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.swa.vae9182.none.acc_control_sd` | 0.207 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.swa.vae9182.none.ece_mde_2sd` | 0.0054 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.swa.vae9182.none.ece_mde_pct_of_level` | 19.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.swa.vae9182.none.acc_mde_2sd` | 0.414 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.swa.vae9182.none.acc_mde_pct_of_level` | 0.5 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.best.stage1.effective_number.ece_control_level` | 0.0627 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.best.stage1.effective_number.ece_control_sd` | 0.0054 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.best.stage1.effective_number.acc_control_level` | 89.754 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.best.stage1.effective_number.acc_control_sd` | 0.082 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.best.stage1.effective_number.ece_mde_2sd` | 0.0108 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.best.stage1.effective_number.ece_mde_pct_of_level` | 17.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.best.stage1.effective_number.acc_mde_2sd` | 0.164 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.best.stage1.effective_number.acc_mde_pct_of_level` | 0.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.best.stage1.none.ece_control_level` | 0.0651 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.best.stage1.none.ece_control_sd` | 0.0037 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.best.stage1.none.acc_control_level` | 89.820 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.best.stage1.none.acc_control_sd` | 0.075 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.best.stage1.none.ece_mde_2sd` | 0.0074 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.best.stage1.none.ece_mde_pct_of_level` | 11.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.best.stage1.none.acc_mde_2sd` | 0.151 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.best.stage1.none.acc_mde_pct_of_level` | 0.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=stage1][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.best.primary.effective_number.ece_control_level` | 0.0606 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.best.primary.effective_number.ece_control_sd` | 0.0085 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.best.primary.effective_number.acc_control_level` | 89.570 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.best.primary.effective_number.acc_control_sd` | 0.086 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.best.primary.effective_number.ece_mde_2sd` | 0.0170 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.best.primary.effective_number.ece_mde_pct_of_level` | 28.0 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.best.primary.effective_number.acc_mde_2sd` | 0.172 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.best.primary.effective_number.acc_mde_pct_of_level` | 0.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.best.primary.none.ece_control_level` | 0.0707 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.best.primary.none.ece_control_sd` | 0.0048 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.best.primary.none.acc_control_level` | 89.070 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.best.primary.none.acc_control_sd` | 0.191 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.best.primary.none.ece_mde_2sd` | 0.0097 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.best.primary.none.ece_mde_pct_of_level` | 13.7 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.best.primary.none.acc_mde_2sd` | 0.382 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.best.primary.none.acc_mde_pct_of_level` | 0.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=primary][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.best.vae9182.effective_number.ece_control_level` | 0.0274 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.best.vae9182.effective_number.ece_control_sd` | 0.0021 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.best.vae9182.effective_number.acc_control_level` | 90.276 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.best.vae9182.effective_number.acc_control_sd` | 0.191 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.best.vae9182.effective_number.ece_mde_2sd` | 0.0042 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.best.vae9182.effective_number.ece_mde_pct_of_level` | 15.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.best.vae9182.effective_number.acc_mde_2sd` | 0.382 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.best.vae9182.effective_number.acc_mde_pct_of_level` | 0.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.best.vae9182.none.ece_control_level` | 0.0225 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.best.vae9182.none.ece_control_sd` | 0.0012 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.best.vae9182.none.acc_control_level` | 90.385 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.best.vae9182.none.acc_control_sd` | 0.267 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.best.vae9182.none.ece_mde_2sd` | 0.0024 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.best.vae9182.none.ece_mde_pct_of_level` | 10.8 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.best.vae9182.none.acc_mde_2sd` | 0.534 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.best.vae9182.none.acc_mde_pct_of_level` | 0.6 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=best][teacher=vae9182][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.last.stage1.effective_number.ece_control_level` | 0.0701 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.last.stage1.effective_number.ece_control_sd` | 0.0081 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.last.stage1.effective_number.acc_control_level` | 88.994 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.last.stage1.effective_number.acc_control_sd` | 0.100 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.last.stage1.effective_number.ece_mde_2sd` | 0.0163 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.last.stage1.effective_number.ece_mde_pct_of_level` | 23.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.last.stage1.effective_number.acc_mde_2sd` | 0.199 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.last.stage1.effective_number.acc_mde_pct_of_level` | 0.2 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.last.stage1.none.ece_control_level` | 0.0691 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.last.stage1.none.ece_control_sd` | 0.0052 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.last.stage1.none.acc_control_level` | 89.124 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.last.stage1.none.acc_control_sd` | 0.191 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.last.stage1.none.ece_mde_2sd` | 0.0103 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.last.stage1.none.ece_mde_pct_of_level` | 15.0 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.last.stage1.none.acc_mde_2sd` | 0.382 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.last.stage1.none.acc_mde_pct_of_level` | 0.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=stage1][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.last.primary.effective_number.ece_control_level` | 0.0701 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.last.primary.effective_number.ece_control_sd` | 0.0031 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.last.primary.effective_number.acc_control_level` | 88.494 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.last.primary.effective_number.acc_control_sd` | 0.259 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.last.primary.effective_number.ece_mde_2sd` | 0.0062 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.last.primary.effective_number.ece_mde_pct_of_level` | 8.8 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.last.primary.effective_number.acc_mde_2sd` | 0.517 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.last.primary.effective_number.acc_mde_pct_of_level` | 0.6 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.last.primary.none.ece_control_level` | 0.0737 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.last.primary.none.ece_control_sd` | 0.0048 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.last.primary.none.acc_control_level` | 88.353 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.last.primary.none.acc_control_sd` | 0.303 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.last.primary.none.ece_mde_2sd` | 0.0095 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.last.primary.none.ece_mde_pct_of_level` | 12.9 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.last.primary.none.acc_mde_2sd` | 0.606 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.last.primary.none.acc_mde_pct_of_level` | 0.7 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=primary][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.last.vae9182.effective_number.ece_control_level` | 0.0307 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_level` | 4dp |
+| `app_sd.last.vae9182.effective_number.ece_control_sd` | 0.0011 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `app_sd.last.vae9182.effective_number.acc_control_level` | 89.820 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=acc].control_level` | 3dp |
+| `app_sd.last.vae9182.effective_number.acc_control_sd` | 0.167 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=acc].control_sd` | 3dp |
+| `app_mde.last.vae9182.effective_number.ece_mde_2sd` | 0.0021 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `app_mde.last.vae9182.effective_number.ece_mde_pct_of_level` | 7.0 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.last.vae9182.effective_number.acc_mde_2sd` | 0.335 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=acc].mde_2sd` | 3dp |
+| `app_mde.last.vae9182.effective_number.acc_mde_pct_of_level` | 0.4 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=effective_number][axis=acc].mde_pct_of_level` | 1dp |
+| `app_sd.last.vae9182.none.ece_control_level` | 0.0297 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=ece].control_level` | 4dp |
+| `app_sd.last.vae9182.none.ece_control_sd` | 0.0039 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `app_sd.last.vae9182.none.acc_control_level` | 89.602 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=acc].control_level` | 3dp |
+| `app_sd.last.vae9182.none.acc_control_sd` | 0.267 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=acc].control_sd` | 3dp |
+| `app_mde.last.vae9182.none.ece_mde_2sd` | 0.0079 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=ece].mde_2sd` | 4dp |
+| `app_mde.last.vae9182.none.ece_mde_pct_of_level` | 26.5 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=ece].mde_pct_of_level` | 1dp |
+| `app_mde.last.vae9182.none.acc_mde_2sd` | 0.534 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=acc].mde_2sd` | 3dp |
+| `app_mde.last.vae9182.none.acc_mde_pct_of_level` | 0.6 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=last][teacher=vae9182][class_weight_mode=none][axis=acc].mde_pct_of_level` | 1dp |
+| `tab_mechanisms.stage1.adaptive_t.d_acc` | +0.16 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.adaptive_t.d_ece` | -0.0011 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.adaptive_t.d_acc` | -0.39 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.adaptive_t.d_ece` | +0.0023 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.adaptive_t.d_acc` | +0.28 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.adaptive_t.d_ece` | -0.0042 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.stage1.ctkd.d_acc` | -0.03 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/ctkd"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.ctkd.d_ece` | +0.0058 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/ctkd"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.ctkd.d_acc` | -0.49 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/ctkd"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.ctkd.d_ece` | +0.0038 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/ctkd"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.ctkd.d_acc` | -0.13 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/ctkd"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.ctkd.d_ece` | +0.0038 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/ctkd"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.stage1.g2g_kl.d_acc` | +0.41 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.g2g_kl.d_ece` | -0.0042 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.g2g_kl.d_acc` | -0.14 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.g2g_kl.d_ece` | -0.0016 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/g2g_kl"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.g2g_kl.d_acc` | +0.16 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.g2g_kl.d_ece` | +0.0009 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.stage1.gate:mean_logvar.d_acc` | -0.10 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.gate:mean_logvar.d_ece` | -0.0012 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.gate:mean_logvar.d_acc` | +0.20 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.gate:mean_logvar.d_ece` | -0.0056 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.gate:mean_logvar.d_acc` | -0.27 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.gate:mean_logvar.d_ece` | +0.0015 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.stage1.gate:target_logvar.d_acc` | +0.25 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.gate:target_logvar.d_ece` | -0.0041 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.gate:target_logvar.d_acc` | -0.09 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.gate:target_logvar.d_ece` | -0.0008 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.stage1.gate:oracle_error.d_acc` | -0.22 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.gate:oracle_error.d_ece` | +0.0015 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.gate:oracle_error.d_acc` | -0.01 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.gate:oracle_error.d_ece` | +0.0004 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.gate:oracle_error.d_acc` | -0.23 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.gate:oracle_error.d_ece` | +0.0056 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.stage1.logit_std.d_acc` | -0.23 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.stage1.logit_std.d_ece` | +0.0906 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.primary.logit_std.d_acc` | -0.32 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.primary.logit_std.d_ece` | +0.0859 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_mechanisms.vae9182.logit_std.d_acc` | -0.12 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_mechanisms.vae9182.logit_std.d_ece` | +0.1388 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_logitstd.primary.swa.d_acc` | -0.32 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_logitstd.primary.swa.d_ece` | +0.0859 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_logitstd.primary.best.d_acc` | -0.43 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].best.d_acc_mean` | 2dp |
+| `tab_logitstd.primary.best.d_ece` | +0.1191 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].best.d_ece_mean` | 4dp |
+| `tab_logitstd.primary.last.d_acc` | -0.27 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].last.d_acc_mean` | 2dp |
+| `tab_logitstd.primary.last.d_ece` | +0.1044 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].last.d_ece_mean` | 4dp |
+| `tab_logitstd.stage1.swa.d_acc` | -0.23 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_logitstd.stage1.swa.d_ece` | +0.0906 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_logitstd.stage1.best.d_acc` | -0.32 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].best.d_acc_mean` | 2dp |
+| `tab_logitstd.stage1.best.d_ece` | +0.1252 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].best.d_ece_mean` | 4dp |
+| `tab_logitstd.stage1.last.d_acc` | -0.52 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].last.d_acc_mean` | 2dp |
+| `tab_logitstd.stage1.last.d_ece` | +0.1090 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].last.d_ece_mean` | 4dp |
+| `tab_logitstd.vae9182.swa.d_acc` | -0.12 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_logitstd.vae9182.swa.d_ece` | +0.1388 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_logitstd.vae9182.best.d_acc` | -0.52 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].best.d_acc_mean` | 2dp |
+| `tab_logitstd.vae9182.best.d_ece` | +0.1573 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].best.d_ece_mean` | 4dp |
+| `tab_logitstd.vae9182.last.d_acc` | -0.58 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].last.d_acc_mean` | 2dp |
+| `tab_logitstd.vae9182.last.d_ece` | +0.1593 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].last.d_ece_mean` | 4dp |
+| `tab_mechanisms.foot.stage1.effective_number.0` | 0.0012 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.vae9182.effective_number.1` | 0.0020 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.stage1.effective_number.3` | 0.0012 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.primary.effective_number.4` | 0.0015 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.vae9182.effective_number.6` | 0.0020 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=effective_number][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.stage1.none.7` | 0.0021 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.primary.none.8` | 0.0033 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.stage1.none.10` | 0.0021 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.primary.none.11` | 0.0033 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=primary][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `tab_mechanisms.foot.vae9182.none.13` | 0.0027 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=ece].control_sd` | 4dp |
+| `tab_selection.stage1.teacher_acc` | 92.24 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].teacher_acc` | 2dp |
+| `tab_selection.stage1.teacher_ece` | 0.0378 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].teacher_ece` | 4dp |
+| `tab_selection.stage1.T_star` | 1.349 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].T_star` | 3dp |
+| `tab_selection.stage1.student_acc_mean` | 89.75 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean` | 2dp |
+| `tab_selection.stage1.student_acc_sd` | 0.08 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_sd` | 2dp |
+| `tab_selection.stage1.student_ece` | 0.0627 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.ece_mean` | 4dp |
+| `tab_selection.primary.teacher_acc` | 92.01 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].teacher_acc` | 2dp |
+| `tab_selection.primary.teacher_ece` | 0.0396 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].teacher_ece` | 4dp |
+| `tab_selection.primary.T_star` | 1.261 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].T_star` | 3dp |
+| `tab_selection.primary.student_acc_mean` | 89.57 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].student_by_ckpt.best.acc_mean` | 2dp |
+| `tab_selection.primary.student_acc_sd` | 0.09 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].student_by_ckpt.best.acc_sd` | 2dp |
+| `tab_selection.primary.student_ece` | 0.0606 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].student_by_ckpt.best.ece_mean` | 4dp |
+| `tab_selection.vae9182.teacher_acc` | 91.82 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].teacher_acc` | 2dp |
+| `tab_selection.vae9182.teacher_ece` | 0.0136 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].teacher_ece` | 4dp |
+| `tab_selection.vae9182.T_star` | 0.983 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].T_star` | 3dp |
+| `tab_selection.vae9182.student_acc_mean` | 90.28 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean` | 2dp |
+| `tab_selection.vae9182.student_acc_sd` | 0.19 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_sd` | 2dp |
+| `tab_selection.vae9182.student_ece` | 0.0274 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.ece_mean` | 4dp |
+| `tab_selection.swa_tie` | 89.60 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.swa.acc_mean` | 2dp |
+| `tab_selection.best_winner_exact` | 90.2760 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean` | 4dp |
+| `tab_selection.best_acc_rule_exact` | 89.7545 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean` | 4dp |
+| `tab_holm.rank1.mean` | +0.1388 | `paper_tables/inferential_tests.json` | `results[3].mean` | 4dp |
+| `tab_holm.rank1.sd` | 0.0013 | `paper_tables/inferential_tests.json` | `results[3].sd` | 4dp |
+| `tab_holm.rank1.t` | 185.8 | `paper_tables/inferential_tests.json` | `results[3].t` | 1dp |
+| `tab_holm.rank1.p_holm` | 0.0002 | `paper_tables/inferential_tests.json` | `results[3].p_holm` | 4dp |
+| `tab_holm.rank2.mean` | +0.0906 | `paper_tables/inferential_tests.json` | `results[1].mean` | 4dp |
+| `tab_holm.rank2.sd` | 0.0023 | `paper_tables/inferential_tests.json` | `results[1].sd` | 4dp |
+| `tab_holm.rank2.t` | 67.4 | `paper_tables/inferential_tests.json` | `results[1].t` | 1dp |
+| `tab_holm.rank2.p_holm` | 0.0011 | `paper_tables/inferential_tests.json` | `results[1].p_holm` | 4dp |
+| `tab_holm.rank3.mean` | -0.0303 | `paper_tables/inferential_tests.json` | `results[0].mean` | 4dp |
+| `tab_holm.rank3.sd` | 0.0012 | `paper_tables/inferential_tests.json` | `results[0].sd` | 4dp |
+| `tab_holm.rank3.t` | -44.7 | `paper_tables/inferential_tests.json` | `results[0].t` | 1dp |
+| `tab_holm.rank3.p_holm` | 0.0020 | `paper_tables/inferential_tests.json` | `results[0].p_holm` | 4dp |
+| `tab_holm.rank4.mean` | -0.0598 | `paper_tables/inferential_tests.json` | `results[5].mean` | 4dp |
+| `tab_holm.rank4.sd` | 0.0033 | `paper_tables/inferential_tests.json` | `results[5].sd` | 4dp |
+| `tab_holm.rank4.t` | -31.7 | `paper_tables/inferential_tests.json` | `results[5].t` | 1dp |
+| `tab_holm.rank4.p_holm` | 0.0030 | `paper_tables/inferential_tests.json` | `results[5].p_holm` | 4dp |
+| `tab_holm.rank5.mean` | +0.0859 | `paper_tables/inferential_tests.json` | `results[2].mean` | 4dp |
+| `tab_holm.rank5.sd` | 0.0058 | `paper_tables/inferential_tests.json` | `results[2].sd` | 4dp |
+| `tab_holm.rank5.t` | 25.6 | `paper_tables/inferential_tests.json` | `results[2].t` | 1dp |
+| `tab_holm.rank5.p_holm` | 0.0030 | `paper_tables/inferential_tests.json` | `results[2].p_holm` | 4dp |
+| `tab_holm.rank6.mean` | +0.0056 | `paper_tables/inferential_tests.json` | `results[4].mean` | 4dp |
+| `tab_holm.rank6.sd` | 0.0040 | `paper_tables/inferential_tests.json` | `results[4].sd` | 4dp |
+| `tab_holm.rank6.t` | 2.5 | `paper_tables/inferential_tests.json` | `results[4].t` | 1dp |
+| `tab_holm.rank6.p_holm` | 0.1339 | `paper_tables/inferential_tests.json` | `results[4].p_holm` | 4dp |
+| `tab_human.T0.26.teacher_ece` | 0.0393 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].teacher_ece` | 4dp |
+| `tab_human.T0.26.student_ece_mean` | 0.0587 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].ece[0]` | 4dp |
+| `tab_human.T0.26.student_ece_sd` | 0.0038 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].ece[1]` | 4dp |
+| `tab_human.T0.26.jsd_mean` | 0.0737 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].jsd[0]` | 4dp |
+| `tab_human.T0.26.jsd_sd` | 0.0007 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].jsd[1]` | 4dp |
+| `tab_human.T0.26.entropy` | 0.124 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].entropy` | 3dp |
+| `tab_human.T0.5063.teacher_ece` | 0.0156 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].teacher_ece` | 4dp |
+| `tab_human.T0.5063.student_ece_mean` | 0.0185 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].ece[0]` | 4dp |
+| `tab_human.T0.5063.student_ece_sd` | 0.0016 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].ece[1]` | 4dp |
+| `tab_human.T0.5063.jsd_mean` | 0.0587 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].jsd[0]` | 4dp |
+| `tab_human.T0.5063.jsd_sd` | 0.0005 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].jsd[1]` | 4dp |
+| `tab_human.T0.5063.entropy` | 0.255 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].entropy` | 3dp |
+| `tab_human.T0.74.teacher_ece` | 0.0665 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].teacher_ece` | 4dp |
+| `tab_human.T0.74.student_ece_mean` | 0.0344 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].ece[0]` | 4dp |
+| `tab_human.T0.74.student_ece_sd` | 0.0012 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].ece[1]` | 4dp |
+| `tab_human.T0.74.jsd_mean` | 0.0536 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].jsd[0]` | 4dp |
+| `tab_human.T0.74.jsd_sd` | 0.0004 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].jsd[1]` | 4dp |
+| `tab_human.T0.74.entropy` | 0.384 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].entropy` | 3dp |
+| `tab_human.T1.0.teacher_ece` | 0.1282 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].teacher_ece` | 4dp |
+| `tab_human.T1.0.student_ece_mean` | 0.0783 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].ece[0]` | 4dp |
+| `tab_human.T1.0.student_ece_sd` | 0.0046 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].ece[1]` | 4dp |
+| `tab_human.T1.0.jsd_mean` | 0.0551 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].jsd[0]` | 4dp |
+| `tab_human.T1.0.jsd_sd` | 0.0005 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].jsd[1]` | 4dp |
+| `tab_human.T1.0.entropy` | 0.547 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].entropy` | 3dp |
+| `tab_human.human_entropy` | 0.440 | `ferplus_jsd/ferplus_student_jsd.json` | `human_mean_entropy` | 3dp |
+| `tab_pooled.swa.spearman_unsigned` | +0.789 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 3dp |
+| `tab_pooled.swa.spearman_signed` | -0.407 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_signed_gap` | 3dp |
+| `tab_pooled.best.spearman_unsigned` | +0.895 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.best.spearman_abs_signed_gap` | 3dp |
+| `tab_pooled.best.spearman_signed` | -0.560 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.best.spearman_signed_gap` | 3dp |
+| `tab_pooled.last.spearman_unsigned` | +0.877 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.last.spearman_abs_signed_gap` | 3dp |
+| `tab_pooled.last.spearman_signed` | -0.534 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.last.spearman_signed_gap` | 3dp |
+| `tab_capacity.scratch w050.acc_mean` | 86.15 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w050"].acc_mean` | 2dp |
+| `tab_capacity.scratch w050.acc_sd` | 0.07 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w050"].acc_sd` | 2dp |
+| `tab_capacity.scratch w050.ece_mean` | 0.0365 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w050"].ece_mean` | 4dp |
+| `tab_capacity.scratch w050.ece_sd` | 0.0057 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w050"].ece_sd` | 4dp |
+| `tab_capacity.scratch w075.acc_mean` | 87.31 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w075"].acc_mean` | 2dp |
+| `tab_capacity.scratch w075.acc_sd` | 0.08 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w075"].acc_sd` | 2dp |
+| `tab_capacity.scratch w075.ece_mean` | 0.0388 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w075"].ece_mean` | 4dp |
+| `tab_capacity.scratch w075.ece_sd` | 0.0042 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w075"].ece_sd` | 4dp |
+| `tab_capacity.scratch w100ns.acc_mean` | 88.09 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w100ns"].acc_mean` | 2dp |
+| `tab_capacity.scratch w100ns.acc_sd` | 0.15 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w100ns"].acc_sd` | 2dp |
+| `tab_capacity.scratch w100ns.ece_mean` | 0.0374 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w100ns"].ece_mean` | 4dp |
+| `tab_capacity.scratch w100ns.ece_sd` | 0.0030 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["scratch w100ns"].ece_sd` | 4dp |
+| `tab_capacity.pretrained w100.acc_mean` | 89.95 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["pretrained w100"].acc_mean` | 2dp |
+| `tab_capacity.pretrained w100.acc_sd` | 0.37 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["pretrained w100"].acc_sd` | 2dp |
+| `tab_capacity.pretrained w100.ece_mean` | 0.0330 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["pretrained w100"].ece_mean` | 4dp |
+| `tab_capacity.pretrained w100.ece_sd` | 0.0020 | `paper_tables/RESULTS_TABLES.json` | `T10_capacity_cells.swa["pretrained w100"].ece_sd` | 4dp |
+| `tab_capacity.capacity_span` | 0.00235 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.swa.capacity_span` | 5dp |
+| `tab_capacity.teacher_span` | 0.1780 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.swa.teacher_span` | 4dp |
+| `tab_collapse.T·τ = 5.10.mean` | -0.0391 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 5.10"].mean` | 4dp |
+| `tab_collapse.T·τ = 5.10.sd` | 0.0032 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 5.10"].sd` | 4dp |
+| `tab_collapse.T·τ = 10.20.mean` | -0.0324 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 10.20"].mean` | 4dp |
+| `tab_collapse.T·τ = 10.20.sd` | 0.0029 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 10.20"].sd` | 4dp |
+| `tab_collapse.alpha0.1.seed42` | +0.0197 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.1"].by_seed["42"]` | 4dp |
+| `tab_collapse.alpha0.1.seed1` | +0.0215 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.1"].by_seed["1"]` | 4dp |
+| `tab_collapse.alpha0.1.seed43` | +0.0262 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.1"].by_seed["43"]` | 4dp |
+| `tab_collapse.alpha0.1.mean` | +0.0224 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.1"].mean` | 4dp |
+| `tab_collapse.alpha0.3.seed42` | +0.0297 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.3"].by_seed["42"]` | 4dp |
+| `tab_collapse.alpha0.3.seed1` | +0.0296 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.3"].by_seed["1"]` | 4dp |
+| `tab_collapse.alpha0.3.seed43` | +0.0317 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.3"].by_seed["43"]` | 4dp |
+| `tab_collapse.alpha0.3.mean` | +0.0303 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.3"].mean` | 4dp |
+| `tab_collapse.alpha0.5.seed42` | +0.0344 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.5"].by_seed["42"]` | 4dp |
+| `tab_collapse.alpha0.5.seed1` | +0.0365 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.5"].by_seed["1"]` | 4dp |
+| `tab_collapse.alpha0.5.seed43` | +0.0271 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.5"].by_seed["43"]` | 4dp |
+| `tab_collapse.alpha0.5.mean` | +0.0327 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.5"].mean` | 4dp |
+| `tab_collapse.alpha0.7.seed42` | -0.0071 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.7"].by_seed["42"]` | 4dp |
+| `tab_collapse.alpha0.7.seed1` | +0.0003 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.7"].by_seed["1"]` | 4dp |
+| `tab_collapse.alpha0.7.seed43` | -0.0007 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.7"].by_seed["43"]` | 4dp |
+| `tab_collapse.alpha0.7.mean` | -0.0025 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.7"].mean` | 4dp |
+| `tab_collapse.alpha0.9.seed42` | -0.0307 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.9"].by_seed["42"]` | 4dp |
+| `tab_collapse.alpha0.9.seed1` | -0.0397 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.9"].by_seed["1"]` | 4dp |
+| `tab_collapse.alpha0.9.seed43` | -0.0351 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.9"].by_seed["43"]` | 4dp |
+| `tab_collapse.alpha0.9.mean` | -0.0352 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.9"].mean` | 4dp |
+| `tab_collapse.threshold_2bar` | 0.0024 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=stage1][class_weight_mode=effective_number][axis=ece].mde_2sd` | 4dp |
+| `tab_efficiency.teacher.params_m` | 58.334 | `paper_tables/efficiency_retention.json` | `teacher.params_m` | 3dp |
+| `tab_efficiency.teacher.gmacs` | 8.483 | `paper_tables/efficiency_retention.json` | `teacher.flops_g` | 3dp |
+| `tab_efficiency.teacher.size_mb` | 555.0 | `paper_tables/efficiency_retention.json` | `teacher.size_mb` | 1dp |
+| `tab_efficiency.teacher.acc` | 91.82 | `paper_tables/efficiency_retention.json` | `teacher.acc` | 2dp |
+| `tab_efficiency.student.params_m` | 2.248 | `paper_tables/efficiency_retention.json` | `student.params_m` | 3dp |
+| `tab_efficiency.student.gmacs` | 0.329 | `paper_tables/efficiency_retention.json` | `student.flops_g` | 3dp |
+| `tab_efficiency.student.size_mb` | 8.8 | `paper_tables/efficiency_retention.json` | `student.size_mb` | 1dp |
+| `tab_efficiency.student.acc_mean` | 89.95 | `paper_tables/efficiency_retention.json` | `by_checkpoint.swa.acc_mean` | 2dp |
+| `tab_efficiency.student.acc_sd` | 0.37 | `paper_tables/efficiency_retention.json` | `by_checkpoint.swa.acc_sd` | 2dp |
+| `tab_efficiency.ratio.params` | 25.9 | `paper_tables/efficiency_retention.json` | `compression.params_ratio` | 1dp |
+| `tab_efficiency.ratio.flops` | 25.8 | `paper_tables/efficiency_retention.json` | `compression.flops_ratio` | 1dp |
+| `tab_efficiency.ratio.size` | 62.9 | `paper_tables/efficiency_retention.json` | `compression.size_ratio` | 1dp |
+| `tab_efficiency.ratio.retention` | 98.0 | `paper_tables/efficiency_retention.json` | `headline.retention_pct_swa` | 1dp |
+| `tab_efficiency.latency.cuda_b1` | 1.93 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=1][dtype=fp32].speedup` | 2dp |
+| `tab_efficiency.latency.cuda_b32` | 3.91 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=32][dtype=fp32].speedup` | 2dp |
+| `tab_efficiency.latency.cpu_b1` | 4.01 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=1][dtype=fp32].speedup` | 2dp |
+| `tab_efficiency.latency.cpu_b32` | 4.43 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=32][dtype=fp32].speedup` | 2dp |
+| `tab_efficiency.caption.flops_ratio` | 25.8 | `paper_tables/efficiency_retention.json` | `compression.flops_ratio` | 1dp |
+| `tab_efficiency.caption.speedup_min` | 1.9 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=1][dtype=fp32].speedup` | 1dp |
+| `tab_efficiency.caption.speedup_max` | 4.4 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=32][dtype=fp32].speedup` | 1dp |
+| `tab_selection_audit.rafdb_best_last.d_acc_mean` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `tab_selection_audit.rafdb_best_last.d_acc_sd` | 0.43 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.sd` | 2dp |
+| `tab_selection_audit.rafdb_best_last.d_ece_mean` | -0.0029 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_ece.mean` | 4dp |
+| `tab_selection_audit.rafdb_best_last.d_ece_sd` | 0.0092 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_ece.sd` | 4dp |
+| `tab_selection_audit.rafdb_best_last.n` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
+| `tab_selection_audit.rafdb_best_swa.d_acc_mean` | +0.13 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_acc.mean` | 2dp |
+| `tab_selection_audit.rafdb_best_swa.d_acc_sd` | 0.26 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_acc.sd` | 2dp |
+| `tab_selection_audit.rafdb_best_swa.d_ece_mean` | -0.0006 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_ece.mean` | 4dp |
+| `tab_selection_audit.rafdb_best_swa.d_ece_sd` | 0.0118 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_ece.sd` | 4dp |
+| `tab_selection_audit.rafdb_best_swa.n` | 118 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.n` | int |
+| `tab_selection_audit.order_stat.K50.mean` | +0.645 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.mean` | 3dp |
+| `tab_selection_audit.order_stat.K50.sd` | 0.203 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.sd` | 3dp |
+| `tab_selection_audit.order_stat.K50.n` | 131 | `paper_tables/order_stat_trend.json` | `results["50"].n_runs` | int |
+| `tab_selection_audit.order_stat.K100.mean` | +0.764 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.mean` | 3dp |
+| `tab_selection_audit.order_stat.K100.sd` | 0.259 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.sd` | 3dp |
+| `tab_selection_audit.order_stat.K100.n` | 131 | `paper_tables/order_stat_trend.json` | `results["100"].n_runs` | int |
+| `app_mde.cap.swa_min` | 0.0024 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_min` | 4dp |
+| `app_mde.cap.swa_max` | 0.0067 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_max` | 4dp |
+| `app_mde.cap.swa_pct_min` | 3.2 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_min` | 1dp |
+| `app_mde.cap.swa_pct_max` | 19.4 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_max` | 1dp |
+| `abstract.pooled_rho` | 0.79 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 2dp |
+| `abstract.audit_n_runs` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
+| `abstract.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |

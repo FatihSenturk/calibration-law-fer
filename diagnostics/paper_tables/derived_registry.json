@@ -1,0 +1,275 @@
+{
+  "note": "review-responsive, not pre-declared",
+  "counts": {
+    "derived": 10,
+    "mismatch": 0
+  },
+  "entries": [
+    {
+      "id": "jsd_collapse",
+      "printed": "37",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/r3w1_joint_optimum.json",
+          "path": "arms[\"0.26\"].jsd_arm[0] - arms[\"0.74\"].jsd_arm[0]"
+        },
+        {
+          "artifact": "paper_tables/r3w1_joint_optimum.json",
+          "path": "arms[\"0.74\"].jsd_ts[0] - arms[\"0.26\"].jsd_ts[0]"
+        }
+      ],
+      "operand_values": [
+        0.020082825173934303,
+        0.000539364912524036
+      ],
+      "exact": 37.23420769058525,
+      "rounding": "int",
+      "rounded": "37",
+      "matches": true,
+      "note": "'collapse onto a common value' cumlesi; N12'de olculdu",
+      "where": []
+    },
+    {
+      "id": "jsd_noise_ratio",
+      "printed": "40",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/jsd_collapse_audit.json",
+          "path": "numerator.value"
+        },
+        {
+          "artifact": "paper_tables/jsd_collapse_audit.json",
+          "path": "R_noise.seed_sd_by_convention[\"mean sd\"]"
+        }
+      ],
+      "operand_values": [
+        0.020082825173934303,
+        0.000504433655719772
+      ],
+      "exact": 39.812619451964,
+      "rounding": "int",
+      "rounded": "40",
+      "matches": true,
+      "note": "ayni alt bolumun govdesi: 'roughly forty times the noise'",
+      "where": []
+    },
+    {
+      "id": "capacity_vs_teacher_lever",
+      "printed": "76",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/RESULTS_TABLES.json",
+          "path": "T10_axis_spans.swa.teacher_span"
+        },
+        {
+          "artifact": "paper_tables/RESULTS_TABLES.json",
+          "path": "T10_axis_spans.swa.capacity_span"
+        }
+      ],
+      "operand_values": [
+        0.17798139929596574,
+        0.0023508643920086905
+      ],
+      "exact": 75.70891792013998,
+      "rounding": "int",
+      "rounded": "76",
+      "matches": true,
+      "note": "tab_capacity dipnotu: 'a factor of 76'",
+      "where": [
+        "paper/tables/tab_capacity.tex:20"
+      ]
+    },
+    {
+      "id": "selection_cost_best",
+      "printed": "0.52",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean"
+        },
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean"
+        }
+      ],
+      "operand_values": [
+        90.27596791585286,
+        89.75445302327473
+      ],
+      "exact": 0.521514892578125,
+      "rounding": "2dp",
+      "rounded": "0.52",
+      "matches": true,
+      "note": "",
+      "where": [
+        "paper/tables/tab_selection.tex:21"
+      ]
+    },
+    {
+      "id": "selection_cost_swa",
+      "printed": "0.35",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.swa.acc_mean"
+        },
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.swa.acc_mean"
+        }
+      ],
+      "operand_values": [
+        89.9500223795573,
+        89.60234832763672
+      ],
+      "exact": 0.34767405192057765,
+      "rounding": "2dp",
+      "rounded": "0.35",
+      "matches": true,
+      "note": "",
+      "where": [
+        "paper/tables/tab_selection.tex:10"
+      ]
+    },
+    {
+      "id": "selection_cost_last",
+      "printed": "0.83",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.last.acc_mean"
+        },
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.last.acc_mean"
+        }
+      ],
+      "operand_values": [
+        89.81964365641277,
+        88.99391682942708
+      ],
+      "exact": 0.8257268269856866,
+      "rounding": "2dp",
+      "rounded": "0.83",
+      "matches": true,
+      "note": "",
+      "where": [
+        "paper/tables/tab_selection.tex:11"
+      ]
+    },
+    {
+      "id": "human_trade_ece",
+      "printed": "+0.0159",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "ferplus_jsd/ferplus_student_jsd.json",
+          "path": "by_checkpoint.swa[\"0.74\"].ece[0]"
+        },
+        {
+          "artifact": "ferplus_jsd/ferplus_student_jsd.json",
+          "path": "by_checkpoint.swa[\"0.5063\"].ece[0]"
+        }
+      ],
+      "operand_values": [
+        0.034363226014547714,
+        0.018498602500361613
+      ],
+      "exact": 0.0158646235141861,
+      "rounding": "4dp",
+      "rounded": "0.0159",
+      "matches": true,
+      "note": "",
+      "where": [
+        "paper/tables/tab_human.tex:20"
+      ]
+    },
+    {
+      "id": "human_trade_jsd",
+      "printed": "-0.0051",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "ferplus_jsd/ferplus_student_jsd.json",
+          "path": "by_checkpoint.swa[\"0.74\"].jsd[0]"
+        },
+        {
+          "artifact": "ferplus_jsd/ferplus_student_jsd.json",
+          "path": "by_checkpoint.swa[\"0.5063\"].jsd[0]"
+        }
+      ],
+      "operand_values": [
+        0.05359788859883944,
+        0.058690217634042106
+      ],
+      "exact": -0.005092329035202667,
+      "rounding": "4dp",
+      "rounded": "-0.0051",
+      "matches": true,
+      "note": "",
+      "where": [
+        "paper/tables/tab_human.tex:20"
+      ]
+    },
+    {
+      "id": "collapse_ratio_5_10",
+      "printed": "16.3",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/RESULTS_TABLES.json",
+          "path": "T11_collapse.pairs[\"T·τ = 5.10\"].mean"
+        },
+        {
+          "artifact": "paper_tables/RESULTS_TABLES.json",
+          "path": "T11_collapse.two_bar"
+        }
+      ],
+      "operand_values": [
+        -0.03913065410667997,
+        0.0024
+      ],
+      "exact": 16.304439211116655,
+      "rounding": "1dp",
+      "rounded": "16.3",
+      "matches": true,
+      "note": "|ort|/esik; isaret disi",
+      "where": [
+        "paper/tables/tab_collapse.tex:24"
+      ]
+    },
+    {
+      "id": "collapse_ratio_10_20",
+      "printed": "13.5",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/RESULTS_TABLES.json",
+          "path": "T11_collapse.pairs[\"T·τ = 10.20\"].mean"
+        },
+        {
+          "artifact": "paper_tables/RESULTS_TABLES.json",
+          "path": "T11_collapse.two_bar"
+        }
+      ],
+      "operand_values": [
+        -0.03240560747356013,
+        0.0024
+      ],
+      "exact": 13.502336447316722,
+      "rounding": "1dp",
+      "rounded": "13.5",
+      "matches": true,
+      "note": "|ort|/esik; isaret disi",
+      "where": [
+        "paper/tables/tab_collapse.tex:26"
+      ]
+    }
+  ]
+}

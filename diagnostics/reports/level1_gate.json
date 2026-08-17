@@ -166,6 +166,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/number_ledger.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/order_stat_trend.py",
       "status": "GEÇTİ",
       "note": ""

@@ -45,6 +45,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/monotonicity_test.py` | GEÇTİ | — |
 | `diagnostics/noise_units.py` | GEÇTİ | — |
 | `diagnostics/number_audit_round3.py` | GEÇTİ | — |
+| `diagnostics/number_ledger.py` | GEÇTİ | — |
 | `diagnostics/order_stat_trend.py` | GEÇTİ | — |
 | `diagnostics/p2_gate_oracle_verdict.py` | GEÇTİ | — |
 | `diagnostics/p5_oracle_replication_verdict.py` | GEÇTİ | — |

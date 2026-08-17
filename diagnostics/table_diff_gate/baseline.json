@@ -1,10 +1,12 @@
 {
-  "accepted_at": "2026-08-17T12:59:16",
-  "reason": "N12 (17 Agu, Fatih tek-soru turu): jsd_collapse_audit AYNI GUN kapiya kaydedildi. 38 sapmanin tamami APPEARED; CHANGED / MOVED / VANISHED yok -- r3w1_joint_optimum.py'nin crossfit blogu fonksiyona cikarildi (jsd_collapse_audit ondan ITHAL ediyor) ve ciktilari BAYT BAYT ayni kaldi, yani refactor atil. Olculen: tek pay 0.02008283 (ham JSD acikligi T=0.26 - T=0.74), iki payda -> TS-sonrasi aciklik 0.00053936 => R_collapse 37.2342 ('37x'), ortalama tohum sd 0.00050443 => R_noise 39.8126 ('40x'). Ikisi de dort basamakta 0.0005 basiliyor; tam 40 icin gereken payda 0.00050207 (ortalama tohum sd'sinden %0.47 uzak, TS acikligindan %6.91). 35 capraz kontrol 0.00e+00 sapmayla gecti.",
+  "accepted_at": "2026-08-17T15:43:06",
+  "reason": "N13 (17 Agu, Fatih tek-soru turu): number_ledger + derived_registry AYNI GUN kapiya kaydedildi. 32 sapmanin tamami APPEARED. Kapida duran sey 590 hucre degil KAPSAMIN KENDISI: jeton 714 \u00b7 bagli 590 \u00b7 turetilmis 10 \u00b7 duzyazi bagi 1 \u00b7 muaf 88 \u00b7 KAYITSIZ 28 \u00b7 uyusmazlik 0. Turetilmis on nicelik (37x cokus, 40x gurultu, 76x kaldirac, secim maliyeti, insan-hizasi takas, T11 oranlari) yeniden hesaplanmis degerleriyle kayitli.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
     "diagnostics\\paper_tables\\jsd_collapse_audit.json",
+    "diagnostics\\paper_tables\\number_ledger.json",
+    "diagnostics\\paper_tables\\derived_registry.json",
     "diagnostics\\paper_tables\\control_sd_mde.json",
     "diagnostics\\paper_tables\\tau_t_factorial.json",
     "diagnostics\\paper_tables\\mechanism_grid_gaps.json",
@@ -460,6 +462,166 @@
     ],
     "N12/verdict/noise_printed": [
       "40\u00d7",
+      null,
+      null
+    ],
+    "N13/count/tokens": [
+      714,
+      null,
+      null
+    ],
+    "N13/count/bound": [
+      590,
+      null,
+      null
+    ],
+    "N13/count/derived": [
+      10,
+      null,
+      null
+    ],
+    "N13/count/exempt": [
+      88,
+      null,
+      null
+    ],
+    "N13/count/unbound": [
+      28,
+      null,
+      null
+    ],
+    "N13/count/layout_dropped": [
+      166,
+      null,
+      null
+    ],
+    "N13/count/mismatch": [
+      0,
+      null,
+      null
+    ],
+    "N13/count/derived_mismatch": [
+      0,
+      null,
+      null
+    ],
+    "N13/count/prose": [
+      1,
+      null,
+      null
+    ],
+    "N13/count/problems": [
+      0,
+      null,
+      null
+    ],
+    "N13/prose/methodology.entropy_pearson_T1": [
+      0.7238625516940989,
+      null,
+      null
+    ],
+    "N13/unbound_ids": [
+      28,
+      null,
+      null
+    ],
+    "N13/derived/jsd_collapse": [
+      37.23420769058525,
+      null,
+      null
+    ],
+    "N13/derived/jsd_collapse/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/jsd_noise_ratio": [
+      39.812619451964,
+      null,
+      null
+    ],
+    "N13/derived/jsd_noise_ratio/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/capacity_vs_teacher_lever": [
+      75.70891792013998,
+      null,
+      null
+    ],
+    "N13/derived/capacity_vs_teacher_lever/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_best": [
+      0.521514892578125,
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_best/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_swa": [
+      0.34767405192057765,
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_swa/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_last": [
+      0.8257268269856866,
+      null,
+      null
+    ],
+    "N13/derived/selection_cost_last/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/human_trade_ece": [
+      0.0158646235141861,
+      null,
+      null
+    ],
+    "N13/derived/human_trade_ece/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/human_trade_jsd": [
+      -0.005092329035202667,
+      null,
+      null
+    ],
+    "N13/derived/human_trade_jsd/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/collapse_ratio_5_10": [
+      16.304439211116655,
+      null,
+      null
+    ],
+    "N13/derived/collapse_ratio_5_10/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/collapse_ratio_10_20": [
+      13.502336447316722,
+      null,
+      null
+    ],
+    "N13/derived/collapse_ratio_10_20/ok": [
+      "True",
       null,
       null
     ],

@@ -704,6 +704,34 @@ def cells_from_headroom_audit(p):
     return out
 
 
+def cells_from_number_ledger(p):
+    """N13 (17 Agu) — sayi provenans defterinin SAYIMLARI ve turetilmis nicelikleri.
+
+    Neden kayitli: defterin kapsami sessizce daralirsa (bir tablo kapsam disina kayar, bir
+    muafiyet genisler) makale korumasiz kalir ama hicbir sey hata vermez. Kapida duran sey
+    tek tek 590 hucre degil -- KAPSAMIN KENDISI: jeton/bagli/muaf/KAYITSIZ sayilari ve her
+    turetilmis niceligin yeniden hesaplanmis degeri.
+    """
+    out = {}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    for k, v in (d.get("counts") or {}).items():
+        out[f"N13/count/{k}"] = (v, None, None)
+    for e in d.get("prose_entries") or []:
+        out[f"N13/prose/{e['id']}"] = (e.get("exact"), None, None)
+    out["N13/unbound_ids"] = (len(d.get("unbound") or []), None, None)
+    return out
+
+
+def cells_from_derived_registry(p):
+    """N13 turetilmis nicelikler: her oran/fark yeniden hesaplanmis degeriyle kapida."""
+    out = {}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    for e in d.get("entries") or []:
+        out[f"N13/derived/{e['id']}"] = (e.get("exact"), None, None)
+        out[f"N13/derived/{e['id']}/ok"] = (str(e.get("matches")), None, None)
+    return out
+
+
 def cells_from_jsd_collapse(p):
     """N12 (17 Agu) — JSD çöküşü: tek pay, iki payda (TS-sonrası açıklık ve tohum sd'si).
 
@@ -748,6 +776,8 @@ SOURCES = [
     (D / "epoch_curves_MANIFEST.json", cells_from_epoch_curves),
     (D / "paper_tables" / "headroom_grid_audit.json", cells_from_headroom_audit),
     (D / "paper_tables" / "jsd_collapse_audit.json", cells_from_jsd_collapse),
+    (D / "paper_tables" / "number_ledger.json", cells_from_number_ledger),
+    (D / "paper_tables" / "derived_registry.json", cells_from_derived_registry),
     (D / "paper_tables" / "control_sd_mde.json", cells_from_round3),
     (D / "paper_tables" / "tau_t_factorial.json", cells_from_round3),
     (D / "paper_tables" / "mechanism_grid_gaps.json", cells_from_round3),

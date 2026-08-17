@@ -177,7 +177,8 @@ fonksiyonuna çıkarıldı. Betik yeniden koşuldu, `.md` ve `.json` **bayt bayt
 |---|---|
 | tablo farkı | **1332/1332 sapma yok** (1294 → 1332). 38 sapmanın **tamamı APPEARED**; CHANGED / MOVED / VANISHED yok |
 | Level-1 | **geçti 52** (51'den) · İHLAL 0 · muaf 9 · başka hata 0 |
-| mutlak yol | beyanlı dosyalar · **beyansız 0** · okunamayan 0 |
+| mutlak yol (public depo) | 22 dosya beyanlı · **beyansız 0** · okunamayan 0 |
+| kapsam taraması (public depo) | commit kümesi 556 · **ihlal 0** (checkpoint 0 · yeniden dağıtılamaz veri 0 · ham yüz 0) |
 | figür | **10/10**, 0 failing |
 | `r3w1_joint_optimum` ataleti | çıktılar **bayt bayt aynı** (`.json` ve `.md`) |
 
