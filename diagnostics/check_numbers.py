@@ -42,6 +42,13 @@ VIOLATION_KINDS = {
     "double_bound": "ayni hucre iki kez baglanmis",
     "exempt_matched_nothing": "curumus muafiyet (artik hicbir jetona denk gelmiyor)",
     "unknown_formula": "tanimsiz turetme formulu",
+    # ALTINCI SINIF (17 Agu, N14): ayni niceligi hesaplayan IKI kaynak ayrismis.
+    # Iki kaynak BILEREK birlestirilmedi -- uyusmalari bir capraz dogrulama. Ama dogrulama
+    # ancak bir ESIGE bagliysa dogrulamadir; aksi halde "yakin sayilar" gozlemidir.
+    "cross_source_divergence": "iki kaynak beyan edilen toleransi asti",
+    "cross_source_rounding_disagreement": "iki kaynak basili yuvarlamada AYRI degere gidiyor",
+    "cross_source_relay_drift": "teyit degerini kopyalayan artefakt ayrismis (bayat role)",
+    "cross_check_unbound": "teyit beyani makalede hicbir hucreye denk gelmiyor",
 }
 
 
@@ -80,7 +87,8 @@ def main():
 
     c = payload["counts"]
     print(f"kapsam: {c['tokens']} jeton · bagli {c['bound']} · turetilmis {c['derived']} · "
-          f"duzyazi bagi {c.get('prose', 0)} · muaf {c['exempt']}")
+          f"duzyazi bagi {c.get('prose', 0)} · muaf {c['exempt']} · "
+          f"teyit kaydi {c.get('cross_checks', 0)}")
     print(f"IHLAL: {len(viol)} tanim/uyusmazlik · {len(unreg)} KAYITSIZ · "
           f"{len(drift)} defter kaymasi")
     for v in viol:

@@ -29,7 +29,9 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/efficiency_retention.py` | GEÇTİ | — |
 | `diagnostics/equivalence_tests.py` | GEÇTİ | — |
 | `diagnostics/ferplus_abstention_entropy.py` | GEÇTİ | — |
+| `diagnostics/ferplus_human_vote_jsd.py` | GEÇTİ | — |
 | `diagnostics/ferplus_selection_audit.py` | muaf | Level 3 — koşu dizini okumak işi |
+| `diagnostics/ferplus_student_jsd.py` | GEÇTİ | — |
 | `diagnostics/g42_init_matched_lever.py` | GEÇTİ | — |
 | `diagnostics/graphical_abstract.py` | GEÇTİ | — |
 | `diagnostics/headroom_grid_audit.py` | GEÇTİ | — |
@@ -38,6 +40,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/inferential_tests.py` | GEÇTİ | — |
 | `diagnostics/jsd_collapse_audit.py` | GEÇTİ | — |
 | `diagnostics/jsd_sensitivity.py` | GEÇTİ | — |
+| `diagnostics/latency_benchmark.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/level1_gate.py` | muaf | kapının kendisi — kendini koşturmak özyineleme olur |
 | `diagnostics/mechanism_diagnostic_figure.py` | GEÇTİ | — |
 | `diagnostics/mechanism_grid_gaps.py` | GEÇTİ | — |
@@ -48,6 +51,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/number_ledger.py` | GEÇTİ | — |
 | `diagnostics/order_stat_trend.py` | GEÇTİ | — |
 | `diagnostics/p2_gate_oracle_verdict.py` | GEÇTİ | — |
+| `diagnostics/p4_teacher_selection_recipe.py` | GEÇTİ | — |
 | `diagnostics/p5_oracle_replication_verdict.py` | GEÇTİ | — |
 | `diagnostics/p6_verdict.py` | GEÇTİ | — |
 | `diagnostics/paper_tables.py` | GEÇTİ | — |
@@ -71,9 +75,11 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/student_ts_baseline.py` | GEÇTİ | — |
 | `diagnostics/t5_pairing_diff.py` | GEÇTİ | — |
 | `diagnostics/tau_t_factorial.py` | GEÇTİ | — |
+| `diagnostics/teacher_ece_grid.py` | GEÇTİ | — |
 | `diagnostics/tstar_provenance.py` | GEÇTİ | — |
 | `diagnostics/tstar_sensitivity.py` | GEÇTİ | — |
 | `diagnostics/tstar_stability.py` | GEÇTİ | — |
+| `diagnostics/two_dataset_overlay.py` | GEÇTİ | — |
 
 **Muaf betikler** koşu dizinlerini okumak ZORUNDA — işleri o (defter kurma, checkpoint ölçme, canlı koşu bulma). Level 3'türler ve README'de öyle etiketlidirler; muafiyet burada **beyan** olarak durur, çıkarım olarak değil.
 

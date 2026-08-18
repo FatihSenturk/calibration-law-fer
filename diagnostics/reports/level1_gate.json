@@ -86,9 +86,19 @@
       "note": ""
     },
     {
+      "script": "diagnostics/ferplus_human_vote_jsd.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/ferplus_selection_audit.py",
       "status": "muaf",
       "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
+      "script": "diagnostics/ferplus_student_jsd.py",
+      "status": "GEÇTİ",
+      "note": ""
     },
     {
       "script": "diagnostics/g42_init_matched_lever.py",
@@ -129,6 +139,11 @@
       "script": "diagnostics/jsd_sensitivity.py",
       "status": "GEÇTİ",
       "note": ""
+    },
+    {
+      "script": "diagnostics/latency_benchmark.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
     },
     {
       "script": "diagnostics/level1_gate.py",
@@ -177,6 +192,11 @@
     },
     {
       "script": "diagnostics/p2_gate_oracle_verdict.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
+      "script": "diagnostics/p4_teacher_selection_recipe.py",
       "status": "GEÇTİ",
       "note": ""
     },
@@ -296,6 +316,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/teacher_ece_grid.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/tstar_provenance.py",
       "status": "GEÇTİ",
       "note": ""
@@ -307,6 +332,11 @@
     },
     {
       "script": "diagnostics/tstar_stability.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
+      "script": "diagnostics/two_dataset_overlay.py",
       "status": "GEÇTİ",
       "note": ""
     }

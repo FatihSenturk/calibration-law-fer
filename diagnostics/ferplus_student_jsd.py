@@ -67,6 +67,16 @@ from types import SimpleNamespace  # noqa: E402
 
 OUT_DIR = ROOT / "diagnostics" / "ferplus_jsd"
 STUDENTS = ROOT / "results" / "unified_students"
+# LEVEL-1 SINIR DEFTERİ (17 Ağu 2026). Bu betik pahalı işi (öğrenci checkpoint'ini yükleyip
+# skorlamak) koşu dizinindeki `student_jsd.json`da önbelleğe alıyordu -- yani önbellek `results/`
+# ağacının İÇİNDE yaşıyordu ve üretici o ağaç olmadan HİÇ koşamıyordu. Artefaktı ihraç bandına
+# aldığımız gün Level-1 kapısı bunu İHLAL olarak yakaladı (kapı bu üreticiye o güne kadar
+# soruyu hiç soramamıştı, çünkü `parse_args` runpy altında düşüyordu).
+# ÇÖZÜM `publish_epoch_curves`/`selection_gain_estimator` ile aynı desen: satırlar
+# `diagnostics/` altına YAYIMLANIR, üretici koşu ağacı yokken onları okur. Böylece
+# `tab_human`ın 29 basılı hücresi yayımlı depodan yeniden üretilebilir hale gelir --
+# "yeniden üretilebilir" ile "denetlenebilir" arasındaki farkın tam olarak kapandığı yer.
+PUBLISHED_ROWS = OUT_DIR / "ferplus_student_jsd_rows.json"
 TEACHER_GRID = json.loads((OUT_DIR / "ferplus_teacher_signed_grid.json").read_text())
 
 
@@ -143,46 +153,85 @@ def main():
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--checkpoints", nargs="+", default=["swa", "best", "last"])
-    args = ap.parse_args()
+    ap.add_argument("--from-runs", action="store_true",
+                    help="koşu ağacını tara ve yayımlı satırları TAZELE (Level-3 eylemi); "
+                         "varsayılan yol yalnız yayımlı satırları okur")
+    # `parse_known_args` -- deponun standart kuralı (bkz. bootstrap_cis.py): Level-1 kapısı
+    # üreticileri `runpy` ile çağırıyor ve betiğin YOLU argv'de kalıyor; `parse_args` orada
+    # SystemExit atıp kapıyı "başka hata"ya düşürüyor. DİKKAT: `--checkpoints` nargs="+" olduğu
+    # için bilinmeyen konumsal argüman ona yutulabilirdi; `parse_known_args` onu `_unknown`a
+    # bırakır. 17 Ağu 2026: artefakt ihraç bandına girince üreticisi ilk kez kapıya girdi.
+    args, _unknown = ap.parse_known_args()
+    # cp1252 konsolda Türkçe karakter `UnicodeEncodeError` atıyor; deponun standart bloğu.
+    # Bu betiğin çıktısı bugüne kadar tümüyle İngilizceydi, o yüzden gerekmemişti; 17 Ağu'da
+    # eklenen Türkçe satırlar Level-1 kapısının alt sürecinde hemen düşürdü.
+    for s in (sys.stdout, sys.stderr):
+        if hasattr(s, "reconfigure"):
+            s.reconfigure(encoding="utf-8", errors="replace")
     device = torch.device(args.device)
 
-    runs = []
-    for rn in sorted(STUDENTS.iterdir()):
-        if not (rn.is_dir() and rn.name.startswith("FERPlus_tempscale_")):
-            continue
-        for ts in sorted(rn.iterdir()):
-            if (ts / "run_args.json").exists() and (ts / "metrics_best.json").exists():
-                runs.append(ts)
-    print(f"device={device}   {len(runs)} finished FERPlus tempscale runs")
-    if not runs:
-        print("nothing to score yet")
-        return
-
-    images, labels, p_human = build_val(json.loads((runs[0] / "run_args.json").read_text()))
-    h_human = entropy(p_human)
-    print(f"FERPlus val n={images.shape[0]}  human mean entropy {float(h_human.mean()):.4f} nat\n")
-
-    rows = []
-    for i, rd in enumerate(runs, 1):
-        cache_p = rd / "student_jsd.json"
-        cache = json.loads(cache_p.read_text()) if (cache_p.exists() and not args.force) else {}
-        ra = json.loads((rd / "run_args.json").read_text())
-        changed = False
-        for ck in args.checkpoints:
-            fname = VARIANTS[ck][0]
-            if not (rd / fname).exists():
+    # VARSAYILAN YOL KOŞU AĞACINA HİÇ DOKUNMAZ. Ağacı taramak `--from-runs` ile İSTENİR.
+    # Bu bir tercih değil, kapının doğru sorulması meselesi: "hata olursa yayımlı satırlara
+    # düş" biçiminde yazsaydık, betik ağaca YİNE dokunur ve Level-1 sorusunu geçmesi ancak
+    # kapının kendi istisnasını yutmakla mümkün olurdu -- yani kapıyı oynatmakla. Tarama ayrı
+    # bir eylemdir (`publish_epoch_curves` deseni), tablo üretimi Level-1 temizdir.
+    if not args.from_runs:
+        if not PUBLISHED_ROWS.exists():
+            print(f"yayımlı satır yok ({PUBLISHED_ROWS.relative_to(ROOT)}); koşu ağacı olan "
+                  f"makinede `--from-runs` ile bir kez üretilmeli. Hiçbir dosya yazılmadı.")
+            return
+        blob = json.loads(PUBLISHED_ROWS.read_text(encoding="utf-8"))
+        rows, h_mean = blob["rows"], blob["human_mean_entropy"]
+        print(f"yayımlı satırlar okundu: {len(rows)} satır "
+              f"({PUBLISHED_ROWS.relative_to(ROOT)}) — koşu ağacına dokunulmadı")
+    else:
+        runs = []
+        for rn in sorted(STUDENTS.iterdir()):
+            if not (rn.is_dir() and rn.name.startswith("FERPlus_tempscale_")):
                 continue
-            if ck not in cache:
-                student, _ep = load_student(rd, fname, ra, device)
-                cache[ck] = score(student, images, labels, p_human, h_human, device)
-                changed = True
-                del student
-            rows.append({"run_name": rd.parent.name, "checkpoint": ck,
-                         "t_scale": float(ra.get("teacher_temperature_scale", 1.0)),
-                         "seed": ra.get("seed"), **cache[ck]})
-        if changed:
-            cache_p.write_text(json.dumps(cache, indent=2), encoding="utf-8")
-        print(f"  [{i}/{len(runs)}] {rd.parent.name}")
+            for ts in sorted(rn.iterdir()):
+                if (ts / "run_args.json").exists() and (ts / "metrics_best.json").exists():
+                    runs.append(ts)
+        if not runs:
+            print("nothing to score yet")
+            return
+        print(f"device={device}   {len(runs)} finished FERPlus tempscale runs")
+        images, labels, p_human = build_val(
+            json.loads((runs[0] / "run_args.json").read_text()))
+        h_human = entropy(p_human)
+        h_mean = float(h_human.mean())
+        print(f"FERPlus val n={images.shape[0]}  human mean entropy {h_mean:.4f} nat\n")
+
+        rows = []
+        for i, rd in enumerate(runs, 1):
+            cache_p = rd / "student_jsd.json"
+            cache = (json.loads(cache_p.read_text())
+                     if (cache_p.exists() and not args.force) else {})
+            ra = json.loads((rd / "run_args.json").read_text())
+            changed = False
+            for ck in args.checkpoints:
+                fname = VARIANTS[ck][0]
+                if not (rd / fname).exists():
+                    continue
+                if ck not in cache:
+                    student, _ep = load_student(rd, fname, ra, device)
+                    cache[ck] = score(student, images, labels, p_human, h_human, device)
+                    changed = True
+                    del student
+                rows.append({"run_name": rd.parent.name, "checkpoint": ck,
+                             "t_scale": float(ra.get("teacher_temperature_scale", 1.0)),
+                             "seed": ra.get("seed"), **cache[ck]})
+            if changed:
+                cache_p.write_text(json.dumps(cache, indent=2), encoding="utf-8")
+            print(f"  [{i}/{len(runs)}] {rd.parent.name}")
+
+        # Satırları YAYIMLA: koşu dizinindeki önbellek `results/` ağacında kalır, bu kopya
+        # depoda kalır ve üretici onsuz da koşabilir.
+        PUBLISHED_ROWS.write_text(json.dumps(
+            {"note": "published so the producer runs without results/ (Level-1)",
+             "source": "results/unified_students/FERPlus_tempscale_*/*/student_jsd.json",
+             "human_mean_entropy": h_mean, "n_rows": len(rows), "rows": rows},
+            indent=2), encoding="utf-8")
 
     with open(OUT_DIR / "ferplus_student_jsd.csv", "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
@@ -231,14 +280,14 @@ def main():
         else:
             print(f"  >>> Both objectives are optimised by the SAME arm (T={argmin_ece:g}): "
                   f"no trade-off is visible at this grid resolution.")
-        print(f"  human mean entropy {float(h_human.mean()):.4f}; closest student entropy: "
-              f"T={min(by_T, key=lambda T: abs(by_T[T]['entropy'] - float(h_human.mean()))):g}")
+        print(f"  human mean entropy {h_mean:.4f}; closest student entropy: "
+              f"T={min(by_T, key=lambda T: abs(by_T[T]['entropy'] - h_mean)):g}")
         summary[ck] = {str(k): v for k, v in by_T.items()}
         summary[ck]["_argmin_ece_T"] = argmin_ece
         summary[ck]["_argmin_jsd_T"] = argmin_jsd
 
     (OUT_DIR / "ferplus_student_jsd.json").write_text(
-        json.dumps({"human_mean_entropy": float(h_human.mean()), "by_checkpoint": summary,
+        json.dumps({"human_mean_entropy": h_mean, "by_checkpoint": summary,
                     "per_run": rows}, indent=2), encoding="utf-8")
     print(f"\nWrote {OUT_DIR / 'ferplus_student_jsd.csv'}")
     print(f"Wrote {OUT_DIR / 'ferplus_student_jsd.json'}")

@@ -26,7 +26,22 @@
       "dense_grid_points": 581,
       "local_min_flag": true,
       "published_full_nll": 1.3494,
-      "deployed_T": 1.3406
+      "deployed_T": 1.3406,
+      "cross_fit": {
+        "canonical_fitter": "student_ts_baseline.fit_ts (log-space Brent, [0.05, 10])",
+        "confirm_fitter": "teacher_ece_grid.fit_temperature",
+        "confirm_relayed_by": [
+          "p4_teacher_selection.recipe_step3_ranking.rows[].T_star",
+          "teacher_temperature_scaling/temperature_fit.json"
+        ],
+        "confirm_T_star": 1.3493927210953593,
+        "abs_dT": 9.86616917320049e-06,
+        "nll_at_canonical": 0.2668439447879791,
+        "nll_at_confirm": 0.2668439447879791,
+        "d_nll": 0.0,
+        "ece_at_confirm": 0.015817596575893666,
+        "d_ece": 1.6517558340534144e-07
+      }
     },
     "primary": {
       "n": 3068,
@@ -43,7 +58,22 @@
       "dense_grid_points": 581,
       "local_min_flag": false,
       "published_full_nll": 1.2613,
-      "deployed_T": 1.2613
+      "deployed_T": 1.2613,
+      "cross_fit": {
+        "canonical_fitter": "student_ts_baseline.fit_ts (log-space Brent, [0.05, 10])",
+        "confirm_fitter": "teacher_ece_grid.fit_temperature",
+        "confirm_relayed_by": [
+          "p4_teacher_selection.recipe_step3_ranking.rows[].T_star",
+          "teacher_temperature_scaling/temperature_fit.json"
+        ],
+        "confirm_T_star": 1.2613411785961113,
+        "abs_dT": 4.049024580732308e-06,
+        "nll_at_canonical": 0.2872024178504944,
+        "nll_at_confirm": 0.2872024178504944,
+        "d_nll": 0.0,
+        "ece_at_confirm": 0.01972459457241572,
+        "d_ece": -2.0475982842257934e-07
+      }
     },
     "vae9182": {
       "n": 3068,
@@ -60,7 +90,22 @@
       "dense_grid_points": 581,
       "local_min_flag": false,
       "published_full_nll": 0.9829,
-      "deployed_T": 0.9829
+      "deployed_T": 0.9829,
+      "cross_fit": {
+        "canonical_fitter": "student_ts_baseline.fit_ts (log-space Brent, [0.05, 10])",
+        "confirm_fitter": "teacher_ece_grid.fit_temperature",
+        "confirm_relayed_by": [
+          "p4_teacher_selection.recipe_step3_ranking.rows[].T_star",
+          "teacher_temperature_scaling/temperature_fit.json"
+        ],
+        "confirm_T_star": 0.9829375448886304,
+        "abs_dT": 0.00014612744236619513,
+        "nll_at_canonical": 0.2641666829586029,
+        "nll_at_confirm": 0.2641667127609253,
+        "d_nll": 2.9802322387695312e-08,
+        "ece_at_confirm": 0.014609849335433918,
+        "d_ece": 3.8007296126390394e-05
+      }
     },
     "ferplus": {
       "n": 3153,

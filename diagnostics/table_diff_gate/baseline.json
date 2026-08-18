@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-18T01:50:42",
-  "reason": "N14 ikinci tur: dort APPEARED, hepsi tstar_provenance icindeki OLCULEN fitler (full_fold_fits stage1/primary/vae9182 + half_fold_fits stage1). tab_dose_response'un uc blok basligi ve alt yazisi (1.35 / 1.3494 / 1.3406 / 0.98) tam bu alanlardan basiliyor; kapi bugune kadar yalniz deployed satirlarini okuyordu. CHANGED/VANISHED yok.",
+  "accepted_at": "2026-08-18T02:45:04",
+  "reason": "N14 ucuncu tur (iki karar): 29 sapma, HEPSI APPEARED, CHANGED/MOVED/VANISHED YOK. Iki grup: (1) kanonik-vs-teyit kaydi -- tstar_sensitivity'nin yeni cross_fit blogu (confirm_T_star, abs_dT, d_nll, d_ece) ve defterin cross_checks blogu (uc nicelik icin kanonik deger, teyit degeri, ayrisma ve TOLERANS). Tolerans elle yazilmadi, makalenin kendi hassasiyetinden turetiliyor (0.5 x 10^-d, d = o nicelik icin kullanilan en siki yuvarlama), o yuzden esigin kendisi de kapida duruyor. (2) iki yeni sayac (cross_checks, cross_check_fail). Olculen ayrisma: stage1 9.87e-6 (tol 5e-5), primary 4.05e-6 (tol 5e-4), vae9182 1.46e-4 (tol 5e-4); amac fonksiyonu farki dNLL 0.00e+00 / 0.00e+00 / 2.98e-8, yani NLL iki adayi ayirt edemiyor.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -510,6 +510,16 @@
       null,
       null
     ],
+    "N13/count/cross_checks": [
+      3,
+      null,
+      null
+    ],
+    "N13/count/cross_check_fail": [
+      0,
+      null,
+      null
+    ],
     "N13/count/problems": [
       0,
       null,
@@ -517,6 +527,81 @@
     ],
     "N13/prose/methodology.entropy_pearson_T1": [
       0.7238625516940989,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.stage1/canonical": [
+      1.3493828549261861,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.stage1/confirm": [
+      1.3493927210953593,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.stage1/abs_diff": [
+      9.86616917320049e-06,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.stage1/tolerance": [
+      5e-05,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.stage1/ok": [
+      1,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.primary/canonical": [
+      1.261345227620692,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.primary/confirm": [
+      1.2613411785961113,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.primary/abs_diff": [
+      4.049024580732308e-06,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.primary/tolerance": [
+      0.0005,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.primary/ok": [
+      1,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.vae9182/canonical": [
+      0.9830836723309966,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.vae9182/confirm": [
+      0.9829375448886304,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.vae9182/abs_diff": [
+      0.00014612744236619513,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.vae9182/tolerance": [
+      0.0005,
+      null,
+      null
+    ],
+    "N13/xcheck/tstar_nll.vae9182/ok": [
+      1,
       null,
       null
     ],
@@ -4990,6 +5075,26 @@
       null,
       null
     ],
+    "R3-2/stage1/cross_fit/confirm_T_star": [
+      1.3493927210953593,
+      null,
+      null
+    ],
+    "R3-2/stage1/cross_fit/abs_dT": [
+      9.86616917320049e-06,
+      null,
+      null
+    ],
+    "R3-2/stage1/cross_fit/d_nll": [
+      0.0,
+      null,
+      null
+    ],
+    "R3-2/stage1/cross_fit/d_ece": [
+      1.6517558340534144e-07,
+      null,
+      null
+    ],
     "R3-2/primary/T_star_nll": [
       1.261345227620692,
       null,
@@ -5015,6 +5120,26 @@
       null,
       null
     ],
+    "R3-2/primary/cross_fit/confirm_T_star": [
+      1.2613411785961113,
+      null,
+      null
+    ],
+    "R3-2/primary/cross_fit/abs_dT": [
+      4.049024580732308e-06,
+      null,
+      null
+    ],
+    "R3-2/primary/cross_fit/d_nll": [
+      0.0,
+      null,
+      null
+    ],
+    "R3-2/primary/cross_fit/d_ece": [
+      -2.0475982842257934e-07,
+      null,
+      null
+    ],
     "R3-2/vae9182/T_star_nll": [
       0.9830836723309966,
       null,
@@ -5037,6 +5162,26 @@
     ],
     "R3-2/vae9182/ece_removed_by_ts": [
       -0.0010179141402788562,
+      null,
+      null
+    ],
+    "R3-2/vae9182/cross_fit/confirm_T_star": [
+      0.9829375448886304,
+      null,
+      null
+    ],
+    "R3-2/vae9182/cross_fit/abs_dT": [
+      0.00014612744236619513,
+      null,
+      null
+    ],
+    "R3-2/vae9182/cross_fit/d_nll": [
+      2.9802322387695312e-08,
+      null,
+      null
+    ],
+    "R3-2/vae9182/cross_fit/d_ece": [
+      3.8007296126390394e-05,
       null,
       null
     ],

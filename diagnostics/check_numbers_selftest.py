@@ -145,6 +145,47 @@ def main():
                      "YAKALANDI" if good else "KACIRILDI"))
         bd.update(keep)
 
+    # --- teyit kaydi: ikinci kaynak ayrisirsa (N14). Bugun sessiz olan sey yarin SINYAL
+    # olmali; sinanmayan bir esik, esik degildir. Teyit yolunu baska bir ogretmenin fitine
+    # cevirerek ayrismayi zorluyoruz -- gercekci karsiligi, teyit artefaktinin baska bir
+    # fold/ogretmenle yeniden uretilmesi.
+    xc = next(x for x in NL.CROSS_CHECKS if x["id"] == "tstar_nll.stage1")
+    keep_xc = dict(xc)
+    xc["confirm"] = (xc["confirm"][0], "primary.T_star")
+    pl, kinds = run(clean)
+    got = kinds.count("cross_source_divergence")
+    good = got >= 1
+    ok &= good
+    rows.append(("teyit kaydi ayristi: ikinci kaynak toleransi asti",
+                 "cross_source_divergence", 1, got, len(pl["unbound"]),
+                 "YAKALANDI" if good else "KACIRILDI"))
+    xc.update(keep_xc)
+
+    # --- teyit beyani bosa dustu: kanonik yol makalede hicbir hucreye bagli degil, dolayisiyla
+    # toleransi turetecek yuvarlama da yok. Teyit ettigini sandigin sey makalede gecmiyorsa
+    # teyit bir sey ifade etmez -- bu yuzden SORUN olarak raporlanir, sessizce atlanmaz.
+    xc["canonical"] = (xc["canonical"][0], "results.stage1.T_star_ece")
+    pl, kinds = run(clean)
+    got = kinds.count("cross_check_unbound")
+    good = got >= 1
+    ok &= good
+    rows.append(("teyit beyani bosa dustu: kanonik yola bagli hucre yok",
+                 "cross_check_unbound", 1, got, len(pl["unbound"]),
+                 "YAKALANDI" if good else "KACIRILDI"))
+    xc.update(keep_xc)
+
+    # --- bayat role: teyit degerini KOPYALAYAN artefakt ayrismis
+    keep_r = list(xc["relays"])
+    xc["relays"] = [(xc["relays"][0][0], "recipe_step3_ranking.rows[teacher=primary].T_star")]
+    pl, kinds = run(clean)
+    got = kinds.count("cross_source_relay_drift")
+    good = got >= 1
+    ok &= good
+    rows.append(("bayat role: teyidi kopyalayan artefakt baska bir degeri tasiyor",
+                 "cross_source_relay_drift", 1, got, len(pl["unbound"]),
+                 "YAKALANDI" if good else "KACIRILDI"))
+    xc["relays"] = keep_r
+
     # --- bayat alan: bagli alan artefaktta yok
     saved_b = dict(NL.BINDINGS[0])
     NL.BINDINGS[0]["path"] = NL.BINDINGS[0]["path"] + "_SILINDI"

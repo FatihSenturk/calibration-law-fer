@@ -76,7 +76,14 @@ def dense_grid_argmin(logits, labels):
     return best_T, best_e, len(ts)
 
 
-def one_teacher(tag, logits, labels):
+def nll(logits, labels, T):
+    """T sıcaklığındaki çapraz-entropi. `fit_ts`'in küçülttüğü amaç fonksiyonunun kendisi —
+    iki aday optimumu KARŞILAŞTIRMAK için gerekli, çünkü T'deki fark tek başına o farkın
+    anlamlı olup olmadığını söylemez."""
+    return float(torch.nn.functional.cross_entropy(logits / float(T), labels))
+
+
+def one_teacher(tag, logits, labels, confirm_T=None):
     t_nll = fit_ts(logits, labels)
     t_ece, e_at_ece = ece_argmin_continuous(logits, labels)
     e_at_nll = confidence_ece(logits, labels, t_nll)
@@ -85,7 +92,7 @@ def one_teacher(tag, logits, labels):
     # Brent yoğun grid'den ANLAMLI ölçüde kötü bir nokta bulduysa yüzey pürüzsüz değil
     # demektir ve sürekli argmin tek başına raporlanamaz.
     local_min = (e_at_ece - g_e) > LOCAL_MIN_TOL
-    return {
+    out = {
         "n": int(labels.shape[0]),
         "T_star_nll": t_nll,
         "T_star_ece": t_ece,
@@ -100,13 +107,48 @@ def one_teacher(tag, logits, labels):
         "ece_removed_by_ts": confidence_ece(logits, labels, 1.0) - e_at_nll,
         "dense_grid_T": g_T, "dense_grid_ece": g_e, "dense_grid_points": n_grid,
         "local_min_flag": bool(local_min),
+        # DIKKAT: bu iki alan BEYANDIR, ölçüm değil (elle yazılmış PUBLISHED/DEPLOYED
+        # sözlükleri). Sayı defteri onlara BAĞLANMAZ -- bağlanırsa alan, basılı sayının elle
+        # yazılmış kopyası olur ve bağ dairesel hale gelir (17 Ağu, N14).
         "published_full_nll": PUBLISHED[tag],
         "deployed_T": DEPLOYED[tag],
     }
 
+    # ---- KANONİK vs TEYİT (17 Ağu 2026, N14 kararı) ----------------------------------------
+    # Aynı niceliği (T*_NLL) iki BAĞIMSIZ uygulama hesaplıyor: burada `student_ts_baseline.fit_ts`
+    # (log-uzay, [0.05,10], kampanyanın dağıttığı fit) ve `teacher_ece_grid.fit_temperature`.
+    # İkinci değer `p4_teacher_selection` ile `temperature_fit.json` tarafından AYNEN rölelenir,
+    # yani üç artefakt iki hesap taşır.
+    # KARAR: BİRLEŞTİRİLMEDİ. Gün boyu kovaladığımız hastalık "aynı ad, iki farklı nicelik"ti;
+    # bu onun tersi -- iki farklı hesap AYNI niceliği buluyor, yani çapraz doğrulama. Birleştirmek
+    # doğrulamayı yok ederdi. Bu betik kanoniktir (T*'ın adanmış üreticisi); teyit kaydı burada.
+    # ÖLÇÜLEN ŞEY T FARKI DEĞİL, AMAÇ FARKI: NLL iki adayı ayırt edebiliyor mu?
+    if confirm_T is not None:
+        c = float(confirm_T)
+        out["cross_fit"] = {
+            "canonical_fitter": "student_ts_baseline.fit_ts (log-space Brent, [0.05, 10])",
+            "confirm_fitter": "teacher_ece_grid.fit_temperature",
+            "confirm_relayed_by": ["p4_teacher_selection.recipe_step3_ranking.rows[].T_star",
+                                   "teacher_temperature_scaling/temperature_fit.json"],
+            "confirm_T_star": c,
+            "abs_dT": abs(t_nll - c),
+            "nll_at_canonical": nll(logits, labels, t_nll),
+            "nll_at_confirm": nll(logits, labels, c),
+        }
+        out["cross_fit"]["d_nll"] = (out["cross_fit"]["nll_at_confirm"]
+                                     - out["cross_fit"]["nll_at_canonical"])
+        out["cross_fit"]["ece_at_confirm"] = confidence_ece(logits, labels, c)
+        out["cross_fit"]["d_ece"] = out["cross_fit"]["ece_at_confirm"] - e_at_nll
+    return out
+
 
 def main():
     results = {}
+
+    # Teyit fitleri: `teacher_ece_grid.json` yalnız üç RAF-DB öğretmenini taşır (FERPlus'ın
+    # ikinci bir fiti yok, o yüzden onun cross_fit bloğu da olmaz -- yok olan bir teyidi
+    # varmış gibi yazmak, teyidin kendisini değersizleştirir).
+    grid = json.loads((GRID_DIR / "teacher_ece_grid.json").read_text(encoding="utf-8"))
 
     raf_names, raf_labels = rafdb_names_and_labels()
     for tag in ("stage1", "primary", "vae9182"):
@@ -114,7 +156,8 @@ def main():
                           weights_only=False)
         if not torch.equal(blob["labels"], raf_labels):
             raise RuntimeError(f"{tag}: cached labels do not match the metadata fold-3 order")
-        results[tag] = one_teacher(tag, blob["logits"].float(), blob["labels"])
+        results[tag] = one_teacher(tag, blob["logits"].float(), blob["labels"],
+                                   confirm_T=grid[tag]["T_star"])
 
     f_logits, f_labels, f_names = ferplus_kept()
     if len(f_names) != 3153:
@@ -178,6 +221,34 @@ def main():
         L += [f"Every continuous argmin was confirmed against a dense grid "
               f"(step {DENSE_STEP} over {DENSE_RANGE[0]}–{DENSE_RANGE[1]}, "
               f"{results['stage1']['dense_grid_points']} points): no row is a local minimum.", ""]
+
+    # --- KANONİK vs TEYİT bloğu: aynı niceliği iki uygulama buluyor
+    xf = {t: r["cross_fit"] for t, r in results.items() if "cross_fit" in r}
+    if xf:
+        L += ["## Canonical vs. confirming fit of the same quantity", "",
+              "`T*_NLL` is computed here by `student_ts_baseline.fit_ts` (the function the "
+              "campaign deploys) and, independently, by `teacher_ece_grid.fit_temperature`. The "
+              "second value is relayed verbatim by `p4_teacher_selection` and by "
+              "`temperature_fit.json`, so three artifacts carry **two** computations. The two are "
+              "**deliberately not merged**: two implementations agreeing on one quantity is a "
+              "cross-check, and merging them would destroy it. This table is the confirmation "
+              "record — and it reports the difference in the **objective**, not only in T, "
+              "because a difference in T says nothing on its own about whether the fit disagrees.",
+              "",
+              "| teacher | canonical T\\* (`fit_ts`) | confirming T\\* (`fit_temperature`) | "
+              "**\\|ΔT\\*\\|** | NLL @canonical | NLL @confirming | **ΔNLL** | ΔECE |",
+              "|---|---|---|---|---|---|---|---|"]
+        for t, c in xf.items():
+            L.append(f"| {t} | {results[t]['T_star_nll']:.7f} | {c['confirm_T_star']:.7f} | "
+                     f"**{c['abs_dT']:.2e}** | {c['nll_at_canonical']:.9f} | "
+                     f"{c['nll_at_confirm']:.9f} | **{c['d_nll']:+.2e}** | {c['d_ece']:+.6f} |")
+        worst_t = max(xf, key=lambda t: xf[t]["abs_dT"])
+        L += ["", f"Largest disagreement in T is **{worst_t}** at "
+              f"{xf[worst_t]['abs_dT']:.2e}, yet the objective separates the two candidates by "
+              f"only {xf[worst_t]['d_nll']:+.2e} in NLL. The two fitters are therefore at the "
+              f"same optimum to within their own convergence tolerance; the residual is the "
+              f"parameterisation (log-space vs. linear box), not the estimand. FERPlus has no "
+              f"second fit, so it has no row here.", ""]
 
     payload = {"pre_registration": "PREREGISTRATIONS.md A10 (R3-2); no success criterion",
                "fit_nll": "single-scalar TS, NLL, minimize_scalar bounded log-space [0.05, 10] "

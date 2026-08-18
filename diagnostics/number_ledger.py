@@ -62,6 +62,7 @@ A_ASY = "paper_tables/asymmetry_estimand.json"
 A_HR = "paper_tables/headroom_review.json"
 A_CRIT = "paper_tables/criterion_applied.json"
 # --- N14 (17 Agu 2026): kayitsiz 28 kalemin kapatilmasi icin acilan artefaktlar
+A_TEG = "teacher_ece_grid/teacher_ece_grid.json"
 A_NU = "paper_tables/noise_units.json"
 A_TSS = "paper_tables/tstar_sensitivity.json"
 A_TSP = "paper_tables/tstar_provenance.json"
@@ -71,6 +72,7 @@ BINDINGS = []      # alan baglari
 DERIVED = []       # turetilmis nicelikler
 EXEMPT = []        # olcum-degil beyanlari
 PROSE = []         # duzyazida beyan edilen tek tek baglar
+CROSS_CHECKS = []  # ayni niceligi hesaplayan IKINCI kaynak: teyit kaydi + ayrisma kontrolu
 
 
 def b(unit, sec, row, idx, artifact, path, rounding, ident=None):
@@ -299,7 +301,10 @@ for i, (row, t) in enumerate((("Stage1", "stage1"), ("Primary", "primary"),
       ident=f"tab_selection.{t}.teacher_acc")
     b("tab_selection", -1, row, 1, A_P4, f"{sel}.teacher_ece", "4dp",
       ident=f"tab_selection.{t}.teacher_ece")
-    b("tab_selection", -1, row, 2, A_P4, f"{sel}.T_star", "3dp",
+    # T* sutunu KANONIK kaynaga cekildi (17 Agu, N14 karari): `tstar_sensitivity` T*'in adanmis
+    # ureticisi, p4 onu secim tarifinin yan urunu olarak tasiyor. p4'un degeri silinmiyor --
+    # CROSS_CHECKS altinda TEYIT KAYDI olarak duruyor ve ayrisirsa denetci bagirir.
+    b("tab_selection", -1, row, 2, A_TSS, f"results.{t}.T_star_nll", "3dp",
       ident=f"tab_selection.{t}.T_star")
     b("tab_selection", -1, row, 3, A_P4, f"{sel}.student_by_ckpt.best.acc_mean", "2dp",
       ident=f"tab_selection.{t}.student_acc_mean")
@@ -694,6 +699,37 @@ dv("tstar_criterion_cost_max", "14", "ratio",
    note="Stage1 14.32x -- uc ogretmenin en yuksegi; vae9182 disarida cunku TS orada ECE EKLIYOR")
 
 # =============================================================================
+# TEYIT KAYITLARI (cross_checks) — ayni niceligi hesaplayan IKINCI kaynak
+# =============================================================================
+# NEDEN VAR (17 Agu 2026, N14 karari). T*_NLL'i iki BAGIMSIZ uygulama buluyor ve degerler
+# 1e-5..1e-4 duzeyinde ayrisiyor. Gun boyu kovaladigimiz hastalik "ayni ad, iki farkli nicelik"ti;
+# bu onun TERSI -- iki farkli hesap AYNI niceligi buluyor. Karar: BIRLESTIRME, ILAN ET. Kanonik
+# kaynak beyan edilir, ikinci kaynak TEYIT olarak kaydedilir, ve ayrisma bir ESIGE baglanir ki
+# bugun sessiz olan sey yarin SINYAL olsun.
+#
+# TOLERANS ELLE YAZILMAZ, MAKALENIN KENDI HASSASIYETINDEN TURETILIR:
+#     tol = 0.5 x 10^(-d),  d = o niceligin makalede kullanildigi EN SIKI yuvarlama
+# Yani "iki kaynak, basilan hicbir hucreyi degistirmeyecek kadar yakin olmali". Kucuk bir
+# sabit uydurmaktan iyidir: esik, tablolar degistiginde kendiliginde siklasir/gevser.
+# Ikinci ve daha keskin kapi yapisaldir: iki kaynak, o yola bagli HER hucrenin beyan edilen
+# yuvarlamasinda AYNI degere yuvarlanmali.
+def xc(ident, quantity, canonical, confirm, relays, why):
+    CROSS_CHECKS.append({"id": ident, "quantity": quantity, "canonical": canonical,
+                         "confirm": confirm, "relays": relays, "why": why})
+
+
+for _t in ("stage1", "primary", "vae9182"):
+    xc(f"tstar_nll.{_t}", f"T*_NLL ({_t}, tam fold)",
+       (A_TSS, f"results.{_t}.T_star_nll"), (A_TEG, f"{_t}.T_star"),
+       [(A_P4, f"recipe_step3_ranking.rows[teacher={_t}].T_star"),
+        (A_TSP, f"full_fold_fits.{_t}")],
+       why="kanonik `student_ts_baseline.fit_ts` (log-uzay Brent, kampanyanin dagittigi fit); "
+           "teyit `teacher_ece_grid.fit_temperature` (bagimsiz uygulama). p4 ve tstar_provenance "
+           "teyit degerini AYNEN roleliyor, dolayisiyla uc artefakt IKI hesap tasiyor. Amac "
+           "farki `tstar_sensitivity.results.<t>.cross_fit.d_nll` altinda olculuyor.")
+
+
+# =============================================================================
 # COZUMLEYICI + YUVARLAMA
 # =============================================================================
 class Unresolved(Exception):
@@ -968,6 +1004,61 @@ def build(paper_root):
             problems.append({"kind": "prose_location_bad", "id": pr["id"], "detail": str(e)})
         pentries.append(row)
 
+    # --- TEYIT KAYITLARI: ayni niceligin ikinci kaynagi (bkz. CROSS_CHECKS beyani)
+    xentries = []
+    for x in CROSS_CHECKS:
+        ca, cp = x["canonical"]
+        # Tolerans, o yola bagli hucrelerin EN SIKI yuvarlamasindan turetilir. Bag yoksa beyan
+        # bosa dusmus demektir ve bu bir SORUNDUR -- teyit ettigi sey makalede gecmiyor.
+        rounds = sorted({bd["rounding"] for bd in BINDINGS
+                         if bd["artifact"] == ca and bd["path"] == cp})
+        if not rounds:
+            problems.append({"kind": "cross_check_unbound", "id": x["id"],
+                             "detail": f"{ca} -> {cp}: bu yola bagli hucre yok"})
+            continue
+        dps = [0 if r == "int" else int(r.replace("dp", "")) for r in rounds]
+        tol = 0.5 * 10 ** (-max(dps))
+        try:
+            a = resolve(store, ca, cp)
+            bconf = resolve(store, *x["confirm"])
+        except Unresolved as e:
+            problems.append({"kind": "unresolved_path", "id": x["id"], "detail": str(e)})
+            continue
+        row = {"id": x["id"], "quantity": x["quantity"],
+               "canonical": {"artifact": ca, "path": cp, "value": a},
+               "confirm": {"artifact": x["confirm"][0], "path": x["confirm"][1],
+                           "value": bconf},
+               "abs_diff": abs(a - bconf), "tolerance": tol,
+               "tolerance_from": f"en siki yuvarlama {max(rounds, key=lambda r: 0 if r == 'int' else int(r.replace('dp', '')))}",
+               "roundings_in_paper": rounds, "why": x["why"], "relays": [], "matches": True}
+        if row["abs_diff"] > tol:
+            row["matches"] = False
+            problems.append({"kind": "cross_source_divergence", "id": x["id"],
+                             "detail": f"|{a!r} - {bconf!r}| = {row['abs_diff']:.3e} > "
+                                       f"tol {tol:.1e} ({row['tolerance_from']})"})
+        for r in rounds:
+            if fmt_round(a, r) != fmt_round(bconf, r):
+                row["matches"] = False
+                problems.append({"kind": "cross_source_rounding_disagreement", "id": x["id"],
+                                 "detail": f"{r}: kanonik {fmt_round(a, r)} vs teyit "
+                                           f"{fmt_round(bconf, r)}"})
+        # ROLELER: p4 ve tstar_provenance teyit degerini KOPYALIYOR, hesaplamiyor. Kopya
+        # ayrisirsa bayat bir role var demektir ve o sessizce yanlis bir teyit uretirdi.
+        for ra, rp in x["relays"]:
+            try:
+                rv = resolve(store, ra, rp)
+            except Unresolved as e:
+                problems.append({"kind": "unresolved_path", "id": x["id"] + ".relay",
+                                 "detail": str(e)})
+                continue
+            ok_r = abs(rv - bconf) <= 1e-12
+            row["relays"].append({"artifact": ra, "path": rp, "value": rv, "exact_copy": ok_r})
+            if not ok_r:
+                row["matches"] = False
+                problems.append({"kind": "cross_source_relay_drift", "id": x["id"],
+                                 "detail": f"{ra} -> {rp}: {rv!r} != teyit {bconf!r}"})
+        xentries.append(row)
+
     unbound = [t for t in toks if t["key"] not in bound_keys and t["key"] not in exempt_keys]
     payload = {
         "note": "review-responsive, not pre-declared",
@@ -984,8 +1075,11 @@ def build(paper_root):
                    "mismatch": sum(1 for e in entries if not e["matches"]),
                    "derived_mismatch": sum(1 for e in dentries if not e["matches"]),
                    "prose": len(pentries),
+                   "cross_checks": len(xentries),
+                   "cross_check_fail": sum(1 for e in xentries if not e["matches"]),
                    "problems": len(problems)},
         "entries": entries, "exempt": exempt_rows, "prose_entries": pentries,
+        "cross_checks": xentries,
         "unbound": [{"key": t["key"], "printed": t["printed"], "unit": t["unit"],
                      "row": t["row"], "idx": t["idx"],
                      "where": f"paper/{t['file']}:{t['line']}"} for t in unbound],
@@ -1022,6 +1116,7 @@ def main():
     c = payload["counts"]
     print(f"jeton {c['tokens']} · bagli {c['bound']} · turetilmis {c['derived']} · "
           f"muaf {c['exempt']} · KAYITSIZ {c['unbound']} · uyusmazlik {c['mismatch']} · "
+          f"teyit {c['cross_checks']} (basarisiz {c['cross_check_fail']}) · "
           f"sorun {c['problems']}")
     for p in payload["problems"][:45]:
         print(("  ! " + p["kind"].ljust(26) + " " + str(p.get("id", "")) + " " +
@@ -1046,6 +1141,8 @@ def write_md(payload, dentries):
          f"| declared not-a-measurement | {c['exempt']} |",
          f"| **unregistered** | **{c['unbound']}** |",
          f"| printed-vs-field mismatch | {c['mismatch']} |",
+         f"| confirmation records (second source) | {c.get('cross_checks', 0)} "
+         f"({c.get('cross_check_fail', 0)} failing) |",
          f"| layout tokens dropped by the scanner | {c['layout_dropped']} |", "",
          "## Scope (declared)", "",
          "**In:** " + ", ".join("`" + x + "`" for x in payload["scope"]["in"]) + "  ",
@@ -1068,6 +1165,33 @@ def write_md(payload, dentries):
                      f"{e['where'][0]} |")
     else:
         L.append("None.")
+    xs = payload.get("cross_checks") or []
+    if xs:
+        L += ["", "## Confirmation records (same quantity, second source)", "",
+              "Some quantities are computed twice by independent implementations. They are "
+              "**deliberately not merged**: agreement between two computations is a cross-check, "
+              "and merging destroys it. One source is declared canonical and bound; the other is "
+              "recorded here and audited. The tolerance is not hand-written — it is "
+              "`0.5 x 10^-d`, where `d` is the **tightest rounding the paper uses for that "
+              "quantity**, so the gate tightens automatically if a table starts printing more "
+              "digits. A second, sharper gate is structural: both sources must round to the same "
+              "value at *every* rounding declared for that field.", "",
+              "| quantity | canonical | confirming | \\|diff\\| | tolerance | roundings | ok |",
+              "|---|---|---|---|---|---|---|"]
+        for e in xs:
+            L.append(f"| {e['quantity']} | `{e['canonical']['path']}` = "
+                     f"{e['canonical']['value']:.7f} | `{e['confirm']['path']}` = "
+                     f"{e['confirm']['value']:.7f} | {e['abs_diff']:.2e} | "
+                     f"{e['tolerance']:.1e} | {', '.join(e['roundings_in_paper'])} | "
+                     f"{'yes' if e['matches'] else '**NO**'} |")
+        rel = [(e, r) for e in xs for r in e["relays"]]
+        if rel:
+            L += ["", "Relays — artifacts that **copy** the confirming value rather than "
+                  "computing it. A drifted relay would produce a silently false confirmation.", "",
+                  "| quantity | relay | value | exact copy |", "|---|---|---|---|"]
+            for e, r in rel:
+                L.append(f"| {e['quantity']} | `{r['artifact']}` → `{r['path']}` | "
+                         f"{r['value']:.7f} | {'yes' if r['exact_copy'] else '**NO**'} |")
     L += ["", "## Derived quantities", "",
           "| id | printed | formula | recomputed | ok |", "|---|---|---|---|---|"]
     for e in dentries:

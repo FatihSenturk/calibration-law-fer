@@ -23,6 +23,58 @@ note = A12 gercek-sinyal gate n=3 (5 hucre x 2 yeni tohum). ON-BEYANLI: PREREGIS
 # 4 Ağu ikinci güncelleme (ide_prompt_baslik_v2.md): BAŞLIK v2 seçildi ve gönderim tarihi
 # artık bir hedef değil — P6 entegrasyonu + konsolide tur bitmeden tarih verilmiyor.
 pending:
+- SIRADA (Fatih 17 Agu, N15 §5): KAPININ YAPISAL KOR NOKTASI. Kapi artefakti KABUL EDILMIS
+  temel cizgisiyle karsilastiriyor, URETICININ TAZE CIKTISIYLA degil -- yani "uretici degisti,
+  artefakt yeniden uretilmedi" durumu kapidan GECIYOR. Bu siniftan bes vaka elle yakalandi:
+  0.53'un bayat yan tablosu · tab_selection'in ECE sutunu · Fig. 4'un PDF'i ·
+  main_elsarticle.pdf · two_dataset_overlay.json'un eksik 42 per_seed blogu.
+  YAPILACAK: kapiya "uretiyi kos, ciktiyi depodaki artefaktla BAYT duzeyinde karsilastir" adimi;
+  ve 53 uretici UCUZ / PAHALI (GPU, uzun kosu) diye IKIYE AYRILACAK -- ayrim OLCULEREK, tahminle
+  degil. Bugunku tek veri noktasi: Level-1 53 ureticiyi argumansiz kosuyor ve hicbiri betik
+  basina 900 s zaman asimina carpmiyor (zaman asimi 0); basina-dusen sure OLCULMEDI.
+  Not: bu turda bilerek yapilmadi (Fatih: "simdi yapma, siraya yaz").
+- N15 iki karar: KANONIK T* + IHRAC BANDI (17 Agu, N14'un devami). Ikisi de uygulandi, kabul
+  olcutlerinin ucu de tuttu: oz sinama 11/11 -> 13/13 (hicbiri dusmedi), KAYITSIZ 0 kaldi,
+  kapsam taramasi ihlal 0 -> bant genisletmesi GERI ALINMADI.
+  KARAR 1 (birlestirme, ilan et): DUZELTME -- uc artefakt var ama IKI hesap. p4 bagimsiz bir fit
+  DEGIL, `teacher_ece_grid`i AYNEN roleliyor (grid == p4 == temperature_fit, bit duzeyinde);
+  tstar_provenance de ayni degeri roleliyor. Gercek ikinci hesap `teacher_ece_grid
+  .fit_temperature`. Kanonik = `tstar_sensitivity` (T*'in adanmis ureticisi, fit_ts = kampanyanin
+  dagittigi fonksiyon); tab_selection'in T* sutunu p4'ten kanonige cekildi. Teyit kaydi
+  defterin yeni `cross_checks` blogunda; roleler ayrica kaydedildi ve kopya olduklari
+  denetleniyor.
+  TOLERANS ELLE YAZILMADI: tol = 0.5 x 10^-d, d = o niceligin MAKALEDE kullanildigi en siki
+  yuvarlama; esik defterin kendi baglarindan okunuyor, yani tablo daha cok basamak basarsa esik
+  KENDILIGINDEN sikisir. Fatih'in onerdigi global 4-basamak esigi (5e-5) BUGUN TUTMUYOR:
+  vae9182'nin ayrismasi 1.46e-4 (2.9x asiyor) -- ama vae9182'nin T*'i makalede 4 basamakla HIC
+  basilmiyor, o yuzden nicelik basina turetim dogru olan. Olculen: stage1 9.87e-6 (tol 5e-5,
+  marj 5.1x) · primary 4.05e-6 (tol 5e-4, 123x) · vae9182 1.46e-4 (tol 5e-4, 3.4x).
+  AYRISMANIN ANLAMSIZ OLDUGUNUN KANITI amac fonksiyonunda: dNLL 0.00e+00 / 0.00e+00 / 2.98e-8,
+  yani NLL iki adayi AYIRT EDEMIYOR; kalan fark parametrelestirme (log-uzay vs lineer kutu),
+  estimand degil. Kanonik ureticiye `cross_fit` blogu eklendi (FERPlus'in ikinci fiti yok, o
+  yuzden onun blogu da yok).
+  Denetciye dort yeni ihlal sinifi: cross_source_divergence · cross_source_rounding_disagreement
+  · cross_source_relay_drift · cross_check_unbound. Dordu de oz sinamada DENENDI.
+  KARAR 2 (bandi genislet): 5 dosya + 1 tanesi Karar 1'in sonucu (`teacher_ece_grid.json` --
+  teyit edenin kendisi bantta degilse teyit denetlenemez). Lisans taramasi OLCULEREK: alti
+  dosyanin hicbirinde goruntu-adi anahtari 0, mutlak yol 0, per-ornek dizi YOK (en buyuk diziler
+  196 sicaklik noktasi ve 36 kosu satiri, tamami toplulastirilmis). Belirleyici: altisi da ZATEN
+  public GitHub deposunda izleniyor, yani Drive bandindan daha genis bir dagitimda duruyorlar.
+  Kapsam disi birakilan dosya YOK. Bant 178 -> 184 dosya.
+  BANT GENISLEMESI UC KUSURU ARDI ARDINA GORUNUR KILDI (ucu de kapinin kendi isleyisiyle):
+  (1) iki uretici `parse_args` yuzunden runpy altinda dusuyordu, yani kapi onlara Level-1
+  sorusunu HIC soramamisti -> parse_known_args; (2) soru sorulunca GERCEK bir Level-1 IHLALI
+  cikti: ferplus_student_jsd.py pahali skorlamayi KOSU DIZININE onbellege aliyordu, yani
+  tab_human'in 29 hucresi yayimli depodan uretilemiyordu -> satirlar
+  ferplus_jsd/ferplus_student_jsd_rows.json olarak YAYIMLANDI, tarama --from-runs ile ayri bir
+  eyleme cekildi ("hata olursa yayimliya dus" DIYE YAZILMADI: oyle olsa betik agaca yine
+  dokunur, kapiyi ancak kendi istisnasini yutarak gecerdi); iki yoldan uretilen artefakt BAYT
+  duzeyinde ayni (sha256 421f9c5c); (3) eklenen Turkce satirlar cp1252 konsolda
+  UnicodeEncodeError atti -> deponun standart reconfigure blogu eklendi.
+  Kapilar: tablo 1441/1441 (29 sapma, TAMAMI APPEARED -- aralarinda ESIGIN KENDISI var) ·
+  Level-1 gecti 58 · IHLAL 0 · muaf 10 · baska hata 0 · sorulamadi 0 · figur 10/10 ·
+  mutlak yol 0 · kapsam 0 · check_numbers cikis 0 · oz sinama 13/13.
+  Rapor: diagnostics/reports/2026-08-17c_kanonik_bant.md
 - N14 defterin 28 kayitsiz kalemi (17 Agu, N13'un devami): KAYITSIZ 0. Denetci makaleye karsi
   artik CIKIS 0 veriyor -- ama bu tek basina okunmaz, oz sinama 7/7'den 11/11'e cikti ve BUGUN
   BAGLANAN sayilar da geri konup yakalandi. Sayim: 719 jeton · 617 bagli · 16 turetilmis ·

@@ -188,6 +188,13 @@ def cells_from_r3_tstar(p):
     for tag, r in d.get("results", {}).items():
         for k in ("T_star_nll", "T_star_ece", "abs_dT", "d_ece", "ece_removed_by_ts"):
             out[f"R3-2/{tag}/{k}"] = (r.get(k), None, None)
+        # KANONIK vs TEYIT blogu (17 Agu, N14): ayni niceligi hesaplayan ikinci uygulama ile
+        # farki, ve AMAC FONKSIYONUNDAKI fark. Kayitli olmasi sart -- teyidin kendisi kayar da
+        # kimse gormezse teyit degil gozlem olur.
+        x = r.get("cross_fit") or {}
+        for k in ("confirm_T_star", "abs_dT", "d_nll", "d_ece"):
+            if k in x:
+                out[f"R3-2/{tag}/cross_fit/{k}"] = (x[k], None, None)
     return out
 
 
@@ -747,6 +754,15 @@ def cells_from_number_ledger(p):
         out[f"N13/count/{k}"] = (v, None, None)
     for e in d.get("prose_entries") or []:
         out[f"N13/prose/{e['id']}"] = (e.get("exact"), None, None)
+    # TEYIT KAYITLARI (17 Agu, N14): iki kaynagin degeri, ayrismasi ve ESIGI. Esik makalenin
+    # kendi hassasiyetinden turetiliyor, yani tablolar daha cok basamak basmaya baslarsa esik
+    # KENDILIGINDEN siklasir -- o degisimin kapida gorunmesi gerekir.
+    for e in d.get("cross_checks") or []:
+        out[f"N13/xcheck/{e['id']}/canonical"] = (e["canonical"]["value"], None, None)
+        out[f"N13/xcheck/{e['id']}/confirm"] = (e["confirm"]["value"], None, None)
+        out[f"N13/xcheck/{e['id']}/abs_diff"] = (e.get("abs_diff"), None, None)
+        out[f"N13/xcheck/{e['id']}/tolerance"] = (e.get("tolerance"), None, None)
+        out[f"N13/xcheck/{e['id']}/ok"] = (int(bool(e.get("matches"))), None, None)
     out["N13/unbound_ids"] = (len(d.get("unbound") or []), None, None)
     return out
 

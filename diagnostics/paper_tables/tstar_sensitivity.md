@@ -15,3 +15,15 @@ Producer: `diagnostics/tstar_sensitivity.py` · `T*_NLL` is the deployed fit (`s
 
 > ⚠️ **Non-smooth surface.** ECE(T) is a binned statistic and is piecewise constant in places, so the continuous optimiser can settle away from the global minimum. Rows marked LOCAL-MIN are exactly those; the dense-grid value (step 0.005, 0.1–3.0) is printed beside them and is the one to quote for those teachers.
 
+## Canonical vs. confirming fit of the same quantity
+
+`T*_NLL` is computed here by `student_ts_baseline.fit_ts` (the function the campaign deploys) and, independently, by `teacher_ece_grid.fit_temperature`. The second value is relayed verbatim by `p4_teacher_selection` and by `temperature_fit.json`, so three artifacts carry **two** computations. The two are **deliberately not merged**: two implementations agreeing on one quantity is a cross-check, and merging them would destroy it. This table is the confirmation record — and it reports the difference in the **objective**, not only in T, because a difference in T says nothing on its own about whether the fit disagrees.
+
+| teacher | canonical T\* (`fit_ts`) | confirming T\* (`fit_temperature`) | **\|ΔT\*\|** | NLL @canonical | NLL @confirming | **ΔNLL** | ΔECE |
+|---|---|---|---|---|---|---|---|
+| stage1 | 1.3493829 | 1.3493927 | **9.87e-06** | 0.266843945 | 0.266843945 | **+0.00e+00** | +0.000000 |
+| primary | 1.2613452 | 1.2613412 | **4.05e-06** | 0.287202418 | 0.287202418 | **+0.00e+00** | -0.000000 |
+| vae9182 | 0.9830837 | 0.9829375 | **1.46e-04** | 0.264166683 | 0.264166713 | **+2.98e-08** | +0.000038 |
+
+Largest disagreement in T is **vae9182** at 1.46e-04, yet the objective separates the two candidates by only +2.98e-08 in NLL. The two fitters are therefore at the same optimum to within their own convergence tolerance; the residual is the parameterisation (log-space vs. linear box), not the estimand. FERPlus has no second fit, so it has no row here.
+

@@ -12,6 +12,7 @@ Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_s
 | declared not-a-measurement | 90 |
 | **unregistered** | **0** |
 | printed-vs-field mismatch | 0 |
+| confirmation records (second source) | 3 (0 failing) |
 | layout tokens dropped by the scanner | 166 |
 
 ## Scope (declared)
@@ -27,6 +28,27 @@ None — every in-scope number is bound, derived or declared.
 ## Mismatches
 
 None.
+
+## Confirmation records (same quantity, second source)
+
+Some quantities are computed twice by independent implementations. They are **deliberately not merged**: agreement between two computations is a cross-check, and merging destroys it. One source is declared canonical and bound; the other is recorded here and audited. The tolerance is not hand-written — it is `0.5 x 10^-d`, where `d` is the **tightest rounding the paper uses for that quantity**, so the gate tightens automatically if a table starts printing more digits. A second, sharper gate is structural: both sources must round to the same value at *every* rounding declared for that field.
+
+| quantity | canonical | confirming | \|diff\| | tolerance | roundings | ok |
+|---|---|---|---|---|---|---|
+| T*_NLL (stage1, tam fold) | `results.stage1.T_star_nll` = 1.3493829 | `stage1.T_star` = 1.3493927 | 9.87e-06 | 5.0e-05 | 2dp, 3dp, 4dp | yes |
+| T*_NLL (primary, tam fold) | `results.primary.T_star_nll` = 1.2613452 | `primary.T_star` = 1.2613412 | 4.05e-06 | 5.0e-04 | 3dp | yes |
+| T*_NLL (vae9182, tam fold) | `results.vae9182.T_star_nll` = 0.9830837 | `vae9182.T_star` = 0.9829375 | 1.46e-04 | 5.0e-04 | 2dp, 3dp | yes |
+
+Relays — artifacts that **copy** the confirming value rather than computing it. A drifted relay would produce a silently false confirmation.
+
+| quantity | relay | value | exact copy |
+|---|---|---|---|
+| T*_NLL (stage1, tam fold) | `p4_teacher_selection/p4_teacher_selection.json` → `recipe_step3_ranking.rows[teacher=stage1].T_star` | 1.3493927 | yes |
+| T*_NLL (stage1, tam fold) | `paper_tables/tstar_provenance.json` → `full_fold_fits.stage1` | 1.3493927 | yes |
+| T*_NLL (primary, tam fold) | `p4_teacher_selection/p4_teacher_selection.json` → `recipe_step3_ranking.rows[teacher=primary].T_star` | 1.2613412 | yes |
+| T*_NLL (primary, tam fold) | `paper_tables/tstar_provenance.json` → `full_fold_fits.primary` | 1.2613412 | yes |
+| T*_NLL (vae9182, tam fold) | `p4_teacher_selection/p4_teacher_selection.json` → `recipe_step3_ranking.rows[teacher=vae9182].T_star` | 0.9829375 | yes |
+| T*_NLL (vae9182, tam fold) | `paper_tables/tstar_provenance.json` → `full_fold_fits.vae9182` | 0.9829375 | yes |
 
 ## Derived quantities
 
@@ -492,19 +514,19 @@ None.
 | `tab_mechanisms.foot.vae9182.none.13` | 0.0027 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][teacher=vae9182][class_weight_mode=none][axis=ece].control_sd` | 4dp |
 | `tab_selection.stage1.teacher_acc` | 92.24 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].teacher_acc` | 2dp |
 | `tab_selection.stage1.teacher_ece` | 0.0378 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].teacher_ece` | 4dp |
-| `tab_selection.stage1.T_star` | 1.349 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].T_star` | 3dp |
+| `tab_selection.stage1.T_star` | 1.349 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 3dp |
 | `tab_selection.stage1.student_acc_mean` | 89.75 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_mean` | 2dp |
 | `tab_selection.stage1.student_acc_sd` | 0.08 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.acc_sd` | 2dp |
 | `tab_selection.stage1.student_ece` | 0.0627 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.best.ece_mean` | 4dp |
 | `tab_selection.primary.teacher_acc` | 92.01 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].teacher_acc` | 2dp |
 | `tab_selection.primary.teacher_ece` | 0.0396 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].teacher_ece` | 4dp |
-| `tab_selection.primary.T_star` | 1.261 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].T_star` | 3dp |
+| `tab_selection.primary.T_star` | 1.261 | `paper_tables/tstar_sensitivity.json` | `results.primary.T_star_nll` | 3dp |
 | `tab_selection.primary.student_acc_mean` | 89.57 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].student_by_ckpt.best.acc_mean` | 2dp |
 | `tab_selection.primary.student_acc_sd` | 0.09 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].student_by_ckpt.best.acc_sd` | 2dp |
 | `tab_selection.primary.student_ece` | 0.0606 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].student_by_ckpt.best.ece_mean` | 4dp |
 | `tab_selection.vae9182.teacher_acc` | 91.82 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].teacher_acc` | 2dp |
 | `tab_selection.vae9182.teacher_ece` | 0.0136 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].teacher_ece` | 4dp |
-| `tab_selection.vae9182.T_star` | 0.983 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].T_star` | 3dp |
+| `tab_selection.vae9182.T_star` | 0.983 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 3dp |
 | `tab_selection.vae9182.student_acc_mean` | 90.28 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_mean` | 2dp |
 | `tab_selection.vae9182.student_acc_sd` | 0.19 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.acc_sd` | 2dp |
 | `tab_selection.vae9182.student_ece` | 0.0274 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.best.ece_mean` | 4dp |

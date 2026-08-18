@@ -76,7 +76,12 @@ def main():
     ap.add_argument("--expected-acc", type=float, default=91.34,
                     help="known own-accuracy of this teacher; guards against a config/ckpt mispairing")
     ap.add_argument("--acc-tol", type=float, default=0.5)
-    args = ap.parse_args()
+    # `parse_known_args` -- deponun standart kuralı (bkz. bootstrap_cis.py): Level-1 kapısı
+    # üreticileri `runpy` ile çağırıyor ve betiğin YOLU argv'de kalıyor; `parse_args` orada
+    # SystemExit atıp kapıyı "başka hata"ya düşürüyor, yani kapı Level-1 sorusunu HİÇ soramıyor.
+    # 17 Ağu 2026'da bu betik ihraç bandına girdiği gün tam bunu yaşadı: artefakt kayda geçince
+    # üreticisi ilk kez kapıya girdi ve argümansız çağrılamadığı ortaya çıktı.
+    args, _unknown = ap.parse_known_args()
 
     cfg = argparse.Namespace()
     load_yaml(cfg, str(PROJECT_ROOT / args.config))

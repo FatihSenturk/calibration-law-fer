@@ -181,6 +181,8 @@
     "mismatch": 0,
     "derived_mismatch": 0,
     "prose": 1,
+    "cross_checks": 3,
+    "cross_check_fail": 0,
     "problems": 0
   },
   "entries": [
@@ -7211,9 +7213,9 @@
     {
       "id": "tab_selection.stage1.T_star",
       "printed": "1.349",
-      "artifact": "p4_teacher_selection/p4_teacher_selection.json",
-      "path": "recipe_step3_ranking.rows[teacher=stage1].T_star",
-      "exact": 1.3493927210953593,
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.T_star_nll",
+      "exact": 1.3493828549261861,
       "rounding": "3dp",
       "rounded": "1.349",
       "matches": true,
@@ -7307,9 +7309,9 @@
     {
       "id": "tab_selection.primary.T_star",
       "printed": "1.261",
-      "artifact": "p4_teacher_selection/p4_teacher_selection.json",
-      "path": "recipe_step3_ranking.rows[teacher=primary].T_star",
-      "exact": 1.2613411785961113,
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.primary.T_star_nll",
+      "exact": 1.261345227620692,
       "rounding": "3dp",
       "rounded": "1.261",
       "matches": true,
@@ -7403,9 +7405,9 @@
     {
       "id": "tab_selection.vae9182.T_star",
       "printed": "0.983",
-      "artifact": "p4_teacher_selection/p4_teacher_selection.json",
-      "path": "recipe_step3_ranking.rows[teacher=vae9182].T_star",
-      "exact": 0.9829375448886304,
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_nll",
+      "exact": 0.9830836723309966,
       "rounding": "3dp",
       "rounded": "0.983",
       "matches": true,
@@ -10619,6 +10621,119 @@
         "0.711",
         "0.74"
       ]
+    }
+  ],
+  "cross_checks": [
+    {
+      "id": "tstar_nll.stage1",
+      "quantity": "T*_NLL (stage1, tam fold)",
+      "canonical": {
+        "artifact": "paper_tables/tstar_sensitivity.json",
+        "path": "results.stage1.T_star_nll",
+        "value": 1.3493828549261861
+      },
+      "confirm": {
+        "artifact": "teacher_ece_grid/teacher_ece_grid.json",
+        "path": "stage1.T_star",
+        "value": 1.3493927210953593
+      },
+      "abs_diff": 9.86616917320049e-06,
+      "tolerance": 5e-05,
+      "tolerance_from": "en siki yuvarlama 4dp",
+      "roundings_in_paper": [
+        "2dp",
+        "3dp",
+        "4dp"
+      ],
+      "why": "kanonik `student_ts_baseline.fit_ts` (log-uzay Brent, kampanyanin dagittigi fit); teyit `teacher_ece_grid.fit_temperature` (bagimsiz uygulama). p4 ve tstar_provenance teyit degerini AYNEN roleliyor, dolayisiyla uc artefakt IKI hesap tasiyor. Amac farki `tstar_sensitivity.results.<t>.cross_fit.d_nll` altinda olculuyor.",
+      "relays": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=stage1].T_star",
+          "value": 1.3493927210953593,
+          "exact_copy": true
+        },
+        {
+          "artifact": "paper_tables/tstar_provenance.json",
+          "path": "full_fold_fits.stage1",
+          "value": 1.3493927210953593,
+          "exact_copy": true
+        }
+      ],
+      "matches": true
+    },
+    {
+      "id": "tstar_nll.primary",
+      "quantity": "T*_NLL (primary, tam fold)",
+      "canonical": {
+        "artifact": "paper_tables/tstar_sensitivity.json",
+        "path": "results.primary.T_star_nll",
+        "value": 1.261345227620692
+      },
+      "confirm": {
+        "artifact": "teacher_ece_grid/teacher_ece_grid.json",
+        "path": "primary.T_star",
+        "value": 1.2613411785961113
+      },
+      "abs_diff": 4.049024580732308e-06,
+      "tolerance": 0.0005,
+      "tolerance_from": "en siki yuvarlama 3dp",
+      "roundings_in_paper": [
+        "3dp"
+      ],
+      "why": "kanonik `student_ts_baseline.fit_ts` (log-uzay Brent, kampanyanin dagittigi fit); teyit `teacher_ece_grid.fit_temperature` (bagimsiz uygulama). p4 ve tstar_provenance teyit degerini AYNEN roleliyor, dolayisiyla uc artefakt IKI hesap tasiyor. Amac farki `tstar_sensitivity.results.<t>.cross_fit.d_nll` altinda olculuyor.",
+      "relays": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=primary].T_star",
+          "value": 1.2613411785961113,
+          "exact_copy": true
+        },
+        {
+          "artifact": "paper_tables/tstar_provenance.json",
+          "path": "full_fold_fits.primary",
+          "value": 1.2613411785961113,
+          "exact_copy": true
+        }
+      ],
+      "matches": true
+    },
+    {
+      "id": "tstar_nll.vae9182",
+      "quantity": "T*_NLL (vae9182, tam fold)",
+      "canonical": {
+        "artifact": "paper_tables/tstar_sensitivity.json",
+        "path": "results.vae9182.T_star_nll",
+        "value": 0.9830836723309966
+      },
+      "confirm": {
+        "artifact": "teacher_ece_grid/teacher_ece_grid.json",
+        "path": "vae9182.T_star",
+        "value": 0.9829375448886304
+      },
+      "abs_diff": 0.00014612744236619513,
+      "tolerance": 0.0005,
+      "tolerance_from": "en siki yuvarlama 3dp",
+      "roundings_in_paper": [
+        "2dp",
+        "3dp"
+      ],
+      "why": "kanonik `student_ts_baseline.fit_ts` (log-uzay Brent, kampanyanin dagittigi fit); teyit `teacher_ece_grid.fit_temperature` (bagimsiz uygulama). p4 ve tstar_provenance teyit degerini AYNEN roleliyor, dolayisiyla uc artefakt IKI hesap tasiyor. Amac farki `tstar_sensitivity.results.<t>.cross_fit.d_nll` altinda olculuyor.",
+      "relays": [
+        {
+          "artifact": "p4_teacher_selection/p4_teacher_selection.json",
+          "path": "recipe_step3_ranking.rows[teacher=vae9182].T_star",
+          "value": 0.9829375448886304,
+          "exact_copy": true
+        },
+        {
+          "artifact": "paper_tables/tstar_provenance.json",
+          "path": "full_fold_fits.vae9182",
+          "value": 0.9829375448886304,
+          "exact_copy": true
+        }
+      ],
+      "matches": true
     }
   ],
   "unbound": [],
