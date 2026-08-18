@@ -131,7 +131,9 @@ büyüklükler. Ve belirleyici olan şu — **altısı da hâlihazırda public G
 dosyalar**, yani Drive bandından daha geniş bir dağıtımda zaten duruyorlar; lisans sorusu bant
 genişlemesinden önce de yanıtlanmıştı. Kapsam dışı bırakılan dosya **yok**.
 
-Bant: 178 → **184 dosya**. İhraçta 6 yeni dosya, 0 çakışma.
+Bant: 178 → **184 dosya** (6 yeni artefakt, 0 çakışma). §2.2'deki Level-1 düzeltmesi bir dosya
+daha ekledi (`ferplus_student_jsd_rows.json`) ve bu raporun kendisi de banda giriyor, yani
+nihai sayı **186**.
 
 ### 2.1 Bant genişlemesinin beklenmeyen getirisi: Level-1 kapısı iki üreticiyi İLK KEZ gördü
 
