@@ -164,7 +164,10 @@ def main():
     # --- teyit beyani bosa dustu: kanonik yol makalede hicbir hucreye bagli degil, dolayisiyla
     # toleransi turetecek yuvarlama da yok. Teyit ettigini sandigin sey makalede gecmiyorsa
     # teyit bir sey ifade etmez -- bu yuzden SORUN olarak raporlanir, sessizce atlanmaz.
-    xc["canonical"] = (xc["canonical"][0], "results.stage1.T_star_ece")
+    # `T_star_ece` 18 Agu'da S2'nin app_tstar tablosuna BAGLANDI, yani artik bagsiz degil --
+    # senaryo kendi on kabulunu kaybetmisti ve oz sinama bunu yakaladi. Bagsiz kalan bir alan
+    # secildi: `abs_dT` makalede hicbir hucreye basilmiyor.
+    xc["canonical"] = (xc["canonical"][0], "results.stage1.abs_dT")
     pl, kinds = run(clean)
     got = kinds.count("cross_check_unbound")
     good = got >= 1

@@ -14,6 +14,7 @@
     "not_a_measurement": [
       "architecture_dim",
       "benchmark_protocol",
+      "citation",
       "column_header",
       "criterion_constant",
       "date",
@@ -172,15 +173,17 @@
     }
   ],
   "counts": {
-    "tokens": 719,
-    "bound": 617,
-    "derived": 16,
-    "exempt": 90,
-    "unbound": 0,
-    "layout_dropped": 166,
+    "tokens": 862,
+    "bound": 687,
+    "derived": 21,
+    "exempt": 150,
+    "unbound": 8,
+    "layout_dropped": 178,
     "mismatch": 0,
     "derived_mismatch": 0,
     "prose": 1,
+    "derived_in_scope": 17,
+    "derived_prose_anchored": 4,
     "cross_checks": 3,
     "cross_check_fail": 0,
     "problems": 0
@@ -10057,6 +10060,1126 @@
       "token": "abstract|s-1|standardisation harms calibration at a median 27 its|0",
       "row": "standardisation harms calibration at a median 27 its",
       "idx": 0
+    },
+    {
+      "id": "app_tstar.stage1.T_star_nll",
+      "printed": "1.349",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.T_star_nll",
+      "exact": 1.3493828549261861,
+      "rounding": "3dp",
+      "rounded": "1.349",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:250"
+      ],
+      "token": "app_tstar|s-1|stage1|0",
+      "row": "stage1",
+      "idx": 0
+    },
+    {
+      "id": "app_tstar.stage1.T_star_ece",
+      "printed": "1.320",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.T_star_ece",
+      "exact": 1.3198265386272678,
+      "rounding": "3dp",
+      "rounded": "1.320",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:250"
+      ],
+      "token": "app_tstar|s-1|stage1|1",
+      "row": "stage1",
+      "idx": 1
+    },
+    {
+      "id": "app_tstar.stage1.d_ece",
+      "printed": "+0.0015",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.d_ece",
+      "exact": 0.0015353928119760125,
+      "rounding": "4dp",
+      "rounded": "0.0015",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:250"
+      ],
+      "token": "app_tstar|s-1|stage1|2",
+      "row": "stage1",
+      "idx": 2
+    },
+    {
+      "id": "app_tstar.stage1.ece_removed_by_ts",
+      "printed": "+0.0220",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.ece_removed_by_ts",
+      "exact": 0.0219799084042477,
+      "rounding": "4dp",
+      "rounded": "0.0220",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:250"
+      ],
+      "token": "app_tstar|s-1|stage1|3",
+      "row": "stage1",
+      "idx": 3
+    },
+    {
+      "id": "app_tstar.primary.T_star_nll",
+      "printed": "1.261",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.primary.T_star_nll",
+      "exact": 1.261345227620692,
+      "rounding": "3dp",
+      "rounded": "1.261",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:252"
+      ],
+      "token": "app_tstar|s-1|primary|0",
+      "row": "primary",
+      "idx": 0
+    },
+    {
+      "id": "app_tstar.primary.T_star_ece",
+      "printed": "1.244",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.primary.T_star_ece",
+      "exact": 1.244135499501715,
+      "rounding": "3dp",
+      "rounded": "1.244",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:252"
+      ],
+      "token": "app_tstar|s-1|primary|1",
+      "row": "primary",
+      "idx": 1
+    },
+    {
+      "id": "app_tstar.primary.d_ece",
+      "printed": "+0.0015",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.primary.d_ece",
+      "exact": 0.0014593679909600393,
+      "rounding": "4dp",
+      "rounded": "0.0015",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:252"
+      ],
+      "token": "app_tstar|s-1|primary|2",
+      "row": "primary",
+      "idx": 2
+    },
+    {
+      "id": "app_tstar.primary.ece_removed_by_ts",
+      "printed": "+0.0199",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.primary.ece_removed_by_ts",
+      "exact": 0.019851174079260583,
+      "rounding": "4dp",
+      "rounded": "0.0199",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:252"
+      ],
+      "token": "app_tstar|s-1|primary|3",
+      "row": "primary",
+      "idx": 3
+    },
+    {
+      "id": "app_tstar.vae9182.T_star_nll",
+      "printed": "0.983",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_nll",
+      "exact": 0.9830836723309966,
+      "rounding": "3dp",
+      "rounded": "0.983",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:253"
+      ],
+      "token": "app_tstar|s-1|control|0",
+      "row": "control",
+      "idx": 0
+    },
+    {
+      "id": "app_tstar.vae9182.T_star_ece",
+      "printed": "1.057",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_ece",
+      "exact": 1.0571991741999642,
+      "rounding": "3dp",
+      "rounded": "1.057",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:253"
+      ],
+      "token": "app_tstar|s-1|control|1",
+      "row": "control",
+      "idx": 1
+    },
+    {
+      "id": "app_tstar.vae9182.d_ece",
+      "printed": "+0.0043",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.d_ece",
+      "exact": 0.004324022903941288,
+      "rounding": "4dp",
+      "rounded": "0.0043",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:253"
+      ],
+      "token": "app_tstar|s-1|control|2",
+      "row": "control",
+      "idx": 2
+    },
+    {
+      "id": "app_tstar.vae9182.ece_removed_by_ts",
+      "printed": "-0.0010",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.ece_removed_by_ts",
+      "exact": -0.0010179141402788562,
+      "rounding": "4dp",
+      "rounded": "-0.0010",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:253"
+      ],
+      "token": "app_tstar|s-1|control|3",
+      "row": "control",
+      "idx": 3
+    },
+    {
+      "id": "app_tstar.ferplus.T_star_nll",
+      "printed": "0.506",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.ferplus.T_star_nll",
+      "exact": 0.5063844589955608,
+      "rounding": "3dp",
+      "rounded": "0.506",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:254"
+      ],
+      "token": "app_tstar|s-1|FERPlus|0",
+      "row": "FERPlus",
+      "idx": 0
+    },
+    {
+      "id": "app_tstar.ferplus.T_star_ece",
+      "printed": "0.453",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.ferplus.T_star_ece",
+      "exact": 0.45304659827458493,
+      "rounding": "3dp",
+      "rounded": "0.453",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:254"
+      ],
+      "token": "app_tstar|s-1|FERPlus|1",
+      "row": "FERPlus",
+      "idx": 1
+    },
+    {
+      "id": "app_tstar.ferplus.d_ece",
+      "printed": "+0.0085",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.ferplus.d_ece",
+      "exact": 0.008461177850049375,
+      "rounding": "4dp",
+      "rounded": "0.0085",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:254"
+      ],
+      "token": "app_tstar|s-1|FERPlus|2",
+      "row": "FERPlus",
+      "idx": 2
+    },
+    {
+      "id": "app_tstar.ferplus.ece_removed_by_ts",
+      "printed": "+0.1126",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.ferplus.ece_removed_by_ts",
+      "exact": 0.11259259962672624,
+      "rounding": "4dp",
+      "rounded": "0.1126",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:254"
+      ],
+      "token": "app_tstar|s-1|FERPlus|3",
+      "row": "FERPlus",
+      "idx": 3
+    },
+    {
+      "id": "app_tstar.caption.half_fold",
+      "printed": "1.3406",
+      "artifact": "paper_tables/tstar_provenance.json",
+      "path": "half_fold_fits.stage1",
+      "exact": 1.3405690339579057,
+      "rounding": "4dp",
+      "rounded": "1.3406",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:237"
+      ],
+      "token": "app_tstar|s-1|text says so (FERPlus and Stage1 at a half-fold fit of 1.3406|1",
+      "row": "text says so (FERPlus and Stage1 at a half-fold fit of 1.3406",
+      "idx": 1
+    },
+    {
+      "id": "app_tstar.caption.full_fold",
+      "printed": "1.3494",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.T_star_nll",
+      "exact": 1.3493828549261861,
+      "rounding": "4dp",
+      "rounded": "1.3494",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:238"
+      ],
+      "token": "app_tstar|s-1|against the full-fold 1.3494 ; main text|0",
+      "row": "against the full-fold 1.3494 ; main text",
+      "idx": 0
+    },
+    {
+      "id": "app_tstar.caption.dense_step",
+      "printed": "0.005",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "dense_grid.step",
+      "exact": 0.005,
+      "rounding": "3dp",
+      "rounded": "0.005",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:241"
+      ],
+      "token": "app_tstar|s-1|local minimum; the dense-grid check (step 0.005 ) gives ECE 0.0142|0",
+      "row": "local minimum; the dense-grid check (step 0.005 ) gives ECE 0.0142",
+      "idx": 0
+    },
+    {
+      "id": "app_tstar.caption.dense_ece",
+      "printed": "0.0142",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.dense_grid_ece",
+      "exact": 0.0141730546426742,
+      "rounding": "4dp",
+      "rounded": "0.0142",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:241"
+      ],
+      "token": "app_tstar|s-1|local minimum; the dense-grid check (step 0.005 ) gives ECE 0.0142|1",
+      "row": "local minimum; the dense-grid check (step 0.005 ) gives ECE 0.0142",
+      "idx": 1
+    },
+    {
+      "id": "app_tstar.caption.dense_T",
+      "printed": "1.335",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.stage1.dense_grid_T",
+      "exact": 1.3350000000000013,
+      "rounding": "3dp",
+      "rounded": "1.335",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:242"
+      ],
+      "token": "app_tstar|s-1|at T = 1.335 and is the value to quote there.|0",
+      "row": "at T = 1.335 and is the value to quote there.",
+      "idx": 0
+    },
+    {
+      "id": "app_jsd.(a) all rows.n",
+      "printed": "3153",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(a) all rows\"].n",
+      "exact": 3153.0,
+      "rounding": "int",
+      "rounded": "3153",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:286"
+      ],
+      "token": "app_jsd|s-1|all rows|0",
+      "row": "all rows",
+      "idx": 0
+    },
+    {
+      "id": "app_jsd.(a) all rows.T_ece",
+      "printed": "0.46",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(a) all rows\"].T_ece",
+      "exact": 0.46,
+      "rounding": "2dp",
+      "rounded": "0.46",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:286"
+      ],
+      "token": "app_jsd|s-1|all rows|1",
+      "row": "all rows",
+      "idx": 1
+    },
+    {
+      "id": "app_jsd.(a) all rows.T_nll",
+      "printed": "0.50",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(a) all rows\"].T_nll",
+      "exact": 0.5,
+      "rounding": "2dp",
+      "rounded": "0.50",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:286"
+      ],
+      "token": "app_jsd|s-1|all rows|2",
+      "row": "all rows",
+      "idx": 2
+    },
+    {
+      "id": "app_jsd.(a) all rows.T_jsd",
+      "printed": "0.74",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(a) all rows\"].T_jsd",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:286"
+      ],
+      "token": "app_jsd|s-1|all rows|3",
+      "row": "all rows",
+      "idx": 3
+    },
+    {
+      "id": "app_jsd.(b) vote sum = 10.n",
+      "printed": "1977",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(b) vote sum = 10\"].n",
+      "exact": 1977.0,
+      "rounding": "int",
+      "rounded": "1977",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:288"
+      ],
+      "token": "app_jsd|s-1|vote sum =10|0",
+      "row": "vote sum =10",
+      "idx": 0
+    },
+    {
+      "id": "app_jsd.(b) vote sum = 10.T_ece",
+      "printed": "0.42",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(b) vote sum = 10\"].T_ece",
+      "exact": 0.42,
+      "rounding": "2dp",
+      "rounded": "0.42",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:288"
+      ],
+      "token": "app_jsd|s-1|vote sum =10|1",
+      "row": "vote sum =10",
+      "idx": 1
+    },
+    {
+      "id": "app_jsd.(b) vote sum = 10.T_nll",
+      "printed": "0.46",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(b) vote sum = 10\"].T_nll",
+      "exact": 0.46,
+      "rounding": "2dp",
+      "rounded": "0.46",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:288"
+      ],
+      "token": "app_jsd|s-1|vote sum =10|2",
+      "row": "vote sum =10",
+      "idx": 2
+    },
+    {
+      "id": "app_jsd.(b) vote sum = 10.T_jsd",
+      "printed": "0.74",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(b) vote sum = 10\"].T_jsd",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:288"
+      ],
+      "token": "app_jsd|s-1|vote sum =10|3",
+      "row": "vote sum =10",
+      "idx": 3
+    },
+    {
+      "id": "app_jsd.(c) stratum 6-7.n",
+      "printed": "28",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 6-7\"].n",
+      "exact": 28.0,
+      "rounding": "int",
+      "rounded": "28",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:289"
+      ],
+      "token": "app_jsd|s-1|stratum 6--7|0",
+      "row": "stratum 6--7",
+      "idx": 0
+    },
+    {
+      "id": "app_jsd.(c) stratum 6-7.T_ece",
+      "printed": "0.74",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 6-7\"].T_ece",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:289"
+      ],
+      "token": "app_jsd|s-1|stratum 6--7|1",
+      "row": "stratum 6--7",
+      "idx": 1
+    },
+    {
+      "id": "app_jsd.(c) stratum 6-7.T_nll",
+      "printed": "0.70",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 6-7\"].T_nll",
+      "exact": 0.7,
+      "rounding": "2dp",
+      "rounded": "0.70",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:289"
+      ],
+      "token": "app_jsd|s-1|stratum 6--7|2",
+      "row": "stratum 6--7",
+      "idx": 2
+    },
+    {
+      "id": "app_jsd.(c) stratum 6-7.T_jsd",
+      "printed": "0.88",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 6-7\"].T_jsd",
+      "exact": 0.88,
+      "rounding": "2dp",
+      "rounded": "0.88",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:289"
+      ],
+      "token": "app_jsd|s-1|stratum 6--7|3",
+      "row": "stratum 6--7",
+      "idx": 3
+    },
+    {
+      "id": "app_jsd.(c) stratum 8-9.n",
+      "printed": "1148",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 8-9\"].n",
+      "exact": 1148.0,
+      "rounding": "int",
+      "rounded": "1148",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:290"
+      ],
+      "token": "app_jsd|s-1|stratum 8--9|0",
+      "row": "stratum 8--9",
+      "idx": 0
+    },
+    {
+      "id": "app_jsd.(c) stratum 8-9.T_ece",
+      "printed": "0.46",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 8-9\"].T_ece",
+      "exact": 0.46,
+      "rounding": "2dp",
+      "rounded": "0.46",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:290"
+      ],
+      "token": "app_jsd|s-1|stratum 8--9|1",
+      "row": "stratum 8--9",
+      "idx": 1
+    },
+    {
+      "id": "app_jsd.(c) stratum 8-9.T_nll",
+      "printed": "0.54",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 8-9\"].T_nll",
+      "exact": 0.54,
+      "rounding": "2dp",
+      "rounded": "0.54",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:290"
+      ],
+      "token": "app_jsd|s-1|stratum 8--9|2",
+      "row": "stratum 8--9",
+      "idx": 2
+    },
+    {
+      "id": "app_jsd.(c) stratum 8-9.T_jsd",
+      "printed": "0.74",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 8-9\"].T_jsd",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:290"
+      ],
+      "token": "app_jsd|s-1|stratum 8--9|3",
+      "row": "stratum 8--9",
+      "idx": 3
+    },
+    {
+      "id": "app_jsd.(c) stratum 10.n",
+      "printed": "1977",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 10\"].n",
+      "exact": 1977.0,
+      "rounding": "int",
+      "rounded": "1977",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:291"
+      ],
+      "token": "app_jsd|s-1|stratum 10|0",
+      "row": "stratum 10",
+      "idx": 0
+    },
+    {
+      "id": "app_jsd.(c) stratum 10.T_ece",
+      "printed": "0.42",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 10\"].T_ece",
+      "exact": 0.42,
+      "rounding": "2dp",
+      "rounded": "0.42",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:291"
+      ],
+      "token": "app_jsd|s-1|stratum 10|1",
+      "row": "stratum 10",
+      "idx": 1
+    },
+    {
+      "id": "app_jsd.(c) stratum 10.T_nll",
+      "printed": "0.46",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 10\"].T_nll",
+      "exact": 0.46,
+      "rounding": "2dp",
+      "rounded": "0.46",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:291"
+      ],
+      "token": "app_jsd|s-1|stratum 10|2",
+      "row": "stratum 10",
+      "idx": 2
+    },
+    {
+      "id": "app_jsd.(c) stratum 10.T_jsd",
+      "printed": "0.74",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 10\"].T_jsd",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:291"
+      ],
+      "token": "app_jsd|s-1|stratum 10|3",
+      "row": "stratum 10",
+      "idx": 3
+    },
+    {
+      "id": "app_argmin.RAF-DB stage1.consensus_T",
+      "printed": "1.34",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"RAF-DB stage1\"]._consensus_T",
+      "exact": 1.3406,
+      "rounding": "2dp",
+      "rounded": "1.34",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:181"
+      ],
+      "token": "app_argmin|s-1|RAF-DB stage1|0",
+      "row": "RAF-DB stage1",
+      "idx": 0
+    },
+    {
+      "id": "app_argmin.RAF-DB vae9182.consensus_T",
+      "printed": "1.00",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"RAF-DB vae9182\"]._consensus_T",
+      "exact": 1.0,
+      "rounding": "2dp",
+      "rounded": "1.00",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:183"
+      ],
+      "token": "app_argmin|s-1|RAF-DB control|0",
+      "row": "RAF-DB control",
+      "idx": 0
+    },
+    {
+      "id": "app_argmin.FERPlus.consensus_T",
+      "printed": "0.51",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"FERPlus\"]._consensus_T",
+      "exact": 0.5063,
+      "rounding": "2dp",
+      "rounded": "0.51",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:184"
+      ],
+      "token": "app_argmin|s-1|FERPlus|0",
+      "row": "FERPlus",
+      "idx": 0
+    },
+    {
+      "id": "robust.total_runs",
+      "printed": "42",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "total_runs",
+      "exact": 42.0,
+      "rounding": "int",
+      "rounded": "42",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:156"
+      ],
+      "token": "robust|s-1|Every run of the three dose--response series ( 42 runs) was|0",
+      "row": "Every run of the three dose--response series ( 42 runs) was",
+      "idx": 0
+    },
+    {
+      "id": "robust.total_runs_2",
+      "printed": "42",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "total_runs",
+      "exact": 42.0,
+      "rounding": "int",
+      "rounded": "42",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:163"
+      ],
+      "token": "robust|s-1|bottoms out. Across 42 runs and seven metrics 224 of 231|0",
+      "row": "bottoms out. Across 42 runs and seven metrics 224 of 231",
+      "idx": 0
+    },
+    {
+      "id": "robust.total_steps",
+      "printed": "231",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "total_steps",
+      "exact": 231.0,
+      "rounding": "int",
+      "rounded": "231",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:163"
+      ],
+      "token": "robust|s-1|bottoms out. Across 42 runs and seven metrics 224 of 231|2",
+      "row": "bottoms out. Across 42 runs and seven metrics 224 of 231",
+      "idx": 2
+    },
+    {
+      "id": "robust.max_criterion_cost",
+      "printed": "0.0085",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "max_d_ece",
+      "exact": 0.008461177850049375,
+      "rounding": "4dp",
+      "rounded": "0.0085",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:201"
+      ],
+      "token": "robust|s-1|the ECE minimum costs at most 0.0085 ECE 13 -- 14 times less than|0",
+      "row": "the ECE minimum costs at most 0.0085 ECE 13 -- 14 times less than",
+      "idx": 0
+    },
+    {
+      "id": "robust.control_T_nll",
+      "printed": "0.98",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_nll",
+      "exact": 0.9830836723309966,
+      "rounding": "2dp",
+      "rounded": "0.98",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:203"
+      ],
+      "token": "robust|s-1|two criteria disagree in direction: the NLL fit ( T = 0.98 )|0",
+      "row": "two criteria disagree in direction: the NLL fit ( T = 0.98 )",
+      "idx": 0
+    },
+    {
+      "id": "robust.control_T_ece",
+      "printed": "1.06",
+      "artifact": "paper_tables/tstar_sensitivity.json",
+      "path": "results.vae9182.T_star_ece",
+      "exact": 1.0571991741999642,
+      "rounding": "2dp",
+      "rounded": "1.06",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:205"
+      ],
+      "token": "robust|s-1|the other side of unity ( T = 1.06 ). The sentence ``the fitting|0",
+      "row": "the other side of unity ( T = 1.06 ). The sentence ``the fitting",
+      "idx": 0
+    },
+    {
+      "id": "robust.bootstrap_B",
+      "printed": "2000",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "B",
+      "exact": 2000.0,
+      "rounding": "int",
+      "rounded": "2000",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:213"
+      ],
+      "token": "robust|s-1|( 2000 resamples percentile interval) it is +0.0232|0",
+      "row": "( 2000 resamples percentile interval) it is +0.0232",
+      "idx": 0
+    },
+    {
+      "id": "robust.headroom.stage1.point.headroom_eq8",
+      "printed": "+0.0232",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.stage1.point.headroom_eq8",
+      "exact": 0.023182216800611284,
+      "rounding": "4dp",
+      "rounded": "0.0232",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:213"
+      ],
+      "token": "robust|s-1|( 2000 resamples percentile interval) it is +0.0232|1",
+      "row": "( 2000 resamples percentile interval) it is +0.0232",
+      "idx": 1
+    },
+    {
+      "id": "robust.headroom.stage1.ci95.headroom_eq8[0]",
+      "printed": "+0.0151",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.stage1.ci95.headroom_eq8[0]",
+      "exact": 0.015066928598754031,
+      "rounding": "4dp",
+      "rounded": "0.0151",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:214"
+      ],
+      "token": "robust|s-1|[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on|0",
+      "row": "[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on",
+      "idx": 0
+    },
+    {
+      "id": "robust.headroom.stage1.ci95.headroom_eq8[1]",
+      "printed": "+0.0305",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.stage1.ci95.headroom_eq8[1]",
+      "exact": 0.030511916218245894,
+      "rounding": "4dp",
+      "rounded": "0.0305",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:214"
+      ],
+      "token": "robust|s-1|[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on|1",
+      "row": "[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on",
+      "idx": 1
+    },
+    {
+      "id": "robust.headroom.primary.point.headroom_eq8",
+      "printed": "+0.0213",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.primary.point.headroom_eq8",
+      "exact": 0.02128259222665189,
+      "rounding": "4dp",
+      "rounded": "0.0213",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:214"
+      ],
+      "token": "robust|s-1|[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on|3",
+      "row": "[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on",
+      "idx": 3
+    },
+    {
+      "id": "robust.headroom.primary.ci95.headroom_eq8[0]",
+      "printed": "+0.0154",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.primary.ci95.headroom_eq8[0]",
+      "exact": 0.015355234704390671,
+      "rounding": "4dp",
+      "rounded": "0.0154",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:214"
+      ],
+      "token": "robust|s-1|[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on|4",
+      "row": "[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on",
+      "idx": 4
+    },
+    {
+      "id": "robust.headroom.primary.ci95.headroom_eq8[1]",
+      "printed": "+0.0280",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.primary.ci95.headroom_eq8[1]",
+      "exact": 0.028018683451127117,
+      "rounding": "4dp",
+      "rounded": "0.0280",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:214"
+      ],
+      "token": "robust|s-1|[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on|5",
+      "row": "[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on",
+      "idx": 5
+    },
+    {
+      "id": "robust.headroom.vae9182.point.headroom_eq8",
+      "printed": "+0.0023",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.vae9182.point.headroom_eq8",
+      "exact": 0.002347633688678111,
+      "rounding": "4dp",
+      "rounded": "0.0023",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:215"
+      ],
+      "token": "robust|s-1|primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126|0",
+      "row": "primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126",
+      "idx": 0
+    },
+    {
+      "id": "robust.headroom.vae9182.ci95.headroom_eq8[0]",
+      "printed": "+0.0000",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.vae9182.ci95.headroom_eq8[0]",
+      "exact": 0.0,
+      "rounding": "4dp",
+      "rounded": "0.0000",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:215"
+      ],
+      "token": "robust|s-1|primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126|1",
+      "row": "primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126",
+      "idx": 1
+    },
+    {
+      "id": "robust.headroom.vae9182.ci95.headroom_eq8[1]",
+      "printed": "+0.0080",
+      "artifact": "paper_tables/bootstrap_cis.json",
+      "path": "results.vae9182.ci95.headroom_eq8[1]",
+      "exact": 0.007993710613149156,
+      "rounding": "4dp",
+      "rounded": "0.0080",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:215"
+      ],
+      "token": "robust|s-1|primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126|2",
+      "row": "primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126",
+      "idx": 2
+    },
+    {
+      "id": "robust.headroom.ferplus.point",
+      "printed": "+0.1126",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.run.headroom",
+      "exact": 0.11260453531138123,
+      "rounding": "4dp",
+      "rounded": "0.1126",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:215"
+      ],
+      "token": "robust|s-1|primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126|3",
+      "row": "primary +0.0023 [+0.0000 +0.0080] on the control and +0.1126",
+      "idx": 3
+    },
+    {
+      "id": "robust.headroom.ferplus.ci_lo",
+      "printed": "+0.1018",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.run.ci95[0]",
+      "exact": 0.1018357727773973,
+      "rounding": "4dp",
+      "rounded": "0.1018",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:216"
+      ],
+      "token": "robust|s-1|[+0.1018 +0.1165] on FERPlus. One grid caveat belongs here rather|0",
+      "row": "[+0.1018 +0.1165] on FERPlus. One grid caveat belongs here rather",
+      "idx": 0
+    },
+    {
+      "id": "robust.headroom.ferplus.ci_hi",
+      "printed": "+0.1165",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.run.ci95[1]",
+      "exact": 0.11651117297970169,
+      "rounding": "4dp",
+      "rounded": "0.1165",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:216"
+      ],
+      "token": "robust|s-1|[+0.1018 +0.1165] on FERPlus. One grid caveat belongs here rather|1",
+      "row": "[+0.1018 +0.1165] on FERPlus. One grid caveat belongs here rather",
+      "idx": 1
+    },
+    {
+      "id": "robust.dense_grid.lo",
+      "printed": "0.50",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.boot.grid.lo",
+      "exact": 0.5,
+      "rounding": "2dp",
+      "rounded": "0.50",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:218"
+      ],
+      "token": "robust|s-1|dense auxiliary grid ( 0.50 -- 2.50 step 0.02 ) on which all three|0",
+      "row": "dense auxiliary grid ( 0.50 -- 2.50 step 0.02 ) on which all three",
+      "idx": 0
+    },
+    {
+      "id": "robust.dense_grid.hi",
+      "printed": "2.50",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.boot.grid.hi",
+      "exact": 2.5,
+      "rounding": "2dp",
+      "rounded": "2.50",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:218"
+      ],
+      "token": "robust|s-1|dense auxiliary grid ( 0.50 -- 2.50 step 0.02 ) on which all three|1",
+      "row": "dense auxiliary grid ( 0.50 -- 2.50 step 0.02 ) on which all three",
+      "idx": 1
+    },
+    {
+      "id": "robust.dense_grid.step",
+      "printed": "0.02",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.boot.grid.step",
+      "exact": 0.02,
+      "rounding": "2dp",
+      "rounded": "0.02",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:218"
+      ],
+      "token": "robust|s-1|dense auxiliary grid ( 0.50 -- 2.50 step 0.02 ) on which all three|2",
+      "row": "dense auxiliary grid ( 0.50 -- 2.50 step 0.02 ) on which all three",
+      "idx": 2
+    },
+    {
+      "id": "robust.ferplus_fine_argmin",
+      "printed": "0.46",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.fine.T_argmin",
+      "exact": 0.46,
+      "rounding": "2dp",
+      "rounded": "0.46",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:221"
+      ],
+      "token": "robust|s-1|the ECE minimum at T = 0.46 below its lower endpoint --- so the|0",
+      "row": "the ECE minimum at T = 0.46 below its lower endpoint --- so the",
+      "idx": 0
+    },
+    {
+      "id": "robust.ferplus_deployed_arm",
+      "printed": "0.5063",
+      "artifact": "paper_tables/headroom_grid_audit.json",
+      "path": "grids.run.T_argmin",
+      "exact": 0.5063,
+      "rounding": "4dp",
+      "rounded": "0.5063",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:223"
+      ],
+      "token": "robust|s-1|paper actually ran whose minimum is the deployed arm T = 0.5063 .|0",
+      "row": "paper actually ran whose minimum is the deployed arm T = 0.5063 .",
+      "idx": 0
+    },
+    {
+      "id": "robust.jsd_optimum",
+      "printed": "0.74",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "T_jsd_values_across_slices[0]",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:268"
+      ],
+      "token": "robust|s-1|0.74 in every slice holding at least 1 000 rows. One incidental|0",
+      "row": "0.74 in every slice holding at least 1 000 rows. One incidental",
+      "idx": 0
+    },
+    {
+      "id": "robust.smallest_stratum_n",
+      "printed": "28",
+      "artifact": "paper_tables/jsd_sensitivity.json",
+      "path": "results[\"(c) stratum 6-7\"].n",
+      "exact": 28.0,
+      "rounding": "int",
+      "rounded": "28",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:270"
+      ],
+      "token": "robust|s-1|T^ * _ NLL ) flips in the smallest stratum ( n = 28|0",
+      "row": "T^ * _ NLL ) flips in the smallest stratum ( n = 28",
+      "idx": 0
     }
   ],
   "exempt": [
@@ -10599,6 +11722,366 @@
       "class": "table_reference",
       "why": "Supplementary Table S8 atfi",
       "printed": "8"
+    },
+    {
+      "key": "app_tstar|s-1|text says so (FERPlus and Stage1 at a half-fold fit of 1.3406|0",
+      "class": "teacher_name_digits",
+      "why": "alt yazidaki 'Stage1' adinin icindeki basamak",
+      "printed": "1"
+    },
+    {
+      "key": "app_tstar|s-1|Section ). The stage1 ECE|0",
+      "class": "teacher_name_digits",
+      "why": "alt yazidaki 'stage1' adinin icindeki basamak",
+      "printed": "1"
+    },
+    {
+      "key": "app_argmin|s-1|seed-level dissents (three curves at stage1 two at the control none|0",
+      "class": "teacher_name_digits",
+      "why": "alt yazidaki 'stage1' adinin icindeki basamak",
+      "printed": "1"
+    },
+    {
+      "key": "robust|s-1|NLL Brier equal-width ECE at 10/15/25 bins equal-mass (adaptive)|0",
+      "class": "benchmark_protocol",
+      "why": "kestirici envanteri: 10/15/25 kutu -- olcum protokolu",
+      "printed": "10"
+    },
+    {
+      "key": "robust|s-1|NLL Brier equal-width ECE at 10/15/25 bins equal-mass (adaptive)|1",
+      "class": "benchmark_protocol",
+      "why": "kestirici envanteri: 10/15/25 kutu -- olcum protokolu",
+      "printed": "15"
+    },
+    {
+      "key": "robust|s-1|NLL Brier equal-width ECE at 10/15/25 bins equal-mass (adaptive)|2",
+      "class": "benchmark_protocol",
+      "why": "kestirici envanteri: 10/15/25 kutu -- olcum protokolu",
+      "printed": "25"
+    },
+    {
+      "key": "robust|s-1|ECE at 15 bins and classwise ECE. As a gate the recomputed|0",
+      "class": "benchmark_protocol",
+      "why": "kutu sayisi 15 -- olcum protokolu",
+      "printed": "15"
+    },
+    {
+      "key": "robust|s-1|15 -bin column was required to match each run's originally published|0",
+      "class": "benchmark_protocol",
+      "why": "kutu sayisi 15 -- olcum protokolu",
+      "printed": "15"
+    },
+    {
+      "key": "robust|s-1|value to 10^ -9 before any new column was accepted.|0",
+      "class": "criterion_constant",
+      "why": "kapinin toleransi 10^-9 (esik tanimi; artefakta `verification.tolerance` olarak da var)",
+      "printed": "10"
+    },
+    {
+      "key": "robust|s-1|value to 10^ -9 before any new column was accepted.|1",
+      "class": "criterion_constant",
+      "why": "kapinin toleransi 10^-9 (esik tanimi; artefakta `verification.tolerance` olarak da var)",
+      "printed": "-9"
+    },
+    {
+      "key": "robust|s-1|leaves ECE slightly worse than T = 1 while the ECE minimum sits on|0",
+      "class": "hyperparameter",
+      "why": "olceklenmemis kol T=1",
+      "printed": "1"
+    },
+    {
+      "key": "robust|s-1|T = 1 minus the minimum over the grid actually swept --- is|0",
+      "class": "hyperparameter",
+      "why": "Eq.8 tanimindaki T=1",
+      "printed": "1"
+    },
+    {
+      "key": "robust|s-1|[+0.0151 +0.0305] on stage1 +0.0213 [+0.0154 +0.0280] on|2",
+      "class": "teacher_name_digits",
+      "why": "'stage1' adinin icindeki basamak",
+      "printed": "1"
+    },
+    {
+      "key": "robust|s-1|0.74 in every slice holding at least 1 000 rows. One incidental|1",
+      "class": "criterion_constant",
+      "why": "kesit buyuklugu esigi 1{,}000 satir -- olcut, olcum degil",
+      "printed": "1"
+    },
+    {
+      "key": "robust|s-1|0.74 in every slice holding at least 1 000 rows. One incidental|2",
+      "class": "criterion_constant",
+      "why": "ayni esigin ikinci jetonu (1{,}000 -> '1' + '000')",
+      "printed": "000"
+    },
+    {
+      "key": "specs|s-1|shares = 6 = 0.3 and an unscaled teacher|0",
+      "class": "hyperparameter",
+      "why": "tau=6, alpha=0.3",
+      "printed": "6"
+    },
+    {
+      "key": "specs|s-1|shares = 6 = 0.3 and an unscaled teacher|1",
+      "class": "hyperparameter",
+      "why": "tau=6, alpha=0.3",
+      "printed": "0.3"
+    },
+    {
+      "key": "specs|s-1|( T = 1 ); the single exception is the deliberate-miscalibration pilot|0",
+      "class": "hyperparameter",
+      "why": "olceklenmemis kol T=1",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|T_0 = 0.7311 by design.|0",
+      "class": "hyperparameter",
+      "why": "miskalibrasyon pilotunun T_0'i",
+      "printed": "0"
+    },
+    {
+      "key": "specs|s-1|T_0 = 0.7311 by design.|1",
+      "class": "hyperparameter",
+      "why": "miskalibrasyon pilotunun T_0'i",
+      "printed": "0.7311"
+    },
+    {
+      "key": "specs|s-1|( = 10^ -6 ) and is the logistic function; the loss|0",
+      "class": "hyperparameter",
+      "why": "sayisal kararlilik sabiti epsilon=1e-6",
+      "printed": "10"
+    },
+    {
+      "key": "specs|s-1|( = 10^ -6 ) and is the logistic function; the loss|1",
+      "class": "hyperparameter",
+      "why": "sayisal kararlilik sabiti epsilon=1e-6",
+      "printed": "-6"
+    },
+    {
+      "key": "specs|s-1|(1- _i) L _ KD i . Settings:|0",
+      "class": "hyperparameter",
+      "why": "kayip formulundeki 1",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|_ lo = 0.1 _ hi = 0.7|0",
+      "class": "hyperparameter",
+      "why": "gate alpha_lo/alpha_hi",
+      "printed": "0.1"
+    },
+    {
+      "key": "specs|s-1|_ lo = 0.1 _ hi = 0.7|1",
+      "class": "hyperparameter",
+      "why": "gate alpha_lo/alpha_hi",
+      "printed": "0.7"
+    },
+    {
+      "key": "specs|s-1|k = 2 _g = 0 batch normalisation of the signal.|0",
+      "class": "hyperparameter",
+      "why": "gate k ve tau_g",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|k = 2 _g = 0 batch normalisation of the signal.|1",
+      "class": "hyperparameter",
+      "why": "gate k ve tau_g",
+      "printed": "0"
+    },
+    {
+      "key": "specs|s-1|Direction of the oracle arm: when the teacher's top-1 prediction|0",
+      "class": "hyperparameter",
+      "why": "top-1 tanimindaki 1",
+      "printed": "-1"
+    },
+    {
+      "key": "specs|s-1|is wrong u_i = 1 so u _i is high _i|0",
+      "class": "hyperparameter",
+      "why": "oracle sinyali u_i=1 (tanim)",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|_ hi and the teacher's weight (1- _i) on that|0",
+      "class": "hyperparameter",
+      "why": "agirlik formulundeki 1",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|_ T = 0.5 clamped to|0",
+      "class": "hyperparameter",
+      "why": "adaptive-T gamma=0.5",
+      "printed": "0.5"
+    },
+    {
+      "key": "specs|s-1|T_i [1.0 2 ] ; H_i evaluated at T = 1 .|0",
+      "class": "hyperparameter",
+      "why": "T kelepcesi [1.0, 2tau] ve H_i'nin T=1'i",
+      "printed": "1.0"
+    },
+    {
+      "key": "specs|s-1|T_i [1.0 2 ] ; H_i evaluated at T = 1 .|1",
+      "class": "hyperparameter",
+      "why": "T kelepcesi [1.0, 2tau] ve H_i'nin T=1'i",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|T_i [1.0 2 ] ; H_i evaluated at T = 1 .|2",
+      "class": "hyperparameter",
+      "why": "T kelepcesi [1.0, 2tau] ve H_i'nin T=1'i",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|Class-space Gaussian matching (G2G)|0",
+      "class": "hyperparameter",
+      "why": "G2G basligindaki 2",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|w KL ( N ( _t _t^ 2 )|0",
+      "class": "hyperparameter",
+      "why": "formuldeki sigma^2 usleri",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|| N ( _s _s^ 2 ) )|0",
+      "class": "hyperparameter",
+      "why": "formuldeki sigma^2 usleri",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|with w = 0.1 and no warm-up. The Gaussians are the class-space|0",
+      "class": "hyperparameter",
+      "why": "G2G agirligi w=0.1",
+      "printed": "0.1"
+    },
+    {
+      "key": "specs|s-1|not an intermediate feature layer) summed over classes; ^2|0",
+      "class": "hyperparameter",
+      "why": "formuldeki sigma^2 usu",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|is clamped to 10 ; the direction is teacher | student; the|0",
+      "class": "hyperparameter",
+      "why": "logvar kelepcesi +-10",
+      "printed": "10"
+    },
+    {
+      "key": "specs|s-1|( ) ) with t_ = 1 t_ = 8|0",
+      "class": "hyperparameter",
+      "why": "CTKD t_min=1, t_max=8",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|( ) ) with t_ = 1 t_ = 8|1",
+      "class": "hyperparameter",
+      "why": "CTKD t_min=1, t_max=8",
+      "printed": "8"
+    },
+    {
+      "key": "specs|s-1|initialised at 0 and cosine-ramped from 0 to|0",
+      "class": "hyperparameter",
+      "why": "theta baslangici ve rampa",
+      "printed": "0"
+    },
+    {
+      "key": "specs|s-1|initialised at 0 and cosine-ramped from 0 to|1",
+      "class": "hyperparameter",
+      "why": "theta baslangici ve rampa",
+      "printed": "0"
+    },
+    {
+      "key": "specs|s-1|_ = 1 ; the gradient-reversal layer negates the gradient|0",
+      "class": "hyperparameter",
+      "why": "lambda_max=1",
+      "printed": "1"
+    },
+    {
+      "key": "specs|s-1|( 3 10^ -4 ); there is no separate optimiser. This|0",
+      "class": "hyperparameter",
+      "why": "ogrenme orani 3e-4",
+      "printed": "3"
+    },
+    {
+      "key": "specs|s-1|( 3 10^ -4 ); there is no separate optimiser. This|1",
+      "class": "hyperparameter",
+      "why": "ogrenme orani 3e-4",
+      "printed": "10"
+    },
+    {
+      "key": "specs|s-1|( 3 10^ -4 ); there is no separate optimiser. This|2",
+      "class": "hyperparameter",
+      "why": "ogrenme orani 3e-4",
+      "printed": "-4"
+    },
+    {
+      "key": "specs|s-1|Proc. AAAI 37(2):1504--1512 2023;|0",
+      "class": "citation",
+      "why": "cilt/sayi/sayfa/yil",
+      "printed": "37"
+    },
+    {
+      "key": "specs|s-1|Proc. AAAI 37(2):1504--1512 2023;|1",
+      "class": "citation",
+      "why": "cilt/sayi/sayfa/yil",
+      "printed": "2"
+    },
+    {
+      "key": "specs|s-1|Proc. AAAI 37(2):1504--1512 2023;|2",
+      "class": "citation",
+      "why": "cilt/sayi/sayfa/yil",
+      "printed": "1504"
+    },
+    {
+      "key": "specs|s-1|Proc. AAAI 37(2):1504--1512 2023;|3",
+      "class": "citation",
+      "why": "cilt/sayi/sayfa/yil",
+      "printed": "-1512"
+    },
+    {
+      "key": "specs|s-1|Proc. AAAI 37(2):1504--1512 2023;|4",
+      "class": "citation",
+      "why": "cilt/sayi/sayfa/yil",
+      "printed": "2023"
+    },
+    {
+      "key": "specs|s-1|doi:10.1609/aaai.v37i2.25236); their instance-wise extension (a per-sample|0",
+      "class": "citation",
+      "why": "DOI",
+      "printed": "10.1609"
+    },
+    {
+      "key": "specs|s-1|doi:10.1609/aaai.v37i2.25236); their instance-wise extension (a per-sample|1",
+      "class": "citation",
+      "why": "DOI",
+      "printed": "37"
+    },
+    {
+      "key": "specs|s-1|doi:10.1609/aaai.v37i2.25236); their instance-wise extension (a per-sample|2",
+      "class": "citation",
+      "why": "DOI",
+      "printed": "2.25236"
+    },
+    {
+      "key": "specs|s-1|= 10^ -6 taken per sample over the class axis applied on|0",
+      "class": "hyperparameter",
+      "why": "logit standardizasyonu epsilon",
+      "printed": "10"
+    },
+    {
+      "key": "specs|s-1|= 10^ -6 taken per sample over the class axis applied on|1",
+      "class": "hyperparameter",
+      "why": "logit standardizasyonu epsilon",
+      "printed": "-6"
+    },
+    {
+      "key": "specs|s-1|= 6 = 0.3 vanilla setup used throughout this paper.|0",
+      "class": "hyperparameter",
+      "why": "tau=6, alpha=0.3",
+      "printed": "6"
+    },
+    {
+      "key": "specs|s-1|= 6 = 0.3 vanilla setup used throughout this paper.|1",
+      "class": "hyperparameter",
+      "why": "tau=6, alpha=0.3",
+      "printed": "0.3"
     }
   ],
   "prose_entries": [
@@ -10736,7 +12219,72 @@
       "matches": true
     }
   ],
-  "unbound": [],
+  "unbound": [
+    {
+      "key": "app_argmin|s-1|RAF-DB stage1|1",
+      "printed": "7",
+      "unit": "app_argmin",
+      "row": "RAF-DB stage1",
+      "idx": 1,
+      "where": "paper/supplementary.tex:181"
+    },
+    {
+      "key": "app_argmin|s-1|RAF-DB stage1|2",
+      "printed": "7",
+      "unit": "app_argmin",
+      "row": "RAF-DB stage1",
+      "idx": 2,
+      "where": "paper/supplementary.tex:181"
+    },
+    {
+      "key": "app_argmin|s-1|RAF-DB control|1",
+      "printed": "7",
+      "unit": "app_argmin",
+      "row": "RAF-DB control",
+      "idx": 1,
+      "where": "paper/supplementary.tex:183"
+    },
+    {
+      "key": "app_argmin|s-1|RAF-DB control|2",
+      "printed": "7",
+      "unit": "app_argmin",
+      "row": "RAF-DB control",
+      "idx": 2,
+      "where": "paper/supplementary.tex:183"
+    },
+    {
+      "key": "app_argmin|s-1|FERPlus|1",
+      "printed": "6",
+      "unit": "app_argmin",
+      "row": "FERPlus",
+      "idx": 1,
+      "where": "paper/supplementary.tex:184"
+    },
+    {
+      "key": "app_argmin|s-1|FERPlus|2",
+      "printed": "7",
+      "unit": "app_argmin",
+      "row": "FERPlus",
+      "idx": 2,
+      "where": "paper/supplementary.tex:184"
+    },
+    {
+      "key": "app_argmin|s-1|FERPlus|3",
+      "printed": "0.74",
+      "unit": "app_argmin",
+      "row": "FERPlus",
+      "idx": 3,
+      "where": "paper/supplementary.tex:184"
+    },
+    {
+      "key": "robust|s-1|seeds of the NLL metric place the minimum at T = 0.74 the|0",
+      "printed": "0.74",
+      "unit": "robust",
+      "row": "seeds of the NLL metric place the minimum at T = 0.74 the",
+      "idx": 0,
+      "where": "paper/supplementary.tex:190"
+    }
+  ],
   "problems": [],
   "dropped_layout_classes": [
     "cmidrule",

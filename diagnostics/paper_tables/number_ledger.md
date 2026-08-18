@@ -4,26 +4,49 @@
 
 Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_scan.py` · auditor: `diagnostics/check_numbers.py`
 
-| | count |
+### Token accounting — this column adds up
+
+| in-scope numeric token | count |
 |---|---|
-| numeric tokens in scope | 719 |
-| bound to an artifact field | 617 |
-| derived (ratio / difference) | 16 |
-| declared not-a-measurement | 90 |
-| **unregistered** | **0** |
+| bound to an artifact field | 687 |
+| derived, occupying an in-scope token | 17 |
+| declared not-a-measurement | 150 |
+| **unregistered** | **8** |
+| **= numeric tokens in scope** | **862** |
+
+The four categories are disjoint (bound ∩ exempt is checked to be empty) and the column sums to the total. Two kinds of declaration are **not** in that table because they occupy no in-scope token — they are anchored to sentences the scanner deliberately does not read:
+
+| declaration anchored outside the scanned scope | count |
+|---|---|
+| derived quantity on a prose anchor | 4 |
+| prose field binding (`pv`) | 1 |
+
+The registry therefore holds **21** derived quantities in total: 17 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
+
+| other | count |
+|---|---|
 | printed-vs-field mismatch | 0 |
 | confirmation records (second source) | 3 (0 failing) |
-| layout tokens dropped by the scanner | 166 |
+| layout tokens dropped by the scanner | 178 |
 
 ## Scope (declared)
 
 **In:** `paper/tables/*.tex`, `abstract`, `supplementary S8-S11`, `individually anchored prose sentences (declared one by one)`  
 **Out:** sections/*.tex prose, except the individually anchored sentences (revision window) · supplementary S1-S3 (today's headroom verdict not applied yet)  
-**Not a measurement:** `architecture_dim`, `benchmark_protocol`, `column_header`, `criterion_constant`, `date`, `dtype_name`, `hardware_name`, `hyperparameter`, `population_count`, `preregistration_provenance`, `rounding_caveat`, `sample_size`, `sign_count`, `table_reference`, `teacher_name_digits`
+**Not a measurement:** `architecture_dim`, `benchmark_protocol`, `citation`, `column_header`, `criterion_constant`, `date`, `dtype_name`, `hardware_name`, `hyperparameter`, `population_count`, `preregistration_provenance`, `rounding_caveat`, `sample_size`, `sign_count`, `table_reference`, `teacher_name_digits`
 
 ## Unregistered numbers
 
-None — every in-scope number is bound, derived or declared.
+| printed | unit | row | where |
+|---|---|---|---|
+| `7` | app_argmin | RAF-DB stage1 | paper/supplementary.tex:181 |
+| `7` | app_argmin | RAF-DB stage1 | paper/supplementary.tex:181 |
+| `7` | app_argmin | RAF-DB control | paper/supplementary.tex:183 |
+| `7` | app_argmin | RAF-DB control | paper/supplementary.tex:183 |
+| `6` | app_argmin | FERPlus | paper/supplementary.tex:184 |
+| `7` | app_argmin | FERPlus | paper/supplementary.tex:184 |
+| `0.74` | app_argmin | FERPlus | paper/supplementary.tex:184 |
+| `0.74` | robust | seeds of the NLL metric place the minimum at T | paper/supplementary.tex:190 |
 
 ## Mismatches
 
@@ -68,6 +91,11 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `ece_reduction_min` | 41 | pct_drop | 41.4635 | yes |
 | `ece_reduction_max` | 76 | pct_drop | 76.3748 | yes |
 | `accuracy_band_widest_arm` | 0.51 | diff | 0.510646 | yes |
+| `robust_agreeing_steps` | 224 | diff | 224 | yes |
+| `robust_agreement_pct` | 97.0 | pct_of | 96.9697 | yes |
+| `jsd_smallest_stratum_pct` | 0.9 | pct_of | 0.888043 | yes |
+| `tstar_criterion_cost_min_supp` | 13 | ratio | 13.307 | yes |
+| `tstar_criterion_cost_max_supp` | 14 | ratio | 14.3155 | yes |
 | `tstar_criterion_cost_min` | 13 | ratio | 13.307 | yes |
 | `tstar_criterion_cost_max` | 14 | ratio | 14.3155 | yes |
 
@@ -692,3 +720,73 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `abstract.asymmetry_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
 | `abstract.asymmetry_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
 | `abstract.logitstd_noise_median` | 27 | `paper_tables/noise_units.json` | `summary.median` | int |
+| `app_tstar.stage1.T_star_nll` | 1.349 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 3dp |
+| `app_tstar.stage1.T_star_ece` | 1.320 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_ece` | 3dp |
+| `app_tstar.stage1.d_ece` | +0.0015 | `paper_tables/tstar_sensitivity.json` | `results.stage1.d_ece` | 4dp |
+| `app_tstar.stage1.ece_removed_by_ts` | +0.0220 | `paper_tables/tstar_sensitivity.json` | `results.stage1.ece_removed_by_ts` | 4dp |
+| `app_tstar.primary.T_star_nll` | 1.261 | `paper_tables/tstar_sensitivity.json` | `results.primary.T_star_nll` | 3dp |
+| `app_tstar.primary.T_star_ece` | 1.244 | `paper_tables/tstar_sensitivity.json` | `results.primary.T_star_ece` | 3dp |
+| `app_tstar.primary.d_ece` | +0.0015 | `paper_tables/tstar_sensitivity.json` | `results.primary.d_ece` | 4dp |
+| `app_tstar.primary.ece_removed_by_ts` | +0.0199 | `paper_tables/tstar_sensitivity.json` | `results.primary.ece_removed_by_ts` | 4dp |
+| `app_tstar.vae9182.T_star_nll` | 0.983 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 3dp |
+| `app_tstar.vae9182.T_star_ece` | 1.057 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_ece` | 3dp |
+| `app_tstar.vae9182.d_ece` | +0.0043 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.d_ece` | 4dp |
+| `app_tstar.vae9182.ece_removed_by_ts` | -0.0010 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.ece_removed_by_ts` | 4dp |
+| `app_tstar.ferplus.T_star_nll` | 0.506 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 3dp |
+| `app_tstar.ferplus.T_star_ece` | 0.453 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 3dp |
+| `app_tstar.ferplus.d_ece` | +0.0085 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.d_ece` | 4dp |
+| `app_tstar.ferplus.ece_removed_by_ts` | +0.1126 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.ece_removed_by_ts` | 4dp |
+| `app_tstar.caption.half_fold` | 1.3406 | `paper_tables/tstar_provenance.json` | `half_fold_fits.stage1` | 4dp |
+| `app_tstar.caption.full_fold` | 1.3494 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 4dp |
+| `app_tstar.caption.dense_step` | 0.005 | `paper_tables/tstar_sensitivity.json` | `dense_grid.step` | 3dp |
+| `app_tstar.caption.dense_ece` | 0.0142 | `paper_tables/tstar_sensitivity.json` | `results.stage1.dense_grid_ece` | 4dp |
+| `app_tstar.caption.dense_T` | 1.335 | `paper_tables/tstar_sensitivity.json` | `results.stage1.dense_grid_T` | 3dp |
+| `app_jsd.(a) all rows.n` | 3153 | `paper_tables/jsd_sensitivity.json` | `results["(a) all rows"].n` | int |
+| `app_jsd.(a) all rows.T_ece` | 0.46 | `paper_tables/jsd_sensitivity.json` | `results["(a) all rows"].T_ece` | 2dp |
+| `app_jsd.(a) all rows.T_nll` | 0.50 | `paper_tables/jsd_sensitivity.json` | `results["(a) all rows"].T_nll` | 2dp |
+| `app_jsd.(a) all rows.T_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(a) all rows"].T_jsd` | 2dp |
+| `app_jsd.(b) vote sum = 10.n` | 1977 | `paper_tables/jsd_sensitivity.json` | `results["(b) vote sum = 10"].n` | int |
+| `app_jsd.(b) vote sum = 10.T_ece` | 0.42 | `paper_tables/jsd_sensitivity.json` | `results["(b) vote sum = 10"].T_ece` | 2dp |
+| `app_jsd.(b) vote sum = 10.T_nll` | 0.46 | `paper_tables/jsd_sensitivity.json` | `results["(b) vote sum = 10"].T_nll` | 2dp |
+| `app_jsd.(b) vote sum = 10.T_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(b) vote sum = 10"].T_jsd` | 2dp |
+| `app_jsd.(c) stratum 6-7.n` | 28 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 6-7"].n` | int |
+| `app_jsd.(c) stratum 6-7.T_ece` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 6-7"].T_ece` | 2dp |
+| `app_jsd.(c) stratum 6-7.T_nll` | 0.70 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 6-7"].T_nll` | 2dp |
+| `app_jsd.(c) stratum 6-7.T_jsd` | 0.88 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 6-7"].T_jsd` | 2dp |
+| `app_jsd.(c) stratum 8-9.n` | 1148 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 8-9"].n` | int |
+| `app_jsd.(c) stratum 8-9.T_ece` | 0.46 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 8-9"].T_ece` | 2dp |
+| `app_jsd.(c) stratum 8-9.T_nll` | 0.54 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 8-9"].T_nll` | 2dp |
+| `app_jsd.(c) stratum 8-9.T_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 8-9"].T_jsd` | 2dp |
+| `app_jsd.(c) stratum 10.n` | 1977 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 10"].n` | int |
+| `app_jsd.(c) stratum 10.T_ece` | 0.42 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 10"].T_ece` | 2dp |
+| `app_jsd.(c) stratum 10.T_nll` | 0.46 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 10"].T_nll` | 2dp |
+| `app_jsd.(c) stratum 10.T_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 10"].T_jsd` | 2dp |
+| `app_argmin.RAF-DB stage1.consensus_T` | 1.34 | `paper_tables/robustness_metrics.json` | `series["RAF-DB stage1"]._consensus_T` | 2dp |
+| `app_argmin.RAF-DB vae9182.consensus_T` | 1.00 | `paper_tables/robustness_metrics.json` | `series["RAF-DB vae9182"]._consensus_T` | 2dp |
+| `app_argmin.FERPlus.consensus_T` | 0.51 | `paper_tables/robustness_metrics.json` | `series["FERPlus"]._consensus_T` | 2dp |
+| `robust.total_runs` | 42 | `paper_tables/robustness_metrics.json` | `total_runs` | int |
+| `robust.total_runs_2` | 42 | `paper_tables/robustness_metrics.json` | `total_runs` | int |
+| `robust.total_steps` | 231 | `paper_tables/robustness_metrics.json` | `total_steps` | int |
+| `robust.max_criterion_cost` | 0.0085 | `paper_tables/tstar_sensitivity.json` | `max_d_ece` | 4dp |
+| `robust.control_T_nll` | 0.98 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 2dp |
+| `robust.control_T_ece` | 1.06 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_ece` | 2dp |
+| `robust.bootstrap_B` | 2000 | `paper_tables/bootstrap_cis.json` | `B` | int |
+| `robust.headroom.stage1.point.headroom_eq8` | +0.0232 | `paper_tables/bootstrap_cis.json` | `results.stage1.point.headroom_eq8` | 4dp |
+| `robust.headroom.stage1.ci95.headroom_eq8[0]` | +0.0151 | `paper_tables/bootstrap_cis.json` | `results.stage1.ci95.headroom_eq8[0]` | 4dp |
+| `robust.headroom.stage1.ci95.headroom_eq8[1]` | +0.0305 | `paper_tables/bootstrap_cis.json` | `results.stage1.ci95.headroom_eq8[1]` | 4dp |
+| `robust.headroom.primary.point.headroom_eq8` | +0.0213 | `paper_tables/bootstrap_cis.json` | `results.primary.point.headroom_eq8` | 4dp |
+| `robust.headroom.primary.ci95.headroom_eq8[0]` | +0.0154 | `paper_tables/bootstrap_cis.json` | `results.primary.ci95.headroom_eq8[0]` | 4dp |
+| `robust.headroom.primary.ci95.headroom_eq8[1]` | +0.0280 | `paper_tables/bootstrap_cis.json` | `results.primary.ci95.headroom_eq8[1]` | 4dp |
+| `robust.headroom.vae9182.point.headroom_eq8` | +0.0023 | `paper_tables/bootstrap_cis.json` | `results.vae9182.point.headroom_eq8` | 4dp |
+| `robust.headroom.vae9182.ci95.headroom_eq8[0]` | +0.0000 | `paper_tables/bootstrap_cis.json` | `results.vae9182.ci95.headroom_eq8[0]` | 4dp |
+| `robust.headroom.vae9182.ci95.headroom_eq8[1]` | +0.0080 | `paper_tables/bootstrap_cis.json` | `results.vae9182.ci95.headroom_eq8[1]` | 4dp |
+| `robust.headroom.ferplus.point` | +0.1126 | `paper_tables/headroom_grid_audit.json` | `grids.run.headroom` | 4dp |
+| `robust.headroom.ferplus.ci_lo` | +0.1018 | `paper_tables/headroom_grid_audit.json` | `grids.run.ci95[0]` | 4dp |
+| `robust.headroom.ferplus.ci_hi` | +0.1165 | `paper_tables/headroom_grid_audit.json` | `grids.run.ci95[1]` | 4dp |
+| `robust.dense_grid.lo` | 0.50 | `paper_tables/headroom_grid_audit.json` | `grids.boot.grid.lo` | 2dp |
+| `robust.dense_grid.hi` | 2.50 | `paper_tables/headroom_grid_audit.json` | `grids.boot.grid.hi` | 2dp |
+| `robust.dense_grid.step` | 0.02 | `paper_tables/headroom_grid_audit.json` | `grids.boot.grid.step` | 2dp |
+| `robust.ferplus_fine_argmin` | 0.46 | `paper_tables/headroom_grid_audit.json` | `grids.fine.T_argmin` | 2dp |
+| `robust.ferplus_deployed_arm` | 0.5063 | `paper_tables/headroom_grid_audit.json` | `grids.run.T_argmin` | 4dp |
+| `robust.jsd_optimum` | 0.74 | `paper_tables/jsd_sensitivity.json` | `T_jsd_values_across_slices[0]` | 2dp |
+| `robust.smallest_stratum_n` | 28 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 6-7"].n` | int |

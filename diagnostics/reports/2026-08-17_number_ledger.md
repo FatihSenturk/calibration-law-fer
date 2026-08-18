@@ -140,3 +140,28 @@ mevcut defteri **korur** ve 0 döner — Level-1 kapısı üreticileri argümans
    operandlarını tahmin etmedim, çünkü bu turun bütün amacı tahmin edilmiş bağı yasaklamak.
 4. Kapsam genişletmesi: supplementary S1–S3 (headroom düzeltmesi işlendikten sonra) ve
    `sections/*.tex` düzyazısındaki ~470 sayı (revizyon penceresi kapandıktan sonra).
+
+---
+
+## 18 Ağustos 2026 — sonradan düşülen not (metin DEĞİŞTİRİLMEDİ)
+
+Bu rapor tarihli bir kayıttır ve o günün gerçeğini taşır; aşağıdaki düzeltme geriye dönük bir
+düzenleme değil, ayrı bir kayıttır.
+
+**Başlık cümlesindeki PAY yanlış, yüzde doğru.** Cümle "714 sayının 689'u (%96,1)" diyor.
+689 = 590 + 10 + 1 + 88, yani JETON sayıları ile BEYAN sayıları toplanmış. 689/714 = **%96,50**
+eder — basılan %96,1 değil. Doğru pay **686**'dır ve 686/714 = **%96,08 ≈ %96,1**: yani yüzde
+baştan beri doğru hesaplanmış, yanına yazılan pay yanlış.
+
+**Sebep bir kayıp sayı değil, iki farklı muhasebe.** `derived` ve `prose` satırları BEYAN sayar;
+kapsam dışı düzyazıya çapalanmış bir beyan kapsam içi hiçbir jetonu tüketmez. O günün
+artefaktından ölçüldü (`derived_registry.json`, commit `20a255d`): 10 türetilmiş beyanın **8'i**
+kapsam içi bir jetona bağlıydı, **2'si** (`jsd_collapse`, `jsd_noise_ratio`)
+`sections/05_results_discussion.tex` cümlelerine çapalıydı; `prose` bağı da (`r=0.724`, §3.5)
+kapsam dışıydı. Jeton muhasebesi o gün de tam kapanıyor:
+
+    590 (bağlı) + 8 (kapsam içi türetilmiş) + 88 (muaf) = 686 kayıtlı
+    686 + 28 (kayıtsız) = 714 jeton
+
+18 Ağustos'ta (N16) `number_ledger.py`'nin özet tablosu bu ayrımı basacak biçimde yeniden
+yazıldı: jeton muhasebesi ile beyan sayımı ayrı tablolar, ve jeton sütunu toplanıyor.

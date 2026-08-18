@@ -1,7 +1,7 @@
 {
   "note": "review-responsive, not pre-declared",
   "counts": {
-    "derived": 16,
+    "derived": 21,
     "mismatch": 0
   },
   "entries": [
@@ -377,6 +377,141 @@
       "note": "VAE9182 kolunun en yuksek (T=1.3406) ve en dusuk (T=1.70) @SWA dogrulugu; olculen kol aciklikleri 0.304 / 0.511 / 0.486, ozet en genisi basiyor",
       "where": [
         "paper/main_elsarticle.tex:128"
+      ]
+    },
+    {
+      "id": "robust_agreeing_steps",
+      "printed": "224",
+      "formula": "diff",
+      "operands": [
+        {
+          "artifact": "paper_tables/robustness_metrics.json",
+          "path": "total_steps"
+        },
+        {
+          "artifact": "paper_tables/robustness_metrics.json",
+          "path": "total_breaks"
+        }
+      ],
+      "operand_values": [
+        231.0,
+        7.0
+      ],
+      "exact": 224.0,
+      "rounding": "int",
+      "rounded": "224",
+      "matches": true,
+      "note": "uyusan adim sayisi = toplam adim - kirilma; makale 224'u basiyor, artefakt ikisini",
+      "where": [
+        "paper/supplementary.tex:163"
+      ]
+    },
+    {
+      "id": "robust_agreement_pct",
+      "printed": "97.0",
+      "formula": "pct_of",
+      "operands": [
+        {
+          "artifact": "paper_tables/robustness_metrics.json",
+          "path": "total_steps - total_breaks"
+        },
+        {
+          "artifact": "paper_tables/robustness_metrics.json",
+          "path": "total_steps"
+        }
+      ],
+      "operand_values": [
+        224.0,
+        231.0
+      ],
+      "exact": 96.96969696969697,
+      "rounding": "1dp",
+      "rounded": "97.0",
+      "matches": true,
+      "note": "paydasi CUMLEDE adlandirilmis: 231 adim",
+      "where": [
+        "paper/supplementary.tex:165"
+      ]
+    },
+    {
+      "id": "jsd_smallest_stratum_pct",
+      "printed": "0.9",
+      "formula": "pct_of",
+      "operands": [
+        {
+          "artifact": "paper_tables/jsd_sensitivity.json",
+          "path": "results[\"(c) stratum 6-7\"].n"
+        },
+        {
+          "artifact": "paper_tables/jsd_sensitivity.json",
+          "path": "results[\"(a) all rows\"].n"
+        }
+      ],
+      "operand_values": [
+        28.0,
+        3153.0
+      ],
+      "exact": 0.8880431335236283,
+      "rounding": "1dp",
+      "rounded": "0.9",
+      "matches": true,
+      "note": "en kucuk katmanin foldun yuzde kaci: 28 / 3153",
+      "where": [
+        "paper/supplementary.tex:271"
+      ]
+    },
+    {
+      "id": "tstar_criterion_cost_min_supp",
+      "printed": "13",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.ferplus.ece_removed_by_ts"
+        },
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.ferplus.d_ece"
+        }
+      ],
+      "operand_values": [
+        0.11259259962672624,
+        0.008461177850049375
+      ],
+      "exact": 13.306965250242223,
+      "rounding": "int",
+      "rounded": "13",
+      "matches": true,
+      "note": "§3.2'deki `tstar_criterion_cost_min` ile ayni pay/payda, S2'deki ikinci gecis",
+      "where": [
+        "paper/supplementary.tex:201"
+      ]
+    },
+    {
+      "id": "tstar_criterion_cost_max_supp",
+      "printed": "14",
+      "formula": "ratio",
+      "operands": [
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.stage1.ece_removed_by_ts"
+        },
+        {
+          "artifact": "paper_tables/tstar_sensitivity.json",
+          "path": "results.stage1.d_ece"
+        }
+      ],
+      "operand_values": [
+        0.0219799084042477,
+        0.0015353928119760125
+      ],
+      "exact": 14.315495183255484,
+      "rounding": "int",
+      "rounded": "14",
+      "matches": true,
+      "note": "§3.2'deki `tstar_criterion_cost_max` ile ayni pay/payda, S2'deki ikinci gecis",
+      "where": [
+        "paper/supplementary.tex:201"
       ]
     },
     {

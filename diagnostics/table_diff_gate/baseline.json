@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-18T02:45:04",
-  "reason": "N14 ucuncu tur (iki karar): 29 sapma, HEPSI APPEARED, CHANGED/MOVED/VANISHED YOK. Iki grup: (1) kanonik-vs-teyit kaydi -- tstar_sensitivity'nin yeni cross_fit blogu (confirm_T_star, abs_dT, d_nll, d_ece) ve defterin cross_checks blogu (uc nicelik icin kanonik deger, teyit degeri, ayrisma ve TOLERANS). Tolerans elle yazilmadi, makalenin kendi hassasiyetinden turetiliyor (0.5 x 10^-d, d = o nicelik icin kullanilan en siki yuvarlama), o yuzden esigin kendisi de kapida duruyor. (2) iki yeni sayac (cross_checks, cross_check_fail). Olculen ayrisma: stage1 9.87e-6 (tol 5e-5), primary 4.05e-6 (tol 5e-4), vae9182 1.46e-4 (tol 5e-4); amac fonksiyonu farki dNLL 0.00e+00 / 0.00e+00 / 2.98e-8, yani NLL iki adayi ayirt edemiyor.",
+  "accepted_at": "2026-08-18T03:55:44",
+  "reason": "N16 (18 Agu): supplementary S1-S3 kapsam genislemesi + defter muhasebesi. 19 sapma: 7 MOVED (defterin KENDI sayaclari -- jeton 719 -> 862, bagli 617 -> 687, muaf 90 -> 150, turetilmis 16 -> 21, KAYITSIZ 0 -> 8, yerlesim 166 -> 178) ve 12 APPEARED (bes yeni turetilmis nicelik: 224 uyusan adim, %97.0 uyusma, %0.9 en kucuk katman, 13-14x olcut maliyetinin S2 gecisi; iki yeni sayac: derived_in_scope / derived_prose_anchored). CHANGED/VANISHED YOK -- hicbir OLCUM degeri degismedi, degisen kapsamin kendisi. KAYITSIZ 0'dan 8'e cikti ve bu ORTULMEDI: sekizi de app_argmin'in metrik-uzlasi sayaclari (7/7, 7/7, 6/7) ile FERPlus NLL istisnasi 0.74; robustness_metrics bunlari md'ye basiyor ama JSON alani olarak tutmuyor.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -466,32 +466,32 @@
       null
     ],
     "N13/count/tokens": [
-      719,
+      862,
       null,
       null
     ],
     "N13/count/bound": [
-      617,
+      687,
       null,
       null
     ],
     "N13/count/derived": [
-      16,
+      21,
       null,
       null
     ],
     "N13/count/exempt": [
-      90,
+      150,
       null,
       null
     ],
     "N13/count/unbound": [
-      0,
+      8,
       null,
       null
     ],
     "N13/count/layout_dropped": [
-      166,
+      178,
       null,
       null
     ],
@@ -507,6 +507,16 @@
     ],
     "N13/count/prose": [
       1,
+      null,
+      null
+    ],
+    "N13/count/derived_in_scope": [
+      17,
+      null,
+      null
+    ],
+    "N13/count/derived_prose_anchored": [
+      4,
       null,
       null
     ],
@@ -606,7 +616,7 @@
       null
     ],
     "N13/unbound_ids": [
-      0,
+      8,
       null,
       null
     ],
@@ -746,6 +756,56 @@
       null
     ],
     "N13/derived/accuracy_band_widest_arm/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/robust_agreeing_steps": [
+      224.0,
+      null,
+      null
+    ],
+    "N13/derived/robust_agreeing_steps/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/robust_agreement_pct": [
+      96.96969696969697,
+      null,
+      null
+    ],
+    "N13/derived/robust_agreement_pct/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/jsd_smallest_stratum_pct": [
+      0.8880431335236283,
+      null,
+      null
+    ],
+    "N13/derived/jsd_smallest_stratum_pct/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_min_supp": [
+      13.306965250242223,
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_min_supp/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_max_supp": [
+      14.315495183255484,
+      null,
+      null
+    ],
+    "N13/derived/tstar_criterion_cost_max_supp/ok": [
       "True",
       null,
       null

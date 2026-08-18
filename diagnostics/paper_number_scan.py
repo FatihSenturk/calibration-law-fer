@@ -31,7 +31,19 @@ TABLE_FILES = ["tables/tab_capacity.tex", "tables/tab_collapse.tex",
 # S8-S11: supplementary.tex icinde YERINDE yazili dort tablo. Blok, `\label{tab:...}`'dan
 # geriye dogru `\begin{table` ve ileriye dogru `\end{table` aranarak BULUNUR -- satir araligi
 # elle yazilmaz, cunku makale duzenlenince kayar.
-SUPP_BLOCKS = ["tab:app_sd", "tab:app_mde", "tab:app_seeds", "tab:app_predecl"]
+SUPP_BLOCKS = ["tab:app_sd", "tab:app_mde", "tab:app_seeds", "tab:app_predecl",
+               # S2 (18 Agu 2026, N16): headroom hukmu supplementary'ye islendi, artik
+               # baglanabilir. Uc tablo da `\begin{table}[H]` icinde, blok bulucu aynen calisir.
+               "tab:app_argmin", "tab:app_tstar", "tab:app_jsd"]
+
+# S1-S3 DUZYAZISI (18 Agu 2026, N16). Tablolar blok olarak taraniyordu ama bolum METNI hic
+# taranmiyordu -- oysa 15 Agustos'taki celiskiyi ureten sayilarin (headroom noktasi ve GA'si)
+# tamami S2 duzyazisinda. Bolum, `\section{...}` satirindan bir SONRAKI `\section` satirina
+# kadar; tablo/figur ortamlarinin ICI DUSULUR, yoksa ayni jeton iki kez sayilir.
+# DIKKAT: bu capalar SUPP_BLOCKS'a KONULAMAZ. `find_block` bolum etiketini gorunce geriye dogru
+# `\begin{table` arar, bulamazsa 0'a duser ve sessizce onsozden itibaren her seyi tarar --
+# hata vermez, YANLIS tarar. O yuzden ayri bir bulucu.
+SUPP_SECTIONS = ["app:specs", "app:robust", "app:tables"]
 SUPP_FILE = "supplementary.tex"
 
 # Ozet: manset sayilar. Blok `\begin{abstract}` .. `\end{abstract}`.
@@ -94,6 +106,34 @@ def row_label(cleaned):
     head = head.replace("$", " ").replace("{", " ").replace("}", " ")
     head = re.sub(r"[~\\!,]", " ", head)
     return re.sub(r"\s+", " ", head).strip(" &")
+
+
+def find_section(lines, anchor):
+    """`\\section{...}\\label{<capa>}` -> (ilk_satir, son_satir, atlanacak_satir_kumesi).
+
+    Bolum bir SONRAKI `\\section` satirinda biter (yoksa dosya sonunda). Icindeki her
+    `table`/`figure` ortaminin satirlari `skip` kumesine girer: o bloklar SUPP_BLOCKS
+    tarafindan ZATEN taraniyor ve iki kez sayilan bir jeton hem toplami hem "kayitsiz"
+    sayimini bozardi.
+    """
+    hit = next((i for i, ln in enumerate(lines) if f"\\label{{{anchor}}}" in ln), None)
+    if hit is None:
+        return None
+    start = next((i for i in range(hit, -1, -1) if lines[i].lstrip().startswith("\\section")),
+                 None)
+    if start is None:
+        return None
+    end = next((i for i in range(start + 1, len(lines))
+                if lines[i].lstrip().startswith("\\section")), len(lines)) - 1
+    skip, depth = set(), 0
+    for i in range(start, end + 1):
+        if re.search(r"\\begin\{(?:table|figure)\*?\}", lines[i]):
+            depth += 1
+        if depth:
+            skip.add(i)
+        if re.search(r"\\end\{(?:table|figure)\*?\}", lines[i]):
+            depth = max(0, depth - 1)
+    return start, end, skip
 
 
 def find_block(lines, anchor):
@@ -215,6 +255,13 @@ def scan_paper(paper_root):
         if blk is None:
             raise RuntimeError(f"{SUPP_FILE} icinde {anchor} blogu bulunamadi")
         take(scan_lines(lines, SUPP_FILE, blk[0], blk[1], unit=anchor.split(":")[1]))
+    for anchor in SUPP_SECTIONS:
+        sec = find_section(lines, anchor)
+        if sec is None:
+            raise RuntimeError(f"{SUPP_FILE} icinde {anchor} bolumu bulunamadi")
+        lo, hi, skip = sec
+        prose = [("" if i in skip else ln) for i, ln in enumerate(lines)]
+        take(scan_lines(prose, SUPP_FILE, lo, hi, unit=anchor.split(":")[1]))
 
     lines = read(ABSTRACT_FILE)
     env = find_env(lines, "abstract")

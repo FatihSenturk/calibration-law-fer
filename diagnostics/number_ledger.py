@@ -67,6 +67,11 @@ A_NU = "paper_tables/noise_units.json"
 A_TSS = "paper_tables/tstar_sensitivity.json"
 A_TSP = "paper_tables/tstar_provenance.json"
 A_SAI = "paper_tables/selection_audit_inference.json"
+# --- N16 (18 Agu 2026): supplementary S1-S3 kapsam genislemesi
+A_ROB = "paper_tables/robustness_metrics.json"
+A_BOOT = "paper_tables/bootstrap_cis.json"
+A_HGA = "paper_tables/headroom_grid_audit.json"
+A_JSD = "paper_tables/jsd_sensitivity.json"
 
 BINDINGS = []      # alan baglari
 DERIVED = []       # turetilmis nicelikler
@@ -687,6 +692,28 @@ dv("accuracy_band_widest_arm", "0.51", "diff",
 # §3.2, DUZYAZI -- kapsam disi metinden TEK TEK beyanla iceri alinan iki uc. Fatih'in 17 Agu
 # kurali: turetilmis nicelik asla basili yuvarlak degerden hesaplanmaz. Bu iki sayi 14 Agu'da
 # tam o hatayla (0.0015/0.0220) yeniden uretilmisti; artik pay ve payda alan yolu.
+# --- N16: S2 duzyazisinin turetilmis nicelikleri
+dv("robust_agreeing_steps", "224", "diff",
+   [op(A_ROB, "total_steps"), op(A_ROB, "total_breaks")],
+   "int", "robust", -1, "bottoms out. Across", 1,
+   note="uyusan adim sayisi = toplam adim - kirilma; makale 224'u basiyor, artefakt ikisini")
+dv("robust_agreement_pct", "97.0", "pct_of",
+   [op(A_ROB, "total_steps - total_breaks"), op(A_ROB, "total_steps")],
+   "1dp", "robust", -1, "temperature pair (", 0,
+   note="paydasi CUMLEDE adlandirilmis: 231 adim")
+dv("jsd_smallest_stratum_pct", "0.9", "pct_of",
+   [op(A_JSD, 'results["(c) stratum 6-7"].n'), op(A_JSD, 'results["(a) all rows"].n')],
+   "1dp", "robust", -1, "0.9 % of the fold", 0,
+   note="en kucuk katmanin foldun yuzde kaci: 28 / 3153")
+# 13-14x AYNI nicelik, ucuncu ve dorduncu gecis (§3.2 duzyazisi + S2 duzyazisi). Ayni pay/payda.
+dv("tstar_criterion_cost_min_supp", "13", "ratio",
+   [op(A_TSS, "results.ferplus.ece_removed_by_ts"), op(A_TSS, "results.ferplus.d_ece")],
+   "int", "robust", -1, "the ECE minimum costs at most", 1,
+   note="§3.2'deki `tstar_criterion_cost_min` ile ayni pay/payda, S2'deki ikinci gecis")
+dv("tstar_criterion_cost_max_supp", "14", "ratio",
+   [op(A_TSS, "results.stage1.ece_removed_by_ts"), op(A_TSS, "results.stage1.d_ece")],
+   "int", "robust", -1, "the ECE minimum costs at most", 2,
+   note="§3.2'deki `tstar_criterion_cost_max` ile ayni pay/payda, S2'deki ikinci gecis")
 dv("tstar_criterion_cost_min", "13", "ratio",
    [op(A_TSS, "results.ferplus.ece_removed_by_ts"), op(A_TSS, "results.ferplus.d_ece")],
    "int", None, None, None, None,
@@ -697,6 +724,155 @@ dv("tstar_criterion_cost_max", "14", "ratio",
    "int", None, None, None, None,
    where="sections/03_methodology.tex#times smaller than the ECE the scaling removes",
    note="Stage1 14.32x -- uc ogretmenin en yuksegi; vae9182 disarida cunku TS orada ECE EKLIYOR")
+
+# =============================================================================
+# 14 · supplementary S1-S3 (18 Agu 2026, N16) — kapsam genisletmesi
+# =============================================================================
+# NEDEN SIMDI. Kapsam beyani "S1-S3 girmez (bugunku headroom hukmu oraya henuz islenmedi)"
+# diyordu ve BAYATLAMISTI: hukum S2'ye islendi. 15 Agustos'taki celiskiyi ureten sayilarin
+# (headroom noktasi ve GA'si) tamami orada duruyor -- belgede bagsiz duran en yuksek riskli
+# hucreler onlardi.
+# S3 tarandi ve SIFIR jeton verdi: govdesi yalniz `\input` ve `\ref`, tablolarin kendisi zaten
+# TABLE_FILES uzerinden kapsamda. Bos cikan bir kapsam da bir olcumdur, beyani duruyor.
+
+# --- S2 tablosu app_tstar: dordu de `tstar_sensitivity`in kendi satirlari
+for row, t in (("stage1", "stage1"), ("primary", "primary"), ("control", "vae9182"),
+               ("FERPlus", "ferplus")):
+    for k, (fld, rnd) in enumerate((("T_star_nll", "3dp"), ("T_star_ece", "3dp"),
+                                    ("d_ece", "4dp"), ("ece_removed_by_ts", "4dp"))):
+        b("app_tstar", -1, row, k, A_TSS, f"results.{t}.{fld}", rnd,
+          ident=f"app_tstar.{t}.{fld}")
+b("app_tstar", -1, "text says so (FERPlus and Stage1 at a half-fold", 1, A_TSP,
+  "half_fold_fits.stage1", "4dp", ident="app_tstar.caption.half_fold")
+b("app_tstar", -1, "against the full-fold 1.3494", 0, A_TSS, "results.stage1.T_star_nll",
+  "4dp", ident="app_tstar.caption.full_fold")
+b("app_tstar", -1, "local minimum; the dense-grid check", 0, A_TSS, "dense_grid.step", "3dp",
+  ident="app_tstar.caption.dense_step")
+b("app_tstar", -1, "local minimum; the dense-grid check", 1, A_TSS,
+  "results.stage1.dense_grid_ece", "4dp", ident="app_tstar.caption.dense_ece")
+b("app_tstar", -1, "at T = 1.335", 0, A_TSS, "results.stage1.dense_grid_T", "3dp",
+  ident="app_tstar.caption.dense_T")
+ex("app_tstar", -1, "text says so (FERPlus and Stage1 at a half-fold", 0, "teacher_name_digits",
+   "alt yazidaki 'Stage1' adinin icindeki basamak")
+ex("app_tstar", -1, "Section ). The stage1 ECE", 0, "teacher_name_digits",
+   "alt yazidaki 'stage1' adinin icindeki basamak")
+
+# --- S2 tablosu app_jsd: `jsd_sensitivity` kesitleri
+JSD_ROWS = [("all rows", "(a) all rows"), ("vote sum =10", "(b) vote sum = 10"),
+            ("stratum 6--7", "(c) stratum 6-7"), ("stratum 8--9", "(c) stratum 8-9"),
+            ("stratum 10", "(c) stratum 10")]
+for row, key in JSD_ROWS:
+    cell = f'results["{key}"]'
+    b("app_jsd", -1, row, 0, A_JSD, f"{cell}.n", "int", ident=f"app_jsd.{key}.n")
+    for k, fld in enumerate(("T_ece", "T_nll", "T_jsd"), start=1):
+        b("app_jsd", -1, row, k, A_JSD, f"{cell}.{fld}", "2dp", ident=f"app_jsd.{key}.{fld}")
+
+# --- S2 tablosu app_argmin: uzlasi T'leri baglandi; "7/7" sayaclari BULUNAMADI
+for row, key in (("RAF-DB stage1", "RAF-DB stage1"), ("RAF-DB control", "RAF-DB vae9182"),
+                 ("FERPlus", "FERPlus")):
+    b("app_argmin", -1, row, 0, A_ROB, f'series["{key}"]._consensus_T', "2dp",
+      ident=f"app_argmin.{key}.consensus_T")
+ex("app_argmin", -1, "seed-level dissents", 0, "teacher_name_digits",
+   "alt yazidaki 'stage1' adinin icindeki basamak")
+
+# --- S2 duzyazisi: ROBUSTLUK paragrafi
+b("robust", -1, "Every run of the three dose--response series", 0, A_ROB, "total_runs", "int",
+  ident="robust.total_runs")
+b("robust", -1, "bottoms out. Across", 0, A_ROB, "total_runs", "int",
+  ident="robust.total_runs_2")
+b("robust", -1, "bottoms out. Across", 2, A_ROB, "total_steps", "int",
+  ident="robust.total_steps")
+ex("robust", -1, "NLL Brier equal-width ECE at", None, "benchmark_protocol",
+   "kestirici envanteri: 10/15/25 kutu -- olcum protokolu")
+ex("robust", -1, "ECE at 15 bins and classwise ECE", None, "benchmark_protocol",
+   "kutu sayisi 15 -- olcum protokolu")
+ex("robust", -1, "15 -bin column was required to match", None, "benchmark_protocol",
+   "kutu sayisi 15 -- olcum protokolu")
+ex("robust", -1, "value to 10^", None, "criterion_constant",
+   "kapinin toleransi 10^-9 (esik tanimi; artefakta `verification.tolerance` olarak da var)")
+ex("robust", -1, "leaves ECE slightly worse than T = 1", 0, "hyperparameter",
+   "olceklenmemis kol T=1")
+ex("robust", -1, "T = 1 minus the minimum over the grid", 0, "hyperparameter",
+   "Eq.8 tanimindaki T=1")
+ex("robust", -1, "[+0.0151", 2, "teacher_name_digits", "'stage1' adinin icindeki basamak")
+ex("robust", -1, "0.74 in every slice holding at least", 1, "criterion_constant",
+   "kesit buyuklugu esigi 1{,}000 satir -- olcut, olcum degil")
+ex("robust", -1, "0.74 in every slice holding at least", 2, "criterion_constant",
+   "ayni esigin ikinci jetonu (1{,}000 -> '1' + '000')")
+b("robust", -1, "the ECE minimum costs at most", 0, A_TSS, "max_d_ece", "4dp",
+  ident="robust.max_criterion_cost")
+b("robust", -1, "two criteria disagree in direction", 0, A_TSS, "results.vae9182.T_star_nll",
+  "2dp", ident="robust.control_T_nll")
+b("robust", -1, "the other side of unity", 0, A_TSS, "results.vae9182.T_star_ece", "2dp",
+  ident="robust.control_T_ece")
+b("robust", -1, "( 2000 resamples", 0, A_BOOT, "B", "int", ident="robust.bootstrap_B")
+HEAD_ROWS = [("( 2000 resamples", 1, "stage1", "point.headroom_eq8", "4dp"),
+             ("[+0.0151", 0, "stage1", "ci95.headroom_eq8[0]", "4dp"),
+             ("[+0.0151", 1, "stage1", "ci95.headroom_eq8[1]", "4dp"),
+             ("[+0.0151", 3, "primary", "point.headroom_eq8", "4dp"),
+             ("[+0.0151", 4, "primary", "ci95.headroom_eq8[0]", "4dp"),
+             ("[+0.0151", 5, "primary", "ci95.headroom_eq8[1]", "4dp"),
+             ("primary +0.0023", 0, "vae9182", "point.headroom_eq8", "4dp"),
+             ("primary +0.0023", 1, "vae9182", "ci95.headroom_eq8[0]", "4dp"),
+             ("primary +0.0023", 2, "vae9182", "ci95.headroom_eq8[1]", "4dp")]
+for row, idx, t, path, rnd in HEAD_ROWS:
+    b("robust", -1, row, idx, A_BOOT, f"results.{t}.{path}", rnd,
+      ident=f"robust.headroom.{t}.{path}")
+# FERPlus'in headroom'u BASKA bir artefakttan gelir ve bu AYRIM onemli: ayni 0.1126'ya yuvarlanan
+# UC alan var (`bootstrap_cis`, `headroom_grid_audit`, `headroom_review`) ve makale burada KOSU
+# IZGARASI uzerindeki degeri aliyor -- 15 Agu'daki celiskinin cikis noktasi tam buydu.
+b("robust", -1, "primary +0.0023", 3, A_HGA, "grids.run.headroom", "4dp",
+  ident="robust.headroom.ferplus.point")
+b("robust", -1, "[+0.1018", 0, A_HGA, "grids.run.ci95[0]", "4dp",
+  ident="robust.headroom.ferplus.ci_lo")
+b("robust", -1, "[+0.1018", 1, A_HGA, "grids.run.ci95[1]", "4dp",
+  ident="robust.headroom.ferplus.ci_hi")
+for k, fld in enumerate(("lo", "hi", "step")):
+    b("robust", -1, "dense auxiliary grid", k, A_HGA, f"grids.boot.grid.{fld}", "2dp",
+      ident=f"robust.dense_grid.{fld}")
+b("robust", -1, "the ECE minimum at T = 0.46", 0, A_HGA, "grids.fine.T_argmin", "2dp",
+  ident="robust.ferplus_fine_argmin")
+b("robust", -1, "paper actually ran whose minimum is the deployed arm", 0, A_HGA,
+  "grids.run.T_argmin", "4dp", ident="robust.ferplus_deployed_arm")
+b("robust", -1, "0.74 in every slice holding at least", 0, A_JSD,
+  "T_jsd_values_across_slices[0]", "2dp", ident="robust.jsd_optimum")
+b("robust", -1, "T^ * _ NLL ) flips in the smallest stratum", 0, A_JSD, 'results["(c) stratum 6-7"].n',
+  "int", ident="robust.smallest_stratum_n")
+
+# --- S1: mekanizma tanimlari. KIRK BES JETONUN TAMAMI hiperparametre, formul sabiti ya da
+# kaynakca sayisi -- yani hicbiri olcum degil. Tanim gereği: bir sayi ancak bir kosunun
+# CIKTISIYSA olcumdur; S1 kosularin GIRDISINI yaziyor.
+SPECS_EX = [
+    ("shares = 6 = 0.3 and an unscaled teacher", None, "hyperparameter", "tau=6, alpha=0.3"),
+    ("( T = 1 ); the single exception", None, "hyperparameter", "olceklenmemis kol T=1"),
+    ("T_0 = 0.7311 by design", None, "hyperparameter", "miskalibrasyon pilotunun T_0'i"),
+    ("( = 10^", None, "hyperparameter", "sayisal kararlilik sabiti epsilon=1e-6"),
+    ("(1- _i) L _ KD i . Settings:", None, "hyperparameter", "kayip formulundeki 1"),
+    ("_ lo = 0.1 _ hi = 0.7", None, "hyperparameter", "gate alpha_lo/alpha_hi"),
+    ("k = 2 _g = 0", None, "hyperparameter", "gate k ve tau_g"),
+    ("Direction of the oracle arm", None, "hyperparameter", "top-1 tanimindaki 1"),
+    ("is wrong u_i = 1", None, "hyperparameter", "oracle sinyali u_i=1 (tanim)"),
+    ("_ hi and the teacher's weight", None, "hyperparameter", "agirlik formulundeki 1"),
+    ("_ T = 0.5 clamped to", None, "hyperparameter", "adaptive-T gamma=0.5"),
+    ("T_i [1.0 2 ]", None, "hyperparameter", "T kelepcesi [1.0, 2tau] ve H_i'nin T=1'i"),
+    ("Class-space Gaussian matching", None, "hyperparameter", "G2G basligindaki 2"),
+    ("w KL ( N (", None, "hyperparameter", "formuldeki sigma^2 usleri"),
+    ("| N (", None, "hyperparameter", "formuldeki sigma^2 usleri"),
+    ("with w = 0.1 and no warm-up", None, "hyperparameter", "G2G agirligi w=0.1"),
+    ("not an intermediate feature layer", None, "hyperparameter", "formuldeki sigma^2 usu"),
+    ("is clamped to 10", None, "hyperparameter", "logvar kelepcesi +-10"),
+    ("( ) ) with t_ = 1 t_ = 8", None, "hyperparameter", "CTKD t_min=1, t_max=8"),
+    ("initialised at 0 and cosine-ramped", None, "hyperparameter", "theta baslangici ve rampa"),
+    ("_ = 1 ; the gradient-reversal", None, "hyperparameter", "lambda_max=1"),
+    ("( 3 10^", None, "hyperparameter", "ogrenme orani 3e-4"),
+    ("Proc. AAAI", None, "citation", "cilt/sayi/sayfa/yil"),
+    ("doi:10.1609", None, "citation", "DOI"),
+    ("= 10^ -6 taken per sample", None, "hyperparameter", "logit standardizasyonu epsilon"),
+    ("= 6 = 0.3 vanilla setup", None, "hyperparameter", "tau=6, alpha=0.3"),
+]
+for _row, _idx, _cls, _why in SPECS_EX:
+    ex("specs", -1, _row, _idx, _cls, _why)
+
 
 # =============================================================================
 # TEYIT KAYITLARI (cross_checks) — ayni niceligi hesaplayan IKINCI kaynak
@@ -931,6 +1107,8 @@ def build(paper_root):
             val = abs(vals[0]) / abs(vals[1])
         elif d["formula"] == "diff":
             val = vals[0] - vals[1]
+        elif d["formula"] == "pct_of":
+            val = 100.0 * vals[0] / vals[1]
         elif d["formula"] == "pct_drop":
             # yuzde AZALMA: (taban - duzeltilmis) / taban x 100. Payda ACIKCA TABAN -- bir oranin
             # paydasi cumlede adlandirilmali (17 Agu kurali), burada da alan yolu olarak duruyor.
@@ -1075,6 +1253,13 @@ def build(paper_root):
                    "mismatch": sum(1 for e in entries if not e["matches"]),
                    "derived_mismatch": sum(1 for e in dentries if not e["matches"]),
                    "prose": len(pentries),
+                   # SÜTUN TOPLANSIN DİYE (18 Ağu, N16). `derived` BEYAN sayar, `tokens` JETON
+                   # sayar: türetilmiş beyanların bir kısmı kapsam DIŞI düzyazıya çapalı,
+                   # dolayısıyla kapsam içi hiçbir jetonu tüketmez. Sütunu toplayan bir okur
+                   # 719'u bulamıyordu. Jeton muhasebesi artık ayrı basılıyor:
+                   #     bound + derived_in_scope + exempt = tokens
+                   "derived_in_scope": sum(1 for e in dentries if e["where"]),
+                   "derived_prose_anchored": sum(1 for e in dentries if not e["where"]),
                    "cross_checks": len(xentries),
                    "cross_check_fail": sum(1 for e in xentries if not e["matches"]),
                    "problems": len(problems)},
@@ -1134,12 +1319,26 @@ def write_md(payload, dentries):
          "existence proves nothing.", "",
          "Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_scan.py`"
          " · auditor: `diagnostics/check_numbers.py`", "",
-         "| | count |", "|---|---|",
-         f"| numeric tokens in scope | {c['tokens']} |",
+         "### Token accounting — this column adds up", "",
+         "| in-scope numeric token | count |", "|---|---|",
          f"| bound to an artifact field | {c['bound']} |",
-         f"| derived (ratio / difference) | {c['derived']} |",
+         f"| derived, occupying an in-scope token | {c.get('derived_in_scope', 0)} |",
          f"| declared not-a-measurement | {c['exempt']} |",
          f"| **unregistered** | **{c['unbound']}** |",
+         f"| **= numeric tokens in scope** | **{c['tokens']}** |", "",
+         "The four categories are disjoint (bound ∩ exempt is checked to be empty) and the "
+         "column sums to the total. Two kinds of declaration are **not** in that table because "
+         "they occupy no in-scope token — they are anchored to sentences the scanner "
+         "deliberately does not read:", "",
+         "| declaration anchored outside the scanned scope | count |", "|---|---|",
+         f"| derived quantity on a prose anchor | {c.get('derived_prose_anchored', 0)} |",
+         f"| prose field binding (`pv`) | {c.get('prose', 0)} |", "",
+         f"The registry therefore holds **{c['derived']}** derived quantities in total: "
+         f"{c.get('derived_in_scope', 0)} on in-scope tokens + "
+         f"{c.get('derived_prose_anchored', 0)} on prose anchors. Adding *declaration* counts "
+         "to *token* counts is what made an earlier version of this table appear not to sum.",
+         "",
+         "| other | count |", "|---|---|",
          f"| printed-vs-field mismatch | {c['mismatch']} |",
          f"| confirmation records (second source) | {c.get('cross_checks', 0)} "
          f"({c.get('cross_check_fail', 0)} failing) |",

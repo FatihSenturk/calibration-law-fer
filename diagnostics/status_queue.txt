@@ -23,6 +23,50 @@ note = A12 gercek-sinyal gate n=3 (5 hucre x 2 yeni tohum). ON-BEYANLI: PREREGIS
 # 4 Ağu ikinci güncelleme (ide_prompt_baslik_v2.md): BAŞLIK v2 seçildi ve gönderim tarihi
 # artık bir hedef değil — P6 entegrasyonu + konsolide tur bitmeden tarih verilmiyor.
 pending:
+- N16 dort is (18 Agu, Windows makinesindeki SON TUR):
+  (1) KAPININ KOR NOKTASI KAPATILDI. `producer_freshness_gate.py`, iki katman. ONCE OLCUM:
+  52 Level-1 temiz ureticinin suresi min 0.04 / medyan 0.21 / maks 33.2 s, toplam 138 s --
+  "pahali uretici" sinifi PRATIKTE CIKMADI, hepsi Katman A'ya sigiyor. Katman B'ye dusenler
+  sure yuzunden degil KOSU AGACINI OKUMAK ISI olduklari icin (Level-3, 8 uretici).
+  KATMAN A: ureticiyi kos + BAYT karsilastir; kapi artefakti DEGISTIRMEZ (anlik kopya, her
+  durumda geri yaz) ve ureticiyi LEVEL-1 GUARD ALTINDA kosturur -- ilk kosuda
+  a12_realsignal_verdict "BAYAT" gorundu, oysa depodaki kopya kosu agaci ERISILEMEZKEN
+  yazilmisti ve olcum alanlarinin hepsi ayniydi; artefaktin baytlari "uretici + YAYIMLANMIS
+  girdiler"in fonksiyonu olmali.
+  KATMAN B: `_provenance` damgasi DEGIL, GIT GECMISI. Gerekce: iki artefakta damga basmak
+  imkansiz -- selection_audit.csv DONMUS (damgalamak icin kosturmak onu yeniden yazmak demek)
+  ve latency_benchmark.json OLCULMUS SURELER tasiyor (yeniden kosmak yayimlanmis sayilari
+  degistirir). Git: "artefaktin son yazildigi commit'ten bu yana ureticiye dokunan commit var
+  mi?" Kosturma yok, yazma yok, donmus artefakt guvende. SINIR: girdi verisi degistiyse gormez.
+  KAPI ILK KOSUSUNDA ALTINCI VAKAYI BULDU: selection_audit_table.py kaynak ayrismasi -- donmus
+  dosya icin BEKLENEN ayrisma, `FROZEN` beyaniyla gerekcelendirildi. Oz sinama 2/2 (42 per_seed
+  blogu silinince BAYAT).
+  (2) DEFTERIN OZET TABLOSU ARTIK TOPLANIYOR: 687 + 17 + 150 + 8 = 862 jeton. Sorun ortusme
+  degildi (bagli n muaf = 0 olculdu), IKI FARKLI MUHASEBEYI ayni sutuna koymakti: `derived` ve
+  `prose` BEYAN sayar, kapsam disi capaya bagli beyan hicbir jetonu tuketmez. Eski rapora
+  TARIHLI not dusuldu (metni degistirilmedi): %96,1 DOGRU, yanlis olan PAY -- 689 yerine 686
+  (o gunun artefaktindan olculdu, commit 20a255d: 10 turetilmisin 8'i kapsam ici).
+  (3) KAPSAM S1-S3'E GENISLEDI: 719 -> 862 jeton (+143). specs 45 · robust 44 · app_tstar 23 ·
+  app_jsd 20 · app_argmin 11 · tables 0 (S3 govdesi yalniz \input/ef). 15 Agu celiskisini
+  ureten sayilar artik alan yolunda (bootstrap_cis + headroom_grid_audit). ONEMLI AYRIM:
+  0.1126'ya yuvarlanan UC alan var; S2 duzyazisi KOSU IZGARASI degerini, app_tstar tablosu
+  TS'in kaldirdigi ECE'yi basiyor -- ayri baglandi. KAYITSIZ 0 -> 8, ORTULMEDI: sekizi de
+  robustness_metrics'in md'ye basip JSON'a yazmadigi uzlasi sayaclari (7/7, 7/7, 6/7) ve
+  FERPlus NLL istisnasi 0.74. DUZELTMESI BELLI: robustness_metrics.py bunlari JSON'a yazmali.
+  (4) DEPO HIJYENI: .gitattributes eklendi -- ama `eol=lf` OLCULEREK GERI ALINDI: ureticiler
+  Path.write_text ile yaziyor, Windows'ta CRLF cikiyor; eol=lf ile her uretici kosusu calisma
+  agacini kirletir ve Katman A kalici yanlis pozitif verir (a12_verdict.md'de 69 satirin 69'u
+  "degismis" gorundu, icerik birebir ayniydi). `text=auto` dogru olan: depo icerigi LF, calisma
+  agaci platform yerlisi. requirements.txt artik URETICI CIKTISI (requirements_lock.py):
+  19 dagitim sabitlendi, Python 3.13.10; eslenemeyen 3 ad (reportlab/svglib/svgwrite, yalniz
+  generate_kd_figure kullaniyor) DOSYAYA YAZILDI, atilmadi. NOT: numpy==2.4.0rc1 bir SURUM
+  ADAYI ve hem opencv-python hem opencv-contrib-python kurulu -- ikisi de olculen gercek.
+  requirements_27may.txt SILINMEDI (depodan silmek onaya tabi), karar bekliyor.
+  OLCULDU AMA YAPILMADI: sections/*.tex duzyazisi 821 jeton (tahmin ~470'ten fazla); 745'inin
+  (%90,7) degeri kayitli bir artefaktta VAR ama bu SEZGISEL UST SINIR (varlik kontrolu N13'te
+  bayat degerlerin 4'te 3'unu kaciriyordu). Eslesmeyen 76'nin cogu olcum degil, ama %29,3 ve
+  %37,3 gercek olcum ve ureticisi YOK.
+  Rapor: diagnostics/reports/2026-08-18_kapi_kor_nokta.md
 - SIRADA (Fatih 17 Agu, N15 §5): KAPININ YAPISAL KOR NOKTASI. Kapi artefakti KABUL EDILMIS
   temel cizgisiyle karsilastiriyor, URETICININ TAZE CIKTISIYLA degil -- yani "uretici degisti,
   artefakt yeniden uretilmedi" durumu kapidan GECIYOR. Bu siniftan bes vaka elle yakalandi:
@@ -32,7 +76,7 @@ pending:
   ve 53 uretici UCUZ / PAHALI (GPU, uzun kosu) diye IKIYE AYRILACAK -- ayrim OLCULEREK, tahminle
   degil. Bugunku tek veri noktasi: Level-1 53 ureticiyi argumansiz kosuyor ve hicbiri betik
   basina 900 s zaman asimina carpmiyor (zaman asimi 0); basina-dusen sure OLCULMEDI.
-  Not: bu turda bilerek yapilmadi (Fatih: "simdi yapma, siraya yaz").
+  Not: 18 Agu'da YAPILDI (Fatih karari degistirdi) -- bkz. N16 kalemi (1).
 - N15 iki karar: KANONIK T* + IHRAC BANDI (17 Agu, N14'un devami). Ikisi de uygulandi, kabul
   olcutlerinin ucu de tuttu: oz sinama 11/11 -> 13/13 (hicbiri dusmedi), KAYITSIZ 0 kaldi,
   kapsam taramasi ihlal 0 -> bant genisletmesi GERI ALINMADI.
