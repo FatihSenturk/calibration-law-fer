@@ -275,6 +275,12 @@ Everything here was run on **Python 3.13.10**, **PyTorch 2.10.0 (CUDA 12.8)**,
 Windows 11, on a single NVIDIA RTX 5070 with an AMD Ryzen 9 7950X. Versions are
 pinned in `requirements.txt`; the analysis layer needs only its CPU-only block.
 
+Two entries in that file will look odd, and both are deliberate. `numpy==2.4.0rc1`
+is a release *candidate* — that is what the analysis actually ran on, and the file
+records the measured environment rather than a tidier one. And both
+`opencv-python` and `opencv-contrib-python` are pinned, because the import name
+`cv2` resolves to either: a clean install needs both to reproduce what was here.
+
 Run scripts from the repository root — each resolves its own paths relative to
 its own location. Scripts that read run artefacts expect them under `results/`,
 which is not distributed; those are marked above.

@@ -178,6 +178,17 @@ def cells_from_r3_robustness(p):
                                                  len(pm.get("by_seed", {})))
             out[f"R3-1/{tag}/{met}/steps"] = (pm.get("steps_consistent"), None,
                                               pm.get("steps_total"))
+            # 18 Agu: minimumun YERI de kapiya girdi. `argmin_T_modal` cogunlugun,
+            # `argmin_T_all_seeds` HER tohumun koydugu yer (oybirligi yoksa None ve hucre
+            # dusurulur -- bir sonraki kosuda VANISHED olarak bagirir, sessizce kaymaz).
+            out[f"R3-1/{tag}/{met}/argmin_T_modal"] = (pm.get("argmin_T_modal"), None, None)
+            if pm.get("argmin_T_all_seeds") is not None:
+                out[f"R3-1/{tag}/{met}/argmin_T_all_seeds"] = (pm["argmin_T_all_seeds"],
+                                                               None, None)
+        # Uzlasi sayaci: makalede `tab:app_argmin`'in "7/7" sutunu.
+        out[f"R3-1/{tag}/consensus_T"] = (s.get("_consensus_T"), None, None)
+        out[f"R3-1/{tag}/metrics_agreeing"] = (s.get("_consensus_metrics_agreeing"), None,
+                                               s.get("_n_metrics"))
     return out
 
 

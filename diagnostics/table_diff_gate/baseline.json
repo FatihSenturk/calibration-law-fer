@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-18T03:55:44",
-  "reason": "N16 (18 Agu): supplementary S1-S3 kapsam genislemesi + defter muhasebesi. 19 sapma: 7 MOVED (defterin KENDI sayaclari -- jeton 719 -> 862, bagli 617 -> 687, muaf 90 -> 150, turetilmis 16 -> 21, KAYITSIZ 0 -> 8, yerlesim 166 -> 178) ve 12 APPEARED (bes yeni turetilmis nicelik: 224 uyusan adim, %97.0 uyusma, %0.9 en kucuk katman, 13-14x olcut maliyetinin S2 gecisi; iki yeni sayac: derived_in_scope / derived_prose_anchored). CHANGED/VANISHED YOK -- hicbir OLCUM degeri degismedi, degisen kapsamin kendisi. KAYITSIZ 0'dan 8'e cikti ve bu ORTULMEDI: sekizi de app_argmin'in metrik-uzlasi sayaclari (7/7, 7/7, 6/7) ile FERPlus NLL istisnasi 0.74; robustness_metrics bunlari md'ye basiyor ama JSON alani olarak tutmuyor.",
+  "accepted_at": "2026-08-19T14:38:12",
+  "reason": "N17 (18 Agu): son sekiz kayitsiz baglandi. 45 sapma: 2 MOVED (defterin KENDI sayaci: KAYITSIZ 8 -> 0) ve 43 APPEARED (kapiya giren yeni hucreler: 21 seri x metrik icin argmin_T_modal = 21, oybirligi olan 16 hucre icin argmin_T_all_seeds = 16, uc seri icin consensus_T + metrics_agreeing = 6; toplam 43 -- 21-16=5 hucrede oybirligi YOK oldugu icin o hucreler bilerek dusuruldu, bir gun oybirligi cokerse VANISHED diye bagirsin). CHANGED/VANISHED YOK: hicbir OLCUM degeri degismedi. DUZELTME (17 ve 18 Agu raporlarina): \"sekizinin de JSON alani yok\" ifadesi FAZLA GENELDI. Olculdu -- 3 tanesi (uzlasi sayaclarinin PAYI 7/7/6) gercekten yoktu; 3 tanesi (PAYDA 7) yalnizca metric_order listesinin UZUNLUGU olarak vardi, skaler alan degildi; 2 tanesi (0.74) ise metrics.nll.argmin_T_modal olarak ZATEN VARDI, yani kayitsizliklarinin sebebi alanin yoklugu degil BAGIN kurulmamis olmasiydi.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -471,7 +471,7 @@
       null
     ],
     "N13/count/bound": [
-      687,
+      695,
       null,
       null
     ],
@@ -486,7 +486,7 @@
       null
     ],
     "N13/count/unbound": [
-      8,
+      0,
       null,
       null
     ],
@@ -616,7 +616,7 @@
       null
     ],
     "N13/unbound_ids": [
-      8,
+      0,
       null,
       null
     ],
@@ -4545,6 +4545,16 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_stage1/nll/argmin_T_modal": [
+      1.3406,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_stage1/nll/argmin_T_all_seeds": [
+      1.3406,
+      null,
+      null
+    ],
     "R3-1/RAF-DB_stage1/brier/T=0.85": [
       0.18029920756816864,
       0.004730233081891463,
@@ -4574,6 +4584,11 @@
       10,
       null,
       12
+    ],
+    "R3-1/RAF-DB_stage1/brier/argmin_T_modal": [
+      1.3406,
+      null,
+      null
     ],
     "R3-1/RAF-DB_stage1/ece_ew_10/T=0.85": [
       0.07957482913177928,
@@ -4605,6 +4620,16 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_stage1/ece_ew_10/argmin_T_modal": [
+      1.3406,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_stage1/ece_ew_10/argmin_T_all_seeds": [
+      1.3406,
+      null,
+      null
+    ],
     "R3-1/RAF-DB_stage1/ece_ew_15/T=0.85": [
       0.07967298300447075,
       0.001631989300491036,
@@ -4634,6 +4659,11 @@
       11,
       null,
       12
+    ],
+    "R3-1/RAF-DB_stage1/ece_ew_15/argmin_T_modal": [
+      1.3406,
+      null,
+      null
     ],
     "R3-1/RAF-DB_stage1/ece_ew_25/T=0.85": [
       0.08019367800211968,
@@ -4665,6 +4695,16 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_stage1/ece_ew_25/argmin_T_modal": [
+      1.3406,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_stage1/ece_ew_25/argmin_T_all_seeds": [
+      1.3406,
+      null,
+      null
+    ],
     "R3-1/RAF-DB_stage1/ece_em_15/T=0.85": [
       0.07952274330306809,
       0.0014800439593135486,
@@ -4694,6 +4734,16 @@
       12,
       null,
       12
+    ],
+    "R3-1/RAF-DB_stage1/ece_em_15/argmin_T_modal": [
+      1.3406,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_stage1/ece_em_15/argmin_T_all_seeds": [
+      1.3406,
+      null,
+      null
     ],
     "R3-1/RAF-DB_stage1/ece_classwise/T=0.85": [
       0.10731721125747365,
@@ -4725,6 +4775,21 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_stage1/ece_classwise/argmin_T_modal": [
+      1.3406,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_stage1/consensus_T": [
+      1.3406,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_stage1/metrics_agreeing": [
+      7,
+      null,
+      7
+    ],
     "R3-1/RAF-DB_vae9182/nll/T=0.85": [
       0.33222150802612305,
       0.008369905733300787,
@@ -4754,6 +4819,11 @@
       11,
       null,
       12
+    ],
+    "R3-1/RAF-DB_vae9182/nll/argmin_T_modal": [
+      1.0,
+      null,
+      null
     ],
     "R3-1/RAF-DB_vae9182/brier/T=0.85": [
       0.1571155140797297,
@@ -4785,6 +4855,11 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_vae9182/brier/argmin_T_modal": [
+      1.0,
+      null,
+      null
+    ],
     "R3-1/RAF-DB_vae9182/ece_ew_10/T=0.85": [
       0.04431770957912481,
       0.001515013536539222,
@@ -4814,6 +4889,16 @@
       12,
       null,
       12
+    ],
+    "R3-1/RAF-DB_vae9182/ece_ew_10/argmin_T_modal": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/ece_ew_10/argmin_T_all_seeds": [
+      1.0,
+      null,
+      null
     ],
     "R3-1/RAF-DB_vae9182/ece_ew_15/T=0.85": [
       0.044675372809702706,
@@ -4845,6 +4930,16 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_vae9182/ece_ew_15/argmin_T_modal": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/ece_ew_15/argmin_T_all_seeds": [
+      1.0,
+      null,
+      null
+    ],
     "R3-1/RAF-DB_vae9182/ece_ew_25/T=0.85": [
       0.04517005026657806,
       0.0012177526122698758,
@@ -4874,6 +4969,16 @@
       12,
       null,
       12
+    ],
+    "R3-1/RAF-DB_vae9182/ece_ew_25/argmin_T_modal": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/ece_ew_25/argmin_T_all_seeds": [
+      1.0,
+      null,
+      null
     ],
     "R3-1/RAF-DB_vae9182/ece_em_15/T=0.85": [
       0.04514996889413621,
@@ -4905,6 +5010,16 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_vae9182/ece_em_15/argmin_T_modal": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/ece_em_15/argmin_T_all_seeds": [
+      1.0,
+      null,
+      null
+    ],
     "R3-1/RAF-DB_vae9182/ece_classwise/T=0.85": [
       0.07033147531931627,
       0.005922773849511001,
@@ -4935,6 +5050,26 @@
       null,
       12
     ],
+    "R3-1/RAF-DB_vae9182/ece_classwise/argmin_T_modal": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/ece_classwise/argmin_T_all_seeds": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/consensus_T": [
+      1.0,
+      null,
+      null
+    ],
+    "R3-1/RAF-DB_vae9182/metrics_agreeing": [
+      7,
+      null,
+      7
+    ],
     "R3-1/FERPlus/nll/T=0.26": [
       0.4913548429807027,
       0.005914205889821545,
@@ -4959,6 +5094,16 @@
       9,
       null,
       9
+    ],
+    "R3-1/FERPlus/nll/argmin_T_modal": [
+      0.74,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/nll/argmin_T_all_seeds": [
+      0.74,
+      null,
+      null
     ],
     "R3-1/FERPlus/brier/T=0.26": [
       0.17518076300621033,
@@ -4985,6 +5130,16 @@
       null,
       9
     ],
+    "R3-1/FERPlus/brier/argmin_T_modal": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/brier/argmin_T_all_seeds": [
+      0.5063,
+      null,
+      null
+    ],
     "R3-1/FERPlus/ece_ew_10/T=0.26": [
       0.05783896619704703,
       0.002472755385164667,
@@ -5009,6 +5164,16 @@
       9,
       null,
       9
+    ],
+    "R3-1/FERPlus/ece_ew_10/argmin_T_modal": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/ece_ew_10/argmin_T_all_seeds": [
+      0.5063,
+      null,
+      null
     ],
     "R3-1/FERPlus/ece_ew_15/T=0.26": [
       0.058740805600987316,
@@ -5035,6 +5200,16 @@
       null,
       9
     ],
+    "R3-1/FERPlus/ece_ew_15/argmin_T_modal": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/ece_ew_15/argmin_T_all_seeds": [
+      0.5063,
+      null,
+      null
+    ],
     "R3-1/FERPlus/ece_ew_25/T=0.26": [
       0.06051653166101578,
       0.0027156788911380826,
@@ -5059,6 +5234,16 @@
       9,
       null,
       9
+    ],
+    "R3-1/FERPlus/ece_ew_25/argmin_T_modal": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/ece_ew_25/argmin_T_all_seeds": [
+      0.5063,
+      null,
+      null
     ],
     "R3-1/FERPlus/ece_em_15/T=0.26": [
       0.05751738691067819,
@@ -5085,6 +5270,16 @@
       null,
       9
     ],
+    "R3-1/FERPlus/ece_em_15/argmin_T_modal": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/ece_em_15/argmin_T_all_seeds": [
+      0.5063,
+      null,
+      null
+    ],
     "R3-1/FERPlus/ece_classwise/T=0.26": [
       0.11508582631060928,
       0.015680873760076718,
@@ -5109,6 +5304,26 @@
       9,
       null,
       9
+    ],
+    "R3-1/FERPlus/ece_classwise/argmin_T_modal": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/ece_classwise/argmin_T_all_seeds": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/consensus_T": [
+      0.5063,
+      null,
+      null
+    ],
+    "R3-1/FERPlus/metrics_agreeing": [
+      6,
+      null,
+      7
     ],
     "R3-2/stage1/T_star_nll": [
       1.3493828549261861,

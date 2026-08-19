@@ -8,10 +8,10 @@ Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_s
 
 | in-scope numeric token | count |
 |---|---|
-| bound to an artifact field | 687 |
+| bound to an artifact field | 695 |
 | derived, occupying an in-scope token | 17 |
 | declared not-a-measurement | 150 |
-| **unregistered** | **8** |
+| **unregistered** | **0** |
 | **= numeric tokens in scope** | **862** |
 
 The four categories are disjoint (bound ∩ exempt is checked to be empty) and the column sums to the total. Two kinds of declaration are **not** in that table because they occupy no in-scope token — they are anchored to sentences the scanner deliberately does not read:
@@ -37,16 +37,7 @@ The registry therefore holds **21** derived quantities in total: 17 on in-scope 
 
 ## Unregistered numbers
 
-| printed | unit | row | where |
-|---|---|---|---|
-| `7` | app_argmin | RAF-DB stage1 | paper/supplementary.tex:181 |
-| `7` | app_argmin | RAF-DB stage1 | paper/supplementary.tex:181 |
-| `7` | app_argmin | RAF-DB control | paper/supplementary.tex:183 |
-| `7` | app_argmin | RAF-DB control | paper/supplementary.tex:183 |
-| `6` | app_argmin | FERPlus | paper/supplementary.tex:184 |
-| `7` | app_argmin | FERPlus | paper/supplementary.tex:184 |
-| `0.74` | app_argmin | FERPlus | paper/supplementary.tex:184 |
-| `0.74` | robust | seeds of the NLL metric place the minimum at T | paper/supplementary.tex:190 |
+None — every in-scope number is bound, derived or declared.
 
 ## Mismatches
 
@@ -762,8 +753,16 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `app_jsd.(c) stratum 10.T_nll` | 0.46 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 10"].T_nll` | 2dp |
 | `app_jsd.(c) stratum 10.T_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 10"].T_jsd` | 2dp |
 | `app_argmin.RAF-DB stage1.consensus_T` | 1.34 | `paper_tables/robustness_metrics.json` | `series["RAF-DB stage1"]._consensus_T` | 2dp |
+| `app_argmin.RAF-DB stage1.metrics_agreeing` | 7 | `paper_tables/robustness_metrics.json` | `series["RAF-DB stage1"]._consensus_metrics_agreeing` | int |
+| `app_argmin.RAF-DB stage1.n_metrics` | 7 | `paper_tables/robustness_metrics.json` | `series["RAF-DB stage1"]._n_metrics` | int |
 | `app_argmin.RAF-DB vae9182.consensus_T` | 1.00 | `paper_tables/robustness_metrics.json` | `series["RAF-DB vae9182"]._consensus_T` | 2dp |
+| `app_argmin.RAF-DB vae9182.metrics_agreeing` | 7 | `paper_tables/robustness_metrics.json` | `series["RAF-DB vae9182"]._consensus_metrics_agreeing` | int |
+| `app_argmin.RAF-DB vae9182.n_metrics` | 7 | `paper_tables/robustness_metrics.json` | `series["RAF-DB vae9182"]._n_metrics` | int |
 | `app_argmin.FERPlus.consensus_T` | 0.51 | `paper_tables/robustness_metrics.json` | `series["FERPlus"]._consensus_T` | 2dp |
+| `app_argmin.FERPlus.metrics_agreeing` | 6 | `paper_tables/robustness_metrics.json` | `series["FERPlus"]._consensus_metrics_agreeing` | int |
+| `app_argmin.FERPlus.n_metrics` | 7 | `paper_tables/robustness_metrics.json` | `series["FERPlus"]._n_metrics` | int |
+| `app_argmin.FERPlus.nll_exception_modal` | 0.74 | `paper_tables/robustness_metrics.json` | `series["FERPlus"].metrics.nll.argmin_T_modal` | 2dp |
+| `robust.ferplus_nll_argmin_all_seeds` | 0.74 | `paper_tables/robustness_metrics.json` | `series["FERPlus"].metrics.nll.argmin_T_all_seeds` | 2dp |
 | `robust.total_runs` | 42 | `paper_tables/robustness_metrics.json` | `total_runs` | int |
 | `robust.total_runs_2` | 42 | `paper_tables/robustness_metrics.json` | `total_runs` | int |
 | `robust.total_steps` | 231 | `paper_tables/robustness_metrics.json` | `total_steps` | int |

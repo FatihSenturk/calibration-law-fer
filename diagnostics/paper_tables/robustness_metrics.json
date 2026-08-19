@@ -173,6 +173,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.3406,
           "mean": {
             "0.85": 0.490236093600591,
             "1.0": 0.42454272508621216,
@@ -252,6 +253,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": false,
+          "argmin_T_all_seeds": null,
           "mean": {
             "0.85": 0.18029920756816864,
             "1.0": 0.17642476658026376,
@@ -308,6 +310,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.3406,
           "mean": {
             "0.85": 0.07957482913177928,
             "1.0": 0.07310608169731758,
@@ -376,6 +379,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": false,
+          "argmin_T_all_seeds": null,
           "mean": {
             "0.85": 0.07967298300447075,
             "1.0": 0.07312947179942429,
@@ -432,6 +436,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.3406,
           "mean": {
             "0.85": 0.08019367800211968,
             "1.0": 0.07348011858414848,
@@ -488,6 +493,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.3406,
           "mean": {
             "0.85": 0.07952274330306809,
             "1.0": 0.07323883628000749,
@@ -556,6 +562,7 @@
           },
           "argmin_T_modal": 1.3406,
           "argmin_T_unanimous": false,
+          "argmin_T_all_seeds": null,
           "mean": {
             "0.85": 0.10731721125747365,
             "1.0": 0.10201191430321477,
@@ -572,7 +579,9 @@
           }
         }
       },
-      "_consensus_T": 1.3406
+      "_consensus_T": 1.3406,
+      "_consensus_metrics_agreeing": 7,
+      "_n_metrics": 7
     },
     "RAF-DB vae9182": {
       "series": "RAF-DB vae9182",
@@ -739,6 +748,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": false,
+          "argmin_T_all_seeds": null,
           "mean": {
             "0.85": 0.33222150802612305,
             "1.0": 0.3211021622021993,
@@ -818,6 +828,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": false,
+          "argmin_T_all_seeds": null,
           "mean": {
             "0.85": 0.1571155140797297,
             "1.0": 0.1528801421324412,
@@ -874,6 +885,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.0,
           "mean": {
             "0.85": 0.04431770957912481,
             "1.0": 0.022454791858967156,
@@ -930,6 +942,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.0,
           "mean": {
             "0.85": 0.044675372809702706,
             "1.0": 0.032957236164746107,
@@ -986,6 +999,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.0,
           "mean": {
             "0.85": 0.04517005026657806,
             "1.0": 0.03092946905621701,
@@ -1042,6 +1056,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.0,
           "mean": {
             "0.85": 0.04514996889413621,
             "1.0": 0.03294104026522859,
@@ -1098,6 +1113,7 @@
           },
           "argmin_T_modal": 1.0,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 1.0,
           "mean": {
             "0.85": 0.07033147531931627,
             "1.0": 0.05755150323277983,
@@ -1114,7 +1130,9 @@
           }
         }
       },
-      "_consensus_T": 1.0
+      "_consensus_T": 1.0,
+      "_consensus_metrics_agreeing": 7,
+      "_n_metrics": 7
     },
     "FERPlus": {
       "series": "FERPlus",
@@ -1247,6 +1265,7 @@
           },
           "argmin_T_modal": 0.74,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.74,
           "mean": {
             "0.26": 0.4913548429807027,
             "0.5063": 0.35472363233566284,
@@ -1298,6 +1317,7 @@
           },
           "argmin_T_modal": 0.5063,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.5063,
           "mean": {
             "0.26": 0.17518076300621033,
             "0.5063": 0.1677602231502533,
@@ -1349,6 +1369,7 @@
           },
           "argmin_T_modal": 0.5063,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.5063,
           "mean": {
             "0.26": 0.05783896619704703,
             "0.5063": 0.018309964556083552,
@@ -1400,6 +1421,7 @@
           },
           "argmin_T_modal": 0.5063,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.5063,
           "mean": {
             "0.26": 0.058740805600987316,
             "0.5063": 0.018498602500361613,
@@ -1451,6 +1473,7 @@
           },
           "argmin_T_modal": 0.5063,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.5063,
           "mean": {
             "0.26": 0.06051653166101578,
             "0.5063": 0.022753033418775877,
@@ -1502,6 +1525,7 @@
           },
           "argmin_T_modal": 0.5063,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.5063,
           "mean": {
             "0.26": 0.05751738691067819,
             "0.5063": 0.016608915138426106,
@@ -1553,6 +1577,7 @@
           },
           "argmin_T_modal": 0.5063,
           "argmin_T_unanimous": true,
+          "argmin_T_all_seeds": 0.5063,
           "mean": {
             "0.26": 0.11508582631060928,
             "0.5063": 0.09380152914752944,
@@ -1567,7 +1592,9 @@
           }
         }
       },
-      "_consensus_T": 0.5063
+      "_consensus_T": 0.5063,
+      "_consensus_metrics_agreeing": 6,
+      "_n_metrics": 7
     }
   }
 }

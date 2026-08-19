@@ -174,10 +174,10 @@
   ],
   "counts": {
     "tokens": 862,
-    "bound": 687,
+    "bound": 695,
     "derived": 21,
     "exempt": 150,
-    "unbound": 8,
+    "unbound": 0,
     "layout_dropped": 178,
     "mismatch": 0,
     "derived_mismatch": 0,
@@ -10734,6 +10734,38 @@
       "idx": 0
     },
     {
+      "id": "app_argmin.RAF-DB stage1.metrics_agreeing",
+      "printed": "7",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"RAF-DB stage1\"]._consensus_metrics_agreeing",
+      "exact": 7.0,
+      "rounding": "int",
+      "rounded": "7",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:181"
+      ],
+      "token": "app_argmin|s-1|RAF-DB stage1|1",
+      "row": "RAF-DB stage1",
+      "idx": 1
+    },
+    {
+      "id": "app_argmin.RAF-DB stage1.n_metrics",
+      "printed": "7",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"RAF-DB stage1\"]._n_metrics",
+      "exact": 7.0,
+      "rounding": "int",
+      "rounded": "7",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:181"
+      ],
+      "token": "app_argmin|s-1|RAF-DB stage1|2",
+      "row": "RAF-DB stage1",
+      "idx": 2
+    },
+    {
       "id": "app_argmin.RAF-DB vae9182.consensus_T",
       "printed": "1.00",
       "artifact": "paper_tables/robustness_metrics.json",
@@ -10750,6 +10782,38 @@
       "idx": 0
     },
     {
+      "id": "app_argmin.RAF-DB vae9182.metrics_agreeing",
+      "printed": "7",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"RAF-DB vae9182\"]._consensus_metrics_agreeing",
+      "exact": 7.0,
+      "rounding": "int",
+      "rounded": "7",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:183"
+      ],
+      "token": "app_argmin|s-1|RAF-DB control|1",
+      "row": "RAF-DB control",
+      "idx": 1
+    },
+    {
+      "id": "app_argmin.RAF-DB vae9182.n_metrics",
+      "printed": "7",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"RAF-DB vae9182\"]._n_metrics",
+      "exact": 7.0,
+      "rounding": "int",
+      "rounded": "7",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:183"
+      ],
+      "token": "app_argmin|s-1|RAF-DB control|2",
+      "row": "RAF-DB control",
+      "idx": 2
+    },
+    {
       "id": "app_argmin.FERPlus.consensus_T",
       "printed": "0.51",
       "artifact": "paper_tables/robustness_metrics.json",
@@ -10763,6 +10827,70 @@
       ],
       "token": "app_argmin|s-1|FERPlus|0",
       "row": "FERPlus",
+      "idx": 0
+    },
+    {
+      "id": "app_argmin.FERPlus.metrics_agreeing",
+      "printed": "6",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"FERPlus\"]._consensus_metrics_agreeing",
+      "exact": 6.0,
+      "rounding": "int",
+      "rounded": "6",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:184"
+      ],
+      "token": "app_argmin|s-1|FERPlus|1",
+      "row": "FERPlus",
+      "idx": 1
+    },
+    {
+      "id": "app_argmin.FERPlus.n_metrics",
+      "printed": "7",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"FERPlus\"]._n_metrics",
+      "exact": 7.0,
+      "rounding": "int",
+      "rounded": "7",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:184"
+      ],
+      "token": "app_argmin|s-1|FERPlus|2",
+      "row": "FERPlus",
+      "idx": 2
+    },
+    {
+      "id": "app_argmin.FERPlus.nll_exception_modal",
+      "printed": "0.74",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"FERPlus\"].metrics.nll.argmin_T_modal",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:184"
+      ],
+      "token": "app_argmin|s-1|FERPlus|3",
+      "row": "FERPlus",
+      "idx": 3
+    },
+    {
+      "id": "robust.ferplus_nll_argmin_all_seeds",
+      "printed": "0.74",
+      "artifact": "paper_tables/robustness_metrics.json",
+      "path": "series[\"FERPlus\"].metrics.nll.argmin_T_all_seeds",
+      "exact": 0.74,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/supplementary.tex:190"
+      ],
+      "token": "robust|s-1|seeds of the NLL metric place the minimum at T = 0.74 the|0",
+      "row": "seeds of the NLL metric place the minimum at T = 0.74 the",
       "idx": 0
     },
     {
@@ -12219,72 +12347,7 @@
       "matches": true
     }
   ],
-  "unbound": [
-    {
-      "key": "app_argmin|s-1|RAF-DB stage1|1",
-      "printed": "7",
-      "unit": "app_argmin",
-      "row": "RAF-DB stage1",
-      "idx": 1,
-      "where": "paper/supplementary.tex:181"
-    },
-    {
-      "key": "app_argmin|s-1|RAF-DB stage1|2",
-      "printed": "7",
-      "unit": "app_argmin",
-      "row": "RAF-DB stage1",
-      "idx": 2,
-      "where": "paper/supplementary.tex:181"
-    },
-    {
-      "key": "app_argmin|s-1|RAF-DB control|1",
-      "printed": "7",
-      "unit": "app_argmin",
-      "row": "RAF-DB control",
-      "idx": 1,
-      "where": "paper/supplementary.tex:183"
-    },
-    {
-      "key": "app_argmin|s-1|RAF-DB control|2",
-      "printed": "7",
-      "unit": "app_argmin",
-      "row": "RAF-DB control",
-      "idx": 2,
-      "where": "paper/supplementary.tex:183"
-    },
-    {
-      "key": "app_argmin|s-1|FERPlus|1",
-      "printed": "6",
-      "unit": "app_argmin",
-      "row": "FERPlus",
-      "idx": 1,
-      "where": "paper/supplementary.tex:184"
-    },
-    {
-      "key": "app_argmin|s-1|FERPlus|2",
-      "printed": "7",
-      "unit": "app_argmin",
-      "row": "FERPlus",
-      "idx": 2,
-      "where": "paper/supplementary.tex:184"
-    },
-    {
-      "key": "app_argmin|s-1|FERPlus|3",
-      "printed": "0.74",
-      "unit": "app_argmin",
-      "row": "FERPlus",
-      "idx": 3,
-      "where": "paper/supplementary.tex:184"
-    },
-    {
-      "key": "robust|s-1|seeds of the NLL metric place the minimum at T = 0.74 the|0",
-      "printed": "0.74",
-      "unit": "robust",
-      "row": "seeds of the NLL metric place the minimum at T = 0.74 the",
-      "idx": 0,
-      "where": "paper/supplementary.tex:190"
-    }
-  ],
+  "unbound": [],
   "problems": [],
   "dropped_layout_classes": [
     "cmidrule",

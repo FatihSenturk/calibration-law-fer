@@ -1,7 +1,7 @@
 """N16 — `requirements.txt` ÜRETİCİSİ: elle yazılmış bir iddia değil, ölçülmüş bir çıktı.
 
-NEDEN. Depoda duran `requirements_27may.txt` elle yazılmış ve SÜRÜMSÜZ bir listeydi (`torch`,
-`numpy`, ...). Böyle bir dosya bir beyandır: "bunlar gerekiyor" der ama neyle koştuğumuzu
+NEDEN. Deponun eski `requirements_27may.txt` dosyası elle yazılmış ve SÜRÜMSÜZ bir listeydi
+(`torch`, `numpy`, ...). Böyle bir dosya bir beyandır: "bunlar gerekiyor" der ama neyle koştuğumuzu
 söylemez, ve yanlış olduğunda hiçbir şey bağırmaz. Level-1 kuralının kendisi burada da geçerli:
 bir dosya bir üreticinin ÇIKTISI olmalı.
 
@@ -14,8 +14,15 @@ TANIM — hangi paket girer, açıkça:
      böylece elle yazılmaz, ölçülür.
   4. Sürüm, o anda KURULU olan sürümdür ve `==` ile sabitlenir.
 
-Eşlenemeyen import adı SESSİZCE ATILMAZ: dosyanın altına `# eşlenemedi:` diye yazılır ve bu
-betik çıkış kodu 1 verir. "Bulunamadı" yazmak, tahmin etmekten iyidir.
+Eşlenemeyen import adı SESSİZCE ATILMAZ: dosyanın altına `# eşlenemedi:` diye yazılır.
+"Bulunamadı" yazmak, tahmin etmekten iyidir. ÇIKIŞ KODU YİNE DE 0'dır ve gerekçesi main()'in
+sonunda yazılı: eşlenememiş isteğe bağlı bir bağımlılık, üreticinin çalışmaması değildir.
+
+18 Ağu 2026: `requirements_27may.txt` Fatih'in kararıyla depodan SİLİNDİ (iki requirements
+dosyası hakemi hangisinin geçerli olduğu konusunda tereddütte bırakır -- "aynı ad, iki nicelik"
+kalıbının dosya seviyesindeki hâli). Ona atıf yapan üç yaşayan dosya (`README_27MAY_RAFDB.md`,
+`README_27MAY_REPRODUCTION.md`, `tools/build_repro_export.py`) `requirements.txt`e çevrildi;
+TARİHLİ kayıtlardaki (raporlar, `STATUS.md`) atıflar o günün gerçeği olduğu için değiştirilmedi.
 
 Salt-okunur (yalnız `requirements.txt` yazar), GPU yok.
 Kullanım: python diagnostics/requirements_lock.py [--check]

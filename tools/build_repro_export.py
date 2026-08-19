@@ -122,7 +122,7 @@ records and analysis scripts, exported from git commit `{commit}` ({cdate}).
 
 ```
 python -m venv .venv && .venv\\Scripts\\activate   # Windows
-pip install -r requirements_27may.txt
+pip install -r requirements.txt
 ```
 
 PyTorch + CUDA are only needed to retrain; the analysis layer is CPU-only.

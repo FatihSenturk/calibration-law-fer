@@ -166,6 +166,16 @@ def analyse(series_name, curve):
         modal = (max(set(argmins.values()), key=list(argmins.values()).count)
                  if argmins else None)
 
+        # İKİ AYRI NİCELİK, ve ayrım ÖLÇÜLMÜŞTÜR. `argmin_T_modal` ÇOĞUNLUĞUN koyduğu yeri
+        # verir; `argmin_T_all_seeds` HER tohumun aynı yeri gösterdiği durumu verir ve
+        # oybirliği yoksa None'dur. Bu artefaktta 21 (seri × metrik) hücrenin 5'inde ikisi
+        # FARKLI -- yani ayrı alan açmak üslup değil, veriye dayanan bir zorunluluk. Makale
+        # ikisini ayrı cümlede basıyor: tab:app_argmin'in istisna sütunu modal'i, S2
+        # düzyazısının "üç tohum da ... 0.74" cümlesi oybirliği değerini. Aynı ada iki nicelik
+        # bindirmemek bu kampanyanın tekrar tekrar öğrendiği ders (T*, 0.1126, 0.0005).
+        unanimous = len(set(argmins.values())) == 1 if argmins else False
+        all_seeds = next(iter(argmins.values())) if unanimous else None
+
         means = {T: st.mean([runs[(T, s)][met] for s in seeds if (T, s) in runs]) for T in Ts}
         sds = {T: (sample_sd([runs[(T, s)][met] for s in seeds if (T, s) in runs])
                    if sum((T, s) in runs for s in seeds) > 1 else None) for T in Ts}
@@ -178,8 +188,8 @@ def analyse(series_name, curve):
                            "breaks": breaks,
                            "argmin_T_by_seed": {str(s): t for s, t in argmins.items()},
                            "argmin_T_modal": modal,
-                           "argmin_T_unanimous": len(set(argmins.values())) == 1 if argmins
-                           else False,
+                           "argmin_T_unanimous": unanimous,
+                           "argmin_T_all_seeds": all_seeds,
                            "mean": {str(T): means[T] for T in Ts},
                            "sd": {str(T): sds[T] for T in Ts}}
 
@@ -323,14 +333,21 @@ def main():
     for r in series.values():
         modals = [r["metrics"][m]["argmin_T_modal"] for m in METRIC_ORDER]
         consensus = max(set(modals), key=modals.count)
+        k_series = 0
         for m in METRIC_ORDER:
             pm = r["metrics"][m]
             ok = pm["argmin_T_modal"] == consensus
             n_agree += ok
+            k_series += ok
             if not ok:
                 agree_rows.append((r["series"], METRIC_LABEL[m], pm["argmin_T_modal"],
                                    consensus, pm["argmin_T_unanimous"]))
         r["_consensus_T"] = consensus
+        # "7/7" sayacının PAYı ve PAYDAsı: 18 Ağu 2026'ya kadar yalnız md'ye basılıyordu,
+        # yani makalenin tablosunda duran sayının alan karşılığı yoktu. Artık JSON alanı --
+        # md aşağıda bu alanları okur, ikinci kez saymaz (md ile JSON ayrışamasın).
+        r["_consensus_metrics_agreeing"] = k_series
+        r["_n_metrics"] = len(METRIC_ORDER)
 
     n_cells = len(series) * len(METRIC_ORDER)
     L += ["## Summary across the three series", "",
@@ -339,9 +356,8 @@ def main():
           "metrics in that series:", "",
           "| series | consensus argmin T | metrics agreeing |", "|---|---|---|"]
     for r in series.values():
-        k = sum(1 for m in METRIC_ORDER
-                if r["metrics"][m]["argmin_T_modal"] == r["_consensus_T"])
-        L.append(f"| {r['series']} | **{r['_consensus_T']:g}** | {k}/{len(METRIC_ORDER)} |")
+        L.append(f"| {r['series']} | **{r['_consensus_T']:g}** | "
+                 f"{r['_consensus_metrics_agreeing']}/{r['_n_metrics']} |")
     L += ["",
           "This is the round's answer to the single-specification objection: the location of the "
           "optimum is a property of the arm, not of the binning rule. Bin count (10/15/25), "

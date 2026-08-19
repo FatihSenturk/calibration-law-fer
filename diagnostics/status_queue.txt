@@ -47,7 +47,8 @@ pending:
   TARIHLI not dusuldu (metni degistirilmedi): %96,1 DOGRU, yanlis olan PAY -- 689 yerine 686
   (o gunun artefaktindan olculdu, commit 20a255d: 10 turetilmisin 8'i kapsam ici).
   (3) KAPSAM S1-S3'E GENISLEDI: 719 -> 862 jeton (+143). specs 45 · robust 44 · app_tstar 23 ·
-  app_jsd 20 · app_argmin 11 · tables 0 (S3 govdesi yalniz \input/ef). 15 Agu celiskisini
+  app_jsd 20 · app_argmin 11 · tables 0 (S3 govdesi yalniz \input/
+ef). 15 Agu celiskisini
   ureten sayilar artik alan yolunda (bootstrap_cis + headroom_grid_audit). ONEMLI AYRIM:
   0.1126'ya yuvarlanan UC alan var; S2 duzyazisi KOSU IZGARASI degerini, app_tstar tablosu
   TS'in kaldirdigi ECE'yi basiyor -- ayri baglandi. KAYITSIZ 0 -> 8, ORTULMEDI: sekizi de
@@ -62,11 +63,35 @@ pending:
   generate_kd_figure kullaniyor) DOSYAYA YAZILDI, atilmadi. NOT: numpy==2.4.0rc1 bir SURUM
   ADAYI ve hem opencv-python hem opencv-contrib-python kurulu -- ikisi de olculen gercek.
   requirements_27may.txt SILINMEDI (depodan silmek onaya tabi), karar bekliyor.
+  [18 Agu, N17] KARAR GELDI: SILINDI. Yasayan uc atif (README_27MAY_RAFDB.md,
+  README_27MAY_REPRODUCTION.md, tools/build_repro_export.py) requirements.txt'e cevrildi;
+  TARIHLI kayitlar (raporlar, STATUS.md govdesi) degistirilmedi, STATUS.md'ye tarihli ek
+  dusuldu. numpy==2.4.0rc1 ve cift opencv DOSYADA BIRAKILDI (fiili ortami yanlis beyan
+  etmemek icin), public README'ye iki cumleyle aciklandi.
   OLCULDU AMA YAPILMADI: sections/*.tex duzyazisi 821 jeton (tahmin ~470'ten fazla); 745'inin
   (%90,7) degeri kayitli bir artefaktta VAR ama bu SEZGISEL UST SINIR (varlik kontrolu N13'te
   bayat degerlerin 4'te 3'unu kaciriyordu). Eslesmeyen 76'nin cogu olcum degil, ama %29,3 ve
   %37,3 gercek olcum ve ureticisi YOK.
   Rapor: diagnostics/reports/2026-08-18_kapi_kor_nokta.md
+
+- [N17, 18-19 Agu] SON SEKIZ KAYITSIZ KAPANDI: check_numbers artik CIKIS 0.
+  robustness_metrics.py uc yeni JSON alani yaziyor (_consensus_metrics_agreeing, _n_metrics,
+  metrics[*].argmin_T_all_seeds) ve md artik payi ikinci kez saymiyor, ayni alani okuyor.
+  jeton 862 · bagli 695 · turetilmis 21 · muaf 150 · KAYITSIZ 0 (695+17+150+0=862).
+  DUZELTME: "sekizinin de JSON alani yok" FAZLA GENELDI -- 3'u gercekten yoktu, 3'u yalniz
+  metric_order'in uzunlugu olarak vardi, 2'si (0.74) ZATEN VARDI ve yalnizca BAGLANMAMISTI.
+  IKI 0.74 AYRI ALANA baglandi: tablo modal'e, S2 duzyazisi argmin_T_all_seeds'e (oybirligi
+  yoksa null). Gerekce OLCULDU: 21 hucrenin 5'inde modal != oybirligi. Oz sinama 14 -> 17.
+  KAPININ ILK GERCEK VAKASI: uretici degisip artefakt yenilenmeyince BAYAT verdi, yenilenince
+  sustu; koşudan sonra artefaktlar bayt-ayni (kapi geri yazdi).
+  KAPIDA IKINCI KUSUR BULUNDU: anlik kopya yalniz BEYAN EDILEN artefakti kapsiyordu, bu yuzden
+  graphical_abstract.py'nin beyansiz yazdigi paper/figures/graphical_abstract.pdf agaci kirli
+  birakiyordu (fark 3 bayt, ucu de /CreationDate -> o PDF bayt-yeniden-uretilebilir DEGIL).
+  Yeni sinif eklendi: "beyansiz yan cikti" -- olculur, raporlanir, koşudan once temiz olanlar
+  geri alinir; kapiyi DUSURMEZ (hukum bandin karari).
+  requirements_27may.txt SILINDI; uc yasayan atif requirements.txt'e cevrildi, tarihli kayitlar
+  degistirilmedi (STATUS.md'ye tarihli ek). numpy rc + cift opencv public README'ye yazildi.
+  Rapor: diagnostics/reports/2026-08-18b_son_sekiz.md
 - SIRADA (Fatih 17 Agu, N15 §5): KAPININ YAPISAL KOR NOKTASI. Kapi artefakti KABUL EDILMIS
   temel cizgisiyle karsilastiriyor, URETICININ TAZE CIKTISIYLA degil -- yani "uretici degisti,
   artefakt yeniden uretilmedi" durumu kapidan GECIYOR. Bu siniftan bes vaka elle yakalandi:

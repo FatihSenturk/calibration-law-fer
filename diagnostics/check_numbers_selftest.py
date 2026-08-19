@@ -50,6 +50,11 @@ PAPER_CASES = [
     ("tab_selection_audit FERPlus satiri bayat (+0.50 -> +0.51)",
      "tables/tab_selection_audit.tex", [("$+0.50 \\pm 0.21$", "$+0.51 \\pm 0.21$")],
      "rounding_mismatch", 1),
+    # --- N17 (18 Agu): son sekiz kayitsizin bagi. Kurulup denenmemis bag, kurulmamis bagdir.
+    ("app_argmin uzlasi sayaci bayat (6/7 -> 5/7)",
+     "supplementary.tex", [("& $6/7$ &", "& $5/7$ &")], "rounding_mismatch", 1),
+    ("app_argmin FERPlus NLL istisnasi bayat (0.74 -> 0.75)",
+     "supplementary.tex", [("NLL: $0.74$", "NLL: $0.75$")], "rounding_mismatch", 1),
 ]
 
 # (ad, beyan kimligi, bozuk yol, beklenen sinif) -- DEFTERI bozan senaryolar: sayi dogru,
@@ -59,6 +64,14 @@ BINDING_CASES = [
     ("tab_dose_response basligi FIT yerine DAGITILAN kola baglandi (T*, 17 Agu vakasi)",
      "tab_dose_response.stage1.header.T_star_fit", "results.stage1.deployed_T",
      "rounding_mismatch"),
+    # --- 18 Agu: "uc tohum da 0.74" cumlesi MODAL argmin'e degil OYBIRLIGI degerine bagli.
+    # Ayrimin YASADIGINI gostermek icin bag, tohumlarin AYRISTIGI bir seriye cevriliyor
+    # (RAF-DB vae9182/NLL: modal 1.0, oybirligi yok -> alan None). Beklenen unresolved_path:
+    # yani FERPlus'ta bir gun bir tohum ayrisirsa cumle SESSIZCE modal'i takip etmez, defter
+    # duser. Iki 0.74 tek alana baglanmis olsaydi bu senaryo YAKALANAMAZDI.
+    ("oybirligi alani cokerse duzyazi bagi duser (0.74 modal'a KAYMAZ)",
+     "robust.ferplus_nll_argmin_all_seeds",
+     'series["RAF-DB vae9182"].metrics.nll.argmin_T_all_seeds', "unresolved_path"),
 ]
 
 

@@ -10,6 +10,14 @@
 > (first commit 2026-07-11, campaign committed 2026-07-31 — see
 > `diagnostics/reports/2026-07-31_git_provenance.md`). The cuDNN nondeterminism finding and the
 > gate-normalisation parity check at `kd_common.py:427` still stand.
+>
+> **Addendum, 2026-08-18 (not a rewrite of the 2026-07-22 body).** §5's line
+> "`requirements_27may.txt` EXISTS" is no longer true: that file was deleted on 2026-08-18 and
+> replaced by `requirements.txt`, which is now a *producer's output*
+> (`diagnostics/requirements_lock.py`) pinning 19 distributions with `==`. The §5 verdict it
+> supported — env locking absent — is therefore superseded; the rest of §5 (no git SHA / config
+> hash at training time, cuDNN nondeterminism) still stands. Dated records are appended to, not
+> edited, in this project.
 
 Audited repo: `poster-var` (git repo, branch `master`).
 Method: static inspection only (Read/Grep/git/ls). Every claim cites `file:line`. `UNKNOWN` = not determinable from static inspection.

@@ -155,8 +155,29 @@ def run_producer(script, timeout):
     return time.perf_counter() - t0, r.returncode, ((r.stderr or "") + (r.stdout or ""))[-400:]
 
 
+def worktree_dirty():
+    """`git status --porcelain` -> {yol} kümesi. Kapının kendi temizliğini ölçmek için."""
+    out = git("status", "--porcelain")
+    return {ln[3:].strip().strip('"') for ln in out.splitlines() if ln.strip()}
+
+
 def layer_a(script, arts, timeout, snapshot_dir):
-    """Koş, bayt karşılaştır, HER DURUMDA geri yaz. Kapı artefaktı değiştirmez."""
+    """Koş, bayt karşılaştır, HER DURUMDA geri yaz. Kapı artefaktı değiştirmez.
+
+    BEYANSIZ YAN ÇIKTI (19 Ağu 2026'da ölçülerek eklendi). Anlık kopya YALNIZ bandın o üretici
+    için BEYAN ETTİĞİ artefaktları kapsar. Bir üretici beyan edilmemiş bir dosya daha yazıyorsa
+    kapı onu geri yazmaz ve ÇALIŞMA AĞACINI KİRLİ BIRAKIR. Gerçek vaka: `graphical_abstract.py`
+    bantta yalnız `.png` ile duruyor ama `paper/figures/graphical_abstract.pdf` de yazıyor; iki
+    koşu arasında farkın tamamı 3 bayt ve üçü de `/CreationDate` içinde -- yani içerik aynı, dosya
+    bayt-yeniden-üretilebilir DEĞİL. Bu yüzden bir dosyanın bantta olmaması iki ayrı şey demek
+    olabilir: unutulmuş olması, ya da (burada olduğu gibi) zaten bayt karşılaştırılamaz olması.
+    Kapı bunu ÖLÇER ve raporlar; düşürmez, çünkü hüküm bandın kararıdır, kapının değil.
+
+    Geri yazma kuralı: yalnız koşudan ÖNCE temiz olan izlenen dosyalar `git checkout --` ile
+    geri alınır. Koşudan önce zaten değişmiş bir dosyaya DOKUNULMAZ -- kapı kullanıcının
+    çalışmasını silmez.
+    """
+    dirty0 = worktree_dirty()
     before = {}
     for rel in arts:
         p = ROOT / rel
@@ -178,9 +199,16 @@ def layer_a(script, arts, timeout, snapshot_dir):
             changed.append({"artifact": rel, "stored": h0[:16],
                             "regenerated": (h1 or "-")[:16]})
         shutil.copy2(snap, p)                     # GERİ YAZ: kapı ölçer, düzeltmez
+    # Kapının KENDİ anlık kopya dizini elenir: git onu boşken görmez, ilk kopyadan sonra
+    # "yeni izlenmeyen dizin" diye bildirir ve üreticinin yan çıktısı gibi görünürdü.
+    snap_rel = str(snapshot_dir.relative_to(ROOT)).replace("\\", "/")
+    side = sorted(x for x in (worktree_dirty() - dirty0) - set(arts)
+                  if not x.rstrip("/").startswith(snap_rel))
+    for rel in side:
+        git("checkout", "--", rel)                # yalnız ONCESINDE TEMIZ olanlar
     status = "BAYAT" if changed else ("geçti" if rc == 0 else "başka hata")
     return {"layer": "A", "status": status, "seconds": round(secs, 2), "changed": changed,
-            "returncode": rc, "note": "" if rc == 0 else tail}
+            "side_outputs": side, "returncode": rc, "note": "" if rc == 0 else tail}
 
 
 def git(*args):
@@ -308,6 +336,12 @@ def selftest():
 
 
 def main():
+    # reconfigure PARSER'DAN ÖNCE: `--help` metni Türkçe ve argparse onu parse sırasında
+    # basıp çıkıyor; blok aşağıda kalırsa cp1252 konsolda `--help` UnicodeEncodeError ile
+    # düşer (18 Ağu 2026'da ölçüldü). Kapının yardım metni de kapının parçasıdır.
+    for s in (sys.stdout, sys.stderr):
+        if hasattr(s, "reconfigure"):
+            s.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser()
     ap.add_argument("--selftest", action="store_true",
                     help="tarihsel vakayi geri koyup kapinin yakaladigini goster")
@@ -316,9 +350,6 @@ def main():
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--only", default=None, help="tek bir betik (hata ayıklama)")
     args, _unknown = ap.parse_known_args()
-    for s in (sys.stdout, sys.stderr):
-        if hasattr(s, "reconfigure"):
-            s.reconfigure(encoding="utf-8", errors="replace")
     if not BAND_OK:
         print("DENETLENEMEDI: üretici->artefakt eşlemesi `diagnostics/export_to_drive.py`den "
               f"türetiliyor ve bu depoda yok ({BAND_ERR}). Bant dosyası Drive'a yazdığı için "
@@ -367,12 +398,15 @@ def main():
     drifted = [r for r in rows if r["status"] == "KAYNAK AYRIŞMASI"]
     errs = [r for r in rows if r["status"] in ("başka hata", "zaman aşımı")]
     unstamped = [r for r in rows if r["status"] == "ölçülemez"]
-    write(rows, stale, drifted, errs, unstamped, timings)
+    side = [r for r in rows if r.get("side_outputs")]
+    write(rows, stale, drifted, errs, unstamped, timings, side)
 
     n_a = sum(1 for r in rows if r["layer"] == "A")
     print(f"\n  Katman A {n_a} · Katman B {len(rows) - n_a}")
     print(f"  BAYAT {len(stale)} · KAYNAK AYRIŞMASI {len(drifted)} · olculemez "
-          f"{len(unstamped)} · başka hata {len(errs)}")
+          f"{len(unstamped)} · başka hata {len(errs)} · beyansız yan çıktı {len(side)}")
+    for r in side:
+        print(f"    ~~ beyansız yan çıktı  {r['script']}  ->  {', '.join(r['side_outputs'])}")
     for r in stale + drifted + errs:
         print(f"    !! {r['status']:<18} {r['script']}  {r.get('changed') or r.get('drift') or r.get('note', '')}"[:170])
     bad = len(stale) + len(drifted) + len(errs)
@@ -380,7 +414,7 @@ def main():
     return 1 if bad else 0
 
 
-def write(rows, stale, drifted, errs, unstamped, timings):
+def write(rows, stale, drifted, errs, unstamped, timings, side=()):
     ts = sorted(timings.values())
     L = ["# Üretici tazeliği — kapının yapısal kör noktası", "",
          "> **Sorun:** `table_diff_gate` artefaktı kabul edilmiş temel çizgisiyle karşılaştırır, "
@@ -395,7 +429,20 @@ def write(rows, stale, drifted, errs, unstamped, timings):
          f"| **BAYAT** (artefakt üreticisinden geri) | **{len(stale)}** |",
          f"| **KAYNAK AYRIŞMASI** | **{len(drifted)}** |",
          f"| ölçülemez (Katman B, artefakt commit'lenmemiş) | {len(unstamped)} |",
-         f"| başka hata / zaman aşımı | {len(errs)} |", ""]
+         f"| başka hata / zaman aşımı | {len(errs)} |",
+         f"| beyansız yan çıktı yazan üretici | {len(side)} |", ""]
+    if side:
+        L += ["## Beyansız yan çıktı", "",
+              "Anlık kopya yalnız bandın BEYAN ETTİĞİ artefaktları kapsar. Aşağıdaki üreticiler "
+              "koşunca beyan edilmemiş bir dosyayı daha değiştirdi; kapı bunları koşudan önce "
+              "temiz olmaları koşuluyla `git checkout --` ile geri aldı, ama **bant beyanı ile "
+              "üreticinin fiilî çıktısı ayrışıyor** demektir. Bir dosyanın bantta olmaması iki "
+              "ayrı şey olabilir: unutulmuş olması, ya da bayt karşılaştırılamaz olması "
+              "(ör. PDF'in `/CreationDate` damgası).", "",
+              "| üretici | beyansız yazdığı dosya |", "|---|---|"]
+        for r in side:
+            L.append(f"| `{r['script']}` | {', '.join(f'`{x}`' for x in r['side_outputs'])} |")
+        L.append("")
     if ts:
         L += ["## Ölçülen süreler (Katman A adayları)", "",
               f"n={len(ts)} · min {ts[0]:.1f} s · medyan {ts[len(ts) // 2]:.1f} s · "

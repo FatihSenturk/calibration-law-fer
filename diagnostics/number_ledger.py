@@ -767,15 +767,33 @@ for row, key in JSD_ROWS:
     for k, fld in enumerate(("T_ece", "T_nll", "T_jsd"), start=1):
         b("app_jsd", -1, row, k, A_JSD, f"{cell}.{fld}", "2dp", ident=f"app_jsd.{key}.{fld}")
 
-# --- S2 tablosu app_argmin: uzlasi T'leri baglandi; "7/7" sayaclari BULUNAMADI
+# --- S2 tablosu app_argmin: uzlasi T'leri + "7/7" sayaclari (18 Agu 2026'da baglandi)
+# 17 Agu'da bu satirda "BULUNAMADI" yaziyordu: sayaclar YALNIZ md'ye basiliyordu. Uretici
+# `_consensus_metrics_agreeing` / `_n_metrics` alanlarini yazacak sekilde degistirildi ve
+# md artik AYNI alanlari okuyor -- md ile JSON ayri ayri sayamaz, dolayisiyla ayrisamaz.
 for row, key in (("RAF-DB stage1", "RAF-DB stage1"), ("RAF-DB control", "RAF-DB vae9182"),
                  ("FERPlus", "FERPlus")):
     b("app_argmin", -1, row, 0, A_ROB, f'series["{key}"]._consensus_T', "2dp",
       ident=f"app_argmin.{key}.consensus_T")
+    b("app_argmin", -1, row, 1, A_ROB, f'series["{key}"]._consensus_metrics_agreeing', "int",
+      ident=f"app_argmin.{key}.metrics_agreeing")
+    b("app_argmin", -1, row, 2, A_ROB, f'series["{key}"]._n_metrics', "int",
+      ident=f"app_argmin.{key}.n_metrics")
+# Istisna sutunu: FERPlus'ta NLL'in argmin'i. IKI 0.74 VAR ve AYNI ALANA BAGLANMIYOR --
+# gerekce olculdu: tabloda basilan sayi CO GUNLUGUN yeri (`argmin_T_modal`), S2 duzyazisinda
+# basilan sayi ise HER TOHUMUN ayni yeri gosterdigi deger (`argmin_T_all_seeds`, oybirligi
+# yoksa None). Ayni artefaktta 21 (seri x metrik) hucrenin 5'inde bu ikisi FARKLI (or.
+# RAF-DB vae9182/NLL: modal 1.0, oybirligi yok -> None). Yani ayrim varsayim degil, olcum:
+# tek alana baglamak "ayni ad, iki nicelik" ailesinin dorduncu uyesini kurardi.
+b("app_argmin", -1, "FERPlus", 3, A_ROB, 'series["FERPlus"].metrics.nll.argmin_T_modal', "2dp",
+  ident="app_argmin.FERPlus.nll_exception_modal")
 ex("app_argmin", -1, "seed-level dissents", 0, "teacher_name_digits",
    "alt yazidaki 'stage1' adinin icindeki basamak")
 
 # --- S2 duzyazisi: ROBUSTLUK paragrafi
+b("robust", -1, "seeds of the NLL metric place the minimum at", 0, A_ROB,
+  'series["FERPlus"].metrics.nll.argmin_T_all_seeds', "2dp",
+  ident="robust.ferplus_nll_argmin_all_seeds")
 b("robust", -1, "Every run of the three dose--response series", 0, A_ROB, "total_runs", "int",
   ident="robust.total_runs")
 b("robust", -1, "bottoms out. Across", 0, A_ROB, "total_runs", "int",

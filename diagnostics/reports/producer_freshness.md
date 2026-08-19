@@ -13,20 +13,29 @@
 | **KAYNAK AYRIŞMASI** | **0** |
 | ölçülemez (Katman B, artefakt commit'lenmemiş) | 0 |
 | başka hata / zaman aşımı | 0 |
+| beyansız yan çıktı yazan üretici | 1 |
+
+## Beyansız yan çıktı
+
+Anlık kopya yalnız bandın BEYAN ETTİĞİ artefaktları kapsar. Aşağıdaki üreticiler koşunca beyan edilmemiş bir dosyayı daha değiştirdi; kapı bunları koşudan önce temiz olmaları koşuluyla `git checkout --` ile geri aldı, ama **bant beyanı ile üreticinin fiilî çıktısı ayrışıyor** demektir. Bir dosyanın bantta olmaması iki ayrı şey olabilir: unutulmuş olması, ya da bayt karşılaştırılamaz olması (ör. PDF'in `/CreationDate` damgası).
+
+| üretici | beyansız yazdığı dosya |
+|---|---|
+| `diagnostics/graphical_abstract.py` | `paper/figures/graphical_abstract.pdf` |
 
 ## Ölçülen süreler (Katman A adayları)
 
-n=52 · min 0.0 s · medyan 0.2 s · maks 33.5 s · toplam 135 s · eşik **90 s**
+n=52 · min 0.0 s · medyan 0.2 s · maks 36.3 s · toplam 140 s · eşik **90 s**
 
 En pahalı beş üretici:
 
 | üretici | saniye |
 |---|---|
-| `diagnostics/bootstrap_cis.py` | 33.5 |
-| `diagnostics/headroom_grid_audit.py` | 23.4 |
+| `diagnostics/bootstrap_cis.py` | 36.3 |
+| `diagnostics/headroom_grid_audit.py` | 25.5 |
 | `diagnostics/teacher_ece_grid.py` | 7.1 |
-| `diagnostics/tstar_sensitivity.py` | 5.9 |
-| `diagnostics/asymmetry_estimand.py` | 5.6 |
+| `diagnostics/tstar_sensitivity.py` | 6.0 |
+| `diagnostics/asymmetry_estimand.py` | 5.5 |
 
 ## Katman B'nin SINIRI (peşinen)
 
