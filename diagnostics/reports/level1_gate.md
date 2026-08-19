@@ -71,6 +71,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/selection_gain_estimator.py` | GEÇTİ | — |
 | `diagnostics/selection_optimism_headline.py` | GEÇTİ | — |
 | `diagnostics/selection_robustness.py` | GEÇTİ | — |
+| `diagnostics/split_identity.py` | GEÇTİ | — |
 | `diagnostics/status_heartbeat.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/student_ts_baseline.py` | GEÇTİ | — |
 | `diagnostics/t5_pairing_diff.py` | GEÇTİ | — |

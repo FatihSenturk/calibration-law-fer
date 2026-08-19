@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-19T14:38:12",
-  "reason": "N17 (18 Agu): son sekiz kayitsiz baglandi. 45 sapma: 2 MOVED (defterin KENDI sayaci: KAYITSIZ 8 -> 0) ve 43 APPEARED (kapiya giren yeni hucreler: 21 seri x metrik icin argmin_T_modal = 21, oybirligi olan 16 hucre icin argmin_T_all_seeds = 16, uc seri icin consensus_T + metrics_agreeing = 6; toplam 43 -- 21-16=5 hucrede oybirligi YOK oldugu icin o hucreler bilerek dusuruldu, bir gun oybirligi cokerse VANISHED diye bagirsin). CHANGED/VANISHED YOK: hicbir OLCUM degeri degismedi. DUZELTME (17 ve 18 Agu raporlarina): \"sekizinin de JSON alani yok\" ifadesi FAZLA GENELDI. Olculdu -- 3 tanesi (uzlasi sayaclarinin PAYI 7/7/6) gercekten yoktu; 3 tanesi (PAYDA 7) yalnizca metric_order listesinin UZUNLUGU olarak vardi, skaler alan degildi; 2 tanesi (0.74) ise metrics.nll.argmin_T_modal olarak ZATEN VARDI, yani kayitsizliklarinin sebebi alanin yoklugu degil BAGIN kurulmamis olmasiydi.",
+  "accepted_at": "2026-08-19T22:29:48",
+  "reason": "N18 (19 Agu, okuma turu 1): yeni artefakt `split_identity` kapiya alindi. 15 sapma, hepsi APPEARED: iki veri kumesi icin n_train / n_reporting / rows_total / n_partitions (8) ve RAF-DB raporlanan bolmesinin yedi sinif sayimi (7). CHANGED/VANISHED/MOVED YOK -- hicbir mevcut olcum degeri degismedi. Bu sayilar makalenin 4. bolumunde basili (15.339 / 12.271 / 3.068 / 28.259 / 3.153) ama sections/*.tex defter kapsaminda olmadigi icin henuz BAGLI degil; kapiya alinmalari, kapsam genisledigi gun bag kurulabilsin ve o gune kadar da artefakt sessizce kaymasin diye.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -25,6 +25,7 @@
     "diagnostics\\paper_tables\\g42_init_matched_lever.json",
     "diagnostics\\paper_tables\\RESULTS_TABLES.json",
     "diagnostics\\paper_tables\\robustness_metrics.json",
+    "diagnostics\\paper_tables\\split_identity.json",
     "diagnostics\\paper_tables\\tstar_sensitivity.json",
     "diagnostics\\paper_tables\\jsd_sensitivity.json",
     "diagnostics\\paper_tables\\p6_collapse_test.json",
@@ -5324,6 +5325,81 @@
       6,
       null,
       7
+    ],
+    "split/RAF-DB/n_train": [
+      12271,
+      null,
+      null
+    ],
+    "split/RAF-DB/n_reporting": [
+      3068,
+      null,
+      null
+    ],
+    "split/RAF-DB/rows_total": [
+      15339,
+      null,
+      null
+    ],
+    "split/RAF-DB/n_partitions": [
+      2,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Surprise": [
+      329,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Fear": [
+      74,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Disgust": [
+      160,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Happiness": [
+      1185,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Sadness": [
+      478,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Anger": [
+      162,
+      null,
+      null
+    ],
+    "split/RAF-DB/per_class/Neutral": [
+      680,
+      null,
+      null
+    ],
+    "split/FERPlus/n_train": [
+      28259,
+      null,
+      null
+    ],
+    "split/FERPlus/n_reporting": [
+      3153,
+      null,
+      null
+    ],
+    "split/FERPlus/rows_total": [
+      31412,
+      null,
+      null
+    ],
+    "split/FERPlus/n_partitions": [
+      3,
+      null,
+      null
     ],
     "R3-2/stage1/T_star_nll": [
       1.3493828549261861,

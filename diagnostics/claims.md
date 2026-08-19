@@ -153,6 +153,24 @@ highly bin-scheme-sensitive. Any paper reporting MCE needs an equal-mass-bins fo
 
 ## Open / in-progress claims
 
+- **Split naming — one set, four names (measured 2026-08-19).** The set the paper calls "RAF-DB's
+  official test set", "the reporting set", "best validation accuracy" and "fold-3 validation split
+  (n=3068)" is a **single partition**, and the measurement is now a producer's output, not a claim:
+  `diagnostics/split_identity.py` -> `paper_tables/split_identity.{md,json}`. RAF-DB's metadata holds
+  exactly **two** partitions (fold 2 = `train/` 12,271; fold 3 = `test/` 3,068) and fold 3's per-class
+  counts reproduce RAF-DB's published test distribution **exactly**, so "official test set" is correct
+  as to the set and "validation" is correct as to the *use*. FERPlus differs in a way worth stating:
+  its metadata holds **three** partitions and the third (PublicTest, 3,199 rows) was put into
+  **training**, so there "no separate held-out set" is a property of the *protocol*, not of the
+  dataset. Which single name the paper adopts is Fatih's call; the mapping is measured either way.
+
+- **Prose is still outside the audit (recorded 2026-08-19).** `sections/*.tex` carries **821** number
+  tokens that the ledger does **not** scan (measured N16). This is a deliberate deferral — the
+  controlled reading is in progress and binding a moving target produces rotten bindings — but the
+  consequence must be stated plainly: **the most-edited part of the manuscript is the part the audit
+  does not see.** Tables, the supplement (S1-S3) and the abstract are covered; body prose is not. The
+  scope decision is the first item when the reading closes.
+
 - **Head-architecture vs. recipe-stack attribution of the ECE gap — RESOLVED: RECIPE, not head
   (2026-07-21).** Phase C bridge teacher (VAE head + Primary's exact VICH recipe, `seed=1`) measured on
   fold-3 val: own-acc 92.47%, **ECE(T=1) 0.0391, T* 1.253** — lands squarely in the pre-registered

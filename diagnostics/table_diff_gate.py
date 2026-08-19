@@ -161,6 +161,25 @@ def cells_from_dose_response(p):
     return out
 
 
+def cells_from_split_identity(p):
+    """Bolme kimligi: her veri kumesinin egitim/raporlama orneklem sayilari.
+
+    Bu sayilar makalenin §4'unde basili (15.339 / 12.271 / 3.068 / 28.259 / 3.153). Kapiya
+    girmeleri gerekir: bir gun bir fold beyani degisirse tablo sessizce kaymasin.
+    """
+    out = {}
+    d = json.loads(p.read_text(encoding="utf-8"))
+    for name, s in d.get("datasets", {}).items():
+        tag = name.replace(" ", "_")
+        out[f"split/{tag}/n_train"] = (s.get("n_train"), None, None)
+        out[f"split/{tag}/n_reporting"] = (s.get("n_reporting"), None, None)
+        out[f"split/{tag}/rows_total"] = (s.get("rows_total"), None, None)
+        out[f"split/{tag}/n_partitions"] = (s.get("n_partitions_in_metadata"), None, None)
+        for k, v in (s.get("reporting_per_class") or {}).items():
+            out[f"split/{tag}/per_class/{k}"] = (v, None, None)
+    return out
+
+
 def cells_from_r3_robustness(p):
     """R3-1: yedi metriğin doz-cevap değerleri (kol ortalamaları) + adım tutarlılığı.
 
@@ -852,6 +871,7 @@ SOURCES = [
     (D / "paper_tables" / "g42_init_matched_lever.json", cells_from_g42),
     (D / "paper_tables" / "RESULTS_TABLES.json", cells_from_tables),
     (D / "paper_tables" / "robustness_metrics.json", cells_from_r3_robustness),
+    (D / "paper_tables" / "split_identity.json", cells_from_split_identity),
     (D / "paper_tables" / "tstar_sensitivity.json", cells_from_r3_tstar),
     (D / "paper_tables" / "jsd_sensitivity.json", cells_from_r3_jsd),
     (D / "paper_tables" / "p6_collapse_test.json", cells_from_p6),

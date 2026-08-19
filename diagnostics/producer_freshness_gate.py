@@ -369,6 +369,14 @@ def main():
         shutil.rmtree(snapshot_dir)
     snapshot_dir.mkdir(parents=True)
 
+    # KOŞU BAŞI KİRLİLİK. "beyansız yan çıktı 0" iki ayrı şey demek olabilir: gerçekten yan çıktı
+    # yok, ya da dosya kapı başlamadan ÖNCE zaten değişmişti ve o yüzden hiçbir üreticiye
+    # atfedilemedi -- Katman A yalnız kendi koşusundan önce TEMİZ olan dosyaları görür, çünkü
+    # kullanıcının halihazırdaki değişikliğini geri almak kapının işi değildir. 19 Ağu 2026'da
+    # bu fark gerçek bir koşuda ortaya çıktı: `graphical_abstract.pdf` bir önceki koşudan kirli
+    # kalmıştı ve kapı 0 bildirdi. Sayı artık basılıyor ki "0" okunabilir olsun.
+    dirty_at_start = worktree_dirty()
+
     rows = []
     try:
         for i, script in enumerate(scripts, 1):
@@ -399,12 +407,14 @@ def main():
     errs = [r for r in rows if r["status"] in ("başka hata", "zaman aşımı")]
     unstamped = [r for r in rows if r["status"] == "ölçülemez"]
     side = [r for r in rows if r.get("side_outputs")]
-    write(rows, stale, drifted, errs, unstamped, timings, side)
+    write(rows, stale, drifted, errs, unstamped, timings, side, len(dirty_at_start))
 
     n_a = sum(1 for r in rows if r["layer"] == "A")
     print(f"\n  Katman A {n_a} · Katman B {len(rows) - n_a}")
     print(f"  BAYAT {len(stale)} · KAYNAK AYRIŞMASI {len(drifted)} · olculemez "
           f"{len(unstamped)} · başka hata {len(errs)} · beyansız yan çıktı {len(side)}")
+    print(f"  (koşu başında çalışma ağacında {len(dirty_at_start)} değişmiş dosya vardı; "
+          f"bunlar hiçbir üreticiye atfedilemez)")
     for r in side:
         print(f"    ~~ beyansız yan çıktı  {r['script']}  ->  {', '.join(r['side_outputs'])}")
     for r in stale + drifted + errs:
@@ -414,7 +424,7 @@ def main():
     return 1 if bad else 0
 
 
-def write(rows, stale, drifted, errs, unstamped, timings, side=()):
+def write(rows, stale, drifted, errs, unstamped, timings, side=(), dirty_at_start=0):
     ts = sorted(timings.values())
     L = ["# Üretici tazeliği — kapının yapısal kör noktası", "",
          "> **Sorun:** `table_diff_gate` artefaktı kabul edilmiş temel çizgisiyle karşılaştırır, "
@@ -430,7 +440,14 @@ def write(rows, stale, drifted, errs, unstamped, timings, side=()):
          f"| **KAYNAK AYRIŞMASI** | **{len(drifted)}** |",
          f"| ölçülemez (Katman B, artefakt commit'lenmemiş) | {len(unstamped)} |",
          f"| başka hata / zaman aşımı | {len(errs)} |",
-         f"| beyansız yan çıktı yazan üretici | {len(side)} |", ""]
+         f"| beyansız yan çıktı yazan üretici | {len(side)} |",
+         f"| koşu başında zaten değişmiş dosya | {dirty_at_start} |", ""]
+    if not side and dirty_at_start:
+        L += ["> **Bu koşudaki 0 nasıl okunmalı.** Katman A yalnız kendi koşusundan önce TEMİZ "
+              "olan dosyaları yan çıktı sayar; kapı kullanıcının halihazırdaki değişikliğine "
+              f"dokunmaz. Koşu başında ağaçta **{dirty_at_start}** değişmiş dosya vardı, "
+              "dolayısıyla bu 0 \"hiç yan çıktı yok\" değil, \"atfedilebilir yan çıktı yok\" "
+              "demektir. Temiz ağaçta koşulan kapı bu belirsizliği taşımaz.", ""]
     if side:
         L += ["## Beyansız yan çıktı", "",
               "Anlık kopya yalnız bandın BEYAN ETTİĞİ artefaktları kapsar. Aşağıdaki üreticiler "

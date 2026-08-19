@@ -4,6 +4,8 @@ Producer: `diagnostics/paper_tables.py` · sd convention: **sample sd (n-1, Bess
 
 **How to read this.** `@swa` and `@last` are selection-independent; `@best` is chosen by argmax val-acc over the reported set and therefore carries selection optimism (T8 measures it). The primary column in every table is **@swa**.
 
+**One set, several names.** "fold-3 validation split", "the reporting set" and "RAF-DB's official test set" all denote the *same* partition, and `@best` is selected on it: RAF-DB's metadata holds exactly two partitions (fold 2 = `train/`, n=12,271; fold 3 = `test/`, n=3,068) and fold 3's per-class counts reproduce RAF-DB's published test distribution exactly. FERPlus's reporting set is fold 2 (`FER2013Test`, n=3,153). Measured, not asserted: `diagnostics/split_identity.py` -> `paper_tables/split_identity.{md,json}`.
+
 ## T1 — Dose-response, RAF-DB / Stage1 teacher
 
 ### Stage1 (over-confident teacher, ECE 0.0378)

@@ -296,6 +296,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/split_identity.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/status_heartbeat.py",
       "status": "muaf",
       "note": "Level 3 — koşu dizini okumak işi"

@@ -92,6 +92,39 @@ ef). 15 Agu celiskisini
   requirements_27may.txt SILINDI; uc yasayan atif requirements.txt'e cevrildi, tarihli kayitlar
   degistirilmedi (STATUS.md'ye tarihli ek). numpy rc + cift opencv public README'ye yazildi.
   Rapor: diagnostics/reports/2026-08-18b_son_sekiz.md
+
+- [N18, 19 Agu] OKUMA TURU 1 -- OLCUM TURU. Yeni uretici: diagnostics/split_identity.py ->
+  paper_tables/split_identity.{md,json} (+ yayimlanan sayim dosyasi; RAF-DB meta CSV'si goruntu
+  adi tasidigi icin varsayilan yol onu OKUMAZ). Level-1 gecen uretici 58 -> 59.
+  1) DORT AD TEK KUME: fold 3 = RAF-DB resmi test bolumu, KUME duzeyinde esit (csv-fold3 ile
+     disk arasinda iki yonde de fark 0), sinif dagilimi yayimlanan dagilimla BIREBIR, secim ve
+     raporlama AYNI val_loader nesnesi. "official test set" kume olarak DOGRU ad.
+     SIZIN SUPHELENDIGINIZ CELISKI YOK (04_experiments:14-20 ikisini birlikte beyan ediyor), AMA
+     GERCEK BIR CELISKI VAR: 03_methodology:248-249 "neither dataset provides a third partition"
+     FERPlus icin YANLIS -- FERPlus meta'sinda UC bolum var (25060/3199/3153) ve makalenin kendi
+     §4'u "merged" diyor. RAF-DB icin dogru (2 bolum).
+  2) 0.74 HIPOTEZI CURUDU, uc bagimsiz gerekce: (a) tablodaki yedi metrigin HEPSI hard one-hot
+     hedefe karsi olculuyor, insan oy dagilimini kullanan JSD o tabloda YOK -- hipotezin ekseni
+     bu tabloyla sinanamaz; (b) Brier tam olasilik vektoru kullaniyor ama 0.5063'e dusuyor;
+     (c) ogretmen tarafinda T*_NLL=0.50 vs T*_JSD=0.74, ayrisma 0.24 ve bu S2'nin ON BEYANI.
+     Ayrica kalan gozlem de zayif: eslesmeli p=0.0968 (benim ilk yazdigim "2.31 sd" YANLIS
+     PAYDALIYDI), post-hoc TS'de JSD siralamasi TERSINE doniyor (jsd_ts), ve izgara olcut-civili
+     (0.5063 = T*_ECE/T*_NLL, 0.74 = T*_JSD -- ferplus_dual_axis.arms[*].role).
+     RAF-DB "7/7 uzlasi T=1.0" KIRPILMIS izgara: control_grid_refinement'ta T=0.95 ECE'si 1.0'dan
+     KUCUK (0.02961 < 0.03296) ve o kollarin logit onbellegi YAYIMLANMAMIS.
+  3) ZENODO DOI KAPANDI: 10.5281/zenodo.21947604 KAVRAM DOI'si, DataCite'ta state=findable
+     (15 Agu 11:30:30Z), Zenodo kaydi yayimda (surum DOI 21947605, v1.0.0-submission,
+     isSupplementTo tree/v1.0.0-submission). Makalede UC yerde basili (main_print.tex:213 de).
+     Yapilacak is YOK. Benim 18 Agu'daki "baslanmadi" notum YANLISTI.
+  4) image_dataset copy.py KOD OLARAK OLU (0 cagri) ama iki depoda da izleniyor; SILINMEDI
+     (onaya tabi). "Eski surum" iddiasi OLCULEMEDI: iki dosya da 51b05bf'te girmis, 93 commit
+     boyunca ikisi de hic degismemis.
+     git ls-files BOLME HATASI depo kodunda UC yerde vardi (public_repo_staleness/sync/scope_scan)
+     ve kapilarin kendi raporlarinda HAYALET yollar basiyordu; -z + NUL ile kapatildi.
+     Olculen duzeltme: yalniz-public 7->4, kaynakta-yok 6->4, scope n_tracked 574->573.
+     Tazelik kapisi artik KOSU BASI kirlilik sayisini basiyor: "yan cikti 0" belirsizdi.
+  5) DUZYAZI HALA DENETIM DISI (821 jeton) -- claims.md'ye ve rapora yazildi.
+  Rapor: diagnostics/reports/2026-08-19_okuma1_olcum.md
 - SIRADA (Fatih 17 Agu, N15 §5): KAPININ YAPISAL KOR NOKTASI. Kapi artefakti KABUL EDILMIS
   temel cizgisiyle karsilastiriyor, URETICININ TAZE CIKTISIYLA degil -- yani "uretici degisti,
   artefakt yeniden uretilmedi" durumu kapidan GECIYOR. Bu siniftan bes vaka elle yakalandi:
