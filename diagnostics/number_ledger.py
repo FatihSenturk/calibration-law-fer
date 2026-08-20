@@ -31,9 +31,10 @@ Kullanim: python diagnostics/number_ledger.py --paper-root "<...>/paper"
 """
 import argparse
 import json
+import math
 import os
 import sys
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal, ROUND_FLOOR, ROUND_HALF_UP
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -76,6 +77,11 @@ A_JSD = "paper_tables/jsd_sensitivity.json"
 A_ABS = "paper_tables/ferplus_abstention_entropy.json"
 A_SPL = "paper_tables/split_identity.json"
 A_STS = "paper_tables/student_ts_baseline.json"
+# --- N19b (20 Agu 2026): son 23 kayitsiz sayinin kapatilmasi icin acilan/kullanilan artefaktlar
+A_RMC = "paper_tables/run_manifest_census.json"
+A_REL = "reliability/reliability_diagram.json"
+A_PCC = "reliability/perclass_calibration.json"
+A_A13 = "a13_scratch_dose/a13_verdict.json"
 
 BINDINGS = []      # alan baglari
 DERIVED = []       # turetilmis nicelikler
@@ -902,14 +908,16 @@ for _row, _idx, _cls, _why in SPECS_EX:
 # bag uretir". Bastan sona okuma 20 Agu'da bitti, duzyazi sabitlendi, erteleme sartinin kendisi
 # ortadan kalkti. Tarayici artik `sections/*.tex`i de goruyor (paper_number_scan.SECTION_FILES).
 #
-# BU BLOKTA BIR BAG BILEREK "YANLIS": `intro.orderstat_k50` ve `related_work.orderstat_k50`.
-# Makale §1:151 ve §2:229'da "+0.65" basiyor; alan
+# CIFT YUVARLAMA VAKASI -- KAPANDI (20 Agu 2026 aksami). Bu blok kuruldugunda iki bag BILEREK
+# kirmizi birakilmisti: makale §1:151 ve §2:229'da "+0.65" basiyordu; alan
 # `selection_gain.per_k["50"].a2_pure_order_statistic.mean` = 0.6445305842767274, yani 2 basamakta
 # 0.64. 0.65 ancak CIFT YUVARLAMAYLA cikiyor: 0.6445 -> 0.645 (3 basamak, ki makale §4:150,
 # §5:781 ve tab_selection_audit:25'te DOGRU basiyor) -> 0.65. Kampanyanin kendi kurali bunu
-# yasakliyor ("turetilmis nicelik basili yuvarlanmis degerden hesaplanmaz"). Bag KURULUYOR ki
-# kapi kirmizi kalsin ve makale tarafinda duzelene kadar gorunur olsun -- rapora saklanan bir
-# kusur, kapinin gormedigi bir kusurdur.
+# yasakliyor ("turetilmis nicelik basili yuvarlanmis degerden hesaplanmaz"). Bag KURULMUS ve
+# kapi kirmizi BIRAKILMISTI -- rapora saklanan bir kusur, kapinin gormedigi bir kusurdur.
+# Makale tarafi ayni gun "+0.645"--"0.764" olarak duzeltti; beyanin yuvarlamasi da 2dp'den
+# 3dp'ye cekildi ve iki bag yesile dondu. Kaydin kendisi duruyor: kapinin bir kusuru YAKALADIGI
+# ve kusurun kapandigi, ikisi birlikte okunmadan anlasilmaz.
 
 # --- §1 giris
 b("01_introduction", -1, "branch in all nine seed curves", 0, A_TDO,
@@ -938,11 +946,11 @@ b("01_introduction", -1, "reporting. Auditing a frozen corpus", 0, A_SG,
   "audit_deltas.b_best_minus_last.n", "int", ident="intro.audit_n_runs")
 b("01_introduction", -1, "+0.77 pp on average", 0, A_SG,
   "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="intro.selection_inflation")
-# CIFT YUVARLAMA VAKASI -- yukaridaki blok basligina bakiniz.
-b("01_introduction", -1, "component +0.65 to +0.76", 0, A_SG,
-  'per_k["50"].a2_pure_order_statistic.mean', "2dp", ident="intro.orderstat_k50")
-b("01_introduction", -1, "component +0.65 to +0.76", 1, A_SG,
-  'per_k["100"].a2_pure_order_statistic.mean', "2dp", ident="intro.orderstat_k100")
+# CIFT YUVARLAMA VAKASI, birinci gecis -- kapandi (blok basligina bakiniz).
+b("01_introduction", -1, "component +0.645 to +0.764", 0, A_SG,
+  'per_k["50"].a2_pure_order_statistic.mean', "3dp", ident="intro.orderstat_k50")
+b("01_introduction", -1, "component +0.645 to +0.764", 1, A_SG,
+  'per_k["100"].a2_pure_order_statistic.mean', "3dp", ident="intro.orderstat_k100")
 b("01_introduction", -1, "calibration error under over-confidence", 0, A_ASY,
   "summary.interpolated_only.absolute.min", "1dp", ident="intro.asymmetry_min")
 b("01_introduction", -1, "calibration error under over-confidence", 1, A_ASY,
@@ -992,10 +1000,10 @@ b("02_related_work", -1, "divergence from the votes", 0, A_JSD,
   'results["(a) all rows"].T_jsd', "2dp", ident="related_work.ferplus_tstar_jsd")
 b("02_related_work", -1, "amount (", 0, A_SG,
   "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="related_work.selection_inflation")
-# CIFT YUVARLAMA VAKASI (ikinci gecis).
+# CIFT YUVARLAMA VAKASI, ikinci gecis -- 20 Agu aksami kapandi (blok basligina bakiniz).
 b("02_related_work", -1, "amount (", 1, A_SG,
-  'per_k["50"].a2_pure_order_statistic.mean', "2dp", ident="related_work.orderstat_k50")
-b("02_related_work", -1, "amount (", 2, A_OST, 'results["100"].a2_raw.mean', "2dp",
+  'per_k["50"].a2_pure_order_statistic.mean', "3dp", ident="related_work.orderstat_k50")
+b("02_related_work", -1, "amount (", 2, A_OST, 'results["100"].a2_raw.mean', "3dp",
   ident="related_work.orderstat_k100")
 
 RELATED_EX = [
@@ -2413,8 +2421,6 @@ EX_05 = [
      "serbestlik derecesi df = 117"),
     ("4.3 10^ -7 on", 1, "scientific_notation",
      "YENI SINIF ONERISI: bilimsel gosterimin TABANI (10). Tek bir p degerinin yazimindan dogan jeton, ayri bir nicelik degil"),
-    ("4.3 10^ -7 on", 2, "scientific_notation",
-     "YENI SINIF ONERISI: ayni gosterimin USSU (-7)"),
     ("t(11) = 3.7 0.003", 0, "sample_size",
      "serbestlik derecesi df = 11"),
     ("is unresolved", 2, "sample_size",
@@ -2673,6 +2679,156 @@ for _i, _row in enumerate(("calibration estimator in 20 of 21 cells",
 
 
 # =============================================================================
+# N19b (20 Agu 2026) — SON 23 KAYITSIZ SAYI
+# =============================================================================
+# Hedef bu turda "kapi yesil" degil, "makalede kaynagi gosterilemeyen sayi kalmasin". Bu blok
+# 23 jetonun hepsini beyana baglar. UCU BILEREK KIRMIZI kaliyor ve gerekceleri asagida her
+# birinin yaninda yaziyor: uretici basili degeri TUTTURACAK SEKILDE AYARLANMADI; sabit tohumla
+# (ve mumkun oldugu yerde kapali formla) kosuldu, cikan yazildi, fark raporlandi.
+#
+# --- (a) YANLIS-POZITIF SIMULASYONU (§4.7 + §5.3), 7 jeton -----------------------------------
+# Bes nicelik, iki yerde: §4.7 uc/dort basamakla, §5.3 iki basamakla. AYNI ALANLARA baglaniyor
+# -- §5 icin yeni nicelik ACILMIYOR, cunku ayni buyuklugun iki yazimi ayni buyukluktur.
+#
+# OLCUM (kritik). Basili 0.543 / 0.740 / 0.007, `criterion_applied`in 200k (aile) ve 40k
+# (bagimli) tekrarlik MC kosularindan geliyordu; uretici bugun de ayni tohumla ayni sayilari
+# veriyor, yani sayilarin KAYNAGI belli. Ama ayni olcutun yanlis-pozitif orani KAPALI FORMA
+# indirgenebiliyor (bkz. `criterion_applied.fpr_exact`) ve tam deger soyle:
+#     tek hucre, medyan k : 0.0351548  -> %3.5   (basili 3.5, TUTUYOR)
+#     aile 22, medyan k   : 0.5449411  -> 0.545  (basili 0.543, TUTMUYOR: MC gurultusu)
+#     aile 22, kendi k'si : 0.7410378  -> 0.741  (basili 0.740, TUTMUYOR)
+#     bagimsizlik acigi   : 0.0086132  -> 0.009  (basili 0.007, TUTMUYOR)
+# 200k tekrarda aile-bazli oranin standart hatasi ~0.004; yani basili UCUNCU BASAMAK gurultuydu.
+# Ucu de TAM alana baglaniyor ve KIRMIZI birakiliyor: kapinin gormedigi bir kusur, kusur degil
+# bir varsayimdir. Iki basamakli §5 gecisleri ayni alanlarda TUTUYOR (0.54 ve 0.74) -- yani
+# duzeltme yalnizca uc basamak basilan yerleri ilgilendiriyor.
+b("04_experiments", -1, "per-cell firing rate of about", 0, A_CRIT,
+  "false_positive_simulation.per_cell_rate_at_median_k", "percent_of_fraction:1dp",
+  ident="s4.fpr_per_cell")
+b("04_experiments", -1, "twenty-two cells the corresponding family-wise probability is", 0,
+  A_CRIT, "false_positive_simulation.family_wise_at_median_k", "3dp",
+  ident="s4.fpr_family_median_k")
+b("04_experiments", -1, "rising to", 0,
+  A_CRIT, "false_positive_simulation.family_wise_at_own_k", "3dp",
+  ident="s4.fpr_family_own_k")
+b("04_experiments", -1, "sharing a control arm correlate at", 0, A_CRIT,
+  "false_positive_simulation.rho_shared_control", "3dp", ident="s4.fpr_rho_shared")
+b("04_experiments", -1, "re-simulating with that shared component moves the rate by", 0,
+  A_CRIT, "false_positive_simulation.independence_gap_own_k_minus_shared", "3dp",
+  ident="s4.fpr_independence_gap")
+b("05_results_discussion", -1, "reference rate of 0.54 (rising to 0.74", 0, A_CRIT,
+  "false_positive_simulation.family_wise_at_median_k", "2dp",
+  ident="s5.fpr_family_median_k_2dp")
+b("05_results_discussion", -1, "reference rate of 0.54 (rising to 0.74", 1, A_CRIT,
+  "false_positive_simulation.family_wise_at_own_k", "2dp", ident="s5.fpr_family_own_k_2dp")
+
+# CAPA KURALI (20 Agu 2026, N19b'de olculdu). Satir capasi, satirin BASINDAN itibaren bir
+# ONEKTIR; bagli sayinin kendisi o onegin icine girerse, makale o sayiyi duzelttiginde capa
+# eslesmeyi birakir ve jeton `rounding_mismatch` yerine KAYITSIZ dusher. Kapi yine kirmiziya
+# doner (kacan bir sey yok) ama teshis yaniltici olur -- ve AYNI satira capalanmis KOMSU
+# beyanlar da birlikte dusher. Bu yuzden capa, mumkun oldugunda sayidan ONCE bitirilir.
+# Sayi satirin basindaysa (ornek: p-degerinin mantisi, §5:813) bu mumkun degildir; o vakalar
+# oz sinamada `unregistered` beklentisiyle yaziliyor, cunku olculen davranis budur.
+
+# --- (b) KOSU MANIFESTI SAYIMLARI (§4.8), 4 jeton --------------------------------------------
+# "Hangi 90?" sorusunun cevabi sayimin YANINDA duruyor: `run_manifest_census.window.label`
+# alani "17 June--24 July 2026" degerini SAYILAN manifestlerin kendi zaman damgalarindan
+# uretiyor, elle yazmiyor. Uc sinif toplandiginda toplami vermeli -- `checksum_ok` bunu
+# uretici tarafinda dogruluyor.
+b("04_experiments", -1, "Of the 90 runs in that window", 0, A_RMC, "n_manifests", "int",
+  ident="s4.manifest_total")
+b("04_experiments", -1, "Of the 90 runs in that window", 4, A_RMC, "n_code_state_verified",
+  "int", ident="s4.manifest_verified")
+b("04_experiments", -1, "manifests were written at launch with verified code state", 0, A_RMC,
+  "n_retroactive_unverified", "int", ident="s4.manifest_retroactive")
+b("04_experiments", -1, "(code _state _verified:false) and", 0, A_RMC, "n_unfinished", "int",
+  ident="s4.manifest_unfinished")
+
+# --- (c) ALANI OLMAYAN SEKIZ OLCUM ------------------------------------------------------------
+# 1-2) En yuksek guven kutusundaki kutle (§5.1). Uretici bu iki sayiyi EKRANA basiyordu ama
+#      artefakta yazmiyordu; sayiyi ekrana basmak onu kayda gecirmez.
+b("05_results_discussion", -1, "and the mass sitting in the highest-confidence bin falls from",
+  0, A_REL, 'conditions["T=1"].top_bin.share_pct', "1dp", ident="s5.top_bin_raw")
+b("05_results_discussion", -1, "to 82.7", 0, A_REL,
+  'conditions["T=1.3406"].top_bin.share_pct', "1dp", ident="s5.top_bin_calibrated")
+
+# 3) R^2 tabani (§5.4). Bu bir OLCUM degil bir BARAJ: "uc kolun hepsi > 0.998". Belirleyici
+#    olan en kucuk R^2 (0.99881781, scratch2248); bag `min` uzerinden ve ASAGI yuvarlamayla
+#    kuruluyor. Yariyi yukari yuvarlanmis olsaydi 0.999 cikardi ve cumle YANLIS olurdu.
+dv("s5.r2_floor", "0.998", "min",
+   [op(A_A13, "fits.scratch0712.r2"), op(A_A13, "fits.scratch2248.r2"),
+    op(A_A13, "fits.pretrained2248.r2")],
+   "3dp_floor", "05_results_discussion", -1, "arms hold the dose--response with R^ 2 >", 1,
+   note="uc kolun EN KUCUK R^2'si; alt sinir iddiasi oldugu icin ASAGI yuvarlanir "
+        "(scratch2248 = 0.99881781, digerleri 0.99996+)")
+
+# 4) Taban ECE orani (§5.5). Payda ADIYLA: vae9182 kontrol kolunun @swa ECE duzeyi.
+dv("s5.baseline_ece_ratio", "2.7", "ratio_of_mean",
+   [op(A_CSM, "rows[checkpoint=swa][axis=ece][teacher=stage1][class_weight_mode=none]"
+              ".control_level"),
+    op(A_CSM, "rows[checkpoint=swa][axis=ece][teacher=primary][class_weight_mode=none]"
+              ".control_level"),
+    op(A_CSM, "rows[checkpoint=swa][axis=ece][teacher=vae9182][class_weight_mode=none]"
+              ".control_level")],
+   "1dp", "05_results_discussion", -1, "2.7 larger than the well-calibrated", 0,
+   note="pay = stage1 ve primary kontrol kollarinin @swa ECE duzeylerinin ORTALAMASI (0.075); "
+        "PAYDA = vae9182 kontrol kolunun @swa ECE duzeyi (0.0278). Basili iki yuvarlanmis "
+        "degerden hesaplansaydi 2.679 cikardi; alanlardan 2.701 cikiyor -- ikisi de 1 basamakta "
+        "2.7 veriyor ama hesap alanlardan yapiliyor.")
+
+# 5) Bilesik sicaklik T* x tau (§5.3), UC jeton. Operandlar: kolun KENDI kaydindaki T ve
+#    `tau_t_factorial`in kaydindaki tau=6. VAE9182'de operand T*=0.983 DEGIL: cumle
+#    "student-side optimum" diyor ve o kolda ogrenci en iyi ECE'yi T=1'de veriyor.
+#    FERPlus KIRMIZI: 0.5063 x 6 = 3.0378 -> 3.04, basili 3.06. 3.06 ancak 0.5063'un iki
+#    basamaga yuvarlanmis hali (0.51) ile carpilinca cikiyor -- yine cift yuvarlama.
+_TAU = op("paper_tables/tau_t_factorial.json", 'arms["tau6_T0.85"].tau')
+dv("s5.composite_T_stage1", "8.04", "product",
+   [op(A_TDO, "arms.rafdb_stage1.points[2].T"), _TAU],
+   "2dp", "05_results_discussion", -1, "optimum lands at composite temperature T^ * =", 0,
+   note="stage1 ogrenci-optimum kolu T=1.3406, tau=6 -> 8.0436")
+dv("s5.composite_T_vae9182", "6.0", "product",
+   [op(A_TDO, "arms.rafdb_vae9182.points[1].T"), _TAU],
+   "1dp", "05_results_discussion", -1, "Stage1 6.0 on VAE9182", 1,
+   note="vae9182 ogrenci-optimum kolu T=1 (T*=0.983 DEGIL: ogrencinin en dusuk ECE'si T=1 "
+        "kolunda), tau=6 -> 6.0")
+dv("s5.composite_T_ferplus", "3.06", "product",
+   [op(A_TDO, "arms.ferplus.points[1].T"), _TAU],
+   "2dp", "05_results_discussion", -1, "Stage1 6.0 on VAE9182", 3,
+   note="FERPlus ogrenci-optimum kolu T=0.5063, tau=6 -> 3.0378 = 3.04. Basili 3.06 CIFT "
+        "YUVARLAMA: 0.5063 -> 0.51 -> x6. Bag bilerek kirmizi birakildi.")
+
+# 6) DeltaECE, stage1 x target_logvar (§5.5). §5:655'teki 0.0041 ile AYNI SAYI, AYRI NICELIK:
+#    o bir JSD farki, bu bir ECE farki. Adlari ayrisiyor (`s5.target_logvar_dece` vs
+#    `res.jsd_*`) -- 13-14/13-15 vakasindaki disiplinin aynisi.
+b("05_results_discussion", -1, "( = -0.0041 the same sign in all three seeds)", 0, A_CRIT,
+  'cells["stage1/gate:target_logvar"].swa.ece.mean', "4dp", ident="s5.target_logvar_dece")
+
+# --- (d) MEKANIK DORT --------------------------------------------------------------------------
+# 7) +0.165 (§5.4): uretici degeri 4dp YUVARLANMIS sakliyordu (0.1655) ve defter onu bir kez
+#    daha yuvarlayinca 0.166 veriyordu -- makale 0.165 basiyor. Uretici duzeltildi (yuvarlanmamis
+#    yaziyor: 0.16546105) ve bag 3dp'de TUTUYOR. Yani makale dogruydu, ARTEFAKT yanlisti.
+b("05_results_discussion", -1, "remain over-confident ( +0.063 and +0.165", 1, A_PCC,
+  'classes.Fear.gap_mean[4]', "3dp", ident="s5.perclass_gap_fear_T22")
+
+# 8-9) 34 / 67 (§5.4): alan KESIR, makale YUZDE. Yeni kip `percent_of_fraction`. Sayimin
+#      kendisi de artik alan: 45/131 ve 88/131.
+b("05_results_discussion", -1, "inside the last K in", 0, A_SG,
+  'per_k["50"].argmax_in_last_K_frac', "percent_of_fraction:int", ident="s5.argmax_in_k50")
+b("05_results_discussion", -1, "inside the last K in", 1, A_SG,
+  'per_k["100"].argmax_in_last_K_frac', "percent_of_fraction:int", ident="s5.argmax_in_k100")
+
+# 10) 4.3 (§5.5): bilimsel gosterimin MANTISI. Us (-7) da AYNI ALANA baglaniyor -- daha once
+#     "gosterimden dogan jeton" diye muaf tutulmustu, ama us bir yazim susu degil, alanin
+#     olculebilir bir ozelligi. Taban (10) muaf kaliyor: o gercekten gosterimin kendisi.
+b("05_results_discussion", -1, "4.3 10^ -7 on RAF-DB", 0, A_SAI,
+  'datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p', "sci_mantissa:1dp",
+  ident="s5.best_swa_p_mantissa")
+b("05_results_discussion", -1, "4.3 10^ -7 on RAF-DB", 2, A_SAI,
+  'datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p', "sci_exponent",
+  ident="s5.best_swa_p_exponent")
+
+
+# =============================================================================
 # TEYIT KAYITLARI (cross_checks) — ayni niceligi hesaplayan IKINCI kaynak
 # =============================================================================
 # NEDEN VAR (17 Agu 2026, N14 karari). T*_NLL'i iki BAGIMSIZ uygulama buluyor ve degerler
@@ -2789,13 +2945,38 @@ def resolve(store, artifact, path):
 
 
 def fmt_round(value, rounding):
-    """Beyan edilen yuvarlama. YARIYI YUKARI (LaTeX'te elle yazilan sayi boyle yuvarlanir)."""
+    """Beyan edilen yuvarlama. Varsayilan YARIYI YUKARI (LaTeX'te elle yazilan sayi boyle
+    yuvarlanir). Dort ek KIP var; hepsi "alan ile basili deger ayni YAZIMDA degil" vakasi
+    icin ve hepsi beyanda ACIKCA yaziliyor -- sessiz bir donusum yok.
+
+      percent_of_fraction[:kip]  alan KESIR (0.3435), makale YUZDE basiyor (34). Once 100 ile
+                                 carpilir, sonra verilen kiple yuvarlanir. Varsayilan `int`.
+      sci_mantissa[:kip]         alan tam p degeri (4.256e-07), makale MANTISI basiyor (4.3).
+                                 Varsayilan `1dp`.
+      sci_exponent               ayni alanin USSU (-7). Us TAM SAYIDIR, yuvarlama yok.
+      <kip>_floor                ALT SINIR iddiasi. "R^2 > 0.998" cumlesinde basili sayi bir
+                                 olcum degil bir BARAJDIR ve asagi yuvarlanir; yariyi yukari
+                                 yuvarlamak (0.99882 -> 0.999) cumleyi YANLIS yapardi cunku
+                                 uc koldan biri 0.999'un altinda. Yon, iddianin yonudur.
+    """
+    v = float(value)
+    mode, _, spec = rounding.partition(":")
+    if mode == "percent_of_fraction":
+        v, rounding = 100.0 * v, (spec or "int")
+    elif mode == "sci_mantissa":
+        e = 0 if v == 0 else math.floor(math.log10(abs(v)))
+        v, rounding = v / (10.0 ** e), (spec or "1dp")
+    elif mode == "sci_exponent":
+        return Decimal(0 if v == 0 else math.floor(math.log10(abs(v))))
+    rmode = ROUND_HALF_UP
+    if rounding.endswith("_floor"):
+        rounding, rmode = rounding[: -len("_floor")], ROUND_FLOOR
     if rounding == "int":
         q = Decimal(1)
     else:
         nd = int(rounding.replace("dp", ""))
         q = Decimal(1).scaleb(-nd)
-    return Decimal(repr(float(value))).quantize(q, rounding=ROUND_HALF_UP)
+    return Decimal(repr(v)).quantize(q, rounding=rmode)
 
 
 def printed_dec(s):
@@ -2917,6 +3098,22 @@ def build(paper_root):
             # `pct_drop` ile denendi ve 63 yerine 39 verdi, yani iki formul ayni sayiyi
             # ASLA vermiyor ve karistirilmalari sessiz kalmiyor.
             val = 100.0 * (vals[0] - vals[1]) / vals[1]
+        elif d["formula"] == "product":
+            # Operandlarin CARPIMI. Kampanyada tek kullanimi bilesik sicaklik T* x tau; iki
+            # operand da ALAN olarak cozuluyor (tau bir yapilandirma sabiti degil, kosulan
+            # kolun kendi kaydindaki deger) -- elle yazilmis bir carpan olsaydi bag KURULMAZDI.
+            val = 1.0
+            for x in vals:
+                val *= x
+        elif d["formula"] == "min":
+            # ALT SINIR iddialarinin operandi: "uc kolun hepsi > X" cumlesinde belirleyici
+            # olan EN KUCUK koldur; digerleri iddiayi test etmez.
+            val = min(vals)
+        elif d["formula"] == "ratio_of_mean":
+            # pay = SON operand HARIC operandlarin ortalamasi; payda = SON operand.
+            # Paydanin hangi alan oldugu beyanin `note` alaninda ADIYLA yazilir (17 Agu
+            # kurali); formul adi da paydanin tek bir operand oldugunu gosteriyor.
+            val = (sum(vals[:-1]) / len(vals[:-1])) / vals[-1]
         elif d["formula"] == "pct_drop":
             # yuzde AZALMA: (taban - duzeltilmis) / taban x 100. Payda ACIKCA TABAN -- bir oranin
             # paydasi cumlede adlandirilmali (17 Agu kurali), burada da alan yolu olarak duruyor.

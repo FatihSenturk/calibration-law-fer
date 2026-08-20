@@ -1,11 +1,11 @@
 {
   "public": "calibration-law-fer_2026-08-08",
   "unit": "file (not match)",
-  "total_files": 22,
-  "total_matches": 70,
+  "total_files": 23,
+  "total_matches": 72,
   "by_class": {
     "declared": 15,
-    "dated": 4,
+    "dated": 5,
     "third_party": 3
   },
   "skipped_binary": 99,
@@ -47,6 +47,11 @@
       "path": "diagnostics/reports/2026-08-13_n5_selection.md",
       "class": "dated",
       "matches": 1
+    },
+    {
+      "path": "diagnostics/reports/2026-08-20_son_tur.md",
+      "class": "dated",
+      "matches": 2
     },
     {
       "path": "run_affectnetplus_unified_student.ps1",

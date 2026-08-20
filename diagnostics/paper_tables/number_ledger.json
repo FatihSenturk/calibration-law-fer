@@ -88,12 +88,12 @@
       "bytes": 31301
     },
     "sections/01_introduction.tex": {
-      "sha256": "750700112b15cac3b8b5dbd9b78ac96948ad63f1214cc9378e45b2dccc37c714",
-      "bytes": 12514
+      "sha256": "121b1ee145d7bd241d3299488fb72ae92dc4a277e1eecc4aad1b56ee2b853668",
+      "bytes": 12516
     },
     "sections/02_related_work.tex": {
-      "sha256": "2d16499b9cedb2c3d4da4730779d38b4c262766a2ec7253db0863ab88f7aec4e",
-      "bytes": 14207
+      "sha256": "84eb8cc319422cb169fbf9a1a50ea2002188ea057e28f6eb397049f8dab2ad13",
+      "bytes": 14209
     },
     "sections/03_methodology.tex": {
       "sha256": "80eca6f60c3122b3716f41a84b8c7c25bb62a5af178a96d262764e4295e53bf9",
@@ -210,19 +210,19 @@
   ],
   "counts": {
     "tokens": 1677,
-    "bound": 1095,
-    "derived": 67,
-    "exempt": 496,
-    "unbound": 23,
+    "bound": 1114,
+    "derived": 72,
+    "exempt": 495,
+    "unbound": 0,
     "layout_dropped": 340,
-    "mismatch": 2,
-    "derived_mismatch": 0,
+    "mismatch": 3,
+    "derived_mismatch": 1,
     "prose": 1,
-    "derived_in_scope": 63,
+    "derived_in_scope": 68,
     "derived_prose_anchored": 4,
     "cross_checks": 3,
     "cross_check_fail": 0,
-    "problems": 2
+    "problems": 4
   },
   "entries": [
     {
@@ -11555,34 +11555,34 @@
     },
     {
       "id": "intro.orderstat_k50",
-      "printed": "+0.65",
+      "printed": "+0.645",
       "artifact": "selection_audit/selection_gain.json",
       "path": "per_k[\"50\"].a2_pure_order_statistic.mean",
       "exact": 0.6445305842767274,
-      "rounding": "2dp",
-      "rounded": "0.64",
-      "matches": false,
-      "where": [
-        "paper/sections/01_introduction.tex:151"
-      ],
-      "token": "01_introduction|s-1|component +0.65 to +0.76 pp on the same runs) --- larger than any|0",
-      "row": "component +0.65 to +0.76 pp on the same runs) --- larger than any",
-      "idx": 0
-    },
-    {
-      "id": "intro.orderstat_k100",
-      "printed": "+0.76",
-      "artifact": "selection_audit/selection_gain.json",
-      "path": "per_k[\"100\"].a2_pure_order_statistic.mean",
-      "exact": 0.7639534297093329,
-      "rounding": "2dp",
-      "rounded": "0.76",
+      "rounding": "3dp",
+      "rounded": "0.645",
       "matches": true,
       "where": [
         "paper/sections/01_introduction.tex:151"
       ],
-      "token": "01_introduction|s-1|component +0.65 to +0.76 pp on the same runs) --- larger than any|1",
-      "row": "component +0.65 to +0.76 pp on the same runs) --- larger than any",
+      "token": "01_introduction|s-1|component +0.645 to +0.764 pp on the same runs) --- larger than any|0",
+      "row": "component +0.645 to +0.764 pp on the same runs) --- larger than any",
+      "idx": 0
+    },
+    {
+      "id": "intro.orderstat_k100",
+      "printed": "+0.764",
+      "artifact": "selection_audit/selection_gain.json",
+      "path": "per_k[\"100\"].a2_pure_order_statistic.mean",
+      "exact": 0.7639534297093329,
+      "rounding": "3dp",
+      "rounded": "0.764",
+      "matches": true,
+      "where": [
+        "paper/sections/01_introduction.tex:151"
+      ],
+      "token": "01_introduction|s-1|component +0.645 to +0.764 pp on the same runs) --- larger than any|1",
+      "row": "component +0.645 to +0.764 pp on the same runs) --- larger than any",
       "idx": 1
     },
     {
@@ -11741,40 +11741,40 @@
       "where": [
         "paper/sections/02_related_work.tex:229"
       ],
-      "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.65 -- 0.76 pp as a pure|0",
-      "row": "amount ( +0.77 pp best--last; +0.65 -- 0.76 pp as a pure",
+      "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure|0",
+      "row": "amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure",
       "idx": 0
     },
     {
       "id": "related_work.orderstat_k50",
-      "printed": "+0.65",
+      "printed": "+0.645",
       "artifact": "selection_audit/selection_gain.json",
       "path": "per_k[\"50\"].a2_pure_order_statistic.mean",
       "exact": 0.6445305842767274,
-      "rounding": "2dp",
-      "rounded": "0.64",
-      "matches": false,
-      "where": [
-        "paper/sections/02_related_work.tex:229"
-      ],
-      "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.65 -- 0.76 pp as a pure|1",
-      "row": "amount ( +0.77 pp best--last; +0.65 -- 0.76 pp as a pure",
-      "idx": 1
-    },
-    {
-      "id": "related_work.orderstat_k100",
-      "printed": "0.76",
-      "artifact": "paper_tables/order_stat_trend.json",
-      "path": "results[\"100\"].a2_raw.mean",
-      "exact": 0.7639534297093329,
-      "rounding": "2dp",
-      "rounded": "0.76",
+      "rounding": "3dp",
+      "rounded": "0.645",
       "matches": true,
       "where": [
         "paper/sections/02_related_work.tex:229"
       ],
-      "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.65 -- 0.76 pp as a pure|2",
-      "row": "amount ( +0.77 pp best--last; +0.65 -- 0.76 pp as a pure",
+      "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure|1",
+      "row": "amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure",
+      "idx": 1
+    },
+    {
+      "id": "related_work.orderstat_k100",
+      "printed": "0.764",
+      "artifact": "paper_tables/order_stat_trend.json",
+      "path": "results[\"100\"].a2_raw.mean",
+      "exact": 0.7639534297093329,
+      "rounding": "3dp",
+      "rounded": "0.764",
+      "matches": true,
+      "where": [
+        "paper/sections/02_related_work.tex:229"
+      ],
+      "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure|2",
+      "row": "amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure",
       "idx": 2
     },
     {
@@ -13638,7 +13638,7 @@
       "printed": "+0.028",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Happiness].gap_native",
-      "exact": 0.0278,
+      "exact": 0.027833825324658095,
       "rounding": "3dp",
       "rounded": "0.028",
       "matches": true,
@@ -13670,7 +13670,7 @@
       "printed": "+0.305",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Fear].gap_native",
-      "exact": 0.3048,
+      "exact": 0.3048036989865002,
       "rounding": "3dp",
       "rounded": "0.305",
       "matches": true,
@@ -13766,7 +13766,7 @@
       "printed": "+0.063",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Disgust].gap_T22",
-      "exact": 0.0629,
+      "exact": 0.06288095712661745,
       "rounding": "3dp",
       "rounded": "0.063",
       "matches": true,
@@ -13782,7 +13782,7 @@
       "printed": "-0.110",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Happiness].gap_T22",
-      "exact": -0.1103,
+      "exact": -0.11032102240456472,
       "rounding": "3dp",
       "rounded": "-0.110",
       "matches": true,
@@ -13798,7 +13798,7 @@
       "printed": "-0.126",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Neutral].gap_T22",
-      "exact": -0.1262,
+      "exact": -0.1262173521752451,
       "rounding": "3dp",
       "rounded": "-0.126",
       "matches": true,
@@ -13814,7 +13814,7 @@
       "printed": "+0.087",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Sadness].gap_native",
-      "exact": 0.0869,
+      "exact": 0.0868617997009884,
       "rounding": "3dp",
       "rounded": "0.087",
       "matches": true,
@@ -13830,7 +13830,7 @@
       "printed": "+0.066",
       "artifact": "paper_tables/perclass_crossing.json",
       "path": "rows[cls=Surprise].gap_native",
-      "exact": 0.0656,
+      "exact": 0.06556053153166534,
       "rounding": "3dp",
       "rounded": "0.066",
       "matches": true,
@@ -17744,6 +17744,310 @@
       "token": "02_related_work|s-1|sits in this regime ( 2.25 M parameters) but efficiency|0",
       "row": "sits in this regime ( 2.25 M parameters) but efficiency",
       "idx": 0
+    },
+    {
+      "id": "s4.fpr_per_cell",
+      "printed": "3.5",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.per_cell_rate_at_median_k",
+      "exact": 0.03515484729986554,
+      "rounding": "percent_of_fraction:1dp",
+      "rounded": "3.5",
+      "matches": true,
+      "where": [
+        "paper/sections/04_experiments.tex:228"
+      ],
+      "token": "04_experiments|s-1|per-cell firing rate of about 3.5 % ; under independence across the|0",
+      "row": "per-cell firing rate of about 3.5 % ; under independence across the",
+      "idx": 0
+    },
+    {
+      "id": "s4.fpr_family_median_k",
+      "printed": "0.543",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.family_wise_at_median_k",
+      "exact": 0.5449410868322991,
+      "rounding": "3dp",
+      "rounded": "0.545",
+      "matches": false,
+      "where": [
+        "paper/sections/04_experiments.tex:229"
+      ],
+      "token": "04_experiments|s-1|twenty-two cells the corresponding family-wise probability is 0.543|0",
+      "row": "twenty-two cells the corresponding family-wise probability is 0.543",
+      "idx": 0
+    },
+    {
+      "id": "s4.fpr_family_own_k",
+      "printed": "0.740",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.family_wise_at_own_k",
+      "exact": 0.7410378244162852,
+      "rounding": "3dp",
+      "rounded": "0.741",
+      "matches": false,
+      "where": [
+        "paper/sections/04_experiments.tex:230"
+      ],
+      "token": "04_experiments|s-1|rising to 0.740 when each cell is given its own dispersion ratio|0",
+      "row": "rising to 0.740 when each cell is given its own dispersion ratio",
+      "idx": 0
+    },
+    {
+      "id": "s4.fpr_rho_shared",
+      "printed": "+0.393",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.rho_shared_control",
+      "exact": 0.39328562654600957,
+      "rounding": "3dp",
+      "rounded": "0.393",
+      "matches": true,
+      "where": [
+        "paper/sections/04_experiments.tex:232"
+      ],
+      "token": "04_experiments|s-1|sharing a control arm correlate at +0.393 across seeds --- but|0",
+      "row": "sharing a control arm correlate at +0.393 across seeds --- but",
+      "idx": 0
+    },
+    {
+      "id": "s4.fpr_independence_gap",
+      "printed": "0.007",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.independence_gap_own_k_minus_shared",
+      "exact": 0.008613174416285174,
+      "rounding": "3dp",
+      "rounded": "0.009",
+      "matches": false,
+      "where": [
+        "paper/sections/04_experiments.tex:233"
+      ],
+      "token": "04_experiments|s-1|re-simulating with that shared component moves the rate by 0.007|0",
+      "row": "re-simulating with that shared component moves the rate by 0.007",
+      "idx": 0
+    },
+    {
+      "id": "s5.fpr_family_median_k_2dp",
+      "printed": "0.54",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.family_wise_at_median_k",
+      "exact": 0.5449410868322991,
+      "rounding": "2dp",
+      "rounded": "0.54",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:405"
+      ],
+      "token": "05_results_discussion|s-1|reference rate of 0.54 (rising to 0.74 when each cell is given its|0",
+      "row": "reference rate of 0.54 (rising to 0.74 when each cell is given its",
+      "idx": 0
+    },
+    {
+      "id": "s5.fpr_family_own_k_2dp",
+      "printed": "0.74",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "false_positive_simulation.family_wise_at_own_k",
+      "exact": 0.7410378244162852,
+      "rounding": "2dp",
+      "rounded": "0.74",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:405"
+      ],
+      "token": "05_results_discussion|s-1|reference rate of 0.54 (rising to 0.74 when each cell is given its|1",
+      "row": "reference rate of 0.54 (rising to 0.74 when each cell is given its",
+      "idx": 1
+    },
+    {
+      "id": "s4.manifest_total",
+      "printed": "90",
+      "artifact": "paper_tables/run_manifest_census.json",
+      "path": "n_manifests",
+      "exact": 90.0,
+      "rounding": "int",
+      "rounded": "90",
+      "matches": true,
+      "where": [
+        "paper/sections/04_experiments.tex:296"
+      ],
+      "token": "04_experiments|s-1|Of the 90 runs in that window (17 June--24 July 2026) 26|0",
+      "row": "Of the 90 runs in that window (17 June--24 July 2026) 26",
+      "idx": 0
+    },
+    {
+      "id": "s4.manifest_verified",
+      "printed": "26",
+      "artifact": "paper_tables/run_manifest_census.json",
+      "path": "n_code_state_verified",
+      "exact": 26.0,
+      "rounding": "int",
+      "rounded": "26",
+      "matches": true,
+      "where": [
+        "paper/sections/04_experiments.tex:296"
+      ],
+      "token": "04_experiments|s-1|Of the 90 runs in that window (17 June--24 July 2026) 26|4",
+      "row": "Of the 90 runs in that window (17 June--24 July 2026) 26",
+      "idx": 4
+    },
+    {
+      "id": "s4.manifest_retroactive",
+      "printed": "62",
+      "artifact": "paper_tables/run_manifest_census.json",
+      "path": "n_retroactive_unverified",
+      "exact": 62.0,
+      "rounding": "int",
+      "rounded": "62",
+      "matches": true,
+      "where": [
+        "paper/sections/04_experiments.tex:297"
+      ],
+      "token": "04_experiments|s-1|manifests were written at launch with verified code state 62 were|0",
+      "row": "manifests were written at launch with verified code state 62 were",
+      "idx": 0
+    },
+    {
+      "id": "s4.manifest_unfinished",
+      "printed": "2",
+      "artifact": "paper_tables/run_manifest_census.json",
+      "path": "n_unfinished",
+      "exact": 2.0,
+      "rounding": "int",
+      "rounded": "2",
+      "matches": true,
+      "where": [
+        "paper/sections/04_experiments.tex:299"
+      ],
+      "token": "04_experiments|s-1|(code _state _verified:false) and 2 belong to unfinished|0",
+      "row": "(code _state _verified:false) and 2 belong to unfinished",
+      "idx": 0
+    },
+    {
+      "id": "s5.top_bin_raw",
+      "printed": "89.9",
+      "artifact": "reliability/reliability_diagram.json",
+      "path": "conditions[\"T=1\"].top_bin.share_pct",
+      "exact": 89.93915688830943,
+      "rounding": "1dp",
+      "rounded": "89.9",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:39"
+      ],
+      "token": "05_results_discussion|s-1|and the mass sitting in the highest-confidence bin falls from 89.9 %|0",
+      "row": "and the mass sitting in the highest-confidence bin falls from 89.9 %",
+      "idx": 0
+    },
+    {
+      "id": "s5.top_bin_calibrated",
+      "printed": "82.7",
+      "artifact": "reliability/reliability_diagram.json",
+      "path": "conditions[\"T=1.3406\"].top_bin.share_pct",
+      "exact": 82.74663189917428,
+      "rounding": "1dp",
+      "rounded": "82.7",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:40"
+      ],
+      "token": "05_results_discussion|s-1|to 82.7 % . We therefore describe the effect as a calibration|0",
+      "row": "to 82.7 % . We therefore describe the effect as a calibration",
+      "idx": 0
+    },
+    {
+      "id": "s5.target_logvar_dece",
+      "printed": "-0.0041",
+      "artifact": "paper_tables/criterion_applied.json",
+      "path": "cells[\"stage1/gate:target_logvar\"].swa.ece.mean",
+      "exact": -0.00414632082710779,
+      "rounding": "4dp",
+      "rounded": "-0.0041",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:524"
+      ],
+      "token": "05_results_discussion|s-1|( = -0.0041 the same sign in all three seeds)|0",
+      "row": "( = -0.0041 the same sign in all three seeds)",
+      "idx": 0
+    },
+    {
+      "id": "s5.perclass_gap_fear_T22",
+      "printed": "+0.165",
+      "artifact": "reliability/perclass_calibration.json",
+      "path": "classes.Fear.gap_mean[4]",
+      "exact": 0.16546104942356143,
+      "rounding": "3dp",
+      "rounded": "0.165",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:731"
+      ],
+      "token": "05_results_discussion|s-1|remain over-confident ( +0.063 and +0.165 ) even at T = 2.2 a|1",
+      "row": "remain over-confident ( +0.063 and +0.165 ) even at T = 2.2 a",
+      "idx": 1
+    },
+    {
+      "id": "s5.argmax_in_k50",
+      "printed": "34",
+      "artifact": "selection_audit/selection_gain.json",
+      "path": "per_k[\"50\"].argmax_in_last_K_frac",
+      "exact": 0.3435114503816794,
+      "rounding": "percent_of_fraction:int",
+      "rounded": "34",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:783"
+      ],
+      "token": "05_results_discussion|s-1|inside the last K in 34 % and 67 % of them respectively so most|0",
+      "row": "inside the last K in 34 % and 67 % of them respectively so most",
+      "idx": 0
+    },
+    {
+      "id": "s5.argmax_in_k100",
+      "printed": "67",
+      "artifact": "selection_audit/selection_gain.json",
+      "path": "per_k[\"100\"].argmax_in_last_K_frac",
+      "exact": 0.6717557251908397,
+      "rounding": "percent_of_fraction:int",
+      "rounded": "67",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:783"
+      ],
+      "token": "05_results_discussion|s-1|inside the last K in 34 % and 67 % of them respectively so most|1",
+      "row": "inside the last K in 34 % and 67 % of them respectively so most",
+      "idx": 1
+    },
+    {
+      "id": "s5.best_swa_p_mantissa",
+      "printed": "4.3",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].acc_pp.p",
+      "exact": 4.256018138298504e-07,
+      "rounding": "sci_mantissa:1dp",
+      "rounded": "4.3",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:813"
+      ],
+      "token": "05_results_discussion|s-1|4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061|0",
+      "row": "4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061",
+      "idx": 0
+    },
+    {
+      "id": "s5.best_swa_p_exponent",
+      "printed": "-7",
+      "artifact": "paper_tables/selection_audit_inference.json",
+      "path": "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].acc_pp.p",
+      "exact": 4.256018138298504e-07,
+      "rounding": "sci_exponent",
+      "rounded": "-7",
+      "matches": true,
+      "where": [
+        "paper/sections/05_results_discussion.tex:813"
+      ],
+      "token": "05_results_discussion|s-1|4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061|2",
+      "row": "4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061",
+      "idx": 2
     }
   ],
   "exempt": [
@@ -20058,12 +20362,6 @@
       "printed": "10"
     },
     {
-      "key": "05_results_discussion|s-1|4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061|2",
-      "class": "scientific_notation",
-      "why": "YENI SINIF ONERISI: ayni gosterimin USSU (-7)",
-      "printed": "-7"
-    },
-    {
       "key": "05_results_discussion|s-1|t(11) = 3.7 0.003 on FERPlus); on the calibration axis it|0",
       "class": "sample_size",
       "why": "serbestlik derecesi df = 11",
@@ -20883,202 +21181,27 @@
       "matches": true
     }
   ],
-  "unbound": [
-    {
-      "key": "04_experiments|s-1|per-cell firing rate of about 3.5 % ; under independence across the|0",
-      "printed": "3.5",
-      "unit": "04_experiments",
-      "row": "per-cell firing rate of about 3.5 % ; under independence across the",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:228"
-    },
-    {
-      "key": "04_experiments|s-1|twenty-two cells the corresponding family-wise probability is 0.543|0",
-      "printed": "0.543",
-      "unit": "04_experiments",
-      "row": "twenty-two cells the corresponding family-wise probability is 0.543",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:229"
-    },
-    {
-      "key": "04_experiments|s-1|rising to 0.740 when each cell is given its own dispersion ratio|0",
-      "printed": "0.740",
-      "unit": "04_experiments",
-      "row": "rising to 0.740 when each cell is given its own dispersion ratio",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:230"
-    },
-    {
-      "key": "04_experiments|s-1|sharing a control arm correlate at +0.393 across seeds --- but|0",
-      "printed": "+0.393",
-      "unit": "04_experiments",
-      "row": "sharing a control arm correlate at +0.393 across seeds --- but",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:232"
-    },
-    {
-      "key": "04_experiments|s-1|re-simulating with that shared component moves the rate by 0.007|0",
-      "printed": "0.007",
-      "unit": "04_experiments",
-      "row": "re-simulating with that shared component moves the rate by 0.007",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:233"
-    },
-    {
-      "key": "04_experiments|s-1|Of the 90 runs in that window (17 June--24 July 2026) 26|0",
-      "printed": "90",
-      "unit": "04_experiments",
-      "row": "Of the 90 runs in that window (17 June--24 July 2026) 26",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:296"
-    },
-    {
-      "key": "04_experiments|s-1|Of the 90 runs in that window (17 June--24 July 2026) 26|4",
-      "printed": "26",
-      "unit": "04_experiments",
-      "row": "Of the 90 runs in that window (17 June--24 July 2026) 26",
-      "idx": 4,
-      "where": "paper/sections/04_experiments.tex:296"
-    },
-    {
-      "key": "04_experiments|s-1|manifests were written at launch with verified code state 62 were|0",
-      "printed": "62",
-      "unit": "04_experiments",
-      "row": "manifests were written at launch with verified code state 62 were",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:297"
-    },
-    {
-      "key": "04_experiments|s-1|(code _state _verified:false) and 2 belong to unfinished|0",
-      "printed": "2",
-      "unit": "04_experiments",
-      "row": "(code _state _verified:false) and 2 belong to unfinished",
-      "idx": 0,
-      "where": "paper/sections/04_experiments.tex:299"
-    },
-    {
-      "key": "05_results_discussion|s-1|and the mass sitting in the highest-confidence bin falls from 89.9 %|0",
-      "printed": "89.9",
-      "unit": "05_results_discussion",
-      "row": "and the mass sitting in the highest-confidence bin falls from 89.9 %",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:39"
-    },
-    {
-      "key": "05_results_discussion|s-1|to 82.7 % . We therefore describe the effect as a calibration|0",
-      "printed": "82.7",
-      "unit": "05_results_discussion",
-      "row": "to 82.7 % . We therefore describe the effect as a calibration",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:40"
-    },
-    {
-      "key": "05_results_discussion|s-1|optimum lands at composite temperature T^ * = 8.04 on|0",
-      "printed": "8.04",
-      "unit": "05_results_discussion",
-      "row": "optimum lands at composite temperature T^ * = 8.04 on",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:197"
-    },
-    {
-      "key": "05_results_discussion|s-1|Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A rival account on|1",
-      "printed": "6.0",
-      "unit": "05_results_discussion",
-      "row": "Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A rival account on",
-      "idx": 1,
-      "where": "paper/sections/05_results_discussion.tex:198"
-    },
-    {
-      "key": "05_results_discussion|s-1|Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A rival account on|3",
-      "printed": "3.06",
-      "unit": "05_results_discussion",
-      "row": "Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A rival account on",
-      "idx": 3,
-      "where": "paper/sections/05_results_discussion.tex:198"
-    },
-    {
-      "key": "05_results_discussion|s-1|arms hold the dose--response with R^ 2 >0.998 and slopes of|1",
-      "printed": "0.998",
-      "unit": "05_results_discussion",
-      "row": "arms hold the dose--response with R^ 2 >0.998 and slopes of",
-      "idx": 1,
-      "where": "paper/sections/05_results_discussion.tex:345"
-    },
-    {
-      "key": "05_results_discussion|s-1|reference rate of 0.54 (rising to 0.74 when each cell is given its|0",
-      "printed": "0.54",
-      "unit": "05_results_discussion",
-      "row": "reference rate of 0.54 (rising to 0.74 when each cell is given its",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:405"
-    },
-    {
-      "key": "05_results_discussion|s-1|reference rate of 0.54 (rising to 0.74 when each cell is given its|1",
-      "printed": "0.74",
-      "unit": "05_results_discussion",
-      "row": "reference rate of 0.54 (rising to 0.74 when each cell is given its",
-      "idx": 1,
-      "where": "paper/sections/05_results_discussion.tex:405"
-    },
-    {
-      "key": "05_results_discussion|s-1|2.7 larger than the well-calibrated teacher's student|0",
-      "printed": "2.7",
-      "unit": "05_results_discussion",
-      "row": "2.7 larger than the well-calibrated teacher's student",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:423"
-    },
-    {
-      "key": "05_results_discussion|s-1|( = - 0.0041 the same sign in all three seeds)|0",
-      "printed": "0.0041",
-      "unit": "05_results_discussion",
-      "row": "( = - 0.0041 the same sign in all three seeds)",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:524"
-    },
-    {
-      "key": "05_results_discussion|s-1|remain over-confident ( +0.063 and +0.165 ) even at T = 2.2 a|1",
-      "printed": "+0.165",
-      "unit": "05_results_discussion",
-      "row": "remain over-confident ( +0.063 and +0.165 ) even at T = 2.2 a",
-      "idx": 1,
-      "where": "paper/sections/05_results_discussion.tex:731"
-    },
-    {
-      "key": "05_results_discussion|s-1|inside the last K in 34 % and 67 % of them respectively so most|0",
-      "printed": "34",
-      "unit": "05_results_discussion",
-      "row": "inside the last K in 34 % and 67 % of them respectively so most",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:783"
-    },
-    {
-      "key": "05_results_discussion|s-1|inside the last K in 34 % and 67 % of them respectively so most|1",
-      "printed": "67",
-      "unit": "05_results_discussion",
-      "row": "inside the last K in 34 % and 67 % of them respectively so most",
-      "idx": 1,
-      "where": "paper/sections/05_results_discussion.tex:783"
-    },
-    {
-      "key": "05_results_discussion|s-1|4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061|0",
-      "printed": "4.3",
-      "unit": "05_results_discussion",
-      "row": "4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061",
-      "idx": 0,
-      "where": "paper/sections/05_results_discussion.tex:813"
-    }
-  ],
+  "unbound": [],
   "problems": [
     {
       "kind": "rounding_mismatch",
-      "id": "intro.orderstat_k50",
-      "detail": "basili +0.65 vs alan 0.6445305842767274 -> 2dp 0.64"
+      "id": "s4.fpr_family_median_k",
+      "detail": "basili 0.543 vs alan 0.5449410868322991 -> 3dp 0.545"
     },
     {
       "kind": "rounding_mismatch",
-      "id": "related_work.orderstat_k50",
-      "detail": "basili +0.65 vs alan 0.6445305842767274 -> 2dp 0.64"
+      "id": "s4.fpr_family_own_k",
+      "detail": "basili 0.740 vs alan 0.7410378244162852 -> 3dp 0.741"
+    },
+    {
+      "kind": "rounding_mismatch",
+      "id": "s4.fpr_independence_gap",
+      "detail": "basili 0.007 vs alan 0.008613174416285174 -> 3dp 0.009"
+    },
+    {
+      "kind": "derived_mismatch",
+      "id": "s5.composite_T_ferplus",
+      "detail": "basili 3.06 vs yeniden hesap 3.0378 -> 3.04"
     }
   ],
   "dropped_layout_classes": [

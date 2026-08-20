@@ -6,31 +6,29 @@
 
 | | |
 |---|---|
-| denetlenen üretici | 61 |
+| denetlenen üretici | 62 |
 | Katman A (koş + bayt karşılaştır) | 53 |
-| Katman B (kaynak parmak izi) | 8 |
+| Katman B (kaynak parmak izi) | 9 |
 | **BAYAT** (artefakt üreticisinden geri) | **0** |
 | **KAYNAK AYRIŞMASI** | **0** |
 | ölçülemez (Katman B, artefakt commit'lenmemiş) | 0 |
 | başka hata / zaman aşımı | 0 |
 | beyansız yan çıktı yazan üretici | 0 |
-| koşu başında zaten değişmiş dosya | 22 |
-
-> **Bu koşudaki 0 nasıl okunmalı.** Katman A yalnız kendi koşusundan önce TEMİZ olan dosyaları yan çıktı sayar; kapı kullanıcının halihazırdaki değişikliğine dokunmaz. Koşu başında ağaçta **22** değişmiş dosya vardı, dolayısıyla bu 0 "hiç yan çıktı yok" değil, "atfedilebilir yan çıktı yok" demektir. Temiz ağaçta koşulan kapı bu belirsizliği taşımaz.
+| koşu başında zaten değişmiş dosya | 0 |
 
 ## Ölçülen süreler (Katman A adayları)
 
-n=53 · min 0.1 s · medyan 0.2 s · maks 35.2 s · toplam 149 s · eşik **90 s**
+n=53 · min 0.0 s · medyan 0.2 s · maks 43.9 s · toplam 184 s · eşik **90 s**
 
 En pahalı beş üretici:
 
 | üretici | saniye |
 |---|---|
-| `diagnostics/bootstrap_cis.py` | 35.2 |
-| `diagnostics/headroom_grid_audit.py` | 25.3 |
-| `diagnostics/teacher_ece_grid.py` | 8.7 |
-| `diagnostics/tstar_sensitivity.py` | 6.8 |
-| `diagnostics/asymmetry_estimand.py` | 6.1 |
+| `diagnostics/criterion_applied.py` | 43.9 |
+| `diagnostics/bootstrap_cis.py` | 33.8 |
+| `diagnostics/headroom_grid_audit.py` | 26.1 |
+| `diagnostics/teacher_ece_grid.py` | 7.3 |
+| `diagnostics/tstar_sensitivity.py` | 6.1 |
 
 ## Katman B'nin SINIRI (peşinen)
 
@@ -100,6 +98,7 @@ Kaynak parmak izi yalnız **üretici değişti**yi görür. **Girdi verisi deği
 | `diagnostics/latency_benchmark.py` | **B** | Level-3 beyanlı: koşu dizinlerini okumak İŞİ | `diagnostics/p5_efficiency/latency_benchmark.json` | geçti |
 | `diagnostics/publish_epoch_curves.py` | **B** | Level-3 beyanlı: koşu dizinlerini okumak İŞİ | `diagnostics/epoch_curves_MANIFEST.json` | geçti |
 | `diagnostics/publish_student_logits.py` | **B** | Level-3 beyanlı: koşu dizinlerini okumak İŞİ | `diagnostics/student_logits/MANIFEST.json` | geçti |
+| `diagnostics/run_manifest_census.py` | **B** | Level-3 beyanlı: koşu dizinlerini okumak İŞİ | `diagnostics/paper_tables/run_manifest_census.md`<br>`diagnostics/paper_tables/run_manifest_census.json` | geçti |
 | `diagnostics/selection_audit_table.py` | **B** | Level-3 beyanlı: koşu dizinlerini okumak İŞİ | `diagnostics/selection_audit/README.md`<br>`diagnostics/selection_audit/selection_audit.csv`<br>`diagnostics/selection_audit/selection_audit_unfrozen.csv` | geçti |
 
 ---

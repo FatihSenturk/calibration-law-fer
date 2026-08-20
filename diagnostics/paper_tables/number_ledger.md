@@ -8,10 +8,10 @@ Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_s
 
 | in-scope numeric token | count |
 |---|---|
-| bound to an artifact field | 1095 |
-| derived, occupying an in-scope token | 63 |
-| declared not-a-measurement | 496 |
-| **unregistered** | **23** |
+| bound to an artifact field | 1114 |
+| derived, occupying an in-scope token | 68 |
+| declared not-a-measurement | 495 |
+| **unregistered** | **0** |
 | **= numeric tokens in scope** | **1677** |
 
 The four categories are disjoint (bound ∩ exempt is checked to be empty) and the column sums to the total. Two kinds of declaration are **not** in that table because they occupy no in-scope token — they are anchored to sentences the scanner deliberately does not read:
@@ -21,11 +21,11 @@ The four categories are disjoint (bound ∩ exempt is checked to be empty) and t
 | derived quantity on a prose anchor | 4 |
 | prose field binding (`pv`) | 1 |
 
-The registry therefore holds **67** derived quantities in total: 63 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
+The registry therefore holds **72** derived quantities in total: 68 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
 
 | other | count |
 |---|---|
-| printed-vs-field mismatch | 2 |
+| printed-vs-field mismatch | 3 |
 | confirmation records (second source) | 3 (0 failing) |
 | layout tokens dropped by the scanner | 340 |
 
@@ -37,38 +37,15 @@ The registry therefore holds **67** derived quantities in total: 63 on in-scope 
 
 ## Unregistered numbers
 
-| printed | unit | row | where |
-|---|---|---|---|
-| `3.5` | 04_experiments | per-cell firing rate of about 3.5 % ; under in | paper/sections/04_experiments.tex:228 |
-| `0.543` | 04_experiments | twenty-two cells the corresponding family-wise | paper/sections/04_experiments.tex:229 |
-| `0.740` | 04_experiments | rising to 0.740 when each cell is given its ow | paper/sections/04_experiments.tex:230 |
-| `+0.393` | 04_experiments | sharing a control arm correlate at +0.393 acro | paper/sections/04_experiments.tex:232 |
-| `0.007` | 04_experiments | re-simulating with that shared component moves | paper/sections/04_experiments.tex:233 |
-| `90` | 04_experiments | Of the 90 runs in that window (17 June--24 Jul | paper/sections/04_experiments.tex:296 |
-| `26` | 04_experiments | Of the 90 runs in that window (17 June--24 Jul | paper/sections/04_experiments.tex:296 |
-| `62` | 04_experiments | manifests were written at launch with verified | paper/sections/04_experiments.tex:297 |
-| `2` | 04_experiments | (code _state _verified:false) and 2 belong to  | paper/sections/04_experiments.tex:299 |
-| `89.9` | 05_results_discussion | and the mass sitting in the highest-confidence | paper/sections/05_results_discussion.tex:39 |
-| `82.7` | 05_results_discussion | to 82.7 % . We therefore describe the effect a | paper/sections/05_results_discussion.tex:40 |
-| `8.04` | 05_results_discussion | optimum lands at composite temperature T^ * =  | paper/sections/05_results_discussion.tex:197 |
-| `6.0` | 05_results_discussion | Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A r | paper/sections/05_results_discussion.tex:198 |
-| `3.06` | 05_results_discussion | Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A r | paper/sections/05_results_discussion.tex:198 |
-| `0.998` | 05_results_discussion | arms hold the dose--response with R^ 2 >0.998  | paper/sections/05_results_discussion.tex:345 |
-| `0.54` | 05_results_discussion | reference rate of 0.54 (rising to 0.74 when ea | paper/sections/05_results_discussion.tex:405 |
-| `0.74` | 05_results_discussion | reference rate of 0.54 (rising to 0.74 when ea | paper/sections/05_results_discussion.tex:405 |
-| `2.7` | 05_results_discussion | 2.7 larger than the well-calibrated teacher's  | paper/sections/05_results_discussion.tex:423 |
-| `0.0041` | 05_results_discussion | ( = - 0.0041 the same sign in all three seeds) | paper/sections/05_results_discussion.tex:524 |
-| `+0.165` | 05_results_discussion | remain over-confident ( +0.063 and +0.165 ) ev | paper/sections/05_results_discussion.tex:731 |
-| `34` | 05_results_discussion | inside the last K in 34 % and 67 % of them res | paper/sections/05_results_discussion.tex:783 |
-| `67` | 05_results_discussion | inside the last K in 34 % and 67 % of them res | paper/sections/05_results_discussion.tex:783 |
-| `4.3` | 05_results_discussion | 4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061 | paper/sections/05_results_discussion.tex:813 |
+None — every in-scope number is bound, derived or declared.
 
 ## Mismatches
 
 | id | printed | field value | rounded | where |
 |---|---|---|---|---|
-| `intro.orderstat_k50` | +0.65 | 0.644531 | 0.64 | paper/sections/01_introduction.tex:151 |
-| `related_work.orderstat_k50` | +0.65 | 0.644531 | 0.64 | paper/sections/02_related_work.tex:229 |
+| `s4.fpr_family_median_k` | 0.543 | 0.544941 | 0.545 | paper/sections/04_experiments.tex:229 |
+| `s4.fpr_family_own_k` | 0.740 | 0.741038 | 0.741 | paper/sections/04_experiments.tex:230 |
+| `s4.fpr_independence_gap` | 0.007 | 0.00861317 | 0.009 | paper/sections/04_experiments.tex:233 |
 
 ## Confirmation records (same quantity, second source)
 
@@ -162,6 +139,11 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s5.baseline_ece_overconf` | 0.075 | mean | 0.0749972 | yes |
 | `res.argmin_cells_agreeing_0` | 20 | sum | 20 | yes |
 | `res.argmin_cells_agreeing_1` | 20 | sum | 20 | yes |
+| `s5.r2_floor` | 0.998 | min | 0.998818 | yes |
+| `s5.baseline_ece_ratio` | 2.7 | ratio_of_mean | 2.70102 | yes |
+| `s5.composite_T_stage1` | 8.04 | product | 8.0436 | yes |
+| `s5.composite_T_vae9182` | 6.0 | product | 6 | yes |
+| `s5.composite_T_ferplus` | 3.06 | product | 3.0378 | **NO** |
 
 ## Bindings
 
@@ -875,8 +857,8 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `intro.human_entropy` | 0.440 | `ferplus_jsd/ferplus_jsd.json` | `human_mean_entropy` | 3dp |
 | `intro.audit_n_runs` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
 | `intro.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
-| `intro.orderstat_k50` | +0.65 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 2dp |
-| `intro.orderstat_k100` | +0.76 | `selection_audit/selection_gain.json` | `per_k["100"].a2_pure_order_statistic.mean` | 2dp |
+| `intro.orderstat_k50` | +0.645 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 3dp |
+| `intro.orderstat_k100` | +0.764 | `selection_audit/selection_gain.json` | `per_k["100"].a2_pure_order_statistic.mean` | 3dp |
 | `intro.asymmetry_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
 | `intro.asymmetry_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
 | `intro.compression_ratio` | 25.9 | `paper_tables/efficiency_retention.json` | `compression.params_ratio` | 1dp |
@@ -887,8 +869,8 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `related_work.ferplus_tstar_ece` | 0.45 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 2dp |
 | `related_work.ferplus_tstar_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(a) all rows"].T_jsd` | 2dp |
 | `related_work.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
-| `related_work.orderstat_k50` | +0.65 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 2dp |
-| `related_work.orderstat_k100` | 0.76 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.mean` | 2dp |
+| `related_work.orderstat_k50` | +0.645 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 3dp |
+| `related_work.orderstat_k100` | 0.764 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.mean` | 3dp |
 | `methodology.votes_below_ten_all_folds` | 29.3 | `paper_tables/ferplus_abstention_entropy.json` | `share_below_ten_all_folds` | 1dp |
 | `results.jsd_student_ts` | 0.0545 | `paper_tables/student_ts_baseline.json` | `aggregate.jsd.student_ts[0]` | 4dp |
 | `results.jsd_tstar_arm` | 0.0587 | `paper_tables/student_ts_baseline.json` | `aggregate.jsd.tstar_arm[0]` | 4dp |
@@ -1262,3 +1244,22 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s4.ferplus_n_train` | 28259 | `paper_tables/split_identity.json` | `datasets["FERPlus"].n_train` | int |
 | `s4.ferplus_n_reporting` | 3153 | `paper_tables/split_identity.json` | `datasets["FERPlus"].n_reporting` | int |
 | `related_work.student_params_m` | 2.25 | `p5_efficiency/capacity_law_check.json` | `capacity_cells_at_T1.w100ns.params_m` | 2dp |
+| `s4.fpr_per_cell` | 3.5 | `paper_tables/criterion_applied.json` | `false_positive_simulation.per_cell_rate_at_median_k` | percent_of_fraction:1dp |
+| `s4.fpr_family_median_k` | 0.543 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_median_k` | 3dp |
+| `s4.fpr_family_own_k` | 0.740 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_own_k` | 3dp |
+| `s4.fpr_rho_shared` | +0.393 | `paper_tables/criterion_applied.json` | `false_positive_simulation.rho_shared_control` | 3dp |
+| `s4.fpr_independence_gap` | 0.007 | `paper_tables/criterion_applied.json` | `false_positive_simulation.independence_gap_own_k_minus_shared` | 3dp |
+| `s5.fpr_family_median_k_2dp` | 0.54 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_median_k` | 2dp |
+| `s5.fpr_family_own_k_2dp` | 0.74 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_own_k` | 2dp |
+| `s4.manifest_total` | 90 | `paper_tables/run_manifest_census.json` | `n_manifests` | int |
+| `s4.manifest_verified` | 26 | `paper_tables/run_manifest_census.json` | `n_code_state_verified` | int |
+| `s4.manifest_retroactive` | 62 | `paper_tables/run_manifest_census.json` | `n_retroactive_unverified` | int |
+| `s4.manifest_unfinished` | 2 | `paper_tables/run_manifest_census.json` | `n_unfinished` | int |
+| `s5.top_bin_raw` | 89.9 | `reliability/reliability_diagram.json` | `conditions["T=1"].top_bin.share_pct` | 1dp |
+| `s5.top_bin_calibrated` | 82.7 | `reliability/reliability_diagram.json` | `conditions["T=1.3406"].top_bin.share_pct` | 1dp |
+| `s5.target_logvar_dece` | -0.0041 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:target_logvar"].swa.ece.mean` | 4dp |
+| `s5.perclass_gap_fear_T22` | +0.165 | `reliability/perclass_calibration.json` | `classes.Fear.gap_mean[4]` | 3dp |
+| `s5.argmax_in_k50` | 34 | `selection_audit/selection_gain.json` | `per_k["50"].argmax_in_last_K_frac` | percent_of_fraction:int |
+| `s5.argmax_in_k100` | 67 | `selection_audit/selection_gain.json` | `per_k["100"].argmax_in_last_K_frac` | percent_of_fraction:int |
+| `s5.best_swa_p_mantissa` | 4.3 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p` | sci_mantissa:1dp |
+| `s5.best_swa_p_exponent` | -7 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p` | sci_exponent |

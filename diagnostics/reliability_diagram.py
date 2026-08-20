@@ -246,6 +246,17 @@ def main():
             "student_ece_mean": m, "student_ece_sd": sd, "student_ece_per_seed": eces,
             "pooled_bin_ece": pooled_ece, "pooled_mean_conf": mconf, "pooled_accuracy": macc,
             "pooled_signed_gap": mconf - macc,
+            # EN YUKSEK GUVEN KUTUSUNDAKI KUTLE (20 Agu 2026, N19b). Bu buyukluk bugune
+            # kadar YALNIZ EKRANA basiliyordu (asagidaki "top-bin share" satiri) ve
+            # makalede §5.1'de iki sayi olarak geciyordu -- ama hicbir artefakt alani
+            # yoktu, yani makaledeki 89.9/82.7 bir uretici ciktisina baglanamiyordu.
+            # Sayiyi ekrana basmak onu kayda gecirmez; alan olarak yaziyoruz.
+            "top_bin": {
+                "index": N_BINS - 1,
+                "n": bins[-1]["n"],
+                "n_pooled": sum(x["n"] for x in bins),
+                "share_pct": 100.0 * bins[-1]["n"] / sum(x["n"] for x in bins),
+            },
             "bins": bins,
         }
 
@@ -320,10 +331,10 @@ def main():
                       ("pooled_accuracy", "accuracy", "{:.4f}"),
                       ("pooled_signed_gap", "signed gap", "{:+.4f}")):
         print(f"{lbl:22}{f.format(a[k]):>14}{f.format(b[k]):>18}")
-    top = N_BINS - 1
-    sa = 100 * a["bins"][top]["n"] / sum(x["n"] for x in a["bins"])
-    sb = 100 * b["bins"][top]["n"] / sum(x["n"] for x in b["bins"])
-    print(f"{'top-bin share':22}{sa:13.1f}%{sb:17.1f}%")
+    # Ekrana basilan deger ARTIK alandan okunuyor: iki yerde iki kez hesaplanan bir sayi,
+    # ikisi ayrisinca hangisinin dogru oldugunun bilinemedigi bir sayidir.
+    print(f"{'top-bin share':22}{a['top_bin']['share_pct']:13.1f}%"
+          f"{b['top_bin']['share_pct']:17.1f}%")
     print(f"\nWrote {OUT_DIR / 'reliability_diagram.json'}")
 
 

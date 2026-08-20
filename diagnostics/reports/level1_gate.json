@@ -266,6 +266,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/run_manifest_census.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
       "script": "diagnostics/section54_numbers.py",
       "status": "GEÇTİ",
       "note": ""

@@ -28,6 +28,12 @@
       "pooled_mean_conf": 0.9688925743103027,
       "pooled_accuracy": 0.8960234680573663,
       "pooled_signed_gap": 0.07286910625293641,
+      "top_bin": {
+        "index": 14,
+        "n": 8278,
+        "n_pooled": 9204,
+        "share_pct": 89.93915688830943
+      },
       "bins": [
         {
           "n": 0,
@@ -125,6 +131,12 @@
       "pooled_mean_conf": 0.9392253160476685,
       "pooled_accuracy": 0.8973272490221643,
       "pooled_signed_gap": 0.04189806702550414,
+      "top_bin": {
+        "index": 14,
+        "n": 7616,
+        "n_pooled": 9204,
+        "share_pct": 82.74663189917428
+      },
       "bins": [
         {
           "n": 0,

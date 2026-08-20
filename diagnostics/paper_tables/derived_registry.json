@@ -1,8 +1,8 @@
 {
   "note": "review-responsive, not pre-declared",
   "counts": {
-    "derived": 67,
-    "mismatch": 0
+    "derived": 72,
+    "mismatch": 1
   },
   "entries": [
     {
@@ -1824,6 +1824,151 @@
       "note": "",
       "where": [
         "paper/sections/05_results_discussion.tex:50"
+      ]
+    },
+    {
+      "id": "s5.r2_floor",
+      "printed": "0.998",
+      "formula": "min",
+      "operands": [
+        {
+          "artifact": "a13_scratch_dose/a13_verdict.json",
+          "path": "fits.scratch0712.r2"
+        },
+        {
+          "artifact": "a13_scratch_dose/a13_verdict.json",
+          "path": "fits.scratch2248.r2"
+        },
+        {
+          "artifact": "a13_scratch_dose/a13_verdict.json",
+          "path": "fits.pretrained2248.r2"
+        }
+      ],
+      "operand_values": [
+        0.9999645299723947,
+        0.998817814674116,
+        0.9999691373688872
+      ],
+      "exact": 0.998817814674116,
+      "rounding": "3dp_floor",
+      "rounded": "0.998",
+      "matches": true,
+      "note": "uc kolun EN KUCUK R^2'si; alt sinir iddiasi oldugu icin ASAGI yuvarlanir (scratch2248 = 0.99881781, digerleri 0.99996+)",
+      "where": [
+        "paper/sections/05_results_discussion.tex:345"
+      ]
+    },
+    {
+      "id": "s5.baseline_ece_ratio",
+      "printed": "2.7",
+      "formula": "ratio_of_mean",
+      "operands": [
+        {
+          "artifact": "paper_tables/control_sd_mde.json",
+          "path": "rows[checkpoint=swa][axis=ece][teacher=stage1][class_weight_mode=none].control_level"
+        },
+        {
+          "artifact": "paper_tables/control_sd_mde.json",
+          "path": "rows[checkpoint=swa][axis=ece][teacher=primary][class_weight_mode=none].control_level"
+        },
+        {
+          "artifact": "paper_tables/control_sd_mde.json",
+          "path": "rows[checkpoint=swa][axis=ece][teacher=vae9182][class_weight_mode=none].control_level"
+        }
+      ],
+      "operand_values": [
+        0.07448867909522845,
+        0.07550573005611769,
+        0.027766280970667714
+      ],
+      "exact": 2.701017275410419,
+      "rounding": "1dp",
+      "rounded": "2.7",
+      "matches": true,
+      "note": "pay = stage1 ve primary kontrol kollarinin @swa ECE duzeylerinin ORTALAMASI (0.075); PAYDA = vae9182 kontrol kolunun @swa ECE duzeyi (0.0278). Basili iki yuvarlanmis degerden hesaplansaydi 2.679 cikardi; alanlardan 2.701 cikiyor -- ikisi de 1 basamakta 2.7 veriyor ama hesap alanlardan yapiliyor.",
+      "where": [
+        "paper/sections/05_results_discussion.tex:423"
+      ]
+    },
+    {
+      "id": "s5.composite_T_stage1",
+      "printed": "8.04",
+      "formula": "product",
+      "operands": [
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.rafdb_stage1.points[2].T"
+        },
+        {
+          "artifact": "paper_tables/tau_t_factorial.json",
+          "path": "arms[\"tau6_T0.85\"].tau"
+        }
+      ],
+      "operand_values": [
+        1.3406,
+        6.0
+      ],
+      "exact": 8.0436,
+      "rounding": "2dp",
+      "rounded": "8.04",
+      "matches": true,
+      "note": "stage1 ogrenci-optimum kolu T=1.3406, tau=6 -> 8.0436",
+      "where": [
+        "paper/sections/05_results_discussion.tex:197"
+      ]
+    },
+    {
+      "id": "s5.composite_T_vae9182",
+      "printed": "6.0",
+      "formula": "product",
+      "operands": [
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.rafdb_vae9182.points[1].T"
+        },
+        {
+          "artifact": "paper_tables/tau_t_factorial.json",
+          "path": "arms[\"tau6_T0.85\"].tau"
+        }
+      ],
+      "operand_values": [
+        1.0,
+        6.0
+      ],
+      "exact": 6.0,
+      "rounding": "1dp",
+      "rounded": "6.0",
+      "matches": true,
+      "note": "vae9182 ogrenci-optimum kolu T=1 (T*=0.983 DEGIL: ogrencinin en dusuk ECE'si T=1 kolunda), tau=6 -> 6.0",
+      "where": [
+        "paper/sections/05_results_discussion.tex:198"
+      ]
+    },
+    {
+      "id": "s5.composite_T_ferplus",
+      "printed": "3.06",
+      "formula": "product",
+      "operands": [
+        {
+          "artifact": "p1_dose_response/two_dataset_overlay.json",
+          "path": "arms.ferplus.points[1].T"
+        },
+        {
+          "artifact": "paper_tables/tau_t_factorial.json",
+          "path": "arms[\"tau6_T0.85\"].tau"
+        }
+      ],
+      "operand_values": [
+        0.5063,
+        6.0
+      ],
+      "exact": 3.0378,
+      "rounding": "2dp",
+      "rounded": "3.04",
+      "matches": false,
+      "note": "FERPlus ogrenci-optimum kolu T=0.5063, tau=6 -> 3.0378 = 3.04. Basili 3.06 CIFT YUVARLAMA: 0.5063 -> 0.51 -> x6. Bag bilerek kirmizi birakildi.",
+      "where": [
+        "paper/sections/05_results_discussion.tex:198"
       ]
     }
   ]

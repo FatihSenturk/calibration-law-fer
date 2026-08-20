@@ -105,6 +105,11 @@ def order_stats(runs):
         "n_runs": d["n"],
         "a1_max_all_minus_mean_lastK": {"mean": st.mean(d["a1"]), "sd": sample_sd(d["a1"])},
         "a2_pure_order_statistic": {"mean": st.mean(d["a2"]), "sd": sample_sd(d["a2"])},
+        # SAYIM da alan olarak dursun (20 Agu 2026, N19b): oran tek basina "kac kosuda"
+        # sorusunu cevaplamiyor ve makale onu yuzde olarak basiyor. Pay ve payda yan yana
+        # durunca bir oranin PAYDASI cumlede degilse bile artefaktta adlandirilmis olur.
+        "argmax_in_last_K_count": d["argmax_in_window"],
+        "argmax_in_last_K_denominator": d["n"],
         "argmax_in_last_K_frac": d["argmax_in_window"] / d["n"],
         "val_loss_at_selected_minus_mean_lastK": {"mean": st.mean(d["loss"]),
                                                   "sd": sample_sd(d["loss"])},

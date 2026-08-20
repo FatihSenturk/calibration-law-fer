@@ -2352,5 +2352,71 @@
     "per_cell_at_observed_k": 0.034975,
     "n_cells": 17,
     "family_wise_upper_bound": 0.45404657612306754
+  },
+  "false_positive_simulation": {
+    "estimand": "2x-kontrol-sd olcutunun tohum-gurultusu null'u altinda ateslemesi; n=3, |ort d| >= 2*sigma_control VE 3/3 ayni isaret",
+    "method_independent_arm": "kapali form + Gauss-Legendre (400 dugum), Monte-Carlo HATASI YOK",
+    "method_dependent_arm": "Monte-Carlo, 20000000 tekrar, tohum 20260820 (grup ici ortak bilesenin kapali formu yok)",
+    "n_family_cells": 22,
+    "family_definition": "ECE ekseninin uc-tohumlu hucrelerinin tamami + dogruluk ekseninde ogrenilmis-sinyal gate hucreleri",
+    "k_observed_median": 1.695592738191634,
+    "per_cell_rate_at_median_k": 0.03515484729986554,
+    "family_wise_at_median_k": 0.5449410868322991,
+    "family_wise_at_own_k": 0.7410378244162852,
+    "family_wise_with_shared_component": 0.73242465,
+    "independence_gap_own_k_minus_shared": 0.008613174416285174,
+    "rho_shared_control": 0.39328562654600957,
+    "rho_other_pairs": -0.07666744034334039,
+    "n_pairs_shared": 18,
+    "n_pairs_other": 213,
+    "rho_used_in_sim": 0.39328562654600957,
+    "n_control_groups": 9,
+    "per_cell_rate_by_cell": {
+      "primary/adaptive_t|ece": 2.170738592146881e-13,
+      "primary/g2g_kl|ece": 0.04537598917737383,
+      "primary/gate:mean_logvar|ece": 0.13655613043075238,
+      "primary/gate:mean_logvar|acc": 0.08295264898848098,
+      "primary/gate:oracle_error|ece": 0.025600646977623296,
+      "primary/gate:target_logvar|ece": 0.00011130089919470496,
+      "primary/gate:target_logvar|acc": 0.00196780428357123,
+      "primary/logit_std|ece": 0.1926568583471313,
+      "stage1/adaptive_t|ece": 0.1380614668314877,
+      "stage1/g2g_kl|ece": 1.5333440155907033e-32,
+      "stage1/gate:mean_logvar|ece": 8.827146291798171e-13,
+      "stage1/gate:mean_logvar|acc": 0.0032104817617943033,
+      "stage1/gate:oracle_error|ece": 0.03515484729986554,
+      "stage1/gate:target_logvar|ece": 0.0013118859573632384,
+      "stage1/gate:target_logvar|acc": 0.13772836826193258,
+      "stage1/logit_std|ece": 0.06240831969191287,
+      "vae9182/adaptive_t|ece": 0.10070915358380378,
+      "vae9182/g2g_kl|ece": 0.08336580004518993,
+      "vae9182/gate:mean_logvar|ece": 0.03528321462269588,
+      "vae9182/gate:mean_logvar|acc": 0.16621667911678523,
+      "vae9182/gate:oracle_error|ece": 0.01664026902691669,
+      "vae9182/logit_std|ece": 8.918118060542336e-08
+    },
+    "dependent_sim": {
+      "value": 0.73242465,
+      "n_sim": 20000000,
+      "rng_seed": 20260820,
+      "standard_error": 9.8989590885198e-05
+    },
+    "quadrature_selfcheck": {
+      "nodes": 400,
+      "nodes_halved": 200,
+      "per_cell_rate_at_half_nodes": 0.03515484729986498,
+      "abs_deviation": 5.551115123125783e-16
+    },
+    "mc_crosscheck": {
+      "note": "ayni buyuklugun eski MC tahmini; yeni yontemin dogrulanmasi icin duruyor, yerine gecmesi icin degil",
+      "n_sim": 200000,
+      "rng_seed": 20260806,
+      "per_cell_rate_at_median_k": 0.034975,
+      "family_wise_at_median_k": 0.5430713226545321,
+      "family_wise_at_own_k": 0.7400893727221927,
+      "abs_deviation_per_cell": 0.000179847299865539,
+      "abs_deviation_family_median_k": 0.0018697641777670748,
+      "abs_deviation_family_own_k": 0.0009484516940925225
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-20T16:31:27",
-  "reason": "N19 (20 Agu, son tur): GOVDE DUZYAZISI defter kapsamina girdi. 102 sapma: 10 MOVED ve 92 APPEARED; CHANGED/VANISHED YOK -- hicbir OLCUM degeri degismedi, degisen kapsamin kendisi. MOVED olanlarin onu da defterin KENDI sayaclari: jeton 862 -> 1677, bagli 695 -> 1095, muaf 150 -> 496, turetilmis 21 -> 67, yerlesim 178 -> 340, KAYITSIZ 0 -> 23, uyusmazlik 0 -> 2. APPEARED olanlar yeni turetilmis kayitlar ve ferplus_abstention_entropy in butun-fold sayimlari (n_rows_all_folds 31412, rows_below_ten_all_folds 9204, share_below_ten_all_folds %29,3009) -- bu son uc alan bu turda YAZILDI cunku makalenin %29,3 sayisinin ureticisi yoktu. UYUSMAZLIK 2 ve IKISI DE GERCEK MAKALE KUSURU (ortulmedi): \u00a71:151 ve \u00a72:229 \"+0.65\" basiyor, alan 0.6445305842767274 yani 2 basamakta 0.64; 0.65 ancak CIFT YUVARLAMAYLA cikiyor (0.6445 -> 0.645 -> 0.65) ve makale ayni niceligi \u00a74:150, \u00a75:781, tab_selection_audit:25 te 3 basamakla DOGRU basiyor.",
+  "accepted_at": "2026-08-20T17:37:36",
+  "reason": "N19b (20 Agu, son 23): 39 sapma, hicbiri CHANGED/VANISHED degil -- yani ONCEDEN YAYIMLANMIS hicbir olcum degeri degismedi. 7 MOVED defterin KENDI sayaclari (kayitsiz 23 -> 0, turetilmis 67 -> 72, uyusmazlik 2 -> 3, turetilmis-uyusmazlik 0 -> 1, sorun 2 -> 4). 32 APPEARED yeni hucre: (a) G3.2/sim/* yanlis-pozitif simulasyonunun bes niceligi, artik MC degil KAPALI FORMDAN (Gauss-Legendre, ~1e-15) -- basili 0.543/0.740/0.007 200k ve 40k tekrarlik MC kosularindan geliyordu ve ucuncu basamak MC gurultusuydu; tam degerler 0.545/0.741/0.009 ve UCU DE bilerek kirmizi birakildi, uretici basiliyi tutturacak sekilde AYARLANMADI. (b) RMC/* kosu manifesti sayimi (90/26/62/2) ve PENCERE ETIKETI, etiket sayilan manifestlerin kendi zaman damgalarindan turetiliyor. (c) REL/*/top_bin en yuksek guven kutusundaki kutle (89.9/82.7) -- uretici bu iki sayiyi ekrana basiyor ama artefakta yazmiyordu. (d) T8*/argmax_in_last_K_count oranin PAYI (45/131, 88/131). (e) N13/derived/* bes yeni turetme: R^2 tabani (min, ASAGI yuvarlama), taban ECE orani, uc bilesik sicaklik. FERPlus bilesik sicakligi (3.06 vs 3.04) dorduncu acik kalem: 0.5063 x 6 = 3.0378, basili 3.06 ancak 0.51 x 6 ile cikar.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -43,7 +43,9 @@
     "diagnostics\\paper_tables\\tstar_provenance.json",
     "diagnostics\\p5_efficiency\\capacity_law_check.json",
     "diagnostics\\p2_gate_oracle\\p2_verdict.json",
-    "diagnostics\\selection_audit\\selection_optimism_headline.json"
+    "diagnostics\\selection_audit\\selection_optimism_headline.json",
+    "diagnostics\\paper_tables\\run_manifest_census.json",
+    "diagnostics\\reliability\\reliability_diagram.json"
   ],
   "cells": {
     "CURVES/n_runs": [
@@ -472,22 +474,22 @@
       null
     ],
     "N13/count/bound": [
-      1095,
+      1114,
       null,
       null
     ],
     "N13/count/derived": [
-      67,
+      72,
       null,
       null
     ],
     "N13/count/exempt": [
-      496,
+      495,
       null,
       null
     ],
     "N13/count/unbound": [
-      23,
+      0,
       null,
       null
     ],
@@ -497,12 +499,12 @@
       null
     ],
     "N13/count/mismatch": [
-      2,
+      3,
       null,
       null
     ],
     "N13/count/derived_mismatch": [
-      0,
+      1,
       null,
       null
     ],
@@ -512,7 +514,7 @@
       null
     ],
     "N13/count/derived_in_scope": [
-      63,
+      68,
       null,
       null
     ],
@@ -532,7 +534,7 @@
       null
     ],
     "N13/count/problems": [
-      2,
+      4,
       null,
       null
     ],
@@ -617,7 +619,7 @@
       null
     ],
     "N13/unbound_ids": [
-      23,
+      0,
       null,
       null
     ],
@@ -1288,6 +1290,56 @@
     ],
     "N13/derived/res.argmin_cells_agreeing_1/ok": [
       "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.r2_floor": [
+      0.998817814674116,
+      null,
+      null
+    ],
+    "N13/derived/s5.r2_floor/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.baseline_ece_ratio": [
+      2.701017275410419,
+      null,
+      null
+    ],
+    "N13/derived/s5.baseline_ece_ratio/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.composite_T_stage1": [
+      8.0436,
+      null,
+      null
+    ],
+    "N13/derived/s5.composite_T_stage1/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.composite_T_vae9182": [
+      6.0,
+      null,
+      null
+    ],
+    "N13/derived/s5.composite_T_vae9182/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.composite_T_ferplus": [
+      3.0378,
+      null,
+      null
+    ],
+    "N13/derived/s5.composite_T_ferplus/ok": [
+      "False",
       null,
       null
     ],
@@ -2311,6 +2363,11 @@
       null,
       131
     ],
+    "T8/K=50/argmax_in_last_K_count": [
+      45,
+      null,
+      131
+    ],
     "T8/K=50/a1_max_all_minus_mean_lastK": [
       0.8383560320082356,
       0.4415832092165274,
@@ -2333,6 +2390,11 @@
     ],
     "T8/K=100/argmax_in_last_K": [
       0.6717557251908397,
+      null,
+      131
+    ],
+    "T8/K=100/argmax_in_last_K_count": [
+      88,
       null,
       131
     ],
@@ -2361,6 +2423,11 @@
       null,
       199
     ],
+    "T8w/K=50/argmax_in_last_K_count": [
+      68,
+      null,
+      199
+    ],
     "T8w/K=50/a1_max_all_minus_mean_lastK": [
       0.8077872981458946,
       0.38025268585099675,
@@ -2383,6 +2450,11 @@
     ],
     "T8w/K=100/argmax_in_last_K": [
       0.6482412060301508,
+      null,
+      199
+    ],
+    "T8w/K=100/argmax_in_last_K_count": [
+      129,
       null,
       199
     ],
@@ -6946,6 +7018,46 @@
       null,
       17
     ],
+    "G3.2/sim/per_cell_rate_at_median_k": [
+      0.03515484729986554,
+      null,
+      22
+    ],
+    "G3.2/sim/family_wise_at_median_k": [
+      0.5449410868322991,
+      null,
+      22
+    ],
+    "G3.2/sim/family_wise_at_own_k": [
+      0.7410378244162852,
+      null,
+      22
+    ],
+    "G3.2/sim/family_wise_with_shared_component": [
+      0.73242465,
+      null,
+      22
+    ],
+    "G3.2/sim/independence_gap_own_k_minus_shared": [
+      0.008613174416285174,
+      null,
+      22
+    ],
+    "G3.2/sim/rho_shared_control": [
+      0.39328562654600957,
+      null,
+      22
+    ],
+    "G3.2/sim/rho_other_pairs": [
+      -0.07666744034334039,
+      null,
+      22
+    ],
+    "G3.2/sim/n_family_cells": [
+      22,
+      null,
+      null
+    ],
     "G3.3/vae9182: logit_std vs kontrol/p_raw": [
       2.896421620059295e-05,
       null,
@@ -8060,6 +8172,56 @@
       -0.002878700403167627,
       0.009218824488955835,
       131
+    ],
+    "RMC/n_manifests": [
+      90,
+      null,
+      90
+    ],
+    "RMC/n_code_state_verified": [
+      26,
+      null,
+      90
+    ],
+    "RMC/n_retroactive_unverified": [
+      62,
+      null,
+      90
+    ],
+    "RMC/n_unfinished": [
+      2,
+      null,
+      90
+    ],
+    "RMC/window_label": [
+      "17 June--24 July 2026",
+      null,
+      null
+    ],
+    "RMC/checksum_ok": [
+      "True",
+      null,
+      null
+    ],
+    "REL/T=1/top_bin_share_pct": [
+      89.93915688830943,
+      null,
+      9204
+    ],
+    "REL/T=1/top_bin_n": [
+      8278,
+      null,
+      9204
+    ],
+    "REL/T=1.3406/top_bin_share_pct": [
+      82.74663189917428,
+      null,
+      9204
+    ],
+    "REL/T=1.3406/top_bin_n": [
+      7616,
+      null,
+      9204
     ]
   }
 }

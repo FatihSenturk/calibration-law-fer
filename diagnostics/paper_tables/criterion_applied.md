@@ -103,9 +103,25 @@ k = σ_paired/σ_control over the 22 cells: **0.30 … 3.83** (median 1.70). The
 
 #### The independence assumption, measured
 
-> **One sentence:** cells that share a control arm have mean pairwise correlation **+0.393** across their three seeds (n = 18 pairs) against **-0.077** for cells that do not (n = 213 pairs), and re-simulating the 22-cell family with that shared component inside each control group gives a family-wise rate of **0.733** instead of the **0.740** the independence product reports — so the published figure is an upper bound, and the measured size of the gap is 0.007.
+> **One sentence:** cells that share a control arm have mean pairwise correlation **+0.393** across their three seeds (n = 18 pairs) against **-0.077** for cells that do not (n = 213 pairs), and re-simulating the 22-cell family with that shared component inside each control group gives a family-wise rate of **0.732** instead of the **0.740** the independence product reports — so the published figure is an upper bound, and the measured size of the gap is 0.008.
 
 The correlation is not an artefact of small n alone: it is what the design **implies**. Every cell in a group is differenced against the *same three control runs*, so the control's seed noise enters every difference in that group with the same sign. Sharing the seed set (42/1/43) on the treatment side adds a second, smaller channel.
+
+### G3.4 — the same five numbers, computed exactly (20 Aug 2026)
+
+The independence arm of this section needs no Monte Carlo. With n = 3 and a threshold on |mean| plus a common-sign condition, the per-cell rate reduces to a single one-dimensional integral (derivation in the `fpr_exact` docstring), evaluated here by Gauss–Legendre quadrature to ~1e-15. That matters because the published values came from a 200,000-replicate simulation whose standard error on the per-cell rate is 4.1e-4 — and the family-wise rate is ~10.4× as sensitive, so its **third decimal was Monte-Carlo noise**. Fixing that digit by brute force would need ~1.3e8 replicates per cell.
+
+| quantity | published (MC) | exact | difference |
+|---|---|---|---|
+| per-cell rate at the median k | 0.0350 | **0.035155** | +0.000180 |
+| family-wise, 22 cells at the median k | 0.543 | **0.544941** | +0.001870 |
+| family-wise, 22 cells at each cell's own k | 0.740 | **0.741038** | +0.000948 |
+
+Quadrature convergence: halving the node count (400 → 200) moves the per-cell rate by 5.55e-16.
+
+The dependent arm keeps its simulation — sharing a control arm inside a group has no closed form here — but at 20,000,000 replicates (seed 20260820) its standard error is 9.9e-05, so its third decimal is real. Against the **exact** independence product the gap is **0.0086** (0.7410 − 0.7324); the earlier pairing of two noisy estimates put it at 0.0077.
+
+> The sign of the conclusion is unchanged: the independence product is an upper bound and the shared component moves the family-wise rate down by under a hundredth. What changes is which digits may be printed.
 
 Sources: `paper_tables.mechanism_table()` (cells) and `denominator_table.control_arms()` (denominators), both imported rather than reimplemented.
 

@@ -17,8 +17,8 @@ Hedef klasör: `calibration-law-fer_2026-08-08`
 | BEYAN EDİLMEMİŞ | 0 | 0 |
 | tek tek gerekçelendirilmiş kalıntı | 15 | 28 |
 | üçüncü taraf (POSTERv2/CrossViT mirası, beyanlı muaf) | 3 | 7 |
-| tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 4 | 35 |
-| **toplam** | **22** | **70** |
+| tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 5 | 37 |
+| **toplam** | **23** | **72** |
 
 Metin dışı (ikili) dosya atlandı: 99. Uzantı listesi betikte yazılı — kapsam daralması sessiz olmasın. **Okunamayan dosya: 0** (sıfır olmak zorunda; değilse kapı düşer).
 
@@ -35,6 +35,7 @@ Depo günü "36'dan şuna indi, kalanlar şunlar ve muaf" cümlesi bu tablodan k
 | `diagnostics/reports/2026-08-08_kapanis_turu.md` | tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 6 |
 | `diagnostics/reports/2026-08-08_kontrol_turu.md` | tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 22 |
 | `diagnostics/reports/2026-08-13_n5_selection.md` | tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 1 |
+| `diagnostics/reports/2026-08-20_son_tur.md` | tarihli rapor sınıfı (o günün gerçeği, geriye dönük değişmez) | 2 |
 | `run_affectnetplus_unified_student.ps1` | tek tek gerekçelendirilmiş kalıntı | 1 |
 | `run_ferplus_dual_lr_sam.ps1` | tek tek gerekçelendirilmiş kalıntı | 1 |
 | `run_ferplus_foreground.ps1` | tek tek gerekçelendirilmiş kalıntı | 1 |

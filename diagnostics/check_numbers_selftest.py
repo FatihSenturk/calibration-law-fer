@@ -55,6 +55,29 @@ PAPER_CASES = [
      "supplementary.tex", [("& $6/7$ &", "& $5/7$ &")], "rounding_mismatch", 1),
     ("app_argmin FERPlus NLL istisnasi bayat (0.74 -> 0.75)",
      "supplementary.tex", [("NLL: $0.74$", "NLL: $0.75$")], "rounding_mismatch", 1),
+    # --- N19b (20 Agu): son 23 kayitsizin bagi. Dort obegin dordu de temsil ediliyor ve uc
+    # YENI KIP (`percent_of_fraction`, `sci_mantissa`, ve kapali-formdan gelen simulasyon
+    # alanlari) burada sinaniyor. Kurulup denenmemis bag, kurulmamis bagdir.
+    ("§4.7 tek-hucre atesleme orani bayat (3.5 -> 3.6) [percent_of_fraction]",
+     "sections/04_experiments.tex", [("about $3.5\\%$", "about $3.6\\%$")],
+     "rounding_mismatch", 1),
+    ("§4.7 paylasilan kontrol korelasyonu bayat (+0.393 -> +0.390)",
+     "sections/04_experiments.tex", [("$+0.393$", "$+0.390$")], "rounding_mismatch", 1),
+    ("§4.8 manifest sayimi bayat (26 -> 27)",
+     "sections/04_experiments.tex", [("), $26$", "), $27$")], "rounding_mismatch", 1),
+    ("§5.1 en yuksek guven kutusundaki kutle bayat (89.9 -> 90.1)",
+     "sections/05_results_discussion.tex", [("from $89.9\\%$", "from $90.1\\%$")],
+     "rounding_mismatch", 1),
+    ("§5.4 son-K icindeki maksimum orani bayat (34 -> 35) [percent_of_fraction]",
+     "sections/05_results_discussion.tex", [("in $34\\%$", "in $35\\%$")],
+     "rounding_mismatch", 1),
+    # Bu vakada beklenen sinif `unregistered`: p-degerinin mantisi SATIRIN BASINDA duruyor,
+    # dolayisiyla capa onu icermek zorunda (bkz. number_ledger'daki CAPA KURALI). Sayi
+    # degisince capa dusher ve jeton kayitsiz kalir -- kapi yine kirmizi, ama sinifi farkli.
+    # Olculen davranis bu; beklentiyi olcume uyduruyoruz, olcumu beklentiye degil.
+    ("§5.5 p-degeri mantisi bayat (4.3 -> 4.4) [sci_mantissa, capa sayiyi iceriyor]",
+     "sections/05_results_discussion.tex",
+     [("$p{=}4.3\\times10^{-7}$", "$p{=}4.4\\times10^{-7}$")], "unregistered", 1),
 ]
 
 # (ad, beyan kimligi, bozuk yol, beklenen sinif) -- DEFTERI bozan senaryolar: sayi dogru,
@@ -64,12 +87,23 @@ PAPER_CASES = [
 # Her kalem (sinif, kimlik). Liste TARIHLI degil YASAYANdir: kusur duzelince buradan silinir,
 # ve silinmezse oz sinama "beyan curudu" der.
 KNOWN_OPEN = [
-    # 20 Agu 2026: §1:151 ve §2:229 "+0.65" basiyor. Alan
-    # `selection_gain.per_k["50"].a2_pure_order_statistic.mean` = 0.6445305842767274, yani
-    # 2 basamakta 0.64. 0.65 ancak CIFT YUVARLAMAYLA cikiyor (0.6445 -> 0.645 -> 0.65); makale
-    # ayni niceligi §4:150, §5:781 ve tab_selection_audit'te 3 basamakla DOGRU basiyor (0.645).
-    ("rounding_mismatch", "intro.orderstat_k50"),
-    ("rounding_mismatch", "related_work.orderstat_k50"),
+    # 20 Agu 2026 sabah: §1:151 ve §2:229'daki "+0.65" cift yuvarlamasi. KAPANDI -- makale
+    # "+0.645"--"0.764" olarak duzeltildi, beyanin yuvarlamasi 3dp'ye cekildi, iki bag yesile
+    # dondu. Kayit burada birakilmiyor: liste YASAYANdir, kusur duzelince silinir.
+    #
+    # 20 Agu 2026 aksam (N19b) — DORT ACIK KALEM, ucu ayni sinifta:
+    # (1-3) §4.7'nin uc simulasyon sayisi. Basili 0.543 / 0.740 / 0.007, `criterion_applied`in
+    #       200k (aile) ve 40k (bagimli) tekrarlik MC kosularindan geliyordu ve UCUNCU BASAMAK
+    #       Monte-Carlo gurultusuydu (200k'da aile-bazli oranin se'si ~0.004). Ayni olcut
+    #       kapali forma indirgendi (`criterion_applied.fpr_exact`, Gauss-Legendre, ~1e-15) ve
+    #       tam degerler 0.545 / 0.741 / 0.009 cikti. Uretici basiliyi TUTTURMAK icin
+    #       ayarlanmadi; fark olculdu ve kirmizi birakildi.
+    # (4)   §5.3'un FERPlus bilesik sicakligi: 0.5063 x 6 = 3.0378 -> 3.04, basili 3.06.
+    #       3.06 ancak 0.5063'un iki basamaga yuvarlanmis hali (0.51) ile carpilinca cikiyor.
+    ("rounding_mismatch", "s4.fpr_family_median_k"),
+    ("rounding_mismatch", "s4.fpr_family_own_k"),
+    ("rounding_mismatch", "s4.fpr_independence_gap"),
+    ("derived_mismatch", "s5.composite_T_ferplus"),
 ]
 
 BINDING_CASES = [
@@ -149,7 +183,13 @@ def main():
         if want == "unregistered":
             got = len(pl["unbound"]) - base_unreg
         else:
-            got = kinds.count(want)
+            # TABANA GORE SAY (20 Agu 2026, N19b). Bu satir eskiden MUTLAK sayiyordu:
+            # `kinds.count(want) >= n_want`. Taban temizken dogruydu, ama taban BEYANLI acik
+            # ihlaller tasimaya baslayinca (KNOWN_OPEN) her `rounding_mismatch` senaryosu
+            # ENJEKSIYON YAKALANMASA BILE geciyordu -- tabanda zaten uc tane vardi. Yani oz
+            # sinamanin kendisi, izledigi kusur yuzunden korlesmisti. Artik her senaryo
+            # YALNIZ KENDI enjeksiyonunu olcuyor.
+            got = kinds.count(want) - k0.count(want)
         good = got >= n_want
         ok &= good
         rows.append((name, want, n_want, got, len(pl["unbound"]),
@@ -159,7 +199,9 @@ def main():
     saved = dict(NL.PROSE[0])
     NL.PROSE[0]["path"] = "entropy_correlation.T074.pearson"
     pl, kinds = run(clean)
-    got = kinds.count("unresolved_path") + kinds.count("printed_not_found_at_location")
+    got = ((kinds.count("unresolved_path") - k0.count("unresolved_path"))
+           + (kinds.count("printed_not_found_at_location")
+              - k0.count("printed_not_found_at_location")))
     good = got >= 1
     ok &= good
     rows.append(("r=0.724 bagi T=1 yerine T=0.74 koluna kuruldu (DEFTER bozuldu)",
@@ -173,7 +215,7 @@ def main():
         keep = dict(bd)
         bd["path"] = bad_path
         pl, kinds = run(clean)
-        got = kinds.count(want)
+        got = kinds.count(want) - k0.count(want)
         good = got >= 1
         ok &= good
         rows.append((name, want, 1, got, len(pl["unbound"]),
@@ -188,7 +230,7 @@ def main():
     keep_xc = dict(xc)
     xc["confirm"] = (xc["confirm"][0], "primary.T_star")
     pl, kinds = run(clean)
-    got = kinds.count("cross_source_divergence")
+    got = kinds.count("cross_source_divergence") - k0.count("cross_source_divergence")
     good = got >= 1
     ok &= good
     rows.append(("teyit kaydi ayristi: ikinci kaynak toleransi asti",
@@ -204,7 +246,7 @@ def main():
     # secildi: `abs_dT` makalede hicbir hucreye basilmiyor.
     xc["canonical"] = (xc["canonical"][0], "results.stage1.abs_dT")
     pl, kinds = run(clean)
-    got = kinds.count("cross_check_unbound")
+    got = kinds.count("cross_check_unbound") - k0.count("cross_check_unbound")
     good = got >= 1
     ok &= good
     rows.append(("teyit beyani bosa dustu: kanonik yola bagli hucre yok",
@@ -216,7 +258,7 @@ def main():
     keep_r = list(xc["relays"])
     xc["relays"] = [(xc["relays"][0][0], "recipe_step3_ranking.rows[teacher=primary].T_star")]
     pl, kinds = run(clean)
-    got = kinds.count("cross_source_relay_drift")
+    got = kinds.count("cross_source_relay_drift") - k0.count("cross_source_relay_drift")
     good = got >= 1
     ok &= good
     rows.append(("bayat role: teyidi kopyalayan artefakt baska bir degeri tasiyor",
@@ -228,7 +270,7 @@ def main():
     saved_b = dict(NL.BINDINGS[0])
     NL.BINDINGS[0]["path"] = NL.BINDINGS[0]["path"] + "_SILINDI"
     pl, kinds = run(clean)
-    got = kinds.count("unresolved_path")
+    got = kinds.count("unresolved_path") - k0.count("unresolved_path")
     good = got >= 1
     ok &= good
     rows.append(("bagli alan artefaktta yok (bayatlik)", "unresolved_path", 1, got,

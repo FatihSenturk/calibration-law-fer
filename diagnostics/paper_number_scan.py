@@ -104,11 +104,19 @@ COMMENT = re.compile(r"(?<!\\)%.*$")
 # baglanamiyordu. Ayrac SAYININ PARCASI; jetonlastirmadan once kaldiriliyor.
 THOUSANDS = re.compile(r"(?<=\d)\{,\}(?=\d)")
 
+# ISARET SUSU (20 Agu 2026, N19b). Ayni sinif: `$\Delta\mathrm{ECE}{=}{-}0.0041$` yaziminda
+# `{-}` bir DIZGI susudur (LaTeX'te eksiyi ikili degil tekli isaret olarak dizmek icin), ama
+# jeton ayiklayici suslu parantezi bosluga cevirince sayi ISARETINI KAYBEDIYORDU: basili
+# deger -0.0041 iken jeton "0.0041" olarak cikiyor ve alanla (negatif) asla eslesmiyordu.
+# Makalede tek gecisi var; yine de kalip olarak duzeltiliyor cunku bir dahaki yazimda sessiz
+# kalirdi. Isaret SAYININ PARCASI.
+SIGNBRACE = re.compile(r"\{-\}(?=\d|\.\d)")
+
 
 def strip_layout(line):
     """(temiz_satir, atilan_jetonlar) -- atilanlar sinif adiyla birlikte."""
     dropped = []
-    out = THOUSANDS.sub("", line)
+    out = SIGNBRACE.sub("-", THOUSANDS.sub("", line))
     for name, pat in LAYOUT_PATTERNS:
         def _rec(m):
             for t in NUM.findall(m.group(0)):

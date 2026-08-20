@@ -138,7 +138,13 @@ def main():
     axR = fig.add_axes((0.585, 0.20, 0.40, 0.52))
     right_pane(axR)
 
-    fig.savefig(OUT_PDF, format="pdf")
+    # CreationDate SABITLENIYOR (20 Agu 2026, N19b). Bu dosya `save_at_width` yolunu
+    # KULLANMIYOR (GA'nin tuvali sabit 130x50 mm, otomatik genislik ayari onu bozar), o yuzden
+    # 13 Agu'da butun figurlere uygulanan damga bastirmasi buraya ULASMAMISTI: her kosuda PDF
+    # sadece `/CreationDate` yuzunden 4 bayt degisiyor ve calisma agacini kirletiyordu. Bugun
+    # olculdu -- Level-1 kapisi butun ureticileri kosturdugu icin kapiyi her calistirisimizda
+    # bu dosya "degismis" gorunuyordu. Cizim DEGISMIYOR, yalniz dosya ustverisi.
+    fig.savefig(OUT_PDF, format="pdf", metadata={"CreationDate": None})
     fig.savefig(OUT_PNG, format="png", dpi=300)
     plt.close(fig)
     import fitz

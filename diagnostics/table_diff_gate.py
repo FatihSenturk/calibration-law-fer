@@ -327,6 +327,38 @@ def cells_from_criterion(p):
     out["G3.2/k_observed_median"] = (f.get("k_observed_median"), None, f.get("n_cells"))
     out["G3.2/per_cell_fpr"] = (f.get("per_cell_at_observed_k"), None, None)
     out["G3.2/family_wise"] = (f.get("family_wise_upper_bound"), None, f.get("n_cells"))
+    # N19b (20 Agu): §4.7'nin bes sayisi. Bunlar makalede BASILI ve artik kapali formdan
+    # geliyor -- yani bir daha degisirlerse sebep MC gurultusu OLAMAZ, ya aile degismistir
+    # ya olcut. Ikisi de sessiz gecmemeli.
+    s = d.get("false_positive_simulation", {})
+    for key in ("per_cell_rate_at_median_k", "family_wise_at_median_k", "family_wise_at_own_k",
+                "family_wise_with_shared_component", "independence_gap_own_k_minus_shared",
+                "rho_shared_control", "rho_other_pairs"):
+        out[f"G3.2/sim/{key}"] = (s.get(key), None, s.get("n_family_cells"))
+    out["G3.2/sim/n_family_cells"] = (s.get("n_family_cells"), None, None)
+    return out
+
+
+def cells_from_run_manifest_census(p):
+    """§4.8'in dort sayisi + PENCERE ETIKETI. Etiket de hucre: sayim degisip etiket
+    degismezse (ya da tersi) sapma olarak gorunsun."""
+    d = json.loads(p.read_text(encoding="utf-8"))
+    out = {f"RMC/{k}": (d.get(k), None, d.get("n_manifests"))
+           for k in ("n_manifests", "n_code_state_verified", "n_retroactive_unverified",
+                     "n_unfinished")}
+    out["RMC/window_label"] = ((d.get("window") or {}).get("label"), None, None)
+    out["RMC/checksum_ok"] = (str(d.get("checksum_ok")), None, None)
+    return out
+
+
+def cells_from_reliability(p):
+    """§5.1'in iki sayisi: en yuksek guven kutusundaki kutle, iki kosulda."""
+    d = json.loads(p.read_text(encoding="utf-8"))
+    out = {}
+    for cond, v in (d.get("conditions") or {}).items():
+        tb = v.get("top_bin") or {}
+        out[f"REL/{cond}/top_bin_share_pct"] = (tb.get("share_pct"), None, tb.get("n_pooled"))
+        out[f"REL/{cond}/top_bin_n"] = (tb.get("n"), None, tb.get("n_pooled"))
     return out
 
 
@@ -545,6 +577,10 @@ def cells_from_selection_gain(p):
             out[f"{tag}/K={k}/n_runs"] = (r.get("n_runs"), None, None)
             out[f"{tag}/K={k}/argmax_in_last_K"] = (r.get("argmax_in_last_K_frac"), None,
                                                     r.get("n_runs"))
+            # 20 Agu: oranin PAYI da hucre. Oran ayni kalip pay/payda birlikte kayabilir
+            # (populasyon degisirse); ikisini ayri izlemek o hali gorunur kilar.
+            out[f"{tag}/K={k}/argmax_in_last_K_count"] = (
+                r.get("argmax_in_last_K_count"), None, r.get("argmax_in_last_K_denominator"))
             for met in ("a1_max_all_minus_mean_lastK", "a2_pure_order_statistic",
                         "val_loss_at_selected_minus_mean_lastK"):
                 v = r.get(met) or {}
@@ -890,6 +926,10 @@ SOURCES = [
     (D / "p5_efficiency" / "capacity_law_check.json", cells_from_capacity_law),
     (D / "p2_gate_oracle" / "p2_verdict.json", cells_from_p2),
     (D / "selection_audit" / "selection_optimism_headline.json", cells_from_headline),
+    # --- N19b (20 Agu): son 23 kayitsizin bagi acilan iki artefakt. "Kayitsiz bir tablo
+    # korumasiz bir tablodur" -- yayima girdikleri gun kapiya da giriyorlar.
+    (D / "paper_tables" / "run_manifest_census.json", cells_from_run_manifest_census),
+    (D / "reliability" / "reliability_diagram.json", cells_from_reliability),
 ]
 
 

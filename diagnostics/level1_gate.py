@@ -63,6 +63,10 @@ ALLOWED = {
     "diagnostics/control_grid_refinement.py",  # ad->parametre kapısı run_args okur
     "diagnostics/latency_benchmark.py",        # checkpoint yükler
     "diagnostics/calibration_cache_audit.py",
+    # 20 Agu 2026 (N19b): §4.8'in manifest sayimi. Sayilan sey KOSU DIZINLERINDEKI
+    # manifest.json'lardir; kosu agaci olmadan sorulacak bir soru degil, isi tam olarak o.
+    # Ciktisi (sayimlar + pencere etiketi) Level-1 temiz bir artefakt olarak yayimlanir.
+    "diagnostics/run_manifest_census.py",
 }
 
 # HATA SINIFI BEYANLARI. `başka hata` / `zaman aşımı` / `yok` sınıfına düşen bir betik BURADA

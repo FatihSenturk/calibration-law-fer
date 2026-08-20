@@ -28,6 +28,7 @@ Salt-okunur, GPU yok.
 Kullanım: python diagnostics/criterion_applied.py
 """
 import json
+import math
 import statistics as st
 import sys
 from pathlib import Path
@@ -48,6 +49,15 @@ OUT_DIR = ROOT / "diagnostics" / "paper_tables"
 THRESHOLD = 2.0
 N_SIM = 200_000          # G3.2; prompt >=10k istiyor, fazlası bedava
 RNG_SEED = 20260806
+# BAĞIMLI (ortak-bileşenli) simülasyon 20 Ağu 2026'da 40k'dan 20M'e çıkarıldı ve KENDİ
+# üretecine taşındı. İki gerekçe: (1) 40k tekrarda oranın standart hatası ~0.0022 idi, yani
+# yayımlanan 0.733'ün ÜÇÜNCÜ BASAMAĞI gürültüydü; (2) paylaşılan `rng`den beslendiği için
+# değeri kendisinden ÖNCEKİ çağrıların sırasına bağlıydı -- betiğe bir simülasyon eklendiğinde
+# sessizce değişirdi. Ayrı tohum bu bağı koparıyor.
+DEP_N_SIM = 20_000_000
+DEP_SEED = 20260820
+DEP_CHUNK = 1_000_000
+GL_NODES = 400           # tam çözüm için Gauss-Legendre düğüm sayısı (yakınsama JSON'da)
 
 HONESTY = (
     "> **Review-responsive, not pre-declared (5 Aug 2026).** Computed after the Round-2 panel "
@@ -78,6 +88,71 @@ def simulate_fpr(k, n=3, thr=THRESHOLD, reps=N_SIM, rng=None):
     return float((mean_ok & sign_ok).mean())
 
 
+def _Phi(x):
+    """Standart normal dagilim fonksiyonu; math.erf uzerinden, ek bagimlilik yok."""
+    return 0.5 * (1.0 + np.vectorize(math.erf)(np.asarray(x, dtype=float) / math.sqrt(2.0)))
+
+
+def fpr_exact(k, n=3, thr=THRESHOLD, nodes=GL_NODES):
+    """AYNI olcutun yanlis-pozitif orani, ama MONTE-CARLO DEGIL: TAM deger.
+
+    NEDEN (20 Agu 2026, N19b). Yayimlanan 0.543 ve 0.740, 200k tekrarlik bir MC kosusundan
+    geliyordu. O kosuda tek-hucre oraninin standart hatasi 4.1e-4; aile-bazli oran p'ye gore
+    ~10.4 egimli oldugu icin aileye 0.004 olarak yansiyor -- yani UCUNCU BASAMAK gurultu.
+    Ucuncu basamagi MC ile sabitlemek icin gereken tekrar sayisi ~1.3e8'dir (hucre basina).
+    Integral kapali forma indirgenebildigi icin buna gerek yok.
+
+    INDIRGEME. d_i ~ N(0, k^2) bagimsiz, n=3, sigma_c=1. Olcut |ort d| >= thr VE 3/3 ayni
+    isaret. z = d/k yazilirsa olay: hepsi ayni isaretli VE |sum z| >= c,  c = n*thr/k.
+    Simetriyle  P = 2 * P(z1,z2,z3 > 0, sum z >= c).
+    Ic iki degisken KAPALI FORMDA cikiyor: S = z2+z3 ~ N(0,2) ve S=s verildiginde
+    z2 = s/2 + w, w ~ N(0,1/2); z2>0 ve z3>0 kosulu |w| < s/2 demek. Bu da
+        P(z2,z3>0, z2+z3 >= t) = integral_{a}^{inf} phi(u)(2*Phi(u)-1) du,  a = max(t,0)/sqrt(2)
+                               = Phi(a) * (1 - Phi(a))                     [d/du Phi^2 = 2*Phi*phi]
+    Geriye tek katli bir integral kaliyor; Gauss-Legendre ile ~1e-15 mutlak dogrulukta.
+
+    Sonuc SCIPY'siz hesaplaniyor (bu dosyanin tek bagimlisi numpy). `scipy.integrate.quad`
+    ile ayrica karsilastirildi, sapma < 2e-15.
+    """
+    c = n * thr / k
+    x, w = np.polynomial.legendre.leggauss(nodes)
+    z = 0.5 * c * (x + 1.0)                     # [0, c] araligina tasi
+    ww = 0.5 * c * w
+    P = _Phi((c - z) / math.sqrt(2.0))
+    phi = np.exp(-0.5 * z * z) / math.sqrt(2.0 * math.pi)
+    head = float(np.sum(ww * phi * P * (1.0 - P)))
+    tail = 0.25 * float(1.0 - _Phi(c))          # z1 >= c bolgesi: kosul kendiliginden saglanir
+    return 2.0 * (head + tail)
+
+
+def dependence_sim(by_group, rho, reps=DEP_N_SIM, seed=DEP_SEED, chunk=DEP_CHUNK):
+    """Ortak (paylasilan kontrol) bilesenli null altinda AILE-BAZLI oran.
+
+    Bagimsizlik carpiminin aksine bunun kapali formu yok: ayni gruptaki hucreler AYNI uc
+    kontrol kosusunu paylastigi icin `en az biri atesler` olayi grup ici bagimlilik tasiyor.
+    Bu yuzden burada MC kaliyor -- ama tekrar sayisi ucuncu basamagi sabitleyecek kadar
+    buyuk (se ~ 1e-4) ve tohum ile birlikte JSON'a yaziliyor.
+    """
+    rng = np.random.default_rng(seed)
+    sr, sr1 = math.sqrt(rho), math.sqrt(1.0 - rho)
+    hit, left = 0, reps
+    while left > 0:
+        m = min(chunk, left)
+        any_fire = np.zeros(m, dtype=bool)
+        for ks in by_group.values():
+            g = rng.normal(0.0, 1.0, size=(m, 3))          # grubun ortak tohum yuku
+            for k in ks:
+                e = rng.normal(0.0, 1.0, size=(m, 3))
+                d = k * (sr * g + sr1 * e)
+                any_fire |= (np.abs(d.mean(axis=1)) >= THRESHOLD) & (
+                    (d > 0).all(axis=1) | (d < 0).all(axis=1))
+        hit += int(any_fire.sum())
+        left -= m
+    p = hit / reps
+    return {"value": p, "n_sim": reps, "rng_seed": seed,
+            "standard_error": math.sqrt(p * (1.0 - p) / reps)}
+
+
 # ÖĞRENİLMİŞ SİNYALLER (B5, 14 Ağu). Ölçüt doğruluk ekseninde de uygulanıyor, ama yalnız
 # gate'in ÖĞRENİLMİŞ sinyalli hücrelerine. `oracle_error` sentetik bir sinyal (hatadan
 # türetilmiş bir üst-sınır tanılaması), öğrenilmiş bir sinyal değil; aileye girmemesi
@@ -106,7 +181,7 @@ def family_cells(payload, ck="swa"):
     return out
 
 
-def dependence(payload, fam, rng, ck="swa", reps=40_000):
+def dependence(payload, fam, ck="swa"):
     """B5(c) — paylaşılan kontrolün bağımsızlık varsayımını ne kadar deldiğinin ÖLÇÜMÜ.
 
     İki parça: (1) aynı kontrol kolunu paylaşan hücrelerin eşleştirilmiş-fark
@@ -143,18 +218,11 @@ def dependence(payload, fam, rng, ck="swa", reps=40_000):
         v = (payload[c["cell"]].get(ck) or {}).get(c["axis"]) or {}
         by_group.setdefault((c["teacher"], v.get("control_arm"), c["axis"]), []).append(c["k"])
     rho = max(rho_s, 0.0)
-    any_fire = np.zeros(reps, dtype=bool)
-    for ks in by_group.values():
-        g = rng.normal(0.0, 1.0, size=(reps, 3))                  # grubun ortak tohum yükü
-        for k in ks:
-            e = rng.normal(0.0, 1.0, size=(reps, 3))
-            d = k * (np.sqrt(rho) * g + np.sqrt(1 - rho) * e)
-            fire = (np.abs(d.mean(axis=1)) >= THRESHOLD) & (
-                (d > 0).all(axis=1) | (d < 0).all(axis=1))
-            any_fire |= fire
+    sim = dependence_sim(by_group, rho)
     return {"rho_shared": rho_s, "rho_other": rho_o, "n_shared": len(shared),
-            "n_other": len(other), "rho_used": rho, "fam_dep": float(any_fire.mean()),
-            "n_groups": len(by_group)}
+            "n_other": len(other), "rho_used": rho, "fam_dep": sim["value"],
+            "fam_dep_sim": sim, "n_groups": len(by_group), "by_group_k": {
+                "|".join(str(x) for x in kk): vv for kk, vv in by_group.items()}}
 
 
 def main():
@@ -285,7 +353,22 @@ def main():
     fam_exact = 1 - float(np.prod([1 - p for p in p_list]))
     n22 = len(fam)
     fam_flat = 1 - (1 - fpr_med) ** n22 if fpr_med is not None else None
-    dep = dependence(payload, fam, rng)
+    dep = dependence(payload, fam)
+
+    # ---------- N19b (20 Ağu 2026): AYNI beş nicelik, MC değil TAM.
+    # Basılı 0.543 / 0.740 / 0.007 üçü de 200k (aile) ve 40k (bağımlı) tekrarlık MC
+    # koşularından geliyordu; üçünün de ÜÇÜNCÜ BASAMAĞI Monte-Carlo gürültüsüydü. Aşağıdaki
+    # alanlar bağımsızlık kolunu KAPALI FORMDAN hesaplar (MC hatası yok); bağımlı kol MC
+    # kalıyor ama tekrar sayısı üçüncü basamağı sabitliyor. `mc_crosscheck` iki yöntemin
+    # aynı büyüklüğe baktığının kanıtı olarak duruyor -- yeni yöntem eskisini doğruluyor,
+    # eskisinin yerine geçtiğini iddia etmiyor.
+    p_med_exact = fpr_exact(k_med) if k_med is not None else None
+    fam_flat_exact = 1 - (1 - p_med_exact) ** n22 if p_med_exact is not None else None
+    p_each_exact = [fpr_exact(c["k"]) for c in fam]
+    fam_own_exact = 1 - float(np.prod([1 - p for p in p_each_exact]))
+    gap_exact = fam_own_exact - dep["fam_dep"]
+    # yakınsama denetimi: düğüm sayısı yarıya inince değer ne kadar oynuyor?
+    p_med_half = fpr_exact(k_med, nodes=GL_NODES // 2) if k_med is not None else None
 
     L += [f"### G3.3 — the family is **{n22}**, not {n_cells} (B5, 14 Aug 2026)", "",
           f"The criterion is applied on the ECE axis to the {n_cells} three-seed cells, **and "
@@ -334,6 +417,36 @@ def main():
           "group with the same sign. Sharing the seed set (42/1/43) on the treatment side "
           "adds a second, smaller channel.", ""]
 
+    # ---------- G3.4 (N19b, 20 Ağu 2026): aynı beş nicelik, kapalı formdan
+    L += ["### G3.4 — the same five numbers, computed exactly (20 Aug 2026)", "",
+          "The independence arm of this section needs no Monte Carlo. With "
+          "n = 3 and a threshold on |mean| plus a common-sign condition, the per-cell rate "
+          "reduces to a single one-dimensional integral (derivation in the `fpr_exact` "
+          "docstring), evaluated here by Gauss–Legendre quadrature to ~1e-15. That matters "
+          f"because the published values came from a {N_SIM:,}-replicate simulation whose "
+          "standard error on the per-cell rate is 4.1e-4 — and the family-wise rate is "
+          "~10.4× as sensitive, so its **third decimal was Monte-Carlo noise**. Fixing that "
+          "digit by brute force would need ~1.3e8 replicates per cell.", "",
+          "| quantity | published (MC) | exact | difference |", "|---|---|---|---|",
+          f"| per-cell rate at the median k | {fpr_med:.4f} | **{p_med_exact:.6f}** | "
+          f"{p_med_exact - fpr_med:+.6f} |",
+          f"| family-wise, {n22} cells at the median k | {fam_flat:.3f} | "
+          f"**{fam_flat_exact:.6f}** | {fam_flat_exact - fam_flat:+.6f} |",
+          f"| family-wise, {n22} cells at each cell's own k | {fam_exact:.3f} | "
+          f"**{fam_own_exact:.6f}** | {fam_own_exact - fam_exact:+.6f} |", "",
+          f"Quadrature convergence: halving the node count ({GL_NODES} → {GL_NODES // 2}) "
+          f"moves the per-cell rate by {abs(p_med_exact - p_med_half):.2e}.", "",
+          "The dependent arm keeps its simulation — sharing a control arm inside a group has "
+          f"no closed form here — but at {DEP_N_SIM:,} replicates (seed {DEP_SEED}) its "
+          f"standard error is {dep['fam_dep_sim']['standard_error']:.1e}, so its third "
+          "decimal is real. Against the **exact** independence product the gap is "
+          f"**{gap_exact:.4f}** ({fam_own_exact:.4f} − {dep['fam_dep']:.4f}); the earlier "
+          f"pairing of two noisy estimates put it at {abs(fam_exact - dep['fam_dep']):.4f}.",
+          "",
+          "> The sign of the conclusion is unchanged: the independence product is an upper "
+          "bound and the shared component moves the family-wise rate down by under a "
+          "hundredth. What changes is which digits may be printed.", ""]
+
     L += ["Sources: `paper_tables.mechanism_table()` (cells) and "
           "`denominator_table.control_arms()` (denominators), both imported rather than "
           "reimplemented.", ""]
@@ -351,7 +464,51 @@ def main():
                  "k_observed_median": k_med, "k_observed_range": [min(ks_obs), max(ks_obs)]
                  if ks_obs else None,
                  "per_cell_at_observed_k": fpr_med, "n_cells": n_cells,
-                 "family_wise_upper_bound": fam_med}},
+                 "family_wise_upper_bound": fam_med},
+         # ---- §4.7'nin bes sayisi. ADLAR NICELIGI AYIRT ETSIN: ayni sayinin iki farkli
+         # buyuklugu tasidigi vakalar bu kampanyada dort kez cikti, dordunde de ad ayni
+         # oldugu icin gec fark edildi. Burada `..._at_median_k` ile `..._at_own_k` AYRI
+         # niceliklerdir (birincisi medyan dagilim oranini butun aileye uygular, ikincisi
+         # her hucreye kendi oranini verir) ve adlari farki gosteriyor.
+         "false_positive_simulation": {
+             "estimand": ("2x-kontrol-sd olcutunun tohum-gurultusu null'u altinda ateslemesi; "
+                          "n=3, |ort d| >= 2*sigma_control VE 3/3 ayni isaret"),
+             "method_independent_arm": (f"kapali form + Gauss-Legendre ({GL_NODES} dugum), "
+                                        "Monte-Carlo HATASI YOK"),
+             "method_dependent_arm": (f"Monte-Carlo, {DEP_N_SIM} tekrar, tohum {DEP_SEED} "
+                                      "(grup ici ortak bilesenin kapali formu yok)"),
+             "n_family_cells": n22,
+             "family_definition": ("ECE ekseninin uc-tohumlu hucrelerinin tamami + "
+                                   "dogruluk ekseninde ogrenilmis-sinyal gate hucreleri"),
+             "k_observed_median": k_med,
+             "per_cell_rate_at_median_k": p_med_exact,
+             "family_wise_at_median_k": fam_flat_exact,
+             "family_wise_at_own_k": fam_own_exact,
+             "family_wise_with_shared_component": dep["fam_dep"],
+             "independence_gap_own_k_minus_shared": gap_exact,
+             "rho_shared_control": dep["rho_shared"],
+             "rho_other_pairs": dep["rho_other"],
+             "n_pairs_shared": dep["n_shared"],
+             "n_pairs_other": dep["n_other"],
+             "rho_used_in_sim": dep["rho_used"],
+             "n_control_groups": dep["n_groups"],
+             "per_cell_rate_by_cell": {c["cell"] + "|" + c["axis"]: p
+                                       for c, p in zip(fam, p_each_exact)},
+             "dependent_sim": dep["fam_dep_sim"],
+             "quadrature_selfcheck": {
+                 "nodes": GL_NODES, "nodes_halved": GL_NODES // 2,
+                 "per_cell_rate_at_half_nodes": p_med_half,
+                 "abs_deviation": abs(p_med_exact - p_med_half)},
+             "mc_crosscheck": {
+                 "note": ("ayni buyuklugun eski MC tahmini; yeni yontemin dogrulanmasi icin "
+                          "duruyor, yerine gecmesi icin degil"),
+                 "n_sim": N_SIM, "rng_seed": RNG_SEED,
+                 "per_cell_rate_at_median_k": fpr_med,
+                 "family_wise_at_median_k": fam_flat,
+                 "family_wise_at_own_k": fam_exact,
+                 "abs_deviation_per_cell": abs(p_med_exact - fpr_med),
+                 "abs_deviation_family_median_k": abs(fam_flat_exact - fam_flat),
+                 "abs_deviation_family_own_k": abs(fam_own_exact - fam_exact)}}},
         indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(f"ECE @swa: {n_est}/{n_cells} established (kontrol sd) | "

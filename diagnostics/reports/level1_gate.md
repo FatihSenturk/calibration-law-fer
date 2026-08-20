@@ -65,6 +65,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/r3w1_joint_optimum.py` | GEÇTİ | — |
 | `diagnostics/regression_line_provenance.py` | GEÇTİ | — |
 | `diagnostics/robustness_metrics.py` | GEÇTİ | — |
+| `diagnostics/run_manifest_census.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/section54_numbers.py` | GEÇTİ | — |
 | `diagnostics/selection_audit_inference.py` | GEÇTİ | — |
 | `diagnostics/selection_audit_table.py` | muaf | Level 3 — koşu dizini okumak işi |

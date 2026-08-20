@@ -182,9 +182,16 @@ def main():
     for ci, name in enumerate(CLASSES):
         rec["classes"][name] = {
             "n": counts[ci],
-            "gap_mean": [round(float(x), 4) for x in mean[ci]],
-            "gap_sd": [round(float(x), 4) for x in sd[ci]],
-            "range_over_seed_sd": round(ratios[name], 1),
+            # YUVARLAMA YAZMA ANINDA YAPILMAZ (20 Agu 2026, N19b). Bu uc alan artefakta
+            # 4dp/1dp YUVARLANMIS yaziliyordu. Sonuc: makale ucuncu basamagi bastiginda
+            # defter, zaten yuvarlanmis bir degeri BIR KEZ DAHA yuvarliyordu -- kampanyanin
+            # kendi yasakladigi cift yuvarlama, bu kez uretici tarafinda. Ornek: Fear'in
+            # T=2.2 bosluğu 0.1655 olarak saklaniyordu; 3 basamaga YARIYI YUKARI yuvarlaninca
+            # 0.166 verir, oysa makale 0.165 basiyor. Yuvarlama KARARI defterin isidir ve
+            # basamak sayisi orada BEYAN edilir; artefakt olculen degeri tasir.
+            "gap_mean": [float(x) for x in mean[ci]],
+            "gap_sd": [float(x) for x in sd[ci]],
+            "range_over_seed_sd": float(ratios[name]),
             "zero_crossing_T": crossing_T(Ts, list(mean[ci])),
         }
     (OUT_DIR / "perclass_calibration.json").write_text(json.dumps(rec, indent=2), encoding="utf-8")
