@@ -17,6 +17,7 @@ Kullanim (dogrudan): python diagnostics/paper_number_scan.py --paper-root <yol> 
 """
 import argparse
 import hashlib
+from collections import defaultdict
 import re
 import sys
 from pathlib import Path
@@ -45,6 +46,17 @@ SUPP_BLOCKS = ["tab:app_sd", "tab:app_mde", "tab:app_seeds", "tab:app_predecl",
 # hata vermez, YANLIS tarar. O yuzden ayri bir bulucu.
 SUPP_SECTIONS = ["app:specs", "app:robust", "app:tables"]
 SUPP_FILE = "supplementary.tex"
+
+# --- ANA GOVDE DUZYAZISI (20 Agu 2026, N19). Kapsam ERTELENMISTI ve gerekcesi yaziliydi:
+# "hareket eden hedefi baglamak curuk bag uretir". Bastan sona okuma 20 Agu'da bitti ve duzyazi
+# sabitlendi; erteleme sartinin kendisi ortadan kalkti, kapsam aciliyor.
+# Liste GLOB DEGIL, BEYAN: `sections/*.tex` desenine guvenmek, yeni bir dosya eklendiginde
+# kapsamin SESSIZCE degismesi demek olurdu. Yeni bolum yazilirsa adi buraya yazilir.
+# Her dosya BUTUNUYLE taranir; icindeki table/figure ortamlarinin satirlari dusulur (govdede
+# yerinde yazilmis figur/tablo varsa iki kez sayilmasin diye) -- SUPP_SECTIONS ile ayni kural.
+SECTION_FILES = ["sections/01_introduction.tex", "sections/02_related_work.tex",
+                 "sections/03_methodology.tex", "sections/04_experiments.tex",
+                 "sections/05_results_discussion.tex", "sections/06_conclusion.tex"]
 
 # Ozet: manset sayilar. Blok `\begin{abstract}` .. `\end{abstract}`.
 ABSTRACT_FILE = "main_elsarticle.tex"
@@ -85,10 +97,18 @@ NUM = re.compile(r"(?<![\d.])[-+]?\d+(?:\.\d+)?")
 COMMENT = re.compile(r"(?<!\\)%.*$")
 
 
+# BINLIK AYRACI (20 Agu 2026, N19). LaTeX'te binlik ayraci `$15{,}339$` diye yazilir; jeton
+# ayiklayici `{,}`yi gorunce sayiyi IKIYE boluyordu ("15" ve "339"). Govde duzyazisi kapsama
+# girince bu tek bir yerde on jeton uretti ve hepsi §4'un veri kumesi buyuklukleriydi -- yani
+# TAM DA bu turda `split_identity`ye baglanabilir hale gelen sayilar, tarayici yuzunden
+# baglanamiyordu. Ayrac SAYININ PARCASI; jetonlastirmadan once kaldiriliyor.
+THOUSANDS = re.compile(r"(?<=\d)\{,\}(?=\d)")
+
+
 def strip_layout(line):
     """(temiz_satir, atilan_jetonlar) -- atilanlar sinif adiyla birlikte."""
     dropped = []
-    out = line
+    out = THOUSANDS.sub("", line)
     for name, pat in LAYOUT_PATTERNS:
         def _rec(m):
             for t in NUM.findall(m.group(0)):
@@ -136,6 +156,24 @@ def find_section(lines, anchor):
     return start, end, skip
 
 
+def env_skip(lines):
+    """Dosyanin TAMAMINDA `table`/`figure` ortamlarinin satir kumesi.
+
+    `find_section` ayni mantigi bir BOLUM araligi icin uyguluyor; govde dosyalarinda aralik
+    dosyanin kendisi. Ayri fonksiyon, cunku bolum bulucu bir `\\section` capasi bekliyor ve bir
+    govde dosyasi birden cok `\\section` tasiyabiliyor.
+    """
+    skip, depth = set(), 0
+    for i, ln in enumerate(lines):
+        if re.search(r"\\begin\{(?:table|figure)\*?\}", ln):
+            depth += 1
+        if depth:
+            skip.add(i)
+        if re.search(r"\\end\{(?:table|figure)\*?\}", ln):
+            depth = max(0, depth - 1)
+    return skip
+
+
 def find_block(lines, anchor):
     """`\\label{anchor}` iceren tablo/figur blogunun (bas, son) satir indisleri (0-tabanli)."""
     hit = next((i for i, ln in enumerate(lines) if f"\\label{{{anchor}}}" in ln), None)
@@ -172,6 +210,7 @@ def scan_lines(lines, rel, lo=0, hi=None, unit=None):
     unit = unit or rel
     nkey = KEY_COLS.get(unit, DEFAULT_KEY_COLS)
     toks, dropped, sections = [], [], []
+    seen_key = defaultdict(int)          # ayni kimligin kacinci gecisi (bkz. emit icindeki not)
     carried = [""] * nkey
     sec = -1
     in_tab = False
@@ -200,9 +239,21 @@ def scan_lines(lines, rel, lo=0, hi=None, unit=None):
         else:
             lab, body = row_label(cleaned), cleaned
         for k, t in enumerate(NUM.findall(body)):
+            # KIMLIK CAKISMASI (20 Agu 2026, N19). Kimlik satir NUMARASINA baglanmaz -- makale
+            # duzenlenince numaralar kayar, etiketler kaymaz; bu bilincli bir karar. Ama AYNI
+            # etiket iki kez gecebilir: §3'te ayni denklem parcasi (`\;+\; (1-\alpha)\,\tau^2`)
+            # 47. ve 119. satirlarda birebir tekrar ediyor ve iki jeton ayni kimligi aliyordu.
+            # Sonuc sessizdi ama gercekti: jeton muhasebesi (bound+derived+exempt+unbound)
+            # 1677 yerine 1675 topluyordu ve o rowa yazilan her beyan IKI jetonu birden
+            # sahipleniyordu. Cozum satir numarasi degil, AYNI ETIKETIN KACINCI GECISI oldugu:
+            # metin kaysa da tekrar SIRASI kalir.
+            base = f"{unit}|s{sec}|{lab}|{k}"
+            n = seen_key[base]
+            seen_key[base] += 1
             toks.append({"unit": unit, "file": rel, "line": first_line,
                          "section": sec, "row": lab, "idx": k, "printed": t,
-                         "key": f"{unit}|s{sec}|{lab}|{k}"})
+                         "occurrence": n,
+                         "key": base if n == 0 else f"{base}#{n}"})
 
     for i in range(lo, hi + 1):
         raw = COMMENT.sub("", lines[i])
@@ -262,6 +313,12 @@ def scan_paper(paper_root):
         lo, hi, skip = sec
         prose = [("" if i in skip else ln) for i, ln in enumerate(lines)]
         take(scan_lines(prose, SUPP_FILE, lo, hi, unit=anchor.split(":")[1]))
+
+    for rel in SECTION_FILES:
+        lines = read(rel)
+        skip = env_skip(lines)
+        prose = [("" if i in skip else ln) for i, ln in enumerate(lines)]
+        take(scan_lines(prose, rel, unit=Path(rel).stem))
 
     lines = read(ABSTRACT_FILE)
     env = find_env(lines, "abstract")

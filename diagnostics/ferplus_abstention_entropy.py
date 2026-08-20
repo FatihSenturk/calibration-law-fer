@@ -161,8 +161,27 @@ def main():
     if ref.exists():
         dev = float(np.abs(h8.numpy() - np.load(ref)).max())
 
+    # BUTUN FOLD'LAR uzerinden ayni sayim (20 Agu 2026, N19). Makale §3.5 iki yuzde basiyor ve
+    # PAYDALARI FARKLI: "%29,3 of all rows" TUREV dosyasinin tamami (uc fold), "%37,3 of the
+    # validation fold" yalniz fold==2. Ikincisi bu artefaktta zaten vardi (eight_col_sums / n_val),
+    # birincisinin URETICISI YOKTU: bu CSV'yi okuyan yedi betigin hepsi `fold == 2` suzuyor,
+    # hicbiri butun satirlar uzerinde saymiyordu. N16'dan beri "ureticisi yok" diye kayitliydi;
+    # burada kapaniyor. Sayim CSV'nin kendisinden, tek satir filtresiz.
+    # `csv` ile okunuyor, pandas ile degil: bu betikte pandas BILEREK yalniz `rebuild()` icinde
+    # yerel olarak import ediliyor (kanonik dosya yolu), varsayilan yol onsuz kosmali.
+    with META.open(encoding="utf-8-sig", newline="") as _fh:
+        _rows_all = [[float(r[e]) for e in EMOTIONS] for r in csv.DictReader(_fh)]
+    _all8 = np.asarray(_rows_all).sum(1)
+    d_all = {"n_rows_all_folds": int(len(_rows_all)),
+             "rows_below_ten_all_folds": int((_all8 < 10 - 1e-9).sum()),
+             "eight_col_sums_all_folds": {str(int(k)): int(c) for k, c in
+                                          zip(*np.unique(_all8, return_counts=True))}}
+    d_all["share_below_ten_all_folds"] = (
+        100.0 * d_all["rows_below_ten_all_folds"] / d_all["n_rows_all_folds"])
+
     d = {"n_val": len(names),
          "rows_with_abstention": int((v10[:, len(EMOTIONS):].sum(1) > 0).sum()),
+         **d_all,
          "abstention_votes": {"unknown": int(v10[:, len(EMOTIONS)].sum()),
                               "NF": int(v10[:, len(EMOTIONS) + 1].sum())},
          "vote_sum_10_always": bool((tot10 == 10).all()),

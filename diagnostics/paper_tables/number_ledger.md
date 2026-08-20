@@ -8,11 +8,11 @@ Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_s
 
 | in-scope numeric token | count |
 |---|---|
-| bound to an artifact field | 695 |
-| derived, occupying an in-scope token | 17 |
-| declared not-a-measurement | 150 |
-| **unregistered** | **0** |
-| **= numeric tokens in scope** | **862** |
+| bound to an artifact field | 1095 |
+| derived, occupying an in-scope token | 63 |
+| declared not-a-measurement | 496 |
+| **unregistered** | **23** |
+| **= numeric tokens in scope** | **1677** |
 
 The four categories are disjoint (bound ∩ exempt is checked to be empty) and the column sums to the total. Two kinds of declaration are **not** in that table because they occupy no in-scope token — they are anchored to sentences the scanner deliberately does not read:
 
@@ -21,27 +21,54 @@ The four categories are disjoint (bound ∩ exempt is checked to be empty) and t
 | derived quantity on a prose anchor | 4 |
 | prose field binding (`pv`) | 1 |
 
-The registry therefore holds **21** derived quantities in total: 17 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
+The registry therefore holds **67** derived quantities in total: 63 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
 
 | other | count |
 |---|---|
-| printed-vs-field mismatch | 0 |
+| printed-vs-field mismatch | 2 |
 | confirmation records (second source) | 3 (0 failing) |
-| layout tokens dropped by the scanner | 178 |
+| layout tokens dropped by the scanner | 340 |
 
 ## Scope (declared)
 
 **In:** `paper/tables/*.tex`, `abstract`, `supplementary S8-S11`, `individually anchored prose sentences (declared one by one)`  
 **Out:** sections/*.tex prose, except the individually anchored sentences (revision window) · supplementary S1-S3 (today's headroom verdict not applied yet)  
-**Not a measurement:** `architecture_dim`, `benchmark_protocol`, `citation`, `column_header`, `criterion_constant`, `date`, `dtype_name`, `hardware_name`, `hyperparameter`, `population_count`, `preregistration_provenance`, `rounding_caveat`, `sample_size`, `sign_count`, `table_reference`, `teacher_name_digits`
+**Not a measurement:** `algorithm_name_digits`, `architecture_dim`, `benchmark_protocol`, `citation`, `column_header`, `criterion_constant`, `dataset_name_digits`, `date`, `doi`, `dtype_name`, `enumerator`, `equation_constant`, `hardware_name`, `hyperparameter`, `method_name_digits`, `metric_name_digits`, `name_digits`, `notation_digits`, `null_value`, `population_count`, `preregistration_provenance`, `rounding_caveat`, `sample_size`, `scientific_notation`, `sign_count`, `stated_bound`, `table_reference`, `teacher_name_digits`
 
 ## Unregistered numbers
 
-None — every in-scope number is bound, derived or declared.
+| printed | unit | row | where |
+|---|---|---|---|
+| `3.5` | 04_experiments | per-cell firing rate of about 3.5 % ; under in | paper/sections/04_experiments.tex:228 |
+| `0.543` | 04_experiments | twenty-two cells the corresponding family-wise | paper/sections/04_experiments.tex:229 |
+| `0.740` | 04_experiments | rising to 0.740 when each cell is given its ow | paper/sections/04_experiments.tex:230 |
+| `+0.393` | 04_experiments | sharing a control arm correlate at +0.393 acro | paper/sections/04_experiments.tex:232 |
+| `0.007` | 04_experiments | re-simulating with that shared component moves | paper/sections/04_experiments.tex:233 |
+| `90` | 04_experiments | Of the 90 runs in that window (17 June--24 Jul | paper/sections/04_experiments.tex:296 |
+| `26` | 04_experiments | Of the 90 runs in that window (17 June--24 Jul | paper/sections/04_experiments.tex:296 |
+| `62` | 04_experiments | manifests were written at launch with verified | paper/sections/04_experiments.tex:297 |
+| `2` | 04_experiments | (code _state _verified:false) and 2 belong to  | paper/sections/04_experiments.tex:299 |
+| `89.9` | 05_results_discussion | and the mass sitting in the highest-confidence | paper/sections/05_results_discussion.tex:39 |
+| `82.7` | 05_results_discussion | to 82.7 % . We therefore describe the effect a | paper/sections/05_results_discussion.tex:40 |
+| `8.04` | 05_results_discussion | optimum lands at composite temperature T^ * =  | paper/sections/05_results_discussion.tex:197 |
+| `6.0` | 05_results_discussion | Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A r | paper/sections/05_results_discussion.tex:198 |
+| `3.06` | 05_results_discussion | Stage1 6.0 on VAE9182 and 3.06 on FERPlus. A r | paper/sections/05_results_discussion.tex:198 |
+| `0.998` | 05_results_discussion | arms hold the dose--response with R^ 2 >0.998  | paper/sections/05_results_discussion.tex:345 |
+| `0.54` | 05_results_discussion | reference rate of 0.54 (rising to 0.74 when ea | paper/sections/05_results_discussion.tex:405 |
+| `0.74` | 05_results_discussion | reference rate of 0.54 (rising to 0.74 when ea | paper/sections/05_results_discussion.tex:405 |
+| `2.7` | 05_results_discussion | 2.7 larger than the well-calibrated teacher's  | paper/sections/05_results_discussion.tex:423 |
+| `0.0041` | 05_results_discussion | ( = - 0.0041 the same sign in all three seeds) | paper/sections/05_results_discussion.tex:524 |
+| `+0.165` | 05_results_discussion | remain over-confident ( +0.063 and +0.165 ) ev | paper/sections/05_results_discussion.tex:731 |
+| `34` | 05_results_discussion | inside the last K in 34 % and 67 % of them res | paper/sections/05_results_discussion.tex:783 |
+| `67` | 05_results_discussion | inside the last K in 34 % and 67 % of them res | paper/sections/05_results_discussion.tex:783 |
+| `4.3` | 05_results_discussion | 4.3 10^ -7 on RAF-DB; +0.22 pp SE 0.061 | paper/sections/05_results_discussion.tex:813 |
 
 ## Mismatches
 
-None.
+| id | printed | field value | rounded | where |
+|---|---|---|---|---|
+| `intro.orderstat_k50` | +0.65 | 0.644531 | 0.64 | paper/sections/01_introduction.tex:151 |
+| `related_work.orderstat_k50` | +0.65 | 0.644531 | 0.64 | paper/sections/02_related_work.tex:229 |
 
 ## Confirmation records (same quantity, second source)
 
@@ -89,6 +116,52 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `tstar_criterion_cost_max_supp` | 14 | ratio | 14.3155 | yes |
 | `tstar_criterion_cost_min` | 13 | ratio | 13.307 | yes |
 | `tstar_criterion_cost_max` | 14 | ratio | 14.3155 | yes |
+| `intro.acc_band_stage1` | 0.30 | diff | 0.304214 | yes |
+| `intro.acc_band_vae9182` | 0.51 | diff | 0.510646 | yes |
+| `intro.acc_decline_ferplus` | 0.49 | diff | 0.486313 | yes |
+| `methodology.votes_below_ten_val` | 37.3 | pct_of | 37.2978 | yes |
+| `methodology.abstention_mass_val` | 37.3 | pct_of | 37.2978 | yes |
+| `results.jsd_gap_student_ts` | 0.0041 | diff | 0.00414556 | yes |
+| `results.ferplus_ece_share_low` | 13 | pct_of | 12.6601 | yes |
+| `results.ferplus_ece_share_high` | 15 | pct_of | 14.974 | yes |
+| `results.tstar_gap_pct` | 63 | pct_excess | 63.3386 | yes |
+| `meth.argmin_cells_agreeing` | 20 | sum | 20 | yes |
+| `meth.argmin_cells_total` | 21 | sum | 21 | yes |
+| `meth.tstar_criterion_cost_min` | 13 | ratio | 13.307 | yes |
+| `meth.tstar_criterion_cost_max` | 14 | ratio | 14.3155 | yes |
+| `meth.acc_band_stage1` | 0.30 | diff | 0.304214 | yes |
+| `meth.acc_band_vae9182` | 0.51 | diff | 0.510646 | yes |
+| `meth.acc_trend_ferplus` | 0.49 | diff | 0.486313 | yes |
+| `res.jsd_slice_coverage_pct` | 99.1 | pct_of | 99.112 | yes |
+| `res.tradeoff_ece_cost` | +0.0159 | diff | 0.0158646 | yes |
+| `res.tradeoff_jsd_gain` | -0.0051 | diff | -0.00509233 | yes |
+| `res.sharpened_target_acc_gain` | +0.40 | diff | 0.401738 | yes |
+| `res.ferplus_control_mde` | 0.74 | sum | 0.740646 | yes |
+| `res.corner_jsd_shortfall` | 0.0002 | diff | 0.00024057 | yes |
+| `res.detrend_shift_max` | 0.04 | diff | 0.0359174 | yes |
+| `res.rafdb_ece_effect_pct` | 4 | pct_drop | 3.92608 | yes |
+| `res.fp16_b1_ratio_lo` | 1.20 | ratio | 1.20419 | yes |
+| `res.fp16_b1_ratio_hi` | 1.34 | ratio | 1.33565 | yes |
+| `res.fp16_b32_ratio_lo` | 0.63 | ratio | 0.625834 | yes |
+| `res.fp16_b32_ratio_hi` | 0.69 | ratio | 0.691174 | yes |
+| `s5.ece_reduction_rafdb` | 41 | pct_drop | 41.4635 | yes |
+| `s5.full_swing` | 2.4 | ratio | 2.3543 | yes |
+| `s5.acc_band_stage1` | 0.30 | diff | 0.304214 | yes |
+| `s5.acc_paired_gain` | +0.13 | diff | 0.130376 | yes |
+| `s5.ctrl_deterioration` | 6.4 | ratio | 6.40037 | yes |
+| `s5.acc_band_vae9182` | 0.51 | diff | 0.510646 | yes |
+| `s5.ece_reduction_ferplus` | 76 | pct_drop | 76.3748 | yes |
+| `s5.collapse_ratio_510` | 16.3 | ratio | 16.3044 | yes |
+| `s5.collapse_ratio_1020` | 13.5 | ratio | 13.5023 | yes |
+| `s5.acc_band_ferplus` | 0.49 | diff | 0.486313 | yes |
+| `s5.capacity_acc_span` | +1.94 | diff | 1.94481 | yes |
+| `s5.teacher_acc_span` | 0.42 | diff | 0.423729 | yes |
+| `s5.teacher_ece_factor` | 2.9 | ratio | 2.91989 | yes |
+| `s5.sel_cost_swa` | 0.35 | diff | 0.347674 | yes |
+| `s5.sel_cost_last` | 0.83 | diff | 0.825727 | yes |
+| `s5.baseline_ece_overconf` | 0.075 | mean | 0.0749972 | yes |
+| `res.argmin_cells_agreeing_0` | 20 | sum | 20 | yes |
+| `res.argmin_cells_agreeing_1` | 20 | sum | 20 | yes |
 
 ## Bindings
 
@@ -789,3 +862,403 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `robust.ferplus_deployed_arm` | 0.5063 | `paper_tables/headroom_grid_audit.json` | `grids.run.T_argmin` | 4dp |
 | `robust.jsd_optimum` | 0.74 | `paper_tables/jsd_sensitivity.json` | `T_jsd_values_across_slices[0]` | 2dp |
 | `robust.smallest_stratum_n` | 28 | `paper_tables/jsd_sensitivity.json` | `results["(c) stratum 6-7"].n` | int |
+| `intro.pooled_n_points` | 14 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.n_points` | int |
+| `intro.pooled_rho` | 0.79 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 2dp |
+| `intro.asym_rafdb` | 1.77 | `paper_tables/asymmetry_estimand.json` | `comparisons[2].ratio_absolute` | 2dp |
+| `intro.asym_ferplus` | 2.04 | `paper_tables/asymmetry_estimand.json` | `comparisons[5].ratio_absolute` | 2dp |
+| `intro.logitstd_dece_min` | 0.086 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|primary"].d_ece_mean` | 3dp |
+| `intro.logitstd_dece_max` | 0.139 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|vae9182"].d_ece_mean` | 3dp |
+| `intro.logitstd_noise_median` | 27 | `paper_tables/noise_units.json` | `summary.median` | int |
+| `intro.tstar_ece_ferplus` | 0.45 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 2dp |
+| `intro.tstar_jsd_ferplus` | 0.74 | `ferplus_jsd/ferplus_jsd.json` | `T_star_jsd.T` | 2dp |
+| `intro.teacher_entropy_tjsd` | 0.412 | `ferplus_jsd/ferplus_jsd.json` | `entropy_correlation.T_jsd.teacher_mean_entropy` | 3dp |
+| `intro.human_entropy` | 0.440 | `ferplus_jsd/ferplus_jsd.json` | `human_mean_entropy` | 3dp |
+| `intro.audit_n_runs` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
+| `intro.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `intro.orderstat_k50` | +0.65 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 2dp |
+| `intro.orderstat_k100` | +0.76 | `selection_audit/selection_gain.json` | `per_k["100"].a2_pure_order_statistic.mean` | 2dp |
+| `intro.asymmetry_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
+| `intro.asymmetry_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
+| `intro.compression_ratio` | 25.9 | `paper_tables/efficiency_retention.json` | `compression.params_ratio` | 1dp |
+| `intro.retention_swa` | 97.96 | `paper_tables/efficiency_retention.json` | `headline.retention_pct_swa` | 2dp |
+| `intro.audit_n_runs_2` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
+| `related_work.asymmetry_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
+| `related_work.asymmetry_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
+| `related_work.ferplus_tstar_ece` | 0.45 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 2dp |
+| `related_work.ferplus_tstar_jsd` | 0.74 | `paper_tables/jsd_sensitivity.json` | `results["(a) all rows"].T_jsd` | 2dp |
+| `related_work.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `related_work.orderstat_k50` | +0.65 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 2dp |
+| `related_work.orderstat_k100` | 0.76 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.mean` | 2dp |
+| `methodology.votes_below_ten_all_folds` | 29.3 | `paper_tables/ferplus_abstention_entropy.json` | `share_below_ten_all_folds` | 1dp |
+| `results.jsd_student_ts` | 0.0545 | `paper_tables/student_ts_baseline.json` | `aggregate.jsd.student_ts[0]` | 4dp |
+| `results.jsd_tstar_arm` | 0.0587 | `paper_tables/student_ts_baseline.json` | `aggregate.jsd.tstar_arm[0]` | 4dp |
+| `results.ferplus_best_swa_ece` | +0.0069 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.mean` | 4dp |
+| `meth.ferplus_deployed_arm_is_argmin` | 0.5063 | `paper_tables/headroom_grid_audit.json` | `grids.run.T_argmin` | 4dp |
+| `meth.ferplus_run_grid_reduction` | 0.1126 | `paper_tables/headroom_grid_audit.json` | `grids.run.headroom` | 4dp |
+| `meth.ferplus_fine_grid_n` | 196 | `paper_tables/headroom_grid_audit.json` | `grids.fine.grid.n` | int |
+| `meth.ferplus_fine_grid_step` | 0.02 | `paper_tables/headroom_grid_audit.json` | `grids.fine.grid.step` | 2dp |
+| `meth.ferplus_fine_argmin_T` | 0.46 | `paper_tables/headroom_grid_audit.json` | `grids.fine.T_argmin` | 2dp |
+| `meth.ferplus_fine_headroom` | 0.1198 | `paper_tables/headroom_grid_audit.json` | `grids.fine.headroom` | 4dp |
+| `meth.max_criterion_dT` | 0.074 | `paper_tables/tstar_sensitivity.json` | `max_abs_dT` | 3dp |
+| `meth.max_criterion_cost` | 0.0085 | `paper_tables/tstar_sensitivity.json` | `max_d_ece` | 4dp |
+| `meth.stage1_half_fold_fit` | 1.3406 | `paper_tables/tstar_provenance.json` | `half_fold_fits.stage1` | 4dp |
+| `meth.stage1_full_fold_fit` | 1.3494 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 4dp |
+| `meth.halfsplit_shift_rafdb_max` | 0.014 | `paper_tables/tstar_stability.json` | `results.primary.absdiff_nll_A_B` | 3dp |
+| `meth.halfsplit_shift_ferplus` | 0.026 | `paper_tables/tstar_stability.json` | `results.ferplus.absdiff_nll_A_B` | 3dp |
+| `meth.student_params_m` | 2.248 | `paper_tables/efficiency_retention.json` | `student.params_m` | 3dp |
+| `meth.student_gmacs` | 0.329 | `paper_tables/efficiency_retention.json` | `student.flops_g` | 3dp |
+| `meth.control_teacher_ece_T1` | 0.0136 | `paper_tables/headroom_review.json` | `rafdb_teachers.vae9182.ece_T1` | 4dp |
+| `meth.control_tstar_nll` | 0.983 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 3dp |
+| `meth.control_headroom_point` | +0.0023 | `paper_tables/bootstrap_cis.json` | `results.vae9182.point.headroom_eq8` | 4dp |
+| `meth.control_headroom_ci_lo` | +0.0000 | `paper_tables/bootstrap_cis.json` | `results.vae9182.ci95.headroom_eq8[0]` | 4dp |
+| `meth.control_headroom_ci_hi` | +0.0080 | `paper_tables/bootstrap_cis.json` | `results.vae9182.ci95.headroom_eq8[1]` | 4dp |
+| `meth.stage1_headroom_point_boot` | +0.0232 | `paper_tables/bootstrap_cis.json` | `results.stage1.point.headroom_eq8` | 4dp |
+| `meth.stage1_headroom_ci_lo` | +0.0151 | `paper_tables/bootstrap_cis.json` | `results.stage1.ci95.headroom_eq8[0]` | 4dp |
+| `meth.stage1_headroom_ci_hi` | +0.0305 | `paper_tables/bootstrap_cis.json` | `results.stage1.ci95.headroom_eq8[1]` | 4dp |
+| `meth.primary_headroom_point_boot` | +0.0213 | `paper_tables/bootstrap_cis.json` | `results.primary.point.headroom_eq8` | 4dp |
+| `meth.primary_headroom_ci_lo` | +0.0154 | `paper_tables/bootstrap_cis.json` | `results.primary.ci95.headroom_eq8[0]` | 4dp |
+| `meth.primary_headroom_ci_hi` | +0.0280 | `paper_tables/bootstrap_cis.json` | `results.primary.ci95.headroom_eq8[1]` | 4dp |
+| `meth.stage1_tstar_nll_3dp` | 1.349 | `paper_tables/tstar_sensitivity.json` | `results.stage1.T_star_nll` | 3dp |
+| `meth.stage1_headroom_eq8_review` | +0.022 | `paper_tables/headroom_review.json` | `rafdb_teachers.stage1.headroom_eq8` | 3dp |
+| `meth.ferplus_signed_gap_T1` | -0.128 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].signed_gap` | 3dp |
+| `meth.ferplus_tstar_nll_2dp` | 0.51 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 2dp |
+| `meth.ferplus_run_headroom_3dp` | 0.113 | `paper_tables/headroom_grid_audit.json` | `grids.run.headroom` | 3dp |
+| `meth.ferplus_fine_step_2` | 0.02 | `paper_tables/headroom_grid_audit.json` | `grids.fine.grid.step` | 2dp |
+| `meth.ferplus_fine_headroom_3dp` | 0.120 | `paper_tables/headroom_grid_audit.json` | `grids.fine.headroom` | 3dp |
+| `meth.ferplus_tstar_ece_3dp` | 0.453 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 3dp |
+| `meth.ferplus_tstar_ece_grid` | 0.46 | `paper_tables/headroom_grid_audit.json` | `ferplus_T_star_ece.fine_grid_argmin` | 2dp |
+| `meth.ferplus_tstar_nll_3dp` | 0.506 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 3dp |
+| `meth.ferplus_tstar_jsd` | 0.74 | `ferplus_jsd/ferplus_jsd.json` | `T_star_jsd.T` | 2dp |
+| `meth.ferplus_tstar_jsd_2` | 0.74 | `ferplus_jsd/ferplus_jsd.json` | `T_star_jsd.T` | 2dp |
+| `meth.teacher_entropy_at_tjsd` | 0.412 | `ferplus_jsd/ferplus_jsd.json` | `entropy_correlation.T_jsd.teacher_mean_entropy` | 3dp |
+| `meth.human_mean_entropy` | 0.440 | `ferplus_jsd/ferplus_jsd.json` | `human_mean_entropy` | 3dp |
+| `meth.entropy_pearson_T1` | 0.724 | `ferplus_jsd/ferplus_jsd.json` | `entropy_correlation.T1.pearson` | 3dp |
+| `meth.entropy_pearson_Tjsd` | 0.711 | `ferplus_jsd/ferplus_jsd.json` | `entropy_correlation.T_jsd.pearson` | 3dp |
+| `meth.ferplus_tstar_jsd_3` | 0.74 | `ferplus_jsd/ferplus_jsd.json` | `T_star_jsd.T` | 2dp |
+| `s4.arch.teacher_params_m` | 58.3 | `paper_tables/efficiency_retention.json` | `teacher.params_m` | 1dp |
+| `s4.arch.teacher_gmacs` | 8.48 | `paper_tables/efficiency_retention.json` | `teacher.flops_g` | 2dp |
+| `s4.arch.student_params_m` | 2.248 | `paper_tables/efficiency_retention.json` | `student.params_m` | 3dp |
+| `s4.arch.student_gmacs` | 0.329 | `paper_tables/efficiency_retention.json` | `student.flops_g` | 3dp |
+| `s4.arch.student_size_mb` | 8.8 | `paper_tables/efficiency_retention.json` | `student.size_mb` | 1dp |
+| `s4.audit.inclusion_n` | 131 | `paper_tables/audit_population.json` | `n_total` | int |
+| `s4.ost.k50.mean` | +0.645 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.mean` | 3dp |
+| `s4.ost.k50.sd` | 0.203 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.sd` | 3dp |
+| `s4.ost.k100.mean` | +0.764 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.mean` | 3dp |
+| `s4.ost.k100.sd` | 0.259 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.sd` | 3dp |
+| `s4.audit.best_last_acc_mean` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `s4.audit.best_last_acc_sd` | 0.43 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.sd` | 2dp |
+| `s4.audit.best_last_ece_mean` | -0.0029 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_ece.mean` | 4dp |
+| `s4.audit.best_last_ece_sd` | 0.0092 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_ece.sd` | 4dp |
+| `s4.audit.best_swa_acc_mean` | +0.13 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_acc.mean` | 2dp |
+| `s4.audit.best_swa_acc_sd` | 0.26 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_acc.sd` | 2dp |
+| `s4.audit.ferplus_best_last_mean` | +0.50 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.mean` | 2dp |
+| `s4.audit.ferplus_best_last_sd` | 0.21 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.sd` | 2dp |
+| `s4.audit.growth_n116` | 116 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[0].n` | int |
+| `s4.audit.growth_n125` | 125 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[1].n` | int |
+| `s4.audit.growth_n131` | 131 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[2].n` | int |
+| `s4.audit.growth_span_pp` | 0.02 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.span_pp` | 2dp |
+| `s4.crit.mde_pct_min` | 3 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_min` | int |
+| `s4.crit.mde_pct_max` | 19 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_max` | int |
+| `s4.eff.student_params_m` | 2.248 | `paper_tables/efficiency_retention.json` | `student.params_m` | 3dp |
+| `s4.eff.student_gmacs` | 0.329 | `paper_tables/efficiency_retention.json` | `student.flops_g` | 3dp |
+| `s4.eff.ratio_params` | 25.9 | `paper_tables/efficiency_retention.json` | `compression.params_ratio` | 1dp |
+| `s4.eff.ratio_flops` | 25.8 | `paper_tables/efficiency_retention.json` | `compression.flops_ratio` | 1dp |
+| `s4.eff.ratio_size` | 62.9 | `paper_tables/efficiency_retention.json` | `compression.size_ratio` | 1dp |
+| `s4.eff.retention_swa` | 97.96 | `paper_tables/efficiency_retention.json` | `headline.retention_pct_swa` | 2dp |
+| `s4.eff.retention_best` | 98.32 | `paper_tables/efficiency_retention.json` | `headline.retention_pct_best` | 2dp |
+| `s4.lat.ratio_gpu_b1` | 1.93 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=1][dtype=fp32].speedup` | 2dp |
+| `s4.lat.ratio_gpu_b32` | 3.91 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=32][dtype=fp32].speedup` | 2dp |
+| `s4.lat.ratio_cpu_b1` | 4.01 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=1][dtype=fp32].speedup` | 2dp |
+| `s4.lat.ratio_cpu_b32` | 4.43 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=32][dtype=fp32].speedup` | 2dp |
+| `res.ferplus_tstar_ece` | 0.45 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 2dp |
+| `res.ferplus_tstar_nll` | 0.51 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 2dp |
+| `res.ferplus_tstar_jsd` | 0.74 | `ferplus_jsd/ferplus_jsd.json` | `T_star_jsd.T` | 2dp |
+| `res.teacher_entropy_tjsd` | 0.412 | `ferplus_jsd/ferplus_jsd.json` | `entropy_correlation.T_jsd.teacher_mean_entropy` | 3dp |
+| `res.human_entropy` | 0.440 | `ferplus_jsd/ferplus_jsd.json` | `human_mean_entropy` | 3dp |
+| `res.jsd_completerow_n` | 1977 | `paper_tables/jsd_sensitivity.json` | `results["(b) vote sum = 10"].n` | int |
+| `res.tstar_jsd_slices` | 0.74 | `paper_tables/jsd_sensitivity.json` | `T_jsd_values_across_slices[0]` | 2dp |
+| `res.student_ece_min` | 0.0185 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].ece[0]` | 4dp |
+| `res.student_ece_min_sd` | 0.0016 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.5063"].ece[1]` | 4dp |
+| `res.student_jsd_min` | 0.0536 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].jsd[0]` | 4dp |
+| `res.student_jsd_min_sd` | 0.0004 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.74"].jsd[1]` | 4dp |
+| `res.rho_min` | 0.667 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["0.26"].rho` | 3dp |
+| `res.rho_max` | 0.704 | `ferplus_jsd/ferplus_student_jsd.json` | `by_checkpoint.swa["1.0"].rho` | 3dp |
+| `res.jsd_span_raw` | 0.0201 | `paper_tables/jsd_collapse_audit.json` | `numerator.value` | 4dp |
+| `res.jsd_seed_sd_mean` | 0.00050 | `paper_tables/jsd_collapse_audit.json` | `R_noise.seed_sd_by_convention["mean sd"]` | 5dp |
+| `res.native_ece_raw` | 0.0783 | `paper_tables/r3w1_joint_optimum.json` | `arms["1.0"].ece_arm[0]` | 4dp |
+| `res.native_ece_raw_sd` | 0.0046 | `paper_tables/r3w1_joint_optimum.json` | `arms["1.0"].ece_arm[1]` | 4dp |
+| `res.native_ece_ts` | 0.0203 | `paper_tables/r3w1_joint_optimum.json` | `arms["1.0"].ece_ts[0]` | 4dp |
+| `res.native_ece_ts_sd` | 0.0017 | `paper_tables/r3w1_joint_optimum.json` | `arms["1.0"].ece_ts[1]` | 4dp |
+| `res.teacherside_ece` | 0.0185 | `paper_tables/r3w1_joint_optimum.json` | `arms["0.5063"].ece_arm[0]` | 4dp |
+| `res.teacherside_ece_sd` | 0.0016 | `paper_tables/r3w1_joint_optimum.json` | `arms["0.5063"].ece_arm[1]` | 4dp |
+| `res.tost_p` | 0.25 | `paper_tables/equivalence_tests.json` | `tests[unit=ECE].p_tost` | 2dp |
+| `res.teacher_selection_gain_swa` | +0.35 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.per_checkpoint.by_ckpt.swa.cost_of_wrong_pick_pp` | 2dp |
+| `res.ferplus_control_acc_sd` | 0.37 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.acc_sd` | 2dp |
+| `res.student_T_lo` | 0.676 | `paper_tables/r3w1_joint_optimum.json` | `per_seed["1.0"]["43"].T_s[0]` | 3dp |
+| `res.student_T_hi` | 0.723 | `paper_tables/r3w1_joint_optimum.json` | `per_seed["1.0"]["42"].T_s[1]` | 3dp |
+| `res.corner_ece_min` | 0.0185 | `paper_tables/r3w1_joint_optimum.json` | `corner.ECE_min` | 4dp |
+| `res.corner_jsd_min` | 0.0536 | `paper_tables/r3w1_joint_optimum.json` | `corner.JSD_min` | 4dp |
+| `res.occ_native_ece` | 0.0203 | `paper_tables/r3w1_joint_optimum.json` | `occupancy["1.0"].ece` | 4dp |
+| `res.occ_native_ece_sd` | 0.0017 | `paper_tables/r3w1_joint_optimum.json` | `occupancy["1.0"].ece_sd` | 4dp |
+| `res.occ_native_jsd` | 0.0545 | `paper_tables/r3w1_joint_optimum.json` | `occupancy["1.0"].jsd` | 4dp |
+| `res.occ_native_jsd_sd` | 0.0005 | `paper_tables/r3w1_joint_optimum.json` | `occupancy["1.0"].jsd_sd` | 4dp |
+| `res.jsd_span_raw_2` | 0.0201 | `paper_tables/jsd_collapse_audit.json` | `numerator.value` | 4dp |
+| `res.jsd_span_ts` | 0.00054 | `paper_tables/jsd_collapse_audit.json` | `R_collapse.denominator` | 5dp |
+| `res.jsd_collapse_ratio` | 37 | `paper_tables/jsd_collapse_audit.json` | `R_collapse.value` | int |
+| `res.gap_happiness_native` | +0.028 | `paper_tables/perclass_crossing.json` | `rows[cls=Happiness].gap_native` | 3dp |
+| `res.n_happiness` | 1185 | `paper_tables/perclass_crossing.json` | `rows[cls=Happiness].n` | int |
+| `res.gap_fear_native` | +0.305 | `paper_tables/perclass_crossing.json` | `rows[cls=Fear].gap_native` | 3dp |
+| `res.n_fear` | 74 | `paper_tables/perclass_crossing.json` | `rows[cls=Fear].n` | int |
+| `res.cross_happiness` | 1.46 | `paper_tables/perclass_crossing.json` | `rows[cls=Happiness].crossing_T` | 2dp |
+| `res.cross_surprise` | 1.62 | `paper_tables/perclass_crossing.json` | `rows[cls=Surprise].crossing_T` | 2dp |
+| `res.cross_sadness` | 1.70 | `paper_tables/perclass_crossing.json` | `rows[cls=Sadness].crossing_T` | 2dp |
+| `res.cross_anger` | 1.82 | `paper_tables/perclass_crossing.json` | `rows[cls=Anger].crossing_T` | 2dp |
+| `res.gap_disgust_T22` | +0.063 | `paper_tables/perclass_crossing.json` | `rows[cls=Disgust].gap_T22` | 3dp |
+| `res.gap_happiness_T22` | -0.110 | `paper_tables/perclass_crossing.json` | `rows[cls=Happiness].gap_T22` | 3dp |
+| `res.gap_neutral_T22` | -0.126 | `paper_tables/perclass_crossing.json` | `rows[cls=Neutral].gap_T22` | 3dp |
+| `res.gap_sadness_native` | +0.087 | `paper_tables/perclass_crossing.json` | `rows[cls=Sadness].gap_native` | 3dp |
+| `res.gap_surprise_native` | +0.066 | `paper_tables/perclass_crossing.json` | `rows[cls=Surprise].gap_native` | 3dp |
+| `res.n_fear_2` | 74 | `paper_tables/perclass_crossing.json` | `rows[cls=Fear].n` | int |
+| `res.audit_n_total` | 131 | `paper_tables/audit_population.json` | `n_total` | int |
+| `res.audit_offstandard` | 28 | `paper_tables/audit_population.json` | `off_standard_count` | int |
+| `res.audit_offstandard_pct` | 21 | `paper_tables/audit_population.json` | `off_standard_pct` | int |
+| `res.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `res.selection_inflation_sd` | 0.43 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.sd` | 2dp |
+| `res.selection_n_positive` | 129 | `selection_audit/selection_distribution.json` | `d_acc_pp.n_positive` | int |
+| `res.selection_n_runs` | 131 | `selection_audit/selection_distribution.json` | `d_acc_pp.n` | int |
+| `res.ferplus_selection_inflation` | +0.50 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.mean` | 2dp |
+| `res.ferplus_selection_inflation_sd` | 0.21 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.sd` | 2dp |
+| `res.orderstat_k50` | +0.645 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.mean` | 3dp |
+| `res.orderstat_k50_sd` | 0.203 | `selection_audit/selection_gain.json` | `per_k["50"].a2_pure_order_statistic.sd` | 3dp |
+| `res.orderstat_k100` | +0.764 | `selection_audit/selection_gain.json` | `per_k["100"].a2_pure_order_statistic.mean` | 3dp |
+| `res.orderstat_k100_sd` | 0.259 | `selection_audit/selection_gain.json` | `per_k["100"].a2_pure_order_statistic.sd` | 3dp |
+| `res.orderstat_n_runs` | 131 | `selection_audit/selection_gain.json` | `per_k["100"].n_runs` | int |
+| `res.orderstat_k50_detr` | +0.640 | `paper_tables/order_stat_trend.json` | `results["50"].a2_detrended.mean` | 3dp |
+| `res.orderstat_k50_detr_sd` | 0.218 | `paper_tables/order_stat_trend.json` | `results["50"].a2_detrended.sd` | 3dp |
+| `res.orderstat_k100_detr` | +0.728 | `paper_tables/order_stat_trend.json` | `results["100"].a2_detrended.mean` | 3dp |
+| `res.orderstat_k100_detr_sd` | 0.238 | `paper_tables/order_stat_trend.json` | `results["100"].a2_detrended.sd` | 3dp |
+| `res.window_drift_k100` | -0.015 | `paper_tables/order_stat_trend.json` | `results["100"].window_drift_pp.mean` | 3dp |
+| `res.rafdb_ece_contrast` | -0.0029 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.mean` | 4dp |
+| `res.rafdb_ece_contrast_sd` | 0.0092 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.sd` | 4dp |
+| `res.rafdb_ece_contrast_n` | 131 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.n` | int |
+| `res.rafdb_ece_contrast_se` | 0.0008 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.se` | 4dp |
+| `res.rafdb_ece_contrast_t` | -3.57 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.t` | 2dp |
+| `res.rafdb_ece_contrast_p` | 0.0005 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.p` | 4dp |
+| `res.rafdb_ece_ci_lo` | -0.0045 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.ci_lo` | 4dp |
+| `res.rafdb_ece_ci_hi` | -0.0013 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-last"].ece.ci_hi` | 4dp |
+| `res.ferplus_ece_contrast` | +0.0041 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.mean` | 4dp |
+| `res.ferplus_ece_contrast_sd` | 0.0074 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.sd` | 4dp |
+| `res.ferplus_ece_contrast_n` | 12 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.n` | int |
+| `res.ferplus_ece_contrast_se` | 0.0021 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.se` | 4dp |
+| `res.ferplus_ece_contrast_t` | +1.90 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.t` | 2dp |
+| `res.ferplus_ece_contrast_p` | 0.084 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].ece.p` | 3dp |
+| `res.rafdb_bestswa_acc` | +0.13 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.mean` | 2dp |
+| `res.rafdb_bestswa_acc_se` | 0.024 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.se` | 3dp |
+| `res.rafdb_bestswa_acc_t` | 5.4 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.t` | 1dp |
+| `res.ferplus_bestswa_acc` | +0.22 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.mean` | 2dp |
+| `res.ferplus_bestswa_acc_se` | 0.061 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.se` | 3dp |
+| `res.ferplus_bestswa_acc_t` | 3.7 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.t` | 1dp |
+| `res.ferplus_bestswa_acc_p` | 0.003 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].acc_pp.p` | 3dp |
+| `res.rafdb_bestswa_ece` | -0.0006 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].ece.mean` | 4dp |
+| `res.rafdb_bestswa_ece_se` | 0.0011 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].ece.se` | 4dp |
+| `res.rafdb_bestswa_ece_t` | -0.53 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].ece.t` | 2dp |
+| `res.rafdb_bestswa_ece_p` | 0.59 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].ece.p` | 2dp |
+| `res.ferplus_bestswa_ece_sd` | 0.0088 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.sd` | 4dp |
+| `res.ferplus_bestswa_ece_n` | 12 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.n` | int |
+| `res.ferplus_bestswa_ece_se` | 0.0025 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.se` | 4dp |
+| `res.ferplus_bestswa_ece_t` | +2.71 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.t` | 2dp |
+| `res.ferplus_bestswa_ece_p` | 0.020 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-swa"].ece.p` | 3dp |
+| `res.student_params` | 2.248 | `paper_tables/efficiency_retention.json` | `student.params_m` | 3dp |
+| `res.student_flops` | 0.329 | `paper_tables/efficiency_retention.json` | `student.flops_g` | 3dp |
+| `res.teacher_params` | 58.334 | `paper_tables/efficiency_retention.json` | `teacher.params_m` | 3dp |
+| `res.teacher_flops` | 8.483 | `paper_tables/efficiency_retention.json` | `teacher.flops_g` | 3dp |
+| `res.params_ratio` | 25.9 | `paper_tables/efficiency_retention.json` | `compression.params_ratio` | 1dp |
+| `res.flops_ratio` | 25.8 | `paper_tables/efficiency_retention.json` | `compression.flops_ratio` | 1dp |
+| `res.size_ratio` | 62.9 | `paper_tables/efficiency_retention.json` | `compression.size_ratio` | 1dp |
+| `res.retention_swa` | 97.96 | `paper_tables/efficiency_retention.json` | `by_checkpoint.swa.retention_pct` | 2dp |
+| `res.retention_best` | 98.32 | `paper_tables/efficiency_retention.json` | `by_checkpoint.best.retention_pct` | 2dp |
+| `res.speedup_gpu_b1` | 1.93 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=1][dtype=fp32].speedup` | 2dp |
+| `res.speedup_gpu_b32` | 3.91 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=32][dtype=fp32].speedup` | 2dp |
+| `res.speedup_cpu_b1` | 4.01 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=1][dtype=fp32].speedup` | 2dp |
+| `res.speedup_cpu_b32` | 4.43 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=32][dtype=fp32].speedup` | 2dp |
+| `s5.tstar_stage1` | 1.34 | `paper_tables/tstar_provenance.json` | `half_fold_fits.stage1` | 2dp |
+| `s5.teacher_ece_T1` | 0.0378 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].teacher_ece` | 4dp |
+| `s5.teacher_ece_Tstar` | 0.0159 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].teacher_ece` | 4dp |
+| `s5.stu_ece_T1` | 0.0731 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.stu_ece_T1_sd` | 0.0012 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[1].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.stu_ece_Tstar` | 0.0428 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.stu_ece_Tstar_sd` | 0.0003 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.stu_ece_T22` | 0.1008 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.stu_ece_T22_sd` | 0.0025 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[4].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.spread_min` | 0.0003 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.spread_max` | 0.0029 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.acc_lo` | 89.43 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[3].by_ckpt.swa.acc_mean` | 2dp |
+| `s5.acc_hi` | 89.73 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean` | 2dp |
+| `s5.tstar_stage1_est` | 1.34 | `paper_tables/tstar_provenance.json` | `half_fold_fits.stage1` | 2dp |
+| `s5.tstar_ferplus_est` | 0.51 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 2dp |
+| `s5.ferplus_nll_argmin` | 0.74 | `paper_tables/robustness_metrics.json` | `series["FERPlus"].metrics.nll.argmin_T_all_seeds` | 2dp |
+| `s5.ctrl_teacher_ece` | 0.0136 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].teacher_ece` | 4dp |
+| `s5.ctrl_tstar` | 0.98 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 2dp |
+| `s5.ctrl_ece_T1` | 0.0330 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.ctrl_ece_T1_sd` | 0.0020 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.ctrl_ece_085` | 0.0447 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[0].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.ctrl_ece_134` | 0.0647 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[2].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.ctrl_ece_170` | 0.1282 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[3].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.ctrl_ece_220` | 0.2109 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.ctrl_ece_220_sd` | 0.0034 | `p1_dose_response/two_dataset_overlay.json` | `arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.ctrl_ratio_085` | 5.9 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["0.85"].ratio` | 1dp |
+| `s5.ctrl_ratio_134` | 15.9 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["1.3406"].ratio` | 1dp |
+| `s5.ctrl_tstar_nll` | 0.983 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_nll` | 3dp |
+| `s5.ctrl_tstar_ece` | 1.057 | `paper_tables/tstar_sensitivity.json` | `results.vae9182.T_star_ece` | 3dp |
+| `s5.ref095_mean` | -0.0033 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["0.95"].mean` | 4dp |
+| `s5.ref095_sd` | 0.0042 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["0.95"].sd` | 4dp |
+| `s5.ref095_ratio` | 1.68 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["0.95"].ratio` | 2dp |
+| `s5.ref110_mean` | +0.0020 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["1.1"].mean` | 4dp |
+| `s5.ref110_sd` | 0.0045 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["1.1"].sd` | 4dp |
+| `s5.ref110_ratio` | 0.98 | `paper_tables/control_grid_refinement.json` | `gaps_vs_T1["1.1"].ratio` | 2dp |
+| `s5.ref095_ece` | 0.0296 | `paper_tables/control_grid_refinement.json` | `series["0.95"].ece_mean` | 4dp |
+| `s5.ref100_ece` | 0.0330 | `paper_tables/control_grid_refinement.json` | `series["1.0"].ece_mean` | 4dp |
+| `s5.miscal_seed1` | +0.0011 | `adaptive_t_headroom/adaptive_t_headroom.json` | `block_b_miscalibration_causal.d_ece_all[0]` | 4dp |
+| `s5.miscal_seed2` | -0.0053 | `adaptive_t_headroom/adaptive_t_headroom.json` | `block_b_miscalibration_causal.d_ece_all[1]` | 4dp |
+| `s5.miscal_mean` | -0.0021 | `adaptive_t_headroom/adaptive_t_headroom.json` | `block_b_miscalibration_causal.d_ece_mean` | 4dp |
+| `s5.miscal_sd` | 0.0045 | `adaptive_t_headroom/adaptive_t_headroom.json` | `block_b_miscalibration_causal.d_ece_sd` | 4dp |
+| `s5.fer_teacher_ece` | 0.1282 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].teacher_ece` | 4dp |
+| `s5.fer_signed_gap` | -0.1277 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].signed_gap` | 4dp |
+| `s5.fer_tstar` | 0.51 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 2dp |
+| `s5.fer_ece_T1` | 0.0783 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.fer_ece_T1_sd` | 0.0046 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[3].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.fer_ece_Tstar` | 0.0185 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.swa.ece_mean` | 4dp |
+| `s5.fer_ece_Tstar_sd` | 0.0016 | `p1_dose_response/two_dataset_overlay.json` | `arms.ferplus.points[1].by_ckpt.swa.ece_sd` | 4dp |
+| `s5.fer_d_pooled` | 17.4 | `paper_tables/inferential_tests.json` | `ferplus_effect.d_pooled` | 1dp |
+| `s5.fer_dz` | 18.3 | `paper_tables/inferential_tests.json` | `ferplus_effect.d_z_paired` | 1dp |
+| `s5.fer_pholm` | 0.003 | `paper_tables/inferential_tests.json` | `results[5].p_holm` | 3dp |
+| `s5.pooled_n1` | 14 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.n_points` | int |
+| `s5.pooled_rho_swa` | 0.789 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 3dp |
+| `s5.pooled_rho_best` | 0.895 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.best.spearman_abs_signed_gap` | 3dp |
+| `s5.pooled_rho_last` | 0.877 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.last.spearman_abs_signed_gap` | 3dp |
+| `s5.pooled_n2` | 14 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.n_points` | int |
+| `s5.pooled_n3` | 14 | `paper_tables/bootstrap_cis.json` | `results.pooled_rho.n_points` | int |
+| `s5.boot_rho` | 0.789 | `paper_tables/bootstrap_cis.json` | `results.pooled_rho.point` | 3dp |
+| `s5.boot_lo` | 0.577 | `paper_tables/bootstrap_cis.json` | `results.pooled_rho.ci95_cluster_bootstrap[0]` | 3dp |
+| `s5.boot_hi` | 1.000 | `paper_tables/bootstrap_cis.json` | `results.pooled_rho.ci95_cluster_bootstrap[1]` | 3dp |
+| `s5.pooled_signed` | -0.407 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_signed_gap` | 3dp |
+| `s5.collapse_510_mean` | -0.0391 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 5.10"].mean` | 4dp |
+| `s5.collapse_510_sd` | 0.0032 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 5.10"].sd` | 4dp |
+| `s5.collapse_1020_mean` | -0.0324 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 10.20"].mean` | 4dp |
+| `s5.collapse_1020_sd` | 0.0029 | `paper_tables/RESULTS_TABLES.json` | `T11_collapse.pairs["T·τ = 10.20"].sd` | 4dp |
+| `s5.tau_at_T170_mean` | +0.0042 | `paper_tables/tau_t_factorial.json` | `marginal_contrasts[0].d_ece_mean` | 4dp |
+| `s5.tau_at_T170_sd` | 0.0028 | `paper_tables/tau_t_factorial.json` | `marginal_contrasts[0].d_ece_sd` | 4dp |
+| `s5.tau_at_T085_mean` | -0.0025 | `paper_tables/tau_t_factorial.json` | `marginal_contrasts[2].d_ece_mean` | 4dp |
+| `s5.tau_at_T085_sd` | 0.0044 | `paper_tables/tau_t_factorial.json` | `marginal_contrasts[2].d_ece_sd` | 4dp |
+| `s5.T_at_tau6_mean` | -0.0349 | `paper_tables/tau_t_factorial.json` | `marginal_contrasts[1].d_ece_mean` | 4dp |
+| `s5.T_at_tau6_sd` | 0.0045 | `paper_tables/tau_t_factorial.json` | `marginal_contrasts[1].d_ece_sd` | 4dp |
+| `s5.alpha05_gap` | +0.0327 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.5"].mean` | 4dp |
+| `s5.alpha09_gap` | -0.0352 | `paper_tables/RESULTS_TABLES.json` | `T12_alpha.gaps["0.9"].mean` | 4dp |
+| `s5.asym_rafdb` | 1.77 | `paper_tables/asymmetry_estimand.json` | `comparisons[2].ratio_absolute` | 2dp |
+| `s5.asym_rafdb_lo` | 1.50 | `paper_tables/asymmetry_estimand.json` | `comparisons[2].ci_absolute[0]` | 2dp |
+| `s5.asym_rafdb_hi` | 2.13 | `paper_tables/asymmetry_estimand.json` | `comparisons[2].ci_absolute[1]` | 2dp |
+| `s5.asym_ferplus` | 2.04 | `paper_tables/asymmetry_estimand.json` | `comparisons[5].ratio_absolute` | 2dp |
+| `s5.asym_ferplus_lo` | 1.64 | `paper_tables/asymmetry_estimand.json` | `comparisons[5].ci_absolute[0]` | 2dp |
+| `s5.asym_ferplus_hi` | 2.48 | `paper_tables/asymmetry_estimand.json` | `comparisons[5].ci_absolute[1]` | 2dp |
+| `s5.asym_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
+| `s5.asym_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
+| `s5.asym_six_mean` | 1.74 | `paper_tables/asymmetry_estimand.json` | `summary.all_six.absolute.mean` | 2dp |
+| `s5.asym_six_sd` | 0.43 | `paper_tables/asymmetry_estimand.json` | `summary.all_six.absolute.sd` | 2dp |
+| `s5.asym_ctrl1_lo` | 0.89 | `paper_tables/asymmetry_estimand.json` | `comparisons[3].ci_absolute[0]` | 2dp |
+| `s5.asym_ctrl1_hi` | 2.19 | `paper_tables/asymmetry_estimand.json` | `comparisons[3].ci_absolute[1]` | 2dp |
+| `s5.asym_ctrl2_lo` | 0.90 | `paper_tables/asymmetry_estimand.json` | `comparisons[4].ci_absolute[0]` | 2dp |
+| `s5.asym_ctrl2_hi` | 1.46 | `paper_tables/asymmetry_estimand.json` | `comparisons[4].ci_absolute[1]` | 2dp |
+| `s5.params_ratio` | 3.16 | `p5_efficiency/p5_efficiency.json` | `params_spread_ratio` | 2dp |
+| `s5.capacity_span` | 0.00235 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.swa.capacity_span` | 5dp |
+| `s5.teacher_span` | 0.1780 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.swa.teacher_span` | 4dp |
+| `s5.lever_swa` | 76 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.swa.ratio` | int |
+| `s5.lever_best` | 79 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.best.ratio` | int |
+| `s5.lever_last` | 27 | `paper_tables/RESULTS_TABLES.json` | `T10_axis_spans.last.ratio` | int |
+| `s5.lever_im_swa` | 69 | `paper_tables/g42_init_matched_lever.json` | `rows[0].ratio_init_matched` | int |
+| `s5.lever_im_best` | 75 | `paper_tables/g42_init_matched_lever.json` | `rows[1].ratio_init_matched` | int |
+| `s5.lever_im_last` | 26 | `paper_tables/g42_init_matched_lever.json` | `rows[2].ratio_init_matched` | int |
+| `s5.head_dacc` | -0.02 | `vich_isolation/vich_isolation_verdict.json` | `paired_delta_linear_minus_vich.d_acc_mean` | 2dp |
+| `s5.head_dacc_sd` | 0.11 | `vich_isolation/vich_isolation_verdict.json` | `paired_delta_linear_minus_vich.d_acc_sd` | 2dp |
+| `s5.head_dece` | +0.0062 | `vich_isolation/vich_isolation_verdict.json` | `paired_delta_linear_minus_vich.d_ece_mean` | 4dp |
+| `s5.head_dece_sd` | 0.0015 | `vich_isolation/vich_isolation_verdict.json` | `paired_delta_linear_minus_vich.d_ece_sd` | 4dp |
+| `s5.head_pct` | 19 | `vich_isolation/vich_isolation_verdict.json` | `paired_delta_linear_minus_vich.ece_relative_reduction_pct` | int |
+| `s5.cap_dslope` | -0.006 | `a13_scratch_dose/a13_verdict.json` | `comparisons[1].d_slope` | 3dp |
+| `s5.cap_env` | 0.072 | `a13_scratch_dose/a13_verdict.json` | `comparisons[1].combined_envelope` | 3dp |
+| `s5.init_dslope` | -0.067 | `a13_scratch_dose/a13_verdict.json` | `comparisons[0].d_slope` | 3dp |
+| `s5.init_env` | 0.036 | `a13_scratch_dose/a13_verdict.json` | `comparisons[0].combined_envelope` | 3dp |
+| `s5.conf_dslope` | +0.061 | `a13_scratch_dose/a13_verdict.json` | `comparisons[2].d_slope` | 3dp |
+| `s5.conf_env` | 0.080 | `a13_scratch_dose/a13_verdict.json` | `comparisons[2].combined_envelope` | 3dp |
+| `s5.slope_s0712` | 0.655 | `a13_scratch_dose/a13_verdict.json` | `fits.scratch0712.slope` | 3dp |
+| `s5.slope_s2248` | 0.649 | `a13_scratch_dose/a13_verdict.json` | `fits.scratch2248.slope` | 3dp |
+| `s5.slope_p2248` | 0.716 | `a13_scratch_dose/a13_verdict.json` | `fits.pretrained2248.slope` | 3dp |
+| `s5.oracle_acc_stage1` | -0.22 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:oracle_error"].swa.acc.mean` | 2dp |
+| `s5.oracle_acc_stage1_sd` | 0.46 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:oracle_error"].swa.acc.sd_paired` | 2dp |
+| `s5.oracle_acc_primary` | -0.01 | `paper_tables/criterion_applied.json` | `cells["primary/gate:oracle_error"].swa.acc.mean` | 2dp |
+| `s5.oracle_acc_primary_sd` | 0.72 | `paper_tables/criterion_applied.json` | `cells["primary/gate:oracle_error"].swa.acc.sd_paired` | 2dp |
+| `s5.oracle_acc_vae` | -0.23 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.acc.mean` | 2dp |
+| `s5.oracle_acc_vae_sd` | 0.49 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.acc.sd_paired` | 2dp |
+| `s5.oracle_ece_vae` | +0.0056 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.ece.mean` | 4dp |
+| `s5.oracle_ece_vae_sd` | 0.0040 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.ece.sd_paired` | 4dp |
+| `s5.oracle_ece_vae_ratio` | 2.1 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.ece.ratio_vs_control_sd` | 1dp |
+| `s5.oracle_acc_vae_ratio` | 1.10 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.acc.ratio_vs_control_sd` | 2dp |
+| `s5.oracle_ece_vae_pratio` | 1.4 | `paper_tables/criterion_applied.json` | `cells["vae9182/gate:oracle_error"].swa.ece.ratio_vs_paired_sd` | 1dp |
+| `s5.oracle_p` | 0.134 | `paper_tables/inferential_tests.json` | `results[4].p_raw` | 3dp |
+| `s5.oracle_ece_stage1` | +0.0015 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:oracle_error"].swa.ece.mean` | 4dp |
+| `s5.oracle_ece_stage1_sd` | 0.0036 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:oracle_error"].swa.ece.sd_paired` | 4dp |
+| `s5.oracle_ece_primary` | +0.0004 | `paper_tables/criterion_applied.json` | `cells["primary/gate:oracle_error"].swa.ece.mean` | 4dp |
+| `s5.oracle_ece_primary_sd` | 0.0053 | `paper_tables/criterion_applied.json` | `cells["primary/gate:oracle_error"].swa.ece.sd_paired` | 4dp |
+| `s5.mde_pct_min` | 3.2 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_min` | 1dp |
+| `s5.mde_pct_max` | 19.4 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_max` | 1dp |
+| `s5.ctrl_level_vae` | 0.028 | `paper_tables/control_sd_mde.json` | `rows[checkpoint=swa][axis=ece][teacher=vae9182][class_weight_mode=none].control_level` | 3dp |
+| `s5.g2g_ece` | -0.0042 | `paper_tables/criterion_applied.json` | `cells["stage1/g2g_kl"].swa.ece.mean` | 4dp |
+| `s5.g2g_ece_sd` | 0.0004 | `paper_tables/criterion_applied.json` | `cells["stage1/g2g_kl"].swa.ece.sd_paired` | 4dp |
+| `s5.g2g_ratio` | 3.6 | `paper_tables/criterion_applied.json` | `cells["stage1/g2g_kl"].swa.ece.ratio_vs_control_sd` | 1dp |
+| `s5.g2g_pratio` | 11.9 | `paper_tables/criterion_applied.json` | `cells["stage1/g2g_kl"].swa.ece.ratio_vs_paired_sd` | 1dp |
+| `s5.adaptive_stage1` | -0.0011 | `paper_tables/criterion_applied.json` | `cells["stage1/adaptive_t"].swa.ece.mean` | 4dp |
+| `s5.adaptive_stage1_sd` | 0.0033 | `paper_tables/criterion_applied.json` | `cells["stage1/adaptive_t"].swa.ece.sd_paired` | 4dp |
+| `s5.adaptive_primary` | +0.0023 | `paper_tables/criterion_applied.json` | `cells["primary/adaptive_t"].swa.ece.mean` | 4dp |
+| `s5.adaptive_primary_ratio` | 1.5 | `paper_tables/criterion_applied.json` | `cells["primary/adaptive_t"].swa.ece.ratio_vs_control_sd` | 1dp |
+| `s5.adaptive_vae` | -0.0042 | `paper_tables/criterion_applied.json` | `cells["vae9182/adaptive_t"].swa.ece.mean` | 4dp |
+| `s5.adaptive_vae_ratio` | 2.10 | `paper_tables/criterion_applied.json` | `cells["vae9182/adaptive_t"].swa.ece.ratio_vs_control_sd` | 2dp |
+| `s5.auroc_vae` | 0.46 | `rafdb_signal_quality/signal_quality_table.json` | `[teacher=VAE9182][signal=target_logvar].auroc_signed` | 2dp |
+| `s5.auroc_stage1` | 0.70 | `rafdb_signal_quality/signal_quality_table.json` | `[teacher=Stage1][signal=target_logvar].auroc_signed` | 2dp |
+| `s5.auroc_primary` | 0.84 | `rafdb_signal_quality/signal_quality_table.json` | `[teacher=Primary][signal=target_logvar].auroc_signed` | 2dp |
+| `s5.ls_acc_min` | -0.12 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|vae9182"].d_acc_mean` | 2dp |
+| `s5.ls_acc_max` | -0.58 | `paper_tables/noise_units.json` | `nine_cell_grid["last|vae9182"].d_acc_mean` | 2dp |
+| `s5.ls_ece_min` | +0.086 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|primary"].d_ece_mean` | 3dp |
+| `s5.ls_ece_max` | +0.139 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|vae9182"].d_ece_mean` | 3dp |
+| `s5.ls_ece_last` | +0.159 | `paper_tables/noise_units.json` | `nine_cell_grid["last|vae9182"].d_ece_mean` | 3dp |
+| `s5.ls_acc_units` | 2.4 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|primary"].acc_units` | 1dp |
+| `s5.ls_ece_units_min` | 57 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|primary"].ece_units` | int |
+| `s5.ls_ece_units_max` | 77 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|stage1"].ece_units` | int |
+| `s5.ls_ratio_median` | 27 | `paper_tables/noise_units.json` | `summary.median` | int |
+| `s5.ls_ratio_swa_min` | 23 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|primary"].ratio` | int |
+| `s5.ls_ratio_floor` | 2.6 | `paper_tables/noise_units.json` | `summary.min` | 1dp |
+| `s5.ls_vae_dacc` | -0.12 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|vae9182"].d_acc_mean` | 2dp |
+| `s5.ls_vae_sigma_acc` | 0.37 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|vae9182"].sigma_acc` | 2dp |
+| `s5.ls_vae_ece_units` | 69 | `paper_tables/noise_units.json` | `nine_cell_grid["swa|vae9182"].ece_units` | int |
+| `s5.ls_pholm` | 0.003 | `paper_tables/inferential_tests.json` | `results[2].p_holm` | 3dp |
+| `s5.gate_near_miss` | 1.97 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:target_logvar"].swa.ece.ratio_vs_control_sd` | 2dp |
+| `s5.gate_acc_ratio` | 2.51 | `paper_tables/criterion_applied.json` | `cells["stage1/gate:target_logvar"].swa.acc.ratio_vs_control_sd` | 2dp |
+| `s5.auroc_primary2` | 0.84 | `rafdb_signal_quality/signal_quality_table.json` | `[teacher=Primary][signal=target_logvar].auroc_signed` | 2dp |
+| `s5.gate_smallest` | 0.23 | `paper_tables/criterion_applied.json` | `cells["primary/gate:target_logvar"].swa.ece.ratio_vs_control_sd` | 2dp |
+| `s5.auroc_stage1_2` | 0.70 | `rafdb_signal_quality/signal_quality_table.json` | `[teacher=Stage1][signal=target_logvar].auroc_signed` | 2dp |
+| `s5.teacher_acc_stage1` | 92.24 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].teacher_acc` | 2dp |
+| `s5.teacher_acc_primary` | 92.01 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].teacher_acc` | 2dp |
+| `s5.teacher_acc_vae` | 91.82 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].teacher_acc` | 2dp |
+| `s5.teacher_ece_stage1` | 0.0378 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=stage1].teacher_ece` | 4dp |
+| `s5.teacher_ece_primary` | 0.0396 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=primary].teacher_ece` | 4dp |
+| `s5.teacher_ece_vae` | 0.0136 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.rows[teacher=vae9182].teacher_ece` | 4dp |
+| `s5.rank_acc_swa` | -0.87 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.per_checkpoint.by_ckpt.swa.spearman_teacherACC_vs_studentACC` | 2dp |
+| `s5.rank_acc_best` | -0.50 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.per_checkpoint.by_ckpt.best.spearman_teacherACC_vs_studentACC` | 2dp |
+| `s5.rank_ece_swa` | +0.87 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.per_checkpoint.by_ckpt.swa.spearman_negTeacherECE_vs_studentACC` | 2dp |
+| `s5.rank_ece_best` | +1.00 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.per_checkpoint.by_ckpt.best.spearman_negTeacherECE_vs_studentACC` | 2dp |
+| `s5.tie_swa` | 89.60 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.per_checkpoint.by_ckpt.swa.student_acc.stage1` | 2dp |
+| `s5.sel_cost_best` | 0.52 | `p4_teacher_selection/p4_teacher_selection.json` | `recipe_step3_ranking.cost_of_wrong_pick_pp` | 2dp |
+| `s5.largest_mech_acc` | 0.41 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `s4.rafdb_rows_total` | 15339 | `paper_tables/split_identity.json` | `datasets["RAF-DB"].rows_total` | int |
+| `s4.rafdb_n_train` | 12271 | `paper_tables/split_identity.json` | `datasets["RAF-DB"].n_train` | int |
+| `s4.rafdb_n_reporting` | 3068 | `paper_tables/split_identity.json` | `datasets["RAF-DB"].n_reporting` | int |
+| `s4.ferplus_n_train` | 28259 | `paper_tables/split_identity.json` | `datasets["FERPlus"].n_train` | int |
+| `s4.ferplus_n_reporting` | 3153 | `paper_tables/split_identity.json` | `datasets["FERPlus"].n_reporting` | int |
+| `related_work.student_params_m` | 2.25 | `p5_efficiency/capacity_law_check.json` | `capacity_cells_at_T1.w100ns.params_m` | 2dp |

@@ -56,6 +56,7 @@ A_LAT = "p5_efficiency/latency_benchmark.json"
 A_SG = "selection_audit/selection_gain.json"
 A_OST = "paper_tables/order_stat_trend.json"
 A_FSJ = "ferplus_jsd/ferplus_student_jsd.json"
+A_FJ = "ferplus_jsd/ferplus_jsd.json"
 A_R3W = "paper_tables/r3w1_joint_optimum.json"
 A_JCA = "paper_tables/jsd_collapse_audit.json"
 A_ASY = "paper_tables/asymmetry_estimand.json"
@@ -72,6 +73,9 @@ A_ROB = "paper_tables/robustness_metrics.json"
 A_BOOT = "paper_tables/bootstrap_cis.json"
 A_HGA = "paper_tables/headroom_grid_audit.json"
 A_JSD = "paper_tables/jsd_sensitivity.json"
+A_ABS = "paper_tables/ferplus_abstention_entropy.json"
+A_SPL = "paper_tables/split_identity.json"
+A_STS = "paper_tables/student_ts_baseline.json"
 
 BINDINGS = []      # alan baglari
 DERIVED = []       # turetilmis nicelikler
@@ -581,19 +585,19 @@ ex("tab_collapse", -1, "= 0.5 and reverses sign by = 0.9", None, "hyperparameter
 # =============================================================================
 # 13 · abstract — manset sayilar
 # =============================================================================
-b("abstract", -1, "pooled Spearman = 0.79 ) while accuracy stays within", 0, A_TDO,
+b("abstract", -1, "branch (pooled Spearman =", 0, A_TDO,
   "pooled_stats.swa.spearman_abs_signed_gap", "2dp", ident="abstract.pooled_rho")
-b("abstract", -1, "stochastic-weight-averaging checkpoints because a 13", 0, A_SG,
+b("abstract", -1, "stochastic-weight-averaging checkpoints", 0, A_SG,
   "audit_deltas.b_best_minus_last.n", "int", ident="abstract.audit_n_runs")
-b("abstract", -1, "best-validation-accuracy selection inflates accuracy", 0, A_SG,
+b("abstract", -1, "+0.77 percentage points over the final", 0, A_SG,
   "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="abstract.selection_inflation")
 # Asimetri araligi: iki UC, ikisi de alan. Ozetin "1.8--2.0x"i, ARA DEGERLENDIRME yapilmamis
 # (extrapole edilmemis) iki karsilastirmanin min/max'i -- artefaktin kendi ozet blogu.
-b("abstract", -1, "over-confidence costs 1.8", 0, A_ASY,
+b("abstract", -1, "over-confidence is 1.8", 0, A_ASY,
   "summary.interpolated_only.absolute.min", "1dp", ident="abstract.asymmetry_min")
-b("abstract", -1, "over-confidence costs 1.8", 1, A_ASY,
+b("abstract", -1, "over-confidence is 1.8", 1, A_ASY,
   "summary.interpolated_only.absolute.max", "1dp", ident="abstract.asymmetry_max")
-b("abstract", -1, "standardisation harms calibration at a media", 0, A_NU, "summary.median",
+b("abstract", -1, "calibration-to-accuracy harm ratio of", 0, A_NU, "summary.median",
   "int", ident="abstract.logitstd_noise_median")
 
 
@@ -674,19 +678,19 @@ dv("selection_cost_best_caption", "0.52", "diff",
 dv("ece_reduction_min", "41", "pct_drop",
    [op(A_TDO, "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean"),
     op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean")],
-   "int", "abstract", -1, "41 -- 76 % at no accuracy cost", 0,
+   "int", "abstract", -1, "teacher cuts student calibration error", 0,
    note="Stage1: T=1 -> T=1.3406 (dagitilan kol), @SWA ogrenci ECE'si")
 dv("ece_reduction_max", "76", "pct_drop",
    [op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.ece_mean"),
     op(A_TDO, "arms.ferplus.points[1].by_ckpt.swa.ece_mean")],
-   "int", "abstract", -1, "41 -- 76 % at no accuracy cost", 1,
+   "int", "abstract", -1, "teacher cuts student calibration error", 1,
    note="FERPlus: T=1 -> T=0.5063 (dagitilan kol), @SWA ogrenci ECE'si")
 # Ozetin "accuracy stays within 0.51 pp"i: KOL ICI dogruluk acikligi, uc kolun EN GENISI.
 # §3.6 ayni niceligi iki RAF-DB kolu icin veriyor (0.30 ve 0.51), yani estimand adlandirilmis.
 dv("accuracy_band_widest_arm", "0.51", "diff",
    [op(A_TDO, "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"),
     op(A_TDO, "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean")],
-   "2dp", "abstract", -1, "pooled Spearman = 0.79 ) while accuracy stays within", 1,
+   "2dp", "abstract", -1, "band stays within", 0,
    note="VAE9182 kolunun en yuksek (T=1.3406) ve en dusuk (T=1.70) @SWA dogrulugu; olculen kol "
         "aciklikleri 0.304 / 0.511 / 0.486, ozet en genisi basiyor")
 # §3.2, DUZYAZI -- kapsam disi metinden TEK TEK beyanla iceri alinan iki uc. Fatih'in 17 Agu
@@ -815,8 +819,7 @@ ex("robust", -1, "T = 1 minus the minimum over the grid", 0, "hyperparameter",
 ex("robust", -1, "[+0.0151", 2, "teacher_name_digits", "'stage1' adinin icindeki basamak")
 ex("robust", -1, "0.74 in every slice holding at least", 1, "criterion_constant",
    "kesit buyuklugu esigi 1{,}000 satir -- olcut, olcum degil")
-ex("robust", -1, "0.74 in every slice holding at least", 2, "criterion_constant",
-   "ayni esigin ikinci jetonu (1{,}000 -> '1' + '000')")
+# (binlik ayraci duzeltilince `1{,}000` tek jeton oldu; ikinci muafiyet dustu)
 b("robust", -1, "the ECE minimum costs at most", 0, A_TSS, "max_d_ece", "4dp",
   ident="robust.max_criterion_cost")
 b("robust", -1, "two criteria disagree in direction", 0, A_TSS, "results.vae9182.T_star_nll",
@@ -890,6 +893,1783 @@ SPECS_EX = [
 ]
 for _row, _idx, _cls, _why in SPECS_EX:
     ex("specs", -1, _row, _idx, _cls, _why)
+
+
+# =============================================================================
+# 14 · ANA GOVDE DUZYAZISI (N19, 20 Agu 2026) — kapsam acildi
+# =============================================================================
+# NEDEN SIMDI. Kapsam ERTELENMISTI ve gerekcesi yaziliydi: "hareket eden hedefi baglamak curuk
+# bag uretir". Bastan sona okuma 20 Agu'da bitti, duzyazi sabitlendi, erteleme sartinin kendisi
+# ortadan kalkti. Tarayici artik `sections/*.tex`i de goruyor (paper_number_scan.SECTION_FILES).
+#
+# BU BLOKTA BIR BAG BILEREK "YANLIS": `intro.orderstat_k50` ve `related_work.orderstat_k50`.
+# Makale §1:151 ve §2:229'da "+0.65" basiyor; alan
+# `selection_gain.per_k["50"].a2_pure_order_statistic.mean` = 0.6445305842767274, yani 2 basamakta
+# 0.64. 0.65 ancak CIFT YUVARLAMAYLA cikiyor: 0.6445 -> 0.645 (3 basamak, ki makale §4:150,
+# §5:781 ve tab_selection_audit:25'te DOGRU basiyor) -> 0.65. Kampanyanin kendi kurali bunu
+# yasakliyor ("turetilmis nicelik basili yuvarlanmis degerden hesaplanmaz"). Bag KURULUYOR ki
+# kapi kirmizi kalsin ve makale tarafinda duzelene kadar gorunur olsun -- rapora saklanan bir
+# kusur, kapinin gormedigi bir kusurdur.
+
+# --- §1 giris
+b("01_introduction", -1, "branch in all nine seed curves", 0, A_TDO,
+  "pooled_stats.swa.n_points", "int", ident="intro.pooled_n_points")
+b("01_introduction", -1, "the three series yields a rank", 0, A_TDO,
+  "pooled_stats.swa.spearman_abs_signed_gap", "2dp", ident="intro.pooled_rho")
+b("01_introduction", -1, "over-confident teacher leaves the student", 0, A_ASY,
+  "comparisons[2].ratio_absolute", "2dp", ident="intro.asym_rafdb")
+b("01_introduction", -1, "2.04 on FERPlus", 0, A_ASY,
+  "comparisons[5].ratio_absolute", "2dp", ident="intro.asym_ferplus")
+b("01_introduction", -1, "calibration error by", 0, A_NU,
+  'nine_cell_grid["swa|primary"].d_ece_mean', "3dp", ident="intro.logitstd_dece_min")
+b("01_introduction", -1, "calibration error by", 1, A_NU,
+  'nine_cell_grid["swa|vae9182"].d_ece_mean', "3dp", ident="intro.logitstd_dece_max")
+b("01_introduction", -1, "its effect on accuracy by a median", 0, A_NU, "summary.median",
+  "int", ident="intro.logitstd_noise_median")
+b("01_introduction", -1, "( T^ * _ ECE", 0, A_TSS, "results.ferplus.T_star_ece", "2dp",
+  ident="intro.tstar_ece_ferplus")
+b("01_introduction", -1, "Jensen--Shannon divergence", 0, A_FJ, "T_star_jsd.T", "2dp",
+  ident="intro.tstar_jsd_ferplus")
+b("01_introduction", -1, "( 0.412 vs.", 0, A_FJ,
+  "entropy_correlation.T_jsd.teacher_mean_entropy", "3dp", ident="intro.teacher_entropy_tjsd")
+b("01_introduction", -1, "( 0.412 vs.", 1, A_FJ, "human_mean_entropy", "3dp",
+  ident="intro.human_entropy")
+b("01_introduction", -1, "reporting. Auditing a frozen corpus", 0, A_SG,
+  "audit_deltas.b_best_minus_last.n", "int", ident="intro.audit_n_runs")
+b("01_introduction", -1, "+0.77 pp on average", 0, A_SG,
+  "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="intro.selection_inflation")
+# CIFT YUVARLAMA VAKASI -- yukaridaki blok basligina bakiniz.
+b("01_introduction", -1, "component +0.65 to +0.76", 0, A_SG,
+  'per_k["50"].a2_pure_order_statistic.mean', "2dp", ident="intro.orderstat_k50")
+b("01_introduction", -1, "component +0.65 to +0.76", 1, A_SG,
+  'per_k["100"].a2_pure_order_statistic.mean', "2dp", ident="intro.orderstat_k100")
+b("01_introduction", -1, "calibration error under over-confidence", 0, A_ASY,
+  "summary.interpolated_only.absolute.min", "1dp", ident="intro.asymmetry_min")
+b("01_introduction", -1, "calibration error under over-confidence", 1, A_ASY,
+  "summary.interpolated_only.absolute.max", "1dp", ident="intro.asymmetry_max")
+b("01_introduction", -1, "(The compression setting itself", 0, A_EFF,
+  "compression.params_ratio", "1dp", ident="intro.compression_ratio")
+b("01_introduction", -1, "retaining 97.96", 0, A_EFF, "headline.retention_pct_swa", "2dp",
+  ident="intro.retention_swa")
+b("01_introduction", -1, "asymmetry are post-hoc. (5)", 1, A_SG,
+  "audit_deltas.b_best_minus_last.n", "int", ident="intro.audit_n_runs_2")
+
+# Kol ICI dogruluk acikligi: iki nokta arasi FARK, tek alan degil -- turetilmis.
+dv("intro.acc_band_stage1", "0.30", "diff",
+   [op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "01_introduction", -1, "contrast stays within narrow bands", 0,
+   note="stage1 kolunun @swa dogruluk acikligi: T*=1.3406 eksi T=1.70")
+dv("intro.acc_band_vae9182", "0.51", "diff",
+   [op(A_TDO, "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "01_introduction", -1, "supported 0.51 pp on its control", 0,
+   note="kontrol kolunun @swa dogruluk acikligi")
+dv("intro.acc_decline_ferplus", "0.49", "diff",
+   [op(A_TDO, "arms.ferplus.points[0].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "01_introduction", -1, "supported 0.51 pp on its control", 1,
+   note="FERPlus kolunda T=0.26 ile T=1.0 arasi @swa dogruluk farki")
+
+INTRO_EX = [
+    ("both pathologies:", 0, "criterion_constant", "T^*>1 esik tanimi, olcum degil"),
+    ("( T^ * < 1 )", 0, "criterion_constant", "T^*<1 esik tanimi"),
+    ("to correct every pre-declared", 0, "hyperparameter", "on-beyanli kalkis noktasi T=1"),
+    ("student's calibration and a finer", 0, "hyperparameter", "ince izgaranin merkezi T=1"),
+    ("2.04 on FERPlus", 1, "null_value", "bootstrap araliginin disladigi NULL deger 1"),
+]
+for _row, _idx, _cls, _why in INTRO_EX:
+    ex("01_introduction", -1, _row, _idx, _cls, _why)
+
+# --- §2 ilgili calismalar
+b("02_related_work", -1, "1.8 -- 2.0 that under", 0, A_ASY,
+  "summary.interpolated_only.absolute.min", "1dp", ident="related_work.asymmetry_min")
+b("02_related_work", -1, "1.8 -- 2.0 that under", 1, A_ASY,
+  "summary.interpolated_only.absolute.max", "1dp", ident="related_work.asymmetry_max")
+b("02_related_work", -1, "T^ * _ ECE", 0, A_TSS, "results.ferplus.T_star_ece", "2dp",
+  ident="related_work.ferplus_tstar_ece")
+b("02_related_work", -1, "divergence from the votes", 0, A_JSD,
+  'results["(a) all rows"].T_jsd', "2dp", ident="related_work.ferplus_tstar_jsd")
+b("02_related_work", -1, "amount (", 0, A_SG,
+  "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="related_work.selection_inflation")
+# CIFT YUVARLAMA VAKASI (ikinci gecis).
+b("02_related_work", -1, "amount (", 1, A_SG,
+  'per_k["50"].a2_pure_order_statistic.mean', "2dp", ident="related_work.orderstat_k50")
+b("02_related_work", -1, "amount (", 2, A_OST, 'results["100"].a2_raw.mean', "2dp",
+  ident="related_work.orderstat_k100")
+
+RELATED_EX = [
+    ("temperature over", i, "citation",
+     "alintilanan calismanin kendi sicaklik izgarasi (2/4/8/16/20/32/64) -- bizim olcumumuz degil")
+    for i in range(7)
+]
+for _row, _idx, _cls, _why in RELATED_EX:
+    ex("02_related_work", -1, _row, _idx, _cls, _why)
+
+# --- §6 sonuc
+CONCL_EX = [
+    ("near = 0.5 and rev", 0, "hyperparameter", "alpha=0.5, karisim agirligi"),
+    ("near = 0.5 and rev", 1, "hyperparameter", "alpha=0.9, karisim agirligi"),
+    ("peak benefit. The = 0.3 used", 0, "hyperparameter", "kampanya boyunca kullanilan alpha=0.3"),
+    ("(archived at https://doi.org/10.5281", 0, "doi",
+     "Zenodo DOI onekinin sayisal parcasi (10.5281) -- tanimlayici, olcum degil"),
+]
+for _row, _idx, _cls, _why in CONCL_EX:
+    ex("06_conclusion", -1, _row, _idx, _cls, _why)
+
+
+# --- Okumanin isaretledigi dort sayi (N19, 20 Agu 2026) -----------------------------------
+# ORTAK DERS: dordunun de sorusu "hangi PAYDA" idi. Bir oranin paydasi cumlede adlandirilmali
+# (17 Agu kurali); burada alan yolu olarak da duruyor.
+
+# (1) §3.5 — oy toplami 10'dan kucuk olan satirlarin orani. IKI FARKLI PAYDA:
+#     %29,3 -> TUREV dosyasinin TAMAMI (uc fold, 31412 satir)
+#     %37,3 -> YALNIZ dogrulama fold'u (3153 satir)
+# Ikisi ayni cumlede yan yana duruyor ve ayni sayi degiller; ayni alana baglanamazlar.
+# %29,3'un ureticisi 20 Agu'da yazildi (ferplus_abstention_entropy, `--` filtresiz sayim);
+# N16'dan beri "ureticisi yok" diye kayitliydi.
+b("03_methodology", -1, "( 29.3 % of all rows", 0, A_ABS, "share_below_ten_all_folds", "1dp",
+  ident="methodology.votes_below_ten_all_folds")
+dv("methodology.votes_below_ten_val", "37.3", "pct_of",
+   [op(A_ABS, "rows_with_abstention"), op(A_ABS, "n_val")],
+   "1dp", "03_methodology", -1, "( 29.3 % of all rows", 1,
+   note="dogrulama fold'unda 10'a tamamlanmayan satir orani; payda n_val=3153")
+dv("methodology.abstention_mass_val", "37.3", "pct_of",
+   [op(A_ABS, "rows_with_abstention"), op(A_ABS, "n_val")],
+   "1dp", "03_methodology", -1, "canonical file every row sums to exactly ten", 0,
+   note="ayni cumlenin ikinci yarisi: kanonik dosyada unknown/NF'ye kutle koyan satirlar. "
+        "Kanonik dosyada her satir tam 10'a topladigi icin bu kume 10'dan kucuk toplayan "
+        "satirlarla BIREBIR ayni -- ayni alan, ama iddia farkli, o yuzden ayri beyan.")
+
+# (2) §5 — ogrenci-tarafi TS ile ogretmen-tarafi T* kolunun JSD'si ve FARKI.
+# BASILI 0.0041, YUVARLANMIS operandlardan 0.0042 cikar. Yani makale DOGRU yapmis: fark
+# yuvarlanmamis alanlardan aliniyor. Defter de oyle hesaplar (operandlar tam duyarlikta).
+b("05_results_discussion", -1, "entirely outside the same margin", 0, A_STS,
+  "aggregate.jsd.student_ts[0]", "4dp", ident="results.jsd_student_ts")
+b("05_results_discussion", -1, "entirely outside the same margin", 1, A_STS,
+  "aggregate.jsd.tstar_arm[0]", "4dp", ident="results.jsd_tstar_arm")
+dv("results.jsd_gap_student_ts", "0.0041", "diff",
+   [op(A_STS, "aggregate.jsd.tstar_arm[0]"), op(A_STS, "aggregate.jsd.student_ts[0]")],
+   "4dp", "05_results_discussion", -1, "student-scaled arm's JSD is lower by", 0,
+   note="TAM DUYARLIKTA fark 0.004145559676890273 -> 0.0041. Basili operandlardan "
+        "(0.0587-0.0545) 0.0042 cikar; makale yuvarlanmamis alanlardan hesaplamis.")
+
+# (3) §5 — FERPlus best-swa ECE farki ve ONUN ECE SEVIYESINE ORANI, iki paydayla.
+b("05_results_discussion", -1, "+0.0069 (SD", 0, A_SAI,
+  'datasets["FERPlus"].contrasts["best-swa"].ece.mean', "4dp",
+  ident="results.ferplus_best_swa_ece")
+dv("results.ferplus_ece_share_low", "13", "pct_of",
+   [op(A_SAI, 'datasets["FERPlus"].contrasts["best-swa"].ece.mean'),
+    op(A_SAI, 'datasets["FERPlus"].contrasts["best-swa"].ece_scale_denominators["mean ECE @best"]')],
+   "int", "05_results_discussion", -1, "0.020 ; 13 -- 15 % of the ECE level", 1,
+   note="araligin ALT ucu; payda 'mean ECE @best' = 0.05435748884887785 -> %12,66 -> 13")
+dv("results.ferplus_ece_share_high", "15", "pct_of",
+   [op(A_SAI, 'datasets["FERPlus"].contrasts["best-swa"].ece.mean'),
+    op(A_SAI, 'datasets["FERPlus"].contrasts["best-swa"].ece_scale_denominators["median ECE @swa"]')],
+   "int", "05_results_discussion", -1, "0.020 ; 13 -- 15 % of the ECE level", 2,
+   note="araligin UST ucu; payda 'median ECE @swa' = 0.045957979335884726 -> %14,97 -> 15. "
+        "UCUNCU payda ('mean ECE @swa', %14,50) aralik ICINDE kaldigi icin ayrica basilmiyor. "
+        "DIKKAT: §3'teki '13--14 times' BASKA BIR NICELIKTIR -- boyutsuz KAT (ece_removed_by_ts "
+        "/ d_ece), yuzde degil; defterde `tstar_criterion_cost_min/max` olarak ayri kayitli. "
+        "Resiprok da degiller (1/13.31 = %7,5), yani ayni ifadenin iki yazilisi diye okunamaz.")
+
+# (4) §5 — iki optimumun goreli farki. YENI turetilmis nicelik (okuma turunda eklendi).
+dv("results.tstar_gap_pct", "63", "pct_excess",
+   [op(A_FJ, "T_star_jsd.T"), op(A_TSS, "results.ferplus.T_star_ece")],
+   "int", "05_results_discussion", -1, "63 % in T", 0,
+   note="PAYDA T*_ECE: (T*_JSD - T*_ECE) / T*_ECE = (0.74-0.45305)/0.45305 = %63,3. "
+        "Ilk denemede `pct_drop` kullanildi (payda T*_JSD) ve 39 verdi; defter bunu "
+        "derived_mismatch olarak dusurdu, formul duzeltildi. Iki payda arasindaki fark "
+        "24 puan -- yani 'bir oranin paydasi cumlede adlanmali' kurali burada 24 puanlik "
+        "bir hatayi engelledi.")
+
+
+# --- §3 / §4 / §5 govde duzyazisi (N19, 20 Agu 2026) --------------------------------------
+# 824 duzyazi jetonunun 765'i bu uc dosyada. Beyanlar birim birim uretildi ve HER BIRI defterde
+# sayisal olarak dogrulaniyor: tutmayan bag rounding_mismatch / binding_matched_nothing /
+# derived_mismatch verir. Muafiyetler mevcut siniflara dusuyor; iki yeni sinif onerildi
+# (`scientific_notation`, `doi`) ve gerekceleri asagida her satirda yazili.
+
+# --- 03_methodology
+b("03_methodology", -1, "T = 0.5063 is the minimiser", 0, A_HGA,
+  "grids.run.T_argmin", "4dp", ident="meth.ferplus_deployed_arm_is_argmin")
+b("03_methodology", -1, "reduction of 0.1126", 0, A_HGA,
+  "grids.run.headroom", "4dp", ident="meth.ferplus_run_grid_reduction")
+b("03_methodology", -1, "reduction of 0.1126", 1, A_HGA,
+  "grids.fine.grid.n", "int", ident="meth.ferplus_fine_grid_n")
+b("03_methodology", -1, "reduction of 0.1126", 2, A_HGA,
+  "grids.fine.grid.step", "2dp", ident="meth.ferplus_fine_grid_step")
+b("03_methodology", -1, "T = 0.46 and reach", 0, A_HGA,
+  "grids.fine.T_argmin", "2dp", ident="meth.ferplus_fine_argmin_T")
+b("03_methodology", -1, "T = 0.46 and reach", 1, A_HGA,
+  "grids.fine.headroom", "4dp", ident="meth.ferplus_fine_headroom")
+b("03_methodology", -1, "the four teachers the two criteria differ", 0, A_TSS,
+  "max_abs_dT", "3dp", ident="meth.max_criterion_dT")
+b("03_methodology", -1, "and the ECE cost of fitting by NLL", 0, A_TSS,
+  "max_d_ece", "4dp", ident="meth.max_criterion_cost")
+b("03_methodology", -1, "it rather than smooth it over", 1, A_TSP,
+  "half_fold_fits.stage1", "4dp", ident="meth.stage1_half_fold_fit")
+b("03_methodology", -1, "fold which returns 1.3494", 0, A_TSS,
+  "results.stage1.T_star_nll", "4dp", ident="meth.stage1_full_fold_fit")
+b("03_methodology", -1, "SHA-sorted split) moves it", 0, "paper_tables/tstar_stability.json",
+  "results.primary.absdiff_nll_A_B", "3dp", ident="meth.halfsplit_shift_rafdb_max")
+b("03_methodology", -1, "teachers and 0.026 on FERPlus", 0, "paper_tables/tstar_stability.json",
+  "results.ferplus.absdiff_nll_A_B", "3dp", ident="meth.halfsplit_shift_ferplus")
+b("03_methodology", -1, "(MobileNetV2Plus 2.248", 1, A_EFF,
+  "student.params_m", "3dp", ident="meth.student_params_m")
+b("03_methodology", -1, "(MobileNetV2Plus 2.248", 2, A_EFF,
+  "student.flops_g", "3dp", ident="meth.student_gmacs")
+b("03_methodology", -1, "already well calibrated (VAE9182", 1, A_HR,
+  "rafdb_teachers.vae9182.ece_T1", "4dp", ident="meth.control_teacher_ece_T1")
+b("03_methodology", -1, "T^ * = 0.983 headroom", 0, A_TSS,
+  "results.vae9182.T_star_nll", "3dp", ident="meth.control_tstar_nll")
+b("03_methodology", -1, "T^ * = 0.983 headroom", 1, A_BOOT,
+  "results.vae9182.point.headroom_eq8", "4dp", ident="meth.control_headroom_point")
+b("03_methodology", -1, "of [+0.0000", 0, A_BOOT,
+  "results.vae9182.ci95.headroom_eq8[0]", "4dp", ident="meth.control_headroom_ci_lo")
+b("03_methodology", -1, "of [+0.0000", 1, A_BOOT,
+  "results.vae9182.ci95.headroom_eq8[1]", "4dp", ident="meth.control_headroom_ci_hi")
+b("03_methodology", -1, "of magnitude below the other two teachers", 0, A_BOOT,
+  "results.stage1.point.headroom_eq8", "4dp", ident="meth.stage1_headroom_point_boot")
+b("03_methodology", -1, "[+0.0151", 0, A_BOOT,
+  "results.stage1.ci95.headroom_eq8[0]", "4dp", ident="meth.stage1_headroom_ci_lo")
+b("03_methodology", -1, "[+0.0151", 1, A_BOOT,
+  "results.stage1.ci95.headroom_eq8[1]", "4dp", ident="meth.stage1_headroom_ci_hi")
+b("03_methodology", -1, "[+0.0151", 2, A_BOOT,
+  "results.primary.point.headroom_eq8", "4dp", ident="meth.primary_headroom_point_boot")
+b("03_methodology", -1, "[+0.0151", 3, A_BOOT,
+  "results.primary.ci95.headroom_eq8[0]", "4dp", ident="meth.primary_headroom_ci_lo")
+b("03_methodology", -1, "[+0.0151", 4, A_BOOT,
+  "results.primary.ci95.headroom_eq8[1]", "4dp", ident="meth.primary_headroom_ci_hi")
+b("03_methodology", -1, "over-confident --- sMG>0", 1, A_TSS,
+  "results.stage1.T_star_nll", "3dp", ident="meth.stage1_tstar_nll_3dp")
+b("03_methodology", -1, "dose grid as T = 1.34", 1, A_HR,
+  "rafdb_teachers.stage1.headroom_eq8", "3dp", ident="meth.stage1_headroom_eq8_review")
+b("03_methodology", -1, "teacher is under-confident", 0, A_TDO,
+  "arms.ferplus.points[3].signed_gap", "3dp", ident="meth.ferplus_signed_gap_T1")
+b("03_methodology", -1, "teacher is under-confident", 1, A_TSS,
+  "results.ferplus.T_star_nll", "2dp", ident="meth.ferplus_tstar_nll_2dp")
+b("03_methodology", -1, "headroom 0.113 on the grid", 0, A_HGA,
+  "grids.run.headroom", "3dp", ident="meth.ferplus_run_headroom_3dp")
+b("03_methodology", -1, "headroom 0.113 on the grid", 1, A_HGA,
+  "grids.fine.grid.step", "2dp", ident="meth.ferplus_fine_step_2")
+b("03_methodology", -1, "refinement would reach 0.120", 0, A_HGA,
+  "grids.fine.headroom", "3dp", ident="meth.ferplus_fine_headroom_3dp")
+b("03_methodology", -1, "coincide: T^ * _ ECE", 0, A_TSS,
+  "results.ferplus.T_star_ece", "3dp", ident="meth.ferplus_tstar_ece_3dp")
+b("03_methodology", -1, "coincide: T^ * _ ECE", 1, A_HGA,
+  "ferplus_T_star_ece.fine_grid_argmin", "2dp", ident="meth.ferplus_tstar_ece_grid")
+b("03_methodology", -1, "log-likelihood is T^ * _ NLL", 0, A_TSS,
+  "results.ferplus.T_star_nll", "3dp", ident="meth.ferplus_tstar_nll_3dp")
+b("03_methodology", -1, "T^ * _ JSD = 0.74", 0, A_FJ,
+  "T_star_jsd.T", "2dp", ident="meth.ferplus_tstar_jsd")
+b("03_methodology", -1, "T^ * _ JSD = 0.74", 1, A_FJ,
+  "T_star_jsd.T", "2dp", ident="meth.ferplus_tstar_jsd_2")
+b("03_methodology", -1, "predictive entropy ( 0.412", 0, A_FJ,
+  "entropy_correlation.T_jsd.teacher_mean_entropy", "3dp", ident="meth.teacher_entropy_at_tjsd")
+b("03_methodology", -1, "human-vote entropy ( 0.440", 0, A_FJ,
+  "human_mean_entropy", "3dp", ident="meth.human_mean_entropy")
+b("03_methodology", -1, "per-sample entropy correlation", 0, A_FJ,
+  "entropy_correlation.T1.pearson", "3dp", ident="meth.entropy_pearson_T1")
+b("03_methodology", -1, "0.711 at T = 0.74", 0, A_FJ,
+  "entropy_correlation.T_jsd.pearson", "3dp", ident="meth.entropy_pearson_Tjsd")
+b("03_methodology", -1, "0.711 at T = 0.74", 1, A_FJ,
+  "T_star_jsd.T", "2dp", ident="meth.ferplus_tstar_jsd_3")
+dv("meth.argmin_cells_agreeing", "20", "sum",
+   [op(A_ROB, "series[\"RAF-DB stage1\"]._consensus_metrics_agreeing"),
+    op(A_ROB, "series[\"RAF-DB vae9182\"]._consensus_metrics_agreeing"),
+    op(A_ROB, "series[\"FERPlus\"]._consensus_metrics_agreeing")],
+   "int", "03_methodology", -1, "agreeing in 20 of 21 cells", 0)
+dv("meth.argmin_cells_total", "21", "sum",
+   [op(A_ROB, "series[\"RAF-DB stage1\"]._n_metrics"),
+    op(A_ROB, "series[\"RAF-DB vae9182\"]._n_metrics"),
+    op(A_ROB, "series[\"FERPlus\"]._n_metrics")],
+   "int", "03_methodology", -1, "agreeing in 20 of 21 cells", 1)
+dv("meth.tstar_criterion_cost_min", "13", "ratio",
+   [op(A_TSS, "results.ferplus.ece_removed_by_ts"),
+    op(A_TSS, "results.ferplus.d_ece")],
+   "int", "03_methodology", -1, "and the ECE cost of fitting by NLL", 1)
+dv("meth.tstar_criterion_cost_max", "14", "ratio",
+   [op(A_TSS, "results.stage1.ece_removed_by_ts"),
+    op(A_TSS, "results.stage1.d_ece")],
+   "int", "03_methodology", -1, "and the ECE cost of fitting by NLL", 2)
+# (cift beyan: `meth.ferplus_abstention_pct_val` ayni jetonu elle yazilan beyanla paylasiyordu; dusuruldu)
+# (cift beyan: `meth.ferplus_abstention_pct_val_2` ayni jetonu elle yazilan beyanla paylasiyordu; dusuruldu)
+dv("meth.acc_band_stage1", "0.30", "diff",
+   [op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "03_methodology", -1, "narrow band ( 0.30", 0)
+dv("meth.acc_band_vae9182", "0.51", "diff",
+   [op(A_TDO, "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "03_methodology", -1, "narrow band ( 0.30", 1)
+dv("meth.acc_trend_ferplus", "0.49", "diff",
+   [op(A_TDO, "arms.ferplus.points[0].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "03_methodology", -1, "teachers and a monotone 0.49", 0)
+EX_03 = [
+    ("distillation. In the dose--response arms", 0, "hyperparameter",
+     "KD sicakligi tau=6.0, her kolda sabit tutulan tasarim ayari -- olcum degil"),
+    ("_ j=1 ^ C (z_j^ M", 0, "equation_constant",
+     "Eq.1 softmax paydasindaki toplam alt siniri j=1 -- matematiksel gosterim. YENI SINIF ONERISI: `equation_constant` (toplam/carpim sinirlari, usler, 1/2"),
+    (";+ ; (1- ) ^ 2", 0, "equation_constant",
+     "(1-alpha) ifadesindeki 1 -- formul gosterimi. DIKKAT: bu tek beyan IKI fiziksel satiri (47 ve 119, Eq.2 ve Eq.4) kapsar; tarayici ikisine de ayni anah"),
+    (";+ ; (1- ) ^ 2", 1, "equation_constant",
+     "tau^2 carpanindaki us -- formul gosterimi. Ayni sekilde satir 47 ve 119'u birlikte kapsar"),
+    (";+ ; (1- ) ^ 2", 0, "equation_constant",
+     "IKINCI GECIS (satir 119, Eq.4): satir 47 ile AYNI tarayici anahtarini paylasir, tek ex() beyani ikisini de kapatir. Bu satir yalnizca 147 jetonun sayi"),
+    (";+ ; (1- ) ^ 2", 1, "equation_constant",
+     "IKINCI GECIS (satir 119, Eq.4): yukaridakiyle ayni -- deftere ikinci kez yazilmasi gerekmez, yalnizca jeton sayimi icin"),
+    ("where = 0.3 in every run", 0, "hyperparameter",
+     "gorev terimi agirligi alpha=0.3"),
+    ("objective is 0.3", 0, "hyperparameter",
+     "amac fonksiyonunda acikca yazilan alpha=0.3"),
+    ("objective is 0.3", 1, "hyperparameter",
+     "KD terimi agirligi 1-alpha=0.7"),
+    ("reduction=\"batchmean\")", 0, "equation_constant",
+     "tau^2 carpanindaki us"),
+    ("deliberately kept at", 0, "equation_constant",
+     "tau^2 carpanindaki us"),
+    ("T_i^ 2 only in the", 0, "equation_constant",
+     "T_i^2 carpanindaki us"),
+    ("_ VICH = 10^", 0, "hyperparameter",
+     "beta_VICH = 10^-4 yardimci KL agirligi (mantis 10)"),
+    ("_ VICH = 10^", 1, "hyperparameter",
+     "beta_VICH = 10^-4 (us -4)"),
+    ("_ j=1 ^ C (z_j^ T", 0, "equation_constant",
+     "Eq.3 paydasindaki toplam alt siniri j=1"),
+    ("= 6 all soft targets", 0, "hyperparameter",
+     "tau=6 -- sabit KD sicakligi"),
+    ("temperature manipulation: applying a pre-scaling", 0, "equation_constant",
+     "T_0 sembolunun alt indisi -- gosterim, olcum degil"),
+    ("conducted at a fixed T_0", 0, "equation_constant",
+     "T_0 sembolunun alt indisi"),
+    ("equal-width top-1 confidence ECE", 0, "metric_name_digits",
+     "'top-1' olcut adindaki basamak (tirenin isaret gibi okunmasi yuzunden -1 basiliyor). YENI SINIF ONERISI: `metric_name_digits` -- top-1/top-2 gibi olcu"),
+    ("equal-width top-1 confidence ECE", 1, "benchmark_protocol",
+     "ECE kestiricisinin kutu sayisi B=15 -- olcum protokolu (S2'de ayni sayi ayni sinifla muaf)"),
+    ("ECE ;= ; _ b=1", 0, "equation_constant",
+     "Eq.5'teki toplam alt siniri b=1"),
+    ("where B_b is the set of samples", 0, "metric_name_digits",
+     "'top-1 confidence' olcut adindaki basamak"),
+    ("agreeing in 20 of 21 cells", 2, "table_reference",
+     "'Supplementary Section S2' capraz atfindaki basamak"),
+    ("where conf is the mean top-1", 0, "metric_name_digits",
+     "'top-1 confidence' olcut adindaki basamak"),
+    ("- 1 N _ i=1 ^ N", 0, "equation_constant",
+     "Eq.7'deki 1/N katsayisinin payi"),
+    ("- 1 N _ i=1 ^ N", 1, "equation_constant",
+     "Eq.7'deki toplam alt siniri i=1"),
+    ("method tolerance 10^", 0, "hyperparameter",
+     "Brent minimizasyonunun toleransi 10^-5 (mantis) -- optimizasyon ayari"),
+    ("method tolerance 10^", 1, "hyperparameter",
+     "tolerans 10^-5 (us)"),
+    ("training. Bounds are [0.5", 0, "hyperparameter",
+     "RAF-DB TS fit araliginin alt siniri"),
+    ("training. Bounds are [0.5", 1, "hyperparameter",
+     "RAF-DB TS fit araliginin ust siniri"),
+    ("training. Bounds are [0.5", 2, "hyperparameter",
+     "FERPlus TS fit araliginin alt siniri (log-uzayda)"),
+    ("training. Bounds are [0.5", 3, "hyperparameter",
+     "FERPlus TS fit araliginin ust siniri"),
+    ("scaling removes ECE at all", 0, "table_reference",
+     "'Supplementary Table S2' capraz atfindaki basamak"),
+    ("Supplementary Section S2. The vote-alignment", 0, "table_reference",
+     "'Supplementary Section S2' capraz atfindaki basamak"),
+    ("it rather than smooth it over", 0, "teacher_name_digits",
+     "'Stage1' ogretmen adinin icindeki basamak"),
+    ("3 10^ -3 . The choice of fitting sample", 0, "stated_bound",
+     "'less than 3x10^-3' -- BEYAN EDILEN TAVAN, alan degeri degil. Altta yatan olcum tstar_stability.results.*.cross_ece_penalty maksimumudur (FERPlus 0.00"),
+    ("3 10^ -3 . The choice of fitting sample", 1, "stated_bound",
+     "Ayni tavanin bilimsel gosterimindeki taban (10)"),
+    ("3 10^ -3 . The choice of fitting sample", 2, "stated_bound",
+     "Ayni tavanin bilimsel gosterimindeki us (-3)"),
+    ("ECE(T = 1) ;- ;", 0, "hyperparameter",
+     "Eq.8'deki referans nokta T=1 (olceklenmemis ogretmen). S2'de ayni jeton ayni sinifla muaf: 'Eq.8 tanimindaki T=1'"),
+    ("finer-resolution check appears", 0, "table_reference",
+     "'Supplementary Section S2' capraz atfindaki basamak"),
+    ("top-1 predictions and accuracy causally", 0, "metric_name_digits",
+     "'top-1 predictions' olcut adindaki basamak"),
+    ("(MobileNetV2Plus 2.248", 0, "name_digits",
+     "'MobileNetV2Plus' mimari adinin icindeki basamak. YENI SINIF ONERISI: `name_digits` -- teacher_name_digits'in ogretmen-disi karsiligi (ogrenci mimaris"),
+    ("224 224 ) training recipe", 0, "architecture_dim",
+     "girdi cozunurlugu 224x224 (yukseklik)"),
+    ("224 224 ) training recipe", 1, "architecture_dim",
+     "girdi cozunurlugu 224x224 (genislik)"),
+    ("Each seed s 42 1 43", 0, "hyperparameter",
+     "tohum kimligi 42"),
+    ("Each seed s 42 1 43", 1, "hyperparameter",
+     "tohum kimligi 1"),
+    ("Each seed s 42 1 43", 2, "hyperparameter",
+     "tohum kimligi 43"),
+    ("(i) the natural teacher", 0, "hyperparameter",
+     "izgaranin dogal kolu T=1 (on-olcekleme yok)"),
+    ("already well calibrated (VAE9182", 0, "teacher_name_digits",
+     "'VAE9182' ogretmen adinin icindeki basamaklar"),
+    ("T^ * = 0.983 headroom", 2, "benchmark_protocol",
+     "bootstrap guven araliginin duzeyi %95 -- cikarim protokolu, olcum degil"),
+    ("should sit near T = 1", 0, "hyperparameter",
+     "on-beyanli tahminin referans noktasi T=1"),
+    ("should sit near T = 1", 1, "hyperparameter",
+     "dose izgarasinin T=1.34 kolu -- kol ayari"),
+    ("falsified by a resolvable interior optimum", 0, "hyperparameter",
+     "yanlislama olcutundeki referans nokta T=1"),
+    ("central to the experimental design", 0, "teacher_name_digits",
+     "'Stage1' ogretmen adinin icindeki basamak"),
+    ("over-confident --- sMG>0", 0, "null_value",
+     "sMG>0 esiginin NULL degeri (asiri-guven yonunun tanimi) -- olcum degil. Sinif defterde zaten kullanimda (intro'da 'bootstrap araliginin disladigi NULL"),
+    ("dose grid as T = 1.34", 0, "hyperparameter",
+     "dose izgarasinda fiilen kosulan kolun etiketi T=1.34"),
+    ("(deployed exactly as T = 0.5063", 0, "hyperparameter",
+     "FERPlus kolunda DAGITILAN on-olcekleme ayari (fitin 4 basamaga kirpilmisi). tstar_sensitivity.results.ferplus.deployed_T ELLE YAZILMIS bir BEYAN oldug"),
+    ("teacher (G2G) and by the temperature", 0, "name_digits",
+     "'G2G' mekanizma adinin icindeki basamak"),
+    ("Supplementary Section S1.", 0, "table_reference",
+     "'Supplementary Section S1' capraz atfindaki basamak"),
+    (";+ ; (1- _i)", 0, "equation_constant",
+     "Eq.9'daki (1-alpha_i) ifadesinin 1'i"),
+    ("with constants in Supplementary Section S1;", 0, "table_reference",
+     "'Supplementary Section S1' capraz atfindaki basamak"),
+    ("^ 2 -scaled KL for sample", 0, "equation_constant",
+     "tau^2 carpanindaki us"),
+    ("mean logit variance target-class", 0, "metric_name_digits",
+     "'top-2 logit variance' belirsizlik sinyalinin adindaki basamak"),
+    ("Class-space Gaussian matching", 0, "name_digits",
+     "alt bolum basligindaki 'G2G' adinin basamagi (S1'de ayni jeton 'G2G basligindaki 2' gerekcesiyle muaf)"),
+    ("--- the head's C -dimensional", 0, "equation_constant",
+     "(mu, log sigma^2) gosterimindeki us"),
+    ("w = 0.1 ). The design is ours", 0, "hyperparameter",
+     "G2G ek KL teriminin agirligi w=0.1"),
+    ("L _ G2G ;= ; L", 0, "name_digits",
+     "Eq.10'daki 'G2G' alt simgesinin basamagi"),
+    ("softmax(z^ T _ i ) at T = 1", 0, "hyperparameter",
+     "entropinin okundugu olceklenmemis kol T=1 (dairesellikten kacinmak icin)"),
+    ("T_i ;= ; [ 1 +", 0, "equation_constant",
+     "Eq.11'deki 1 + gamma_T(...) ifadesinin 1'i"),
+    ("T_i [1.0 ;2 ]", 0, "hyperparameter",
+     "per-sample sicakligin kelepce alt siniri 1.0"),
+    ("T_i [1.0 ;2 ]", 1, "hyperparameter",
+     "kelepce ust siniri 2tau'nun katsayisi"),
+    ("mean over the current mini-batch", 0, "hyperparameter",
+     "adaptif sicaklik modulasyon gucu gamma_T=0.5"),
+    ("Three of the five mechanisms", 0, "name_digits",
+     "'G2G' mekanizma adinin icindeki basamak"),
+    ("= 0.05 ) initial learning rate", 0, "hyperparameter",
+     "SAM yaricapi rho=0.05"),
+    ("= 0.05 ) initial learning rate", 1, "hyperparameter",
+     "baslangic ogrenme orani 9x10^-6 (mantis)"),
+    ("= 0.05 ) initial learning rate", 2, "hyperparameter",
+     "baslangic ogrenme orani 9x10^-6 (taban)"),
+    ("= 0.05 ) initial learning rate", 3, "hyperparameter",
+     "baslangic ogrenme orani 9x10^-6 (us)"),
+    ("schedule ( = 0.98 )", 0, "hyperparameter",
+     "ustel ogrenme orani cizelgesinin gamma=0.98'i"),
+    ("not a differentiating factor", 0, "teacher_name_digits",
+     "'Stage1' ogretmen adinin icindeki basamak"),
+    ("( 10^ -4 vs. 10^ -3 )", 0, "hyperparameter",
+     "beta_CE-KLD = 10^-4 (taban)"),
+    ("( 10^ -4 vs. 10^ -3 )", 1, "hyperparameter",
+     "beta_CE-KLD = 10^-4 (us)"),
+    ("( 10^ -4 vs. 10^ -3 )", 2, "hyperparameter",
+     "beta_CE-KLD = 10^-3 (taban)"),
+    ("( 10^ -4 vs. 10^ -3 )", 3, "hyperparameter",
+     "beta_CE-KLD = 10^-3 (us)"),
+    ("( 10^ -4 vs. 10^ -3 )", 4, "hyperparameter",
+     "egitim uzunlugu 200 epok"),
+    ("( 10^ -4 vs. 10^ -3 )", 5, "hyperparameter",
+     "egitim uzunlugu 300 epok"),
+    ("VAE9182 additionally uses a VAE head", 0, "teacher_name_digits",
+     "'VAE9182' ogretmen adinin icindeki basamaklar"),
+    ("distribution p^ human", 0, "equation_constant",
+     "olasilik simpleksi Delta^{C-1}'in boyut gosterimi"),
+    ("probability simplex over C = 8", 0, "architecture_dim",
+     "FERPlus sinif sayisi C=8 (cikti boyutu)"),
+    (";= ; 1 2 KL(p^ T", 0, "equation_constant",
+     "Eq.12'deki 1/2 katsayisinin payi"),
+    (";= ; 1 2 KL(p^ T", 1, "equation_constant",
+     "Eq.12'deki 1/2 katsayisinin paydasi"),
+    (";+ ; 1 2 KL(p^ human", 0, "equation_constant",
+     "Eq.12'nin ikinci teriminde 1/2 katsayisinin payi"),
+    (";+ ; 1 2 KL(p^ human", 1, "equation_constant",
+     "Eq.12'nin ikinci teriminde 1/2 katsayisinin paydasi"),
+    ("m = 1 2 (p^ T", 0, "equation_constant",
+     "karisim dagilimi m = 1/2(...) katsayisinin payi"),
+    ("m = 1 2 (p^ T", 1, "equation_constant",
+     "karisim dagilimi m = 1/2(...) katsayisinin paydasi"),
+    ("per-sample entropy correlation", 1, "hyperparameter",
+     "korelasyonun olculdugu olceklenmemis kol T=1 -- kol etiketi"),
+]
+for _row, _idx, _cls, _why in EX_03:
+    ex("03_methodology", -1, _row, _idx, _cls, _why)
+
+# --- 04_experiments
+b("04_experiments", -1, "All teachers are POSTER", 0, A_EFF,
+  "teacher.params_m", "1dp", ident="s4.arch.teacher_params_m")
+b("04_experiments", -1, "parameters 8.48 GMACs", 0, A_EFF,
+  "teacher.flops_g", "2dp", ident="s4.arch.teacher_gmacs")
+b("04_experiments", -1, "(Section ). The student totals", 0, A_EFF,
+  "student.params_m", "3dp", ident="s4.arch.student_params_m")
+b("04_experiments", -1, "parameters and 0.329 GMACs", 0, A_EFF,
+  "student.flops_g", "3dp", ident="s4.arch.student_gmacs")
+b("04_experiments", -1, "( 8.8 MB on disk)", 0, A_EFF,
+  "student.size_mb", "1dp", ident="s4.arch.student_size_mb")
+b("04_experiments", -1, "diagnostics over the audit's frozen", 0, "paper_tables/audit_population.json",
+  "n_total", "int", ident="s4.audit.inclusion_n")
+b("04_experiments", -1, "( +0.645", 0, A_OST,
+  "results[\"50\"].a2_raw.mean", "3dp", ident="s4.ost.k50.mean")
+b("04_experiments", -1, "( +0.645", 1, A_OST,
+  "results[\"50\"].a2_raw.sd", "3dp", ident="s4.ost.k50.sd")
+b("04_experiments", -1, "+0.764", 0, A_OST,
+  "results[\"100\"].a2_raw.mean", "3dp", ident="s4.ost.k100.mean")
+b("04_experiments", -1, "+0.764", 1, A_OST,
+  "results[\"100\"].a2_raw.sd", "3dp", ident="s4.ost.k100.sd")
+b("04_experiments", -1, "+0.77", 0, A_SG,
+  "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="s4.audit.best_last_acc_mean")
+b("04_experiments", -1, "+0.77", 1, A_SG,
+  "audit_deltas.b_best_minus_last.d_acc.sd", "2dp", ident="s4.audit.best_last_acc_sd")
+b("04_experiments", -1, "-0.0029", 0, A_SG,
+  "audit_deltas.b_best_minus_last.d_ece.mean", "4dp", ident="s4.audit.best_last_ece_mean")
+b("04_experiments", -1, "-0.0029", 1, A_SG,
+  "audit_deltas.b_best_minus_last.d_ece.sd", "4dp", ident="s4.audit.best_last_ece_sd")
+b("04_experiments", -1, "+0.13", 0, A_SG,
+  "audit_deltas.c_best_minus_swa.d_acc.mean", "2dp", ident="s4.audit.best_swa_acc_mean")
+b("04_experiments", -1, "+0.13", 1, A_SG,
+  "audit_deltas.c_best_minus_swa.d_acc.sd", "2dp", ident="s4.audit.best_swa_acc_sd")
+b("04_experiments", -1, "+0.50", 0, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.mean", "2dp", ident="s4.audit.ferplus_best_last_mean")
+b("04_experiments", -1, "+0.50", 1, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.sd", "2dp", ident="s4.audit.ferplus_best_last_sd")
+b("04_experiments", -1, "grew from 116", 0, "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.series[0].n", "int", ident="s4.audit.growth_n116")
+b("04_experiments", -1, "grew from 116", 1, "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.series[1].n", "int", ident="s4.audit.growth_n125")
+b("04_experiments", -1, "grew from 116", 2, "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.series[2].n", "int", ident="s4.audit.growth_n131")
+b("04_experiments", -1, "best--last gap moved by less than", 0, "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.span_pp", "2dp", ident="s4.audit.growth_span_pp")
+b("04_experiments", -1, "3 % -- 19 %", 0, A_CSM,
+  "mde_ece_swa_pct_min", "int", ident="s4.crit.mde_pct_min")
+b("04_experiments", -1, "3 % -- 19 %", 1, A_CSM,
+  "mde_ece_swa_pct_max", "int", ident="s4.crit.mde_pct_max")
+b("04_experiments", -1, "The student (MobileNetV2Plus) has", 1, A_EFF,
+  "student.params_m", "3dp", ident="s4.eff.student_params_m")
+b("04_experiments", -1, "0.329 GMACs at 224", 0, A_EFF,
+  "student.flops_g", "3dp", ident="s4.eff.student_gmacs")
+b("04_experiments", -1, "representing 25.9", 0, A_EFF,
+  "compression.params_ratio", "1dp", ident="s4.eff.ratio_params")
+b("04_experiments", -1, "representing 25.9", 1, A_EFF,
+  "compression.flops_ratio", "1dp", ident="s4.eff.ratio_flops")
+b("04_experiments", -1, "FLOPs and 62.9", 0, A_EFF,
+  "compression.size_ratio", "1dp", ident="s4.eff.ratio_size")
+b("04_experiments", -1, "retaining 97.96", 0, A_EFF,
+  "headline.retention_pct_swa", "2dp", ident="s4.eff.retention_swa")
+b("04_experiments", -1, "we report as primary ( 98.32", 0, A_EFF,
+  "headline.retention_pct_best", "2dp", ident="s4.eff.retention_best")
+b("04_experiments", -1, "1.93 (GPU", 0, A_LAT,
+  "speedups[device=cuda][batch=1][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_gpu_b1")
+b("04_experiments", -1, "1.93 (GPU", 2, A_LAT,
+  "speedups[device=cuda][batch=32][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_gpu_b32")
+b("04_experiments", -1, "4.01 (CPU", 0, A_LAT,
+  "speedups[device=cpu][batch=1][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_cpu_b1")
+b("04_experiments", -1, "4.01 (CPU", 2, A_LAT,
+  "speedups[device=cpu][batch=32][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_cpu_b32")
+EX_04 = [
+    ("FERPlus relabels FER2013", 0, "dataset_name_digits",
+     "FER2013 veri kumesi adindaki yil basamaklari; olcum degil (YENI SINIF onerisi)"),
+    ("file. The canonical release lists", 0, "citation",
+     "FER2013/FER+ kanonik yayin bolunmesi, kaynaktan aktarilan sayi; bizim olcumumuz degil (split_identity.unfiltered_by_fold 28559/3579/3573 verir, yani b"),
+    ("file. The canonical release lists", 1, "citation",
+     "kanonik yayin bolunmesi, kaynaktan aktarildi"),
+    ("file. The canonical release lists", 2, "citation",
+     "kanonik yayin bolunmesi, kaynaktan aktarildi"),
+    ("parameters 8.48 GMACs", 1, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("parameters 8.48 GMACs", 2, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("parameters 8.48 GMACs", 3, "architecture_dim",
+     "68 yuz noktasi -- POSTER++ mimarisinin landmark sayisi"),
+    ("(MobileFaceNet IR50)", 0, "architecture_dim",
+     "IR50 omurga adindaki basamak (50 katman); olcum degil"),
+    ("The student is a MobileNetV2", 0, "architecture_dim",
+     "MobileNetV2 adindaki surum basamagi"),
+    ("The student is a MobileNetV2", 1, "architecture_dim",
+     "genislik carpani (width multiplier) 1.0"),
+    ("linear layers producing", 0, "notation_digits",
+     "log sigma^2 gosterimindeki ustel basamak; matematiksel notasyon, olcum degil (YENI SINIF onerisi)"),
+    ("over the classes (embedding size", 0, "architecture_dim",
+     "gomme boyutu 768"),
+    ("over the classes (embedding size", 1, "notation_digits",
+     "log sigma^2 gosterimindeki ustel basamak"),
+    ("at -5 clamped", 0, "hyperparameter",
+     "log sigma^2 bias baslatma degeri -5"),
+    ("at -5 clamped", 1, "hyperparameter",
+     "kirpma araligi alt ucu -10"),
+    ("at -5 clamped", 2, "hyperparameter",
+     "kirpma araligi ust ucu 10"),
+    ("parameters and 0.329 GMACs", 1, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("parameters and 0.329 GMACs", 2, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("pre-trained MobileNetV2 weights", 0, "architecture_dim",
+     "MobileNetV2 adindaki surum basamagi"),
+    ("3 10^ -4 weight decay", 0, "hyperparameter",
+     "ogrenme orani 3e-4 (mantis)"),
+    ("3 10^ -4 weight decay", 1, "hyperparameter",
+     "ogrenme orani 3e-4 (taban 10)"),
+    ("3 10^ -4 weight decay", 2, "hyperparameter",
+     "ogrenme orani 3e-4 (ustel -4)"),
+    ("3 10^ -4 weight decay", 3, "hyperparameter",
+     "agirlik sonumlemesi 1e-4 (taban 10)"),
+    ("3 10^ -4 weight decay", 4, "hyperparameter",
+     "agirlik sonumlemesi 1e-4 (ustel -4)"),
+    ("annealing with warm restarts", 0, "hyperparameter",
+     "T_0 alt indisi (cizelge parametresinin adi)"),
+    ("annealing with warm restarts", 1, "hyperparameter",
+     "T_0=10 ilk devir uzunlugu"),
+    ("annealing with warm restarts", 2, "hyperparameter",
+     "T_mult=2 devir carpani"),
+    ("_ = 10^ -6 ) batch size", 0, "hyperparameter",
+     "eta_min=1e-6 (taban 10)"),
+    ("_ = 10^ -6 ) batch size", 1, "hyperparameter",
+     "eta_min=1e-6 (ustel -6)"),
+    ("_ = 10^ -6 ) batch size", 2, "hyperparameter",
+     "yigin boyutu 64"),
+    ("no gradient clipping input resolution", 0, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("no gradient clipping input resolution", 1, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("no gradient clipping input resolution", 2, "hyperparameter",
+     "damitma sicakligi tau=6"),
+    ("= 0.3 _ VICH", 0, "hyperparameter",
+     "alpha=0.3 sert etiket agirligi"),
+    ("= 0.3 _ VICH", 1, "hyperparameter",
+     "beta_VICH=1e-4 (taban 10)"),
+    ("= 0.3 _ VICH", 2, "hyperparameter",
+     "beta_VICH=1e-4 (ustel -4)"),
+    ("_ mix = 0.1", 0, "hyperparameter",
+     "mixup alpha_mix=0.1"),
+    ("images. They differ as follows", 0, "hyperparameter",
+     "RAF-DB egitim suresi 400 epoch"),
+    ("from epoch 200 ) with label smoothing", 0, "hyperparameter",
+     "SWA baslangic epoch'u 200"),
+    ("0.1 and effective-number", 0, "hyperparameter",
+     "etiket yumusatma 0.1"),
+    ("class weighting ( = 0.9999", 0, "hyperparameter",
+     "etkin-sayi sinif agirliklandirma beta=0.9999"),
+    ("FERPlus trains for 200 epochs", 0, "hyperparameter",
+     "FERPlus egitim suresi 200 epoch"),
+    ("(SWA from epoch 100 )", 0, "hyperparameter",
+     "FERPlus SWA baslangic epoch'u 100"),
+    ("to 10^ -4 over ten epochs", 0, "hyperparameter",
+     "SWALR hedef ogrenme orani 1e-4 (taban 10)"),
+    ("to 10^ -4 over ten epochs", 1, "hyperparameter",
+     "SWALR hedef ogrenme orani 1e-4 (ustel -4)"),
+    ("RAF-DB: resize to 224", 0, "architecture_dim",
+     "yeniden boyutlandirma 224x224"),
+    ("RAF-DB: resize to 224", 1, "architecture_dim",
+     "yeniden boyutlandirma 224x224"),
+    ("RAF-DB: resize to 224", 2, "hyperparameter",
+     "RandAugment islem sayisi 2"),
+    ("RAF-DB: resize to 224", 3, "hyperparameter",
+     "RandAugment buyuklugu 7"),
+    ("erasing ( 0.1 )", 0, "hyperparameter",
+     "rastgele silme olasiligi p=0.1"),
+    ("( 0.3/0.3/0.2 hue", 0, "hyperparameter",
+     "renk sarsintisi parlaklik 0.3"),
+    ("( 0.3/0.3/0.2 hue", 1, "hyperparameter",
+     "renk sarsintisi karsitlik 0.3"),
+    ("( 0.3/0.3/0.2 hue", 2, "hyperparameter",
+     "renk sarsintisi doygunluk 0.2"),
+    ("( 0.3/0.3/0.2 hue", 3, "hyperparameter",
+     "renk sarsintisi ton 0.05"),
+    ("( 0.3/0.3/0.2 hue", 4, "hyperparameter",
+     "uygulama olasiligi 0.5"),
+    ("(RAF-DB: epochs 200--400", 0, "hyperparameter",
+     "SWA penceresi RAF-DB 200--400 (alt uc)"),
+    ("(RAF-DB: epochs 200--400", 1, "hyperparameter",
+     "SWA penceresi RAF-DB 200--400 (ust uc)"),
+    ("(RAF-DB: epochs 200--400", 2, "hyperparameter",
+     "SWA penceresi FERPlus 100--200 (alt uc)"),
+    ("(RAF-DB: epochs 200--400", 3, "hyperparameter",
+     "SWA penceresi FERPlus 100--200 (ust uc)"),
+    ("( +0.645", 2, "criterion_constant",
+     "sira-istatistigi tahmincisinin pencere boyu K=50; tanim sabiti, olcum degil"),
+    ("+0.764", 2, "criterion_constant",
+     "sira-istatistigi tahmincisinin pencere boyu K=100; tanim sabiti"),
+    ("applied to the six selected contrasts", 0, "table_reference",
+     "Supplementary Table S4 capraz referansi"),
+    ("natural ( T = 1 )", 0, "hyperparameter",
+     "dogal kosul sicakligi T=1"),
+    ("With only n = 3 seeds", 0, "sample_size",
+     "tohum sayisi n=3"),
+    ("Supplementary Table S4 and at n = 3", 0, "table_reference",
+     "Supplementary Table S4 capraz referansi"),
+    ("Supplementary Table S4 and at n = 3", 1, "sample_size",
+     "tohum sayisi n=3"),
+    ("fires at 2 _ control", 0, "criterion_constant",
+     "olcutun esigi 2 sigma_control; esik tanimi"),
+    ("Supplementary Tables S8 and S9", 0, "table_reference",
+     "Supplementary Table S8 capraz referansi"),
+    ("Supplementary Tables S8 and S9", 1, "table_reference",
+     "Supplementary Table S9 capraz referansi"),
+    ("elements fixed only post hoc", 0, "date",
+     "Holm ailesinin sabitlendigi tarih (1 Agustos)"),
+    ("table-wide screening criterion (5 August)", 0, "date",
+     "tablo-genisi tarama olcutunun sabitlendigi tarih (5 Agustos)"),
+    ("thirteen predictions frozen between", 0, "date",
+     "dondurma penceresi baslangic gunu (14 Temmuz)"),
+    ("thirteen predictions frozen between", 1, "date",
+     "dondurma penceresi bitis gunu (31 Temmuz)"),
+    ("thirteen predictions frozen between", 2, "date",
+     "yil 2026"),
+    ("18 s to 13 h.", 0, "preregistration_provenance",
+     "on-beyan ile kosu baslangici arasindaki lead suresi araliginin alt ucu; defter bu sinifi S11 lead sureleri icin zaten kullaniyor ve yapilandirilmis ar"),
+    ("18 s to 13 h.", 1, "preregistration_provenance",
+     "ayni araligin ust ucu (13 saat); ayni gerekce"),
+    ("completion. Supplementary Table S11", 0, "table_reference",
+     "Supplementary Table S11 capraz referansi"),
+    ("declaration (Supplementary Section S2)", 0, "table_reference",
+     "Supplementary Section S2 capraz referansi (bolum referansi; istenirse yeni sinif 'section_reference')"),
+    ("dataset SHA-256 checksums", 0, "algorithm_name_digits",
+     "SHA-256 ozet algoritmasinin adindaki basamak; olcum degil (YENI SINIF onerisi)"),
+    ("Of the 90 runs in that window", 1, "date",
+     "pencere baslangic gunu (17 Haziran)"),
+    ("Of the 90 runs in that window", 2, "date",
+     "pencere bitis gunu (24 Temmuz)"),
+    ("Of the 90 runs in that window", 3, "date",
+     "yil 2026"),
+    ("The student (MobileNetV2Plus) has", 0, "architecture_dim",
+     "MobileNetV2Plus adindaki surum basamagi"),
+    ("0.329 GMACs at 224", 1, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("0.329 GMACs at 224", 2, "architecture_dim",
+     "giris cozunurlugu 224x224"),
+    ("Inference latency is measured on GPU", 0, "benchmark_protocol",
+     "GPU isinma yinelemesi sayisi 50; olcum protokolu (latency_benchmark.json'da warmup=50 alani da bunu tasiyor ama nicelik bir protokol secimi)"),
+    ("followed by 200 timed iterations", 0, "benchmark_protocol",
+     "GPU zamanlanmis yineleme sayisi 200; olcum protokolu"),
+    ("followed by 200 timed iterations", 1, "dtype_name",
+     "fp32 veri tipi adi"),
+    ("followed by 200 timed iterations", 2, "dtype_name",
+     "fp16 veri tipi adi"),
+    ("torch.cuda.synchronize()) and on CPU", 0, "benchmark_protocol",
+     "CPU isinma yinelemesi sayisi 5"),
+    ("20 timed iterations (fp32 only)", 0, "benchmark_protocol",
+     "CPU zamanlanmis yineleme sayisi 20"),
+    ("20 timed iterations (fp32 only)", 1, "dtype_name",
+     "fp32 veri tipi adi"),
+    ("batch sizes 1 32 on both devices", 0, "hyperparameter",
+     "olcum yigin boyutu b=1 (tab_efficiency ayni sayilari 'hyperparameter' sayiyor)"),
+    ("batch sizes 1 32 on both devices", 1, "hyperparameter",
+     "olcum yigin boyutu b=32"),
+    ("runtime overhead. Observed fp32", 0, "dtype_name",
+     "fp32 veri tipi adi"),
+    ("1.93 (GPU", 1, "hyperparameter",
+     "yigin boyutu b=1"),
+    ("1.93 (GPU", 3, "hyperparameter",
+     "yigin boyutu b=32"),
+    ("4.01 (CPU", 1, "hyperparameter",
+     "yigin boyutu b=1"),
+    ("4.01 (CPU", 3, "hyperparameter",
+     "yigin boyutu b=32"),
+]
+for _row, _idx, _cls, _why in EX_04:
+    ex("04_experiments", -1, _row, _idx, _cls, _why)
+
+# --- 05_results_discussion
+b("05_results_discussion", -1, "T^ * _ ECE =", 0, A_TSS,
+  "results.ferplus.T_star_ece", "2dp", ident="res.ferplus_tstar_ece")
+b("05_results_discussion", -1, "deployed arm", 0, A_TSS,
+  "results.ferplus.T_star_nll", "2dp", ident="res.ferplus_tstar_nll")
+b("05_results_discussion", -1, "it is best at", 0, A_FJ,
+  "T_star_jsd.T", "2dp", ident="res.ferplus_tstar_jsd")
+b("05_results_discussion", -1, "it is best at", 1, A_FJ,
+  "entropy_correlation.T_jsd.teacher_mean_entropy", "3dp", ident="res.teacher_entropy_tjsd")
+b("05_results_discussion", -1, "nearly matches", 0, A_FJ,
+  "human_mean_entropy", "3dp", ident="res.human_entropy")
+b("05_results_discussion", -1, "teacher optima", 1, A_JSD,
+  "results[\"(b) vote sum = 10\"].n", "int", ident="res.jsd_completerow_n")
+b("05_results_discussion", -1, "in every slice", 0, A_JSD,
+  "T_jsd_values_across_slices[0]", "2dp", ident="res.tstar_jsd_slices")
+b("05_results_discussion", -1, "( 0.0185 0.0016", 0, A_FSJ,
+  "by_checkpoint.swa[\"0.5063\"].ece[0]", "4dp", ident="res.student_ece_min")
+b("05_results_discussion", -1, "( 0.0185 0.0016", 1, A_FSJ,
+  "by_checkpoint.swa[\"0.5063\"].ece[1]", "4dp", ident="res.student_ece_min_sd")
+b("05_results_discussion", -1, "attains the best", 0, A_FSJ,
+  "by_checkpoint.swa[\"0.74\"].jsd[0]", "4dp", ident="res.student_jsd_min")
+b("05_results_discussion", -1, "0.0004 ). The", 0, A_FSJ,
+  "by_checkpoint.swa[\"0.74\"].jsd[1]", "4dp", ident="res.student_jsd_min_sd")
+b("05_results_discussion", -1, "( 0.667 -- 0.704", 0, A_FSJ,
+  "by_checkpoint.swa[\"0.26\"].rho", "3dp", ident="res.rho_min")
+b("05_results_discussion", -1, "( 0.667 -- 0.704", 1, A_FSJ,
+  "by_checkpoint.swa[\"1.0\"].rho", "3dp", ident="res.rho_max")
+b("05_results_discussion", -1, "Student JSD varies", 0, A_JCA,
+  "numerator.value", "4dp", ident="res.jsd_span_raw")
+b("05_results_discussion", -1, "0.00050 --- the", 0, A_JCA,
+  "R_noise.seed_sd_by_convention[\"mean sd\"]", "5dp", ident="res.jsd_seed_sd_mean")
+b("05_results_discussion", -1, "scored). It works:", 0, A_R3W,
+  "arms[\"1.0\"].ece_arm[0]", "4dp", ident="res.native_ece_raw")
+b("05_results_discussion", -1, "scored). It works:", 1, A_R3W,
+  "arms[\"1.0\"].ece_arm[1]", "4dp", ident="res.native_ece_raw_sd")
+b("05_results_discussion", -1, "0.0203 0.0017", 0, A_R3W,
+  "arms[\"1.0\"].ece_ts[0]", "4dp", ident="res.native_ece_ts")
+b("05_results_discussion", -1, "0.0203 0.0017", 1, A_R3W,
+  "arms[\"1.0\"].ece_ts[1]", "4dp", ident="res.native_ece_ts_sd")
+b("05_results_discussion", -1, "0.0185 0.0016", 0, A_R3W,
+  "arms[\"0.5063\"].ece_arm[0]", "4dp", ident="res.teacherside_ece")
+b("05_results_discussion", -1, "0.0185 0.0016", 1, A_R3W,
+  "arms[\"0.5063\"].ece_arm[1]", "4dp", ident="res.teacherside_ece_sd")
+b("05_results_discussion", -1, "inconclusive", 1, "paper_tables/equivalence_tests.json",
+  "tests[unit=ECE].p_tost", "2dp", ident="res.tost_p")
+# (cift bag: ayni jeton yukarida elle beyan edildi -- uretilen kopya dusuruldu)
+# (cift bag: ayni jeton yukarida elle beyan edildi -- uretilen kopya dusuruldu)
+b("05_results_discussion", -1, "worth +0.35 pp", 0, A_P4,
+  "recipe_step3_ranking.per_checkpoint.by_ckpt.swa.cost_of_wrong_pick_pp", "2dp", ident="res.teacher_selection_gain_swa")
+b("05_results_discussion", -1, "T = 1 control", 1, A_TDO,
+  "arms.ferplus.points[3].by_ckpt.swa.acc_sd", "2dp", ident="res.ferplus_control_acc_sd")
+b("05_results_discussion", -1, "six cross-fitted", 0, A_R3W,
+  "per_seed[\"1.0\"][\"43\"].T_s[0]", "3dp", ident="res.student_T_lo")
+b("05_results_discussion", -1, "six cross-fitted", 1, A_R3W,
+  "per_seed[\"1.0\"][\"42\"].T_s[1]", "3dp", ident="res.student_T_hi")
+b("05_results_discussion", -1, "( ECE_ = 0.0185", 0, A_R3W,
+  "corner.ECE_min", "4dp", ident="res.corner_ece_min")
+b("05_results_discussion", -1, "( ECE_ = 0.0185", 1, A_R3W,
+  "corner.JSD_min", "4dp", ident="res.corner_jsd_min")
+b("05_results_discussion", -1, "does: the native", 0, A_R3W,
+  "occupancy[\"1.0\"].ece", "4dp", ident="res.occ_native_ece")
+b("05_results_discussion", -1, "0.0017 0.0545", 0, A_R3W,
+  "occupancy[\"1.0\"].ece_sd", "4dp", ident="res.occ_native_ece_sd")
+b("05_results_discussion", -1, "0.0017 0.0545", 1, A_R3W,
+  "occupancy[\"1.0\"].jsd", "4dp", ident="res.occ_native_jsd")
+b("05_results_discussion", -1, "0.0017 0.0545", 2, A_R3W,
+  "occupancy[\"1.0\"].jsd_sd", "4dp", ident="res.occ_native_jsd_sd")
+b("05_results_discussion", -1, "arms span 0.0201", 0, A_JCA,
+  "numerator.value", "4dp", ident="res.jsd_span_raw_2")
+b("05_results_discussion", -1, "they span 0.00054", 0, A_JCA,
+  "R_collapse.denominator", "5dp", ident="res.jsd_span_ts")
+b("05_results_discussion", -1, "they span 0.00054", 1, A_JCA,
+  "R_collapse.value", "int", ident="res.jsd_collapse_ratio")
+b("05_results_discussion", -1, "the gap spans", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Happiness].gap_native", "3dp", ident="res.gap_happiness_native")
+b("05_results_discussion", -1, "class (happiness", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Happiness].n", "int", ident="res.n_happiness")
+b("05_results_discussion", -1, "class (happiness", 1, "paper_tables/perclass_crossing.json",
+  "rows[cls=Fear].gap_native", "3dp", ident="res.gap_fear_native")
+b("05_results_discussion", -1, "contested one", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Fear].n", "int", ident="res.n_fear")
+b("05_results_discussion", -1, "T = 1.46 surprise", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Happiness].crossing_T", "2dp", ident="res.cross_happiness")
+b("05_results_discussion", -1, "T = 1.46 surprise", 1, "paper_tables/perclass_crossing.json",
+  "rows[cls=Surprise].crossing_T", "2dp", ident="res.cross_surprise")
+b("05_results_discussion", -1, "T = 1.46 surprise", 2, "paper_tables/perclass_crossing.json",
+  "rows[cls=Sadness].crossing_T", "2dp", ident="res.cross_sadness")
+b("05_results_discussion", -1, "1.82 while disgust", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Anger].crossing_T", "2dp", ident="res.cross_anger")
+b("05_results_discussion", -1, "remain over-confident", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Disgust].gap_T22", "3dp", ident="res.gap_disgust_T22")
+b("05_results_discussion", -1, "under-confidence", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Happiness].gap_T22", "3dp", ident="res.gap_happiness_T22")
+b("05_results_discussion", -1, "under-confidence", 1, "paper_tables/perclass_crossing.json",
+  "rows[cls=Neutral].gap_T22", "3dp", ident="res.gap_neutral_T22")
+b("05_results_discussion", -1, "needs is set", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Sadness].gap_native", "3dp", ident="res.gap_sadness_native")
+b("05_results_discussion", -1, "needs is set", 1, "paper_tables/perclass_crossing.json",
+  "rows[cls=Surprise].gap_native", "3dp", ident="res.gap_surprise_native")
+b("05_results_discussion", -1, "error because", 0, "paper_tables/perclass_crossing.json",
+  "rows[cls=Fear].n", "int", ident="res.n_fear_2")
+b("05_results_discussion", -1, "corpus: of its", 0, "paper_tables/audit_population.json",
+  "n_total", "int", ident="res.audit_n_total")
+b("05_results_discussion", -1, "corpus: of its", 1, "paper_tables/audit_population.json",
+  "off_standard_count", "int", ident="res.audit_offstandard")
+b("05_results_discussion", -1, "( 21 % ) depart", 0, "paper_tables/audit_population.json",
+  "off_standard_pct", "int", ident="res.audit_offstandard_pct")
+b("05_results_discussion", -1, "accuracy-selected", 0, A_SG,
+  "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="res.selection_inflation")
+b("05_results_discussion", -1, "accuracy-selected", 1, A_SG,
+  "audit_deltas.b_best_minus_last.d_acc.sd", "2dp", ident="res.selection_inflation_sd")
+b("05_results_discussion", -1, "pp positive in", 0, "selection_audit/selection_distribution.json",
+  "d_acc_pp.n_positive", "int", ident="res.selection_n_positive")
+b("05_results_discussion", -1, "pp positive in", 1, "selection_audit/selection_distribution.json",
+  "d_acc_pp.n", "int", ident="res.selection_n_runs")
+b("05_results_discussion", -1, "contrast on FERPlus", 0, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.mean", "2dp", ident="res.ferplus_selection_inflation")
+b("05_results_discussion", -1, "contrast on FERPlus", 1, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.sd", "2dp", ident="res.ferplus_selection_inflation_sd")
+b("05_results_discussion", -1, "yields +0.645", 0, A_SG,
+  "per_k[\"50\"].a2_pure_order_statistic.mean", "3dp", ident="res.orderstat_k50")
+b("05_results_discussion", -1, "yields +0.645", 1, A_SG,
+  "per_k[\"50\"].a2_pure_order_statistic.sd", "3dp", ident="res.orderstat_k50_sd")
+b("05_results_discussion", -1, "yields +0.645", 3, A_SG,
+  "per_k[\"100\"].a2_pure_order_statistic.mean", "3dp", ident="res.orderstat_k100")
+b("05_results_discussion", -1, "yields +0.645", 4, A_SG,
+  "per_k[\"100\"].a2_pure_order_statistic.sd", "3dp", ident="res.orderstat_k100_sd")
+b("05_results_discussion", -1, "at K = 100 on", 1, A_SG,
+  "per_k[\"100\"].n_runs", "int", ident="res.orderstat_n_runs")
+b("05_results_discussion", -1, "+0.640 0.218", 0, A_OST,
+  "results[\"50\"].a2_detrended.mean", "3dp", ident="res.orderstat_k50_detr")
+b("05_results_discussion", -1, "+0.640 0.218", 1, A_OST,
+  "results[\"50\"].a2_detrended.sd", "3dp", ident="res.orderstat_k50_detr_sd")
+b("05_results_discussion", -1, "+0.640 0.218", 2, A_OST,
+  "results[\"100\"].a2_detrended.mean", "3dp", ident="res.orderstat_k100_detr")
+b("05_results_discussion", -1, "+0.640 0.218", 3, A_OST,
+  "results[\"100\"].a2_detrended.sd", "3dp", ident="res.orderstat_k100_detr_sd")
+b("05_results_discussion", -1, "the last 100", 1, A_OST,
+  "results[\"100\"].window_drift_pp.mean", "3dp", ident="res.window_drift_k100")
+b("05_results_discussion", -1, "claimed. On RAF-DB", 0, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.mean", "4dp", ident="res.rafdb_ece_contrast")
+b("05_results_discussion", -1, "claimed. On RAF-DB", 1, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.sd", "4dp", ident="res.rafdb_ece_contrast_sd")
+b("05_results_discussion", -1, "n = 131 SE 0.0008", 0, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.n", "int", ident="res.rafdb_ece_contrast_n")
+b("05_results_discussion", -1, "n = 131 SE 0.0008", 1, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.se", "4dp", ident="res.rafdb_ece_contrast_se")
+b("05_results_discussion", -1, "n = 131 SE 0.0008", 3, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.t", "2dp", ident="res.rafdb_ece_contrast_t")
+b("05_results_discussion", -1, "0.0005 95 % CI", 0, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.p", "4dp", ident="res.rafdb_ece_contrast_p")
+b("05_results_discussion", -1, "0.0005 95 % CI", 2, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.ci_lo", "4dp", ident="res.rafdb_ece_ci_lo")
+b("05_results_discussion", -1, "0.0005 95 % CI", 3, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.ci_hi", "4dp", ident="res.rafdb_ece_ci_hi")
+b("05_results_discussion", -1, "than the last.", 0, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.mean", "4dp", ident="res.ferplus_ece_contrast")
+b("05_results_discussion", -1, "0.0074 n = 12", 0, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.sd", "4dp", ident="res.ferplus_ece_contrast_sd")
+b("05_results_discussion", -1, "0.0074 n = 12", 1, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.n", "int", ident="res.ferplus_ece_contrast_n")
+b("05_results_discussion", -1, "0.0074 n = 12", 2, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.se", "4dp", ident="res.ferplus_ece_contrast_se")
+b("05_results_discussion", -1, "resolvable (", 1, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.t", "2dp", ident="res.ferplus_ece_contrast_t")
+b("05_results_discussion", -1, "resolvable (", 2, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-last\"].ece.p", "3dp", ident="res.ferplus_ece_contrast_p")
+b("05_results_discussion", -1, "on both datasets", 0, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].acc_pp.mean", "2dp", ident="res.rafdb_bestswa_acc")
+b("05_results_discussion", -1, "on both datasets", 1, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].acc_pp.se", "3dp", ident="res.rafdb_bestswa_acc_se")
+b("05_results_discussion", -1, "on both datasets", 3, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].acc_pp.t", "1dp", ident="res.rafdb_bestswa_acc_t")
+b("05_results_discussion", -1, "4.3 10^ -7 on", 3, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.mean", "2dp", ident="res.ferplus_bestswa_acc")
+b("05_results_discussion", -1, "4.3 10^ -7 on", 4, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.se", "3dp", ident="res.ferplus_bestswa_acc_se")
+b("05_results_discussion", -1, "t(11) = 3.7 0.003", 1, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.t", "1dp", ident="res.ferplus_bestswa_acc_t")
+b("05_results_discussion", -1, "t(11) = 3.7 0.003", 2, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].acc_pp.p", "3dp", ident="res.ferplus_bestswa_acc_p")
+b("05_results_discussion", -1, "is unresolved", 0, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].ece.mean", "4dp", ident="res.rafdb_bestswa_ece")
+b("05_results_discussion", -1, "is unresolved", 1, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].ece.se", "4dp", ident="res.rafdb_bestswa_ece_se")
+b("05_results_discussion", -1, "is unresolved", 3, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].ece.t", "2dp", ident="res.rafdb_bestswa_ece_t")
+b("05_results_discussion", -1, "0.59 ) but resolvable", 0, A_SAI,
+  "datasets[\"RAF-DB\"].contrasts[\"best-swa\"].ece.p", "2dp", ident="res.rafdb_bestswa_ece_p")
+# (cift bag: ayni jeton yukarida elle beyan edildi -- uretilen kopya dusuruldu)
+b("05_results_discussion", -1, "+0.0069 (SD 0.0088", 1, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.sd", "4dp", ident="res.ferplus_bestswa_ece_sd")
+b("05_results_discussion", -1, "+0.0069 (SD 0.0088", 2, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.n", "int", ident="res.ferplus_bestswa_ece_n")
+b("05_results_discussion", -1, "+0.0069 (SD 0.0088", 3, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.se", "4dp", ident="res.ferplus_bestswa_ece_se")
+b("05_results_discussion", -1, "+0.0069 (SD 0.0088", 5, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.t", "2dp", ident="res.ferplus_bestswa_ece_t")
+b("05_results_discussion", -1, "0.020 ; 13 --", 0, A_SAI,
+  "datasets[\"FERPlus\"].contrasts[\"best-swa\"].ece.p", "3dp", ident="res.ferplus_bestswa_ece_p")
+b("05_results_discussion", -1, "The student carries", 0, A_EFF,
+  "student.params_m", "3dp", ident="res.student_params")
+b("05_results_discussion", -1, "The student carries", 1, A_EFF,
+  "student.flops_g", "3dp", ident="res.student_flops")
+b("05_results_discussion", -1, "teacher's 58.334", 0, A_EFF,
+  "teacher.params_m", "3dp", ident="res.teacher_params")
+b("05_results_discussion", -1, "teacher's 58.334", 1, A_EFF,
+  "teacher.flops_g", "3dp", ident="res.teacher_flops")
+b("05_results_discussion", -1, "teacher's 58.334", 2, A_EFF,
+  "compression.params_ratio", "1dp", ident="res.params_ratio")
+b("05_results_discussion", -1, "25.8 smaller", 0, A_EFF,
+  "compression.flops_ratio", "1dp", ident="res.flops_ratio")
+b("05_results_discussion", -1, "25.8 smaller", 1, A_EFF,
+  "compression.size_ratio", "1dp", ident="res.size_ratio")
+b("05_results_discussion", -1, "97.96 % of the", 0, A_EFF,
+  "by_checkpoint.swa.retention_pct", "2dp", ident="res.retention_swa")
+b("05_results_discussion", -1, "( 98.32 % at", 0, A_EFF,
+  "by_checkpoint.best.retention_pct", "2dp", ident="res.retention_best")
+b("05_results_discussion", -1, "smaller than", 0, A_LAT,
+  "speedups[device=cuda][batch=1][dtype=fp32].speedup", "2dp", ident="res.speedup_gpu_b1")
+b("05_results_discussion", -1, "3.91 at batch", 0, A_LAT,
+  "speedups[device=cuda][batch=32][dtype=fp32].speedup", "2dp", ident="res.speedup_gpu_b32")
+b("05_results_discussion", -1, "3.91 at batch", 2, A_LAT,
+  "speedups[device=cpu][batch=1][dtype=fp32].speedup", "2dp", ident="res.speedup_cpu_b1")
+b("05_results_discussion", -1, "3.91 at batch", 3, A_LAT,
+  "speedups[device=cpu][batch=32][dtype=fp32].speedup", "2dp", ident="res.speedup_cpu_b32")
+b("05_results_discussion", -1, "minimum at t^ * = 1.34", 0, A_TSP,
+  "half_fold_fits.stage1", "2dp", ident="s5.tstar_stage1")
+b("05_results_discussion", -1, "minimum at t^ * = 1.34", 1, A_TDO,
+  "arms.rafdb_stage1.points[1].teacher_ece", "4dp", ident="s5.teacher_ece_T1")
+b("05_results_discussion", -1, "minimum at t^ * = 1.34", 2, A_TDO,
+  "arms.rafdb_stage1.points[2].teacher_ece", "4dp", ident="s5.teacher_ece_Tstar")
+b("05_results_discussion", -1, "ece follows it:", 0, A_TDO,
+  "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean", "4dp", ident="s5.stu_ece_T1")
+b("05_results_discussion", -1, "ece follows it:", 1, A_TDO,
+  "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_sd", "4dp", ident="s5.stu_ece_T1_sd")
+b("05_results_discussion", -1, "0.0428 0.0003 at t^ *", 0, A_TDO,
+  "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean", "4dp", ident="s5.stu_ece_Tstar")
+b("05_results_discussion", -1, "0.0428 0.0003 at t^ *", 1, A_TDO,
+  "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_sd", "4dp", ident="s5.stu_ece_Tstar_sd")
+b("05_results_discussion", -1, "0.1008 0.0025 at t = 2.2", 0, A_TDO,
+  "arms.rafdb_stage1.points[4].by_ckpt.swa.ece_mean", "4dp", ident="s5.stu_ece_T22")
+b("05_results_discussion", -1, "0.1008 0.0025 at t = 2.2", 1, A_TDO,
+  "arms.rafdb_stage1.points[4].by_ckpt.swa.ece_sd", "4dp", ident="s5.stu_ece_T22_sd")
+b("05_results_discussion", -1, "against within-cell seed spreads", 0, A_TDO,
+  "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_sd", "4dp", ident="s5.spread_min")
+b("05_results_discussion", -1, "against within-cell seed spreads", 1, A_TDO,
+  "arms.rafdb_stage1.points[3].by_ckpt.swa.ece_sd", "4dp", ident="s5.spread_max")
+b("05_results_discussion", -1, "it stays within a 0.30 pp band", 1, A_TDO,
+  "arms.rafdb_stage1.points[3].by_ckpt.swa.acc_mean", "2dp", ident="s5.acc_lo")
+b("05_results_discussion", -1, "it stays within a 0.30 pp band", 2, A_TDO,
+  "arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean", "2dp", ident="s5.acc_hi")
+b("05_results_discussion", -1, "seven select t^ * = 1.34 on this teacher", 0, A_TSP,
+  "half_fold_fits.stage1", "2dp", ident="s5.tstar_stage1_est")
+b("05_results_discussion", -1, "on the control and six of seven", 0, A_TSS,
+  "results.ferplus.T_star_nll", "2dp", ident="s5.tstar_ferplus_est")
+b("05_results_discussion", -1, "systematic exception (ferplus nll", 0, A_ROB,
+  "series[\"FERPlus\"].metrics.nll.argmin_T_all_seeds", "2dp", ident="s5.ferplus_nll_argmin")
+b("05_results_discussion", -1, "(teacher ece 0.0136", 0, A_TDO,
+  "arms.rafdb_vae9182.points[1].teacher_ece", "4dp", ident="s5.ctrl_teacher_ece")
+b("05_results_discussion", -1, "(teacher ece 0.0136", 1, A_TSS,
+  "results.vae9182.T_star_nll", "2dp", ident="s5.ctrl_tstar")
+b("05_results_discussion", -1, "occurs at t = 1 ( 0.0330", 1, A_TDO,
+  "arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_mean", "4dp", ident="s5.ctrl_ece_T1")
+b("05_results_discussion", -1, "occurs at t = 1 ( 0.0330", 2, A_TDO,
+  "arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_sd", "4dp", ident="s5.ctrl_ece_T1_sd")
+b("05_results_discussion", -1, "0.0447 at t = 0.85 on the near side", 0, A_TDO,
+  "arms.rafdb_vae9182.points[0].by_ckpt.swa.ece_mean", "4dp", ident="s5.ctrl_ece_085")
+b("05_results_discussion", -1, "0.0447 at t = 0.85 on the near side", 2, A_TDO,
+  "arms.rafdb_vae9182.points[2].by_ckpt.swa.ece_mean", "4dp", ident="s5.ctrl_ece_134")
+b("05_results_discussion", -1, "0.1282 at t = 1.7", 0, A_TDO,
+  "arms.rafdb_vae9182.points[3].by_ckpt.swa.ece_mean", "4dp", ident="s5.ctrl_ece_170")
+b("05_results_discussion", -1, "0.1282 at t = 1.7", 2, A_TDO,
+  "arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_mean", "4dp", ident="s5.ctrl_ece_220")
+b("05_results_discussion", -1, "0.1282 at t = 1.7", 3, A_TDO,
+  "arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_sd", "4dp", ident="s5.ctrl_ece_220_sd")
+b("05_results_discussion", -1, "established as damage at 5.9", 0, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"0.85\"].ratio", "1dp", ident="s5.ctrl_ratio_085")
+b("05_results_discussion", -1, "established as damage at 5.9", 1, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"1.3406\"].ratio", "1dp", ident="s5.ctrl_ratio_134")
+b("05_results_discussion", -1, "( t^ * _ nll = 0.983", 0, A_TSS,
+  "results.vae9182.T_star_nll", "3dp", ident="s5.ctrl_tstar_nll")
+b("05_results_discussion", -1, "( t^ * _ nll = 0.983", 1, A_TSS,
+  "results.vae9182.T_star_ece", "3dp", ident="s5.ctrl_tstar_ece")
+b("05_results_discussion", -1, "-0.0033 0.0042 at t = 0.95", 0, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"0.95\"].mean", "4dp", ident="s5.ref095_mean")
+b("05_results_discussion", -1, "-0.0033 0.0042 at t = 0.95", 1, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"0.95\"].sd", "4dp", ident="s5.ref095_sd")
+b("05_results_discussion", -1, "1.68 the control seed deviation", 0, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"0.95\"].ratio", "2dp", ident="s5.ref095_ratio")
+b("05_results_discussion", -1, "1.68 the control seed deviation", 1, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"1.1\"].mean", "4dp", ident="s5.ref110_mean")
+b("05_results_discussion", -1, "1.68 the control seed deviation", 2, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"1.1\"].sd", "4dp", ident="s5.ref110_sd")
+b("05_results_discussion", -1, "t = 1.10 ( + - + 0.98", 1, "paper_tables/control_grid_refinement.json",
+  "gaps_vs_T1[\"1.1\"].ratio", "2dp", ident="s5.ref110_ratio")
+b("05_results_discussion", -1, "point-estimate minimum sits at t = 0.95", 1, "paper_tables/control_grid_refinement.json",
+  "series[\"0.95\"].ece_mean", "4dp", ident="s5.ref095_ece")
+b("05_results_discussion", -1, "point-estimate minimum sits at t = 0.95", 2, "paper_tables/control_grid_refinement.json",
+  "series[\"1.0\"].ece_mean", "4dp", ident="s5.ref100_ece")
+b("05_results_discussion", -1, "disagreed in sign ( +0.0011", 0, "adaptive_t_headroom/adaptive_t_headroom.json",
+  "block_b_miscalibration_causal.d_ece_all[0]", "4dp", ident="s5.miscal_seed1")
+b("05_results_discussion", -1, "disagreed in sign ( +0.0011", 1, "adaptive_t_headroom/adaptive_t_headroom.json",
+  "block_b_miscalibration_causal.d_ece_all[1]", "4dp", ident="s5.miscal_seed2")
+b("05_results_discussion", -1, "disagreed in sign ( +0.0011", 2, "adaptive_t_headroom/adaptive_t_headroom.json",
+  "block_b_miscalibration_causal.d_ece_mean", "4dp", ident="s5.miscal_mean")
+b("05_results_discussion", -1, "0.0045 ) so the third seed", 0, "adaptive_t_headroom/adaptive_t_headroom.json",
+  "block_b_miscalibration_causal.d_ece_sd", "4dp", ident="s5.miscal_sd")
+b("05_results_discussion", -1, "soft vote distributions it is under-confident", 0, A_TDO,
+  "arms.ferplus.points[3].teacher_ece", "4dp", ident="s5.fer_teacher_ece")
+b("05_results_discussion", -1, "signed gap -0.1277", 0, A_TDO,
+  "arms.ferplus.points[3].signed_gap", "4dp", ident="s5.fer_signed_gap")
+b("05_results_discussion", -1, "signed gap -0.1277", 1, A_TSS,
+  "results.ferplus.T_star_nll", "2dp", ident="s5.fer_tstar")
+b("05_results_discussion", -1, "0.0783 0.0046 at the native teacher", 0, A_TDO,
+  "arms.ferplus.points[3].by_ckpt.swa.ece_mean", "4dp", ident="s5.fer_ece_T1")
+b("05_results_discussion", -1, "0.0783 0.0046 at the native teacher", 1, A_TDO,
+  "arms.ferplus.points[3].by_ckpt.swa.ece_sd", "4dp", ident="s5.fer_ece_T1_sd")
+b("05_results_discussion", -1, "0.0783 0.0046 at the native teacher", 2, A_TDO,
+  "arms.ferplus.points[1].by_ckpt.swa.ece_mean", "4dp", ident="s5.fer_ece_Tstar")
+b("05_results_discussion", -1, "0.0783 0.0046 at the native teacher", 3, A_TDO,
+  "arms.ferplus.points[1].by_ckpt.swa.ece_sd", "4dp", ident="s5.fer_ece_Tstar_sd")
+b("05_results_discussion", -1, "t^ * a 76 % reduction", 1, A_INF,
+  "ferplus_effect.d_pooled", "1dp", ident="s5.fer_d_pooled")
+b("05_results_discussion", -1, "d_z = 18.3", 0, A_INF,
+  "ferplus_effect.d_z_paired", "1dp", ident="s5.fer_dz")
+b("05_results_discussion", -1, "family ( p_ holm = 0.003", 0, A_INF,
+  "results[5].p_holm", "3dp", ident="s5.fer_pholm")
+b("05_results_discussion", -1, "pooling all 14 grid points", 0, A_TDO,
+  "pooled_stats.swa.n_points", "int", ident="s5.pooled_n1")
+b("05_results_discussion", -1, "= 0.789 (swa; 0.895", 0, A_TDO,
+  "pooled_stats.swa.spearman_abs_signed_gap", "3dp", ident="s5.pooled_rho_swa")
+b("05_results_discussion", -1, "= 0.789 (swa; 0.895", 1, A_TDO,
+  "pooled_stats.best.spearman_abs_signed_gap", "3dp", ident="s5.pooled_rho_best")
+b("05_results_discussion", -1, "= 0.789 (swa; 0.895", 2, A_TDO,
+  "pooled_stats.last.spearman_abs_signed_gap", "3dp", ident="s5.pooled_rho_last")
+b("05_results_discussion", -1, "checkpoints). the 14 grid points", 0, A_TDO,
+  "pooled_stats.swa.n_points", "int", ident="s5.pooled_n2")
+b("05_results_discussion", -1, "14 independent observations", 0, A_BOOT,
+  "results.pooled_rho.n_points", "int", ident="s5.pooled_n3")
+b("05_results_discussion", -1, "individual points gives = 0.789", 0, A_BOOT,
+  "results.pooled_rho.point", "3dp", ident="s5.boot_rho")
+b("05_results_discussion", -1, "[0.577 1.000]", 0, A_BOOT,
+  "results.pooled_rho.ci95_cluster_bootstrap[0]", "3dp", ident="s5.boot_lo")
+b("05_results_discussion", -1, "[0.577 1.000]", 1, A_BOOT,
+  "results.pooled_rho.ci95_cluster_bootstrap[1]", "3dp", ident="s5.boot_hi")
+b("05_results_discussion", -1, "the pooled correlation is -0.407", 0, A_TDO,
+  "pooled_stats.swa.spearman_signed_gap", "3dp", ident="s5.pooled_signed")
+b("05_results_discussion", -1, "two arms differ by -0.0391", 0, A_RT,
+  "T11_collapse.pairs[\"T·τ = 5.10\"].mean", "4dp", ident="s5.collapse_510_mean")
+b("05_results_discussion", -1, "two arms differ by -0.0391", 1, A_RT,
+  "T11_collapse.pairs[\"T·τ = 5.10\"].sd", "4dp", ident="s5.collapse_510_sd")
+b("05_results_discussion", -1, "10.20 by -0.0324", 1, A_RT,
+  "T11_collapse.pairs[\"T·τ = 10.20\"].mean", "4dp", ident="s5.collapse_1020_mean")
+b("05_results_discussion", -1, "10.20 by -0.0324", 2, A_RT,
+  "T11_collapse.pairs[\"T·τ = 10.20\"].sd", "4dp", ident="s5.collapse_1020_sd")
+b("05_results_discussion", -1, "t and moving shifts student ece by +0.0042", 0, "paper_tables/tau_t_factorial.json",
+  "marginal_contrasts[0].d_ece_mean", "4dp", ident="s5.tau_at_T170_mean")
+b("05_results_discussion", -1, "t and moving shifts student ece by +0.0042", 1, "paper_tables/tau_t_factorial.json",
+  "marginal_contrasts[0].d_ece_sd", "4dp", ident="s5.tau_at_T170_sd")
+b("05_results_discussion", -1, "t = 1.70 ) and -0.0025", 1, "paper_tables/tau_t_factorial.json",
+  "marginal_contrasts[2].d_ece_mean", "4dp", ident="s5.tau_at_T085_mean")
+b("05_results_discussion", -1, "t = 1.70 ) and -0.0025", 2, "paper_tables/tau_t_factorial.json",
+  "marginal_contrasts[2].d_ece_sd", "4dp", ident="s5.tau_at_T085_sd")
+b("05_results_discussion", -1, "to 1.70 shifts it by -0.0349", 1, "paper_tables/tau_t_factorial.json",
+  "marginal_contrasts[1].d_ece_mean", "4dp", ident="s5.T_at_tau6_mean")
+b("05_results_discussion", -1, "to 1.70 shifts it by -0.0349", 2, "paper_tables/tau_t_factorial.json",
+  "marginal_contrasts[1].d_ece_sd", "4dp", ident="s5.T_at_tau6_sd")
+b("05_results_discussion", -1, "( +0.0327 ) and then changes sign", 0, A_RT,
+  "T12_alpha.gaps[\"0.5\"].mean", "4dp", ident="s5.alpha05_gap")
+b("05_results_discussion", -1, "pre-scaling harms the student by -0.0352", 0, A_RT,
+  "T12_alpha.gaps[\"0.9\"].mean", "4dp", ident="s5.alpha09_gap")
+b("05_results_discussion", -1, "arm total student ece under over-confidence", 0, A_ASY,
+  "comparisons[2].ratio_absolute", "2dp", ident="s5.asym_rafdb")
+b("05_results_discussion", -1, "on raf-db (bootstrap 95 % ci", 1, A_ASY,
+  "comparisons[2].ci_absolute[0]", "2dp", ident="s5.asym_rafdb_lo")
+b("05_results_discussion", -1, "on raf-db (bootstrap 95 % ci", 2, A_ASY,
+  "comparisons[2].ci_absolute[1]", "2dp", ident="s5.asym_rafdb_hi")
+b("05_results_discussion", -1, "on raf-db (bootstrap 95 % ci", 3, A_ASY,
+  "comparisons[5].ratio_absolute", "2dp", ident="s5.asym_ferplus")
+b("05_results_discussion", -1, "ferplus ( [1.64 2.48]", 0, A_ASY,
+  "comparisons[5].ci_absolute[0]", "2dp", ident="s5.asym_ferplus_lo")
+b("05_results_discussion", -1, "ferplus ( [1.64 2.48]", 1, A_ASY,
+  "comparisons[5].ci_absolute[1]", "2dp", ident="s5.asym_ferplus_hi")
+b("05_results_discussion", -1, "beyond the measured grid and the headline", 0, A_ASY,
+  "summary.interpolated_only.absolute.min", "1dp", ident="s5.asym_min")
+b("05_results_discussion", -1, "beyond the measured grid and the headline", 1, A_ASY,
+  "summary.interpolated_only.absolute.max", "1dp", ident="s5.asym_max")
+b("05_results_discussion", -1, "1.74 0.43 --- consistent", 0, A_ASY,
+  "summary.all_six.absolute.mean", "2dp", ident="s5.asym_six_mean")
+b("05_results_discussion", -1, "1.74 0.43 --- consistent", 1, A_ASY,
+  "summary.all_six.absolute.sd", "2dp", ident="s5.asym_six_sd")
+b("05_results_discussion", -1, "teacher both comparisons' intervals straddle", 1, A_ASY,
+  "comparisons[3].ci_absolute[0]", "2dp", ident="s5.asym_ctrl1_lo")
+b("05_results_discussion", -1, "teacher both comparisons' intervals straddle", 2, A_ASY,
+  "comparisons[3].ci_absolute[1]", "2dp", ident="s5.asym_ctrl1_hi")
+b("05_results_discussion", -1, "[0.90 1.46]", 0, A_ASY,
+  "comparisons[4].ci_absolute[0]", "2dp", ident="s5.asym_ctrl2_lo")
+b("05_results_discussion", -1, "[0.90 1.46]", 1, A_ASY,
+  "comparisons[4].ci_absolute[1]", "2dp", ident="s5.asym_ctrl2_hi")
+b("05_results_discussion", -1, "sweeping student width over a factor", 0, "p5_efficiency/p5_efficiency.json",
+  "params_spread_ratio", "2dp", ident="s5.params_ratio")
+b("05_results_discussion", -1, "accuracy by +1.94 pp but student ece", 1, A_RT,
+  "T10_axis_spans.swa.capacity_span", "5dp", ident="s5.capacity_span")
+b("05_results_discussion", -1, "teacher's temperature on a fixed student", 0, A_RT,
+  "T10_axis_spans.swa.teacher_span", "4dp", ident="s5.teacher_span")
+b("05_results_discussion", -1, "at the same checkpoint. the teacher-side lever", 0, A_RT,
+  "T10_axis_spans.swa.ratio", "int", ident="s5.lever_swa")
+b("05_results_discussion", -1, "( 79 and 27 at the best", 0, A_RT,
+  "T10_axis_spans.best.ratio", "int", ident="s5.lever_best")
+b("05_results_discussion", -1, "( 79 and 27 at the best", 1, A_RT,
+  "T10_axis_spans.last.ratio", "int", ident="s5.lever_last")
+b("05_results_discussion", -1, "instead lowers it to 69", 0, "paper_tables/g42_init_matched_lever.json",
+  "rows[0].ratio_init_matched", "int", ident="s5.lever_im_swa")
+b("05_results_discussion", -1, "instead lowers it to 69", 1, "paper_tables/g42_init_matched_lever.json",
+  "rows[1].ratio_init_matched", "int", ident="s5.lever_im_best")
+b("05_results_discussion", -1, "instead lowers it to 69", 2, "paper_tables/g42_init_matched_lever.json",
+  "rows[2].ratio_init_matched", "int", ident="s5.lever_im_last")
+b("05_results_discussion", -1, "accuracy unchanged ( -0.02", 0, "vich_isolation/vich_isolation_verdict.json",
+  "paired_delta_linear_minus_vich.d_acc_mean", "2dp", ident="s5.head_dacc")
+b("05_results_discussion", -1, "accuracy unchanged ( -0.02", 1, "vich_isolation/vich_isolation_verdict.json",
+  "paired_delta_linear_minus_vich.d_acc_sd", "2dp", ident="s5.head_dacc_sd")
+b("05_results_discussion", -1, "+0.0062 0.0015 with the same sign", 0, "vich_isolation/vich_isolation_verdict.json",
+  "paired_delta_linear_minus_vich.d_ece_mean", "4dp", ident="s5.head_dece")
+b("05_results_discussion", -1, "+0.0062 0.0015 with the same sign", 1, "vich_isolation/vich_isolation_verdict.json",
+  "paired_delta_linear_minus_vich.d_ece_sd", "4dp", ident="s5.head_dece_sd")
+b("05_results_discussion", -1, "variational head accounts for roughly", 0, "vich_isolation/vich_isolation_verdict.json",
+  "paired_delta_linear_minus_vich.ece_relative_reduction_pct", "int", ident="s5.head_pct")
+b("05_results_discussion", -1, "-0.006 against a seed-noise envelope", 0, "a13_scratch_dose/a13_verdict.json",
+  "comparisons[1].d_slope", "3dp", ident="s5.cap_dslope")
+b("05_results_discussion", -1, "-0.006 against a seed-noise envelope", 1, "a13_scratch_dose/a13_verdict.json",
+  "comparisons[1].combined_envelope", "3dp", ident="s5.cap_env")
+b("05_results_discussion", -1, "contrast shifts it by -0.067", 0, "a13_scratch_dose/a13_verdict.json",
+  "comparisons[0].d_slope", "3dp", ident="s5.init_dslope")
+b("05_results_discussion", -1, "contrast shifts it by -0.067", 1, "a13_scratch_dose/a13_verdict.json",
+  "comparisons[0].combined_envelope", "3dp", ident="s5.init_env")
+b("05_results_discussion", -1, "confounded contrast that motivated the test", 0, "a13_scratch_dose/a13_verdict.json",
+  "comparisons[2].d_slope", "3dp", ident="s5.conf_dslope")
+b("05_results_discussion", -1, "0.080 ) turns out to be almost entirely", 0, "a13_scratch_dose/a13_verdict.json",
+  "comparisons[2].combined_envelope", "3dp", ident="s5.conf_env")
+b("05_results_discussion", -1, "0.655 ( 0.71 m scratch)", 0, "a13_scratch_dose/a13_verdict.json",
+  "fits.scratch0712.slope", "3dp", ident="s5.slope_s0712")
+b("05_results_discussion", -1, "0.655 ( 0.71 m scratch)", 2, "a13_scratch_dose/a13_verdict.json",
+  "fits.scratch2248.slope", "3dp", ident="s5.slope_s2248")
+b("05_results_discussion", -1, "0.655 ( 0.71 m scratch)", 4, "a13_scratch_dose/a13_verdict.json",
+  "fits.pretrained2248.slope", "3dp", ident="s5.slope_p2248")
+b("05_results_discussion", -1, "none of them ( at swa: -0.22", 0, A_CRIT,
+  "cells[\"stage1/gate:oracle_error\"].swa.acc.mean", "2dp", ident="s5.oracle_acc_stage1")
+b("05_results_discussion", -1, "none of them ( at swa: -0.22", 1, A_CRIT,
+  "cells[\"stage1/gate:oracle_error\"].swa.acc.sd_paired", "2dp", ident="s5.oracle_acc_stage1_sd")
+b("05_results_discussion", -1, "-0.01 0.72 and -0.23 0.49", 0, A_CRIT,
+  "cells[\"primary/gate:oracle_error\"].swa.acc.mean", "2dp", ident="s5.oracle_acc_primary")
+b("05_results_discussion", -1, "-0.01 0.72 and -0.23 0.49", 1, A_CRIT,
+  "cells[\"primary/gate:oracle_error\"].swa.acc.sd_paired", "2dp", ident="s5.oracle_acc_primary_sd")
+b("05_results_discussion", -1, "-0.01 0.72 and -0.23 0.49", 2, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.acc.mean", "2dp", ident="s5.oracle_acc_vae")
+b("05_results_discussion", -1, "-0.01 0.72 and -0.23 0.49", 3, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.acc.sd_paired", "2dp", ident="s5.oracle_acc_vae_sd")
+b("05_results_discussion", -1, "degrades student calibration by +0.0056", 0, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.ece.mean", "4dp", ident="s5.oracle_ece_vae")
+b("05_results_discussion", -1, "degrades student calibration by +0.0056", 1, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.ece.sd_paired", "4dp", ident="s5.oracle_ece_vae_sd")
+b("05_results_discussion", -1, "sign in all three seeds and a magnitude 2.1", 0, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.ece.ratio_vs_control_sd", "1dp", ident="s5.oracle_ece_vae_ratio")
+b("05_results_discussion", -1, "( 1.10 the control seed deviation", 0, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.acc.ratio_vs_control_sd", "2dp", ident="s5.oracle_acc_vae_ratio")
+b("05_results_discussion", -1, "control arm's the same cell is 1.4", 0, A_CRIT,
+  "cells[\"vae9182/gate:oracle_error\"].swa.ece.ratio_vs_paired_sd", "1dp", ident="s5.oracle_ece_vae_pratio")
+b("05_results_discussion", -1, "paired t -test at n = 3 gives", 1, A_INF,
+  "results[4].p_raw", "3dp", ident="s5.oracle_p")
+b("05_results_discussion", -1, "( +0.0015 0.0036", 0, A_CRIT,
+  "cells[\"stage1/gate:oracle_error\"].swa.ece.mean", "4dp", ident="s5.oracle_ece_stage1")
+b("05_results_discussion", -1, "( +0.0015 0.0036", 1, A_CRIT,
+  "cells[\"stage1/gate:oracle_error\"].swa.ece.sd_paired", "4dp", ident="s5.oracle_ece_stage1_sd")
+b("05_results_discussion", -1, "( +0.0015 0.0036", 2, A_CRIT,
+  "cells[\"primary/gate:oracle_error\"].swa.ece.mean", "4dp", ident="s5.oracle_ece_primary")
+b("05_results_discussion", -1, "( +0.0015 0.0036", 3, A_CRIT,
+  "cells[\"primary/gate:oracle_error\"].swa.ece.sd_paired", "4dp", ident="s5.oracle_ece_primary_sd")
+b("05_results_discussion", -1, "calibration effect smaller than 3.2", 0, A_CSM,
+  "mde_ece_swa_pct_min", "1dp", ident="s5.mde_pct_min")
+b("05_results_discussion", -1, "calibration effect smaller than 3.2", 1, A_CSM,
+  "mde_ece_swa_pct_max", "1dp", ident="s5.mde_pct_max")
+b("05_results_discussion", -1, "( 0.075 vs. 0.028", 1, A_CSM,
+  "rows[checkpoint=swa][axis=ece][teacher=vae9182][class_weight_mode=none].control_level", "3dp", ident="s5.ctrl_level_vae")
+b("05_results_discussion", -1, "-0.0042 0.0004 negative in all three seeds", 0, A_CRIT,
+  "cells[\"stage1/g2g_kl\"].swa.ece.mean", "4dp", ident="s5.g2g_ece")
+b("05_results_discussion", -1, "-0.0042 0.0004 negative in all three seeds", 1, A_CRIT,
+  "cells[\"stage1/g2g_kl\"].swa.ece.sd_paired", "4dp", ident="s5.g2g_ece_sd")
+b("05_results_discussion", -1, "-0.0042 0.0004 negative in all three seeds", 2, A_CRIT,
+  "cells[\"stage1/g2g_kl\"].swa.ece.ratio_vs_control_sd", "1dp", ident="s5.g2g_ratio")
+b("05_results_discussion", -1, "11.9 under the paired-difference denominator", 0, A_CRIT,
+  "cells[\"stage1/g2g_kl\"].swa.ece.ratio_vs_paired_sd", "1dp", ident="s5.g2g_pratio")
+b("05_results_discussion", -1, "third seed completes ( -0.0011", 0, A_CRIT,
+  "cells[\"stage1/adaptive_t\"].swa.ece.mean", "4dp", ident="s5.adaptive_stage1")
+b("05_results_discussion", -1, "third seed completes ( -0.0011", 1, A_CRIT,
+  "cells[\"stage1/adaptive_t\"].swa.ece.sd_paired", "4dp", ident="s5.adaptive_stage1_sd")
+b("05_results_discussion", -1, "( +0.0023 positive in all three seeds", 0, A_CRIT,
+  "cells[\"primary/adaptive_t\"].swa.ece.mean", "4dp", ident="s5.adaptive_primary")
+b("05_results_discussion", -1, "( +0.0023 positive in all three seeds", 1, A_CRIT,
+  "cells[\"primary/adaptive_t\"].swa.ece.ratio_vs_control_sd", "1dp", ident="s5.adaptive_primary_ratio")
+b("05_results_discussion", -1, "teacher it reverses once more", 0, A_CRIT,
+  "cells[\"vae9182/adaptive_t\"].swa.ece.mean", "4dp", ident="s5.adaptive_vae")
+b("05_results_discussion", -1, "2.10 its control's seed deviation", 0, A_CRIT,
+  "cells[\"vae9182/adaptive_t\"].swa.ece.ratio_vs_control_sd", "2dp", ident="s5.adaptive_vae_ratio")
+b("05_results_discussion", -1, "discriminative quality is adverse (auroc 0.46", 0, "rafdb_signal_quality/signal_quality_table.json",
+  "[teacher=VAE9182][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_vae")
+b("05_results_discussion", -1, "discriminative quality is adverse (auroc 0.46", 1, "rafdb_signal_quality/signal_quality_table.json",
+  "[teacher=Stage1][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_stage1")
+b("05_results_discussion", -1, "0.84 on the teachers where it was run", 0, "rafdb_signal_quality/signal_quality_table.json",
+  "[teacher=Primary][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_primary")
+b("05_results_discussion", -1, "direction. its effect on accuracy is small", 0, A_NU,
+  "nine_cell_grid[\"swa|vae9182\"].d_acc_mean", "2dp", ident="s5.ls_acc_min")
+b("05_results_discussion", -1, "-0.58 pp across teachers", 0, A_NU,
+  "nine_cell_grid[\"last|vae9182\"].d_acc_mean", "2dp", ident="s5.ls_acc_max")
+b("05_results_discussion", -1, "is large and one-signed increasing student ece", 0, A_NU,
+  "nine_cell_grid[\"swa|primary\"].d_ece_mean", "3dp", ident="s5.ls_ece_min")
+b("05_results_discussion", -1, "is large and one-signed increasing student ece", 1, A_NU,
+  "nine_cell_grid[\"swa|vae9182\"].d_ece_mean", "3dp", ident="s5.ls_ece_max")
+b("05_results_discussion", -1, "at swa and by up to +0.159", 0, A_NU,
+  "nine_cell_grid[\"last|vae9182\"].d_ece_mean", "3dp", ident="s5.ls_ece_last")
+b("05_results_discussion", -1, "reporting checkpoint the accuracy effect reaches", 0, A_NU,
+  "nine_cell_grid[\"swa|primary\"].acc_units", "1dp", ident="s5.ls_acc_units")
+b("05_results_discussion", -1, "units on any teacher whereas", 0, A_NU,
+  "nine_cell_grid[\"swa|primary\"].ece_units", "int", ident="s5.ls_ece_units_min")
+b("05_results_discussion", -1, "units on any teacher whereas", 1, A_NU,
+  "nine_cell_grid[\"swa|stage1\"].ece_units", "int", ident="s5.ls_ece_units_max")
+b("05_results_discussion", -1, "calibration harm exceeds the accuracy harm", 0, A_NU,
+  "summary.median", "int", ident="s5.ls_ratio_median")
+b("05_results_discussion", -1, "23 at the reporting checkpoint", 0, A_NU,
+  "nine_cell_grid[\"swa|primary\"].ratio", "int", ident="s5.ls_ratio_swa_min")
+b("05_results_discussion", -1, "lower ( 2.6 at a last-checkpoint cell", 0, A_NU,
+  "summary.min", "1dp", ident="s5.ls_ratio_floor")
+b("05_results_discussion", -1, "where the accuracy change ( -0.12 pp)", 0, A_NU,
+  "nine_cell_grid[\"swa|vae9182\"].d_acc_mean", "2dp", ident="s5.ls_vae_dacc")
+b("05_results_discussion", -1, "of its own control ( 0.37 pp)", 0, A_NU,
+  "nine_cell_grid[\"swa|vae9182\"].sigma_acc", "2dp", ident="s5.ls_vae_sigma_acc")
+b("05_results_discussion", -1, "calibration change is 69 times", 0, A_NU,
+  "nine_cell_grid[\"swa|vae9182\"].ece_units", "int", ident="s5.ls_vae_ece_units")
+b("05_results_discussion", -1, "all three teachers ( p_ holm 0.003", 0, A_INF,
+  "results[2].p_holm", "3dp", ident="s5.ls_pholm")
+b("05_results_discussion", -1, "rounding away. first the closest approach", 0, A_CRIT,
+  "cells[\"stage1/gate:target_logvar\"].swa.ece.ratio_vs_control_sd", "2dp", ident="s5.gate_near_miss")
+b("05_results_discussion", -1, "magnitude ( 2.51 )", 0, A_CRIT,
+  "cells[\"stage1/gate:target_logvar\"].swa.acc.ratio_vs_control_sd", "2dp", ident="s5.gate_acc_ratio")
+b("05_results_discussion", -1, "(target _logvar on primary auroc 0.84", 0, "rafdb_signal_quality/signal_quality_table.json",
+  "[teacher=Primary][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_primary2")
+b("05_results_discussion", -1, "the smallest effect of the five ( 0.23", 0, A_CRIT,
+  "cells[\"primary/gate:target_logvar\"].swa.ece.ratio_vs_control_sd", "2dp", ident="s5.gate_smallest")
+b("05_results_discussion", -1, "less well (auroc 0.70", 0, "rafdb_signal_quality/signal_quality_table.json",
+  "[teacher=Stage1][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_stage1_2")
+b("05_results_discussion", -1, "the three teachers span 0.42 pp", 1, A_P4,
+  "recipe_step3_ranking.rows[teacher=stage1].teacher_acc", "2dp", ident="s5.teacher_acc_stage1")
+b("05_results_discussion", -1, "92.01 91.82 ) and a factor of 2.9", 0, A_P4,
+  "recipe_step3_ranking.rows[teacher=primary].teacher_acc", "2dp", ident="s5.teacher_acc_primary")
+b("05_results_discussion", -1, "92.01 91.82 ) and a factor of 2.9", 1, A_P4,
+  "recipe_step3_ranking.rows[teacher=vae9182].teacher_acc", "2dp", ident="s5.teacher_acc_vae")
+b("05_results_discussion", -1, "( 0.0378 0.0396 0.0136 )", 0, A_P4,
+  "recipe_step3_ranking.rows[teacher=stage1].teacher_ece", "4dp", ident="s5.teacher_ece_stage1")
+b("05_results_discussion", -1, "( 0.0378 0.0396 0.0136 )", 1, A_P4,
+  "recipe_step3_ranking.rows[teacher=primary].teacher_ece", "4dp", ident="s5.teacher_ece_primary")
+b("05_results_discussion", -1, "( 0.0378 0.0396 0.0136 )", 2, A_P4,
+  "recipe_step3_ranking.rows[teacher=vae9182].teacher_ece", "4dp", ident="s5.teacher_ece_vae")
+b("05_results_discussion", -1, "-0.87 against student accuracy at the swa", 0, A_P4,
+  "recipe_step3_ranking.per_checkpoint.by_ckpt.swa.spearman_teacherACC_vs_studentACC", "2dp", ident="s5.rank_acc_swa")
+b("05_results_discussion", -1, "-0.87 against student accuracy at the swa", 1, A_P4,
+  "recipe_step3_ranking.per_checkpoint.by_ckpt.best.spearman_teacherACC_vs_studentACC", "2dp", ident="s5.rank_acc_best")
+b("05_results_discussion", -1, "calibration error recovers it ( +0.87", 0, A_P4,
+  "recipe_step3_ranking.per_checkpoint.by_ckpt.swa.spearman_negTeacherECE_vs_studentACC", "2dp", ident="s5.rank_ece_swa")
+b("05_results_discussion", -1, "calibration error recovers it ( +0.87", 1, A_P4,
+  "recipe_step3_ranking.per_checkpoint.by_ckpt.best.spearman_negTeacherECE_vs_studentACC", "2dp", ident="s5.rank_ece_best")
+b("05_results_discussion", -1, "( 89.60 pp each)", 0, A_P4,
+  "recipe_step3_ranking.per_checkpoint.by_ckpt.swa.student_acc.stage1", "2dp", ident="s5.tie_swa")
+b("05_results_discussion", -1, "checkpoint we report as primary ( 0.52 pp", 0, A_P4,
+  "recipe_step3_ranking.cost_of_wrong_pick_pp", "2dp", ident="s5.sel_cost_best")
+b("05_results_discussion", -1, "section ( 0.41 pp)", 0, A_RT,
+  "T5_mechanisms[\"stage1/g2g_kl\"].swa.d_acc_mean", "2dp", ident="s5.largest_mech_acc")
+# (cift beyan: `res.tstar_optima_gap_pct` ayni jetonu elle yazilan beyanla paylasiyordu; dusuruldu)
+dv("res.jsd_slice_coverage_pct", "99.1", "pct_of",
+   [op(A_JSD, "results[\"(a) all rows\"].n - results[\"(c) stratum 6-7\"].n"),
+    op(A_JSD, "results[\"(a) all rows\"].n")],
+   "1dp", "05_results_discussion", -1, "every slice holding", 1)
+dv("res.tradeoff_ece_cost", "+0.0159", "diff",
+   [op(A_FSJ, "by_checkpoint.swa[\"0.74\"].ece[0]"),
+    op(A_FSJ, "by_checkpoint.swa[\"0.5063\"].ece[0]")],
+   "4dp", "05_results_discussion", -1, "temperature costs", 0)
+dv("res.tradeoff_jsd_gain", "-0.0051", "diff",
+   [op(A_FSJ, "by_checkpoint.swa[\"0.74\"].jsd[0]"),
+    op(A_FSJ, "by_checkpoint.swa[\"0.5063\"].jsd[0]")],
+   "4dp", "05_results_discussion", -1, "temperature costs", 1)
+# (cift beyan: `res.studentTS_jsd_advantage` ayni jetonu elle yazilan beyanla paylasiyordu; dusuruldu)
+dv("res.sharpened_target_acc_gain", "+0.40", "diff",
+   [op(A_TDO, "arms.ferplus.points[1].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "05_results_discussion", -1, "+0.40 pp on FERPlus", 0)
+dv("res.ferplus_control_mde", "0.74", "sum",
+   [op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_sd"),
+    op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_sd")],
+   "2dp", "05_results_discussion", -1, "T = 1 control", 2)
+dv("res.corner_jsd_shortfall", "0.0002", "diff",
+   [op(A_R3W, "occupancy[\"0.74\"].jsd - corner.JSD_min"),
+    op(A_R3W, "occupancy[\"0.74\"].bar_jsd")],
+   "4dp", "05_results_discussion", -1, "qualify missing", 0)
+dv("res.detrend_shift_max", "0.04", "diff",
+   [op(A_OST, "results[\"100\"].a2_raw.mean"),
+    op(A_OST, "results[\"100\"].a2_detrended.mean")],
+   "2dp", "05_results_discussion", -1, "ordinary least", 0)
+dv("res.rafdb_ece_effect_pct", "4", "pct_drop",
+   [op(A_SAI, "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece_scale_denominators[\"mean ECE @last\"]"),
+    op(A_SAI, "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece_scale_denominators[\"mean ECE @best\"]")],
+   "int", "05_results_discussion", -1, "calibration effect is", 0)
+# (cift beyan: `res.ferplus_bestswa_ece_pct_lo` ayni jetonu elle yazilan beyanla paylasiyordu; dusuruldu)
+# (cift beyan: `res.ferplus_bestswa_ece_pct_hi` ayni jetonu elle yazilan beyanla paylasiyordu; dusuruldu)
+dv("res.fp16_b1_ratio_lo", "1.20", "ratio",
+   [op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp16].median_ms"),
+    op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp32].median_ms")],
+   "2dp", "05_results_discussion", -1, "sessions ( 1.20", 0)
+dv("res.fp16_b1_ratio_hi", "1.34", "ratio",
+   [op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp16].median_ms"),
+    op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp32].median_ms")],
+   "2dp", "05_results_discussion", -1, "sessions ( 1.20", 1)
+dv("res.fp16_b32_ratio_lo", "0.63", "ratio",
+   [op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp16].median_ms"),
+    op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp32].median_ms")],
+   "2dp", "05_results_discussion", -1, "behaved as expected", 0)
+dv("res.fp16_b32_ratio_hi", "0.69", "ratio",
+   [op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp16].median_ms"),
+    op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp32].median_ms")],
+   "2dp", "05_results_discussion", -1, "behaved as expected", 1)
+dv("s5.ece_reduction_rafdb", "41", "pct_drop",
+   [op(A_TDO, "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean")],
+   "int", "05_results_discussion", -1, "0.0428 0.0003 at t^ *", 2)
+dv("s5.full_swing", "2.4", "ratio",
+   [op(A_TDO, "arms.rafdb_stage1.points[4].by_ckpt.swa.ece_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean")],
+   "1dp", "05_results_discussion", -1, "0.1008 0.0025 at t = 2.2", 3)
+dv("s5.acc_band_stage1", "0.30", "diff",
+   [op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "05_results_discussion", -1, "it stays within a 0.30 pp band", 0)
+dv("s5.acc_paired_gain", "+0.13", "diff",
+   [op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_stage1.points[1].by_ckpt.swa.acc_mean")],
+   "2dp", "05_results_discussion", -1, "against the native teacher is +0.13", 0)
+dv("s5.ctrl_deterioration", "6.4", "ratio",
+   [op(A_TDO, "arms.rafdb_vae9182.points[4].by_ckpt.swa.ece_mean"),
+    op(A_TDO, "arms.rafdb_vae9182.points[1].by_ckpt.swa.ece_mean")],
+   "1dp", "05_results_discussion", -1, "6.4 -fold deterioration", 0)
+dv("s5.acc_band_vae9182", "0.51", "diff",
+   [op(A_TDO, "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "05_results_discussion", -1, "within 0.51 pp.", 0)
+dv("s5.ece_reduction_ferplus", "76", "pct_drop",
+   [op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.ece_mean"),
+    op(A_TDO, "arms.ferplus.points[1].by_ckpt.swa.ece_mean")],
+   "int", "05_results_discussion", -1, "t^ * a 76 % reduction", 0)
+dv("s5.collapse_ratio_510", "16.3", "ratio",
+   [op(A_RT, "T11_collapse.pairs[\"T·τ = 5.10\"].mean"),
+    op(A_RT, "T11_collapse.two_bar")],
+   "1dp", "05_results_discussion", -1, "seeds and magnitudes 16.3", 0)
+dv("s5.collapse_ratio_1020", "13.5", "ratio",
+   [op(A_RT, "T11_collapse.pairs[\"T·τ = 10.20\"].mean"),
+    op(A_RT, "T11_collapse.two_bar")],
+   "1dp", "05_results_discussion", -1, "seeds and magnitudes 16.3", 1)
+dv("s5.acc_band_ferplus", "0.49", "diff",
+   [op(A_TDO, "arms.ferplus.points[0].by_ckpt.swa.acc_mean"),
+    op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_mean")],
+   "2dp", "05_results_discussion", -1, "t across a 0.49 pp band", 0)
+dv("s5.capacity_acc_span", "+1.94", "diff",
+   [op(A_RT, "T10_capacity_cells.swa[\"scratch w100ns\"].acc_mean"),
+    op(A_RT, "T10_capacity_cells.swa[\"scratch w050\"].acc_mean")],
+   "2dp", "05_results_discussion", -1, "accuracy by +1.94 pp but student ece", 0)
+dv("s5.teacher_acc_span", "0.42", "diff",
+   [op(A_P4, "recipe_step3_ranking.rows[teacher=stage1].teacher_acc"),
+    op(A_P4, "recipe_step3_ranking.rows[teacher=vae9182].teacher_acc")],
+   "2dp", "05_results_discussion", -1, "the three teachers span 0.42 pp", 0)
+dv("s5.teacher_ece_factor", "2.9", "ratio",
+   [op(A_P4, "recipe_step3_ranking.rows[teacher=primary].teacher_ece"),
+    op(A_P4, "recipe_step3_ranking.rows[teacher=vae9182].teacher_ece")],
+   "1dp", "05_results_discussion", -1, "92.01 91.82 ) and a factor of 2.9", 2)
+dv("s5.sel_cost_swa", "0.35", "diff",
+   [op(A_P4, "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.swa.acc_mean"),
+    op(A_P4, "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.swa.acc_mean")],
+   "2dp", "05_results_discussion", -1, "cost of the accuracy rule is 0.35 pp", 0)
+dv("s5.sel_cost_last", "0.83", "diff",
+   [op(A_P4, "recipe_step3_ranking.rows[teacher=vae9182].student_by_ckpt.last.acc_mean"),
+    op(A_P4, "recipe_step3_ranking.rows[teacher=stage1].student_by_ckpt.last.acc_mean")],
+   "2dp", "05_results_discussion", -1, "checkpoint 0.83 pp at the last)", 0)
+dv("s5.baseline_ece_overconf", "0.075", "mean",
+   [op(A_CSM, "rows[checkpoint=swa][axis=ece][teacher=stage1][class_weight_mode=none].control_level"),
+    op(A_CSM, "rows[checkpoint=swa][axis=ece][teacher=primary][class_weight_mode=none].control_level")],
+   "3dp", "05_results_discussion", -1, "( 0.075 vs. 0.028", 0)
+EX_05 = [
+    ("visibly different", 0, "table_reference",
+     "Supplementary Figure S3 atfi -- capraz referans, olcum degil"),
+    ("teacher optima", 0, "criterion_constant",
+     "'complete-row' kesitinin TANIMI: oy toplami = 10; esik tanimi, olcum degil"),
+    ("every slice holding", 0, "criterion_constant",
+     "kesit buyuklugu esigi 1000 satir -- S2 duzyazisinda ayni esik zaten criterion_constant olarak muaf"),
+    ("(Supplementary Table S3).", 0, "table_reference",
+     "Supplementary Table S3 atfi"),
+    ("the student distilled", 0, "hyperparameter",
+     "kolun damitma sicakligi (T=0.5063'un yuvarlanmisi) -- kol ETIKETI; olculen T*_NLL 05:608'de ayrica baglandi"),
+    ("( 0.0185 0.0016", 2, "hyperparameter",
+     "kol etiketi T=0.74 (damitma sicakligi), olcum degil"),
+    ("inconclusive", 0, "sample_size",
+     "n = 3 tohum -- mevcut tab_human/tab_holm muafiyetleriyle ayni"),
+    ("scaling preserves", 0, "hyperparameter",
+     "olceklenmemis kol T=1"),
+    ("T = 1 control", 0, "hyperparameter",
+     "kontrol kolu T=1"),
+    ("human-aligned", 0, "hyperparameter",
+     "aday tarifin kol etiketi T=0.74"),
+    ("confidence gap", 0, "table_reference",
+     "Supplementary Figure S4 atfi"),
+    ("remain over-confident", 2, "hyperparameter",
+     "izgaranin ucu T=2.2 -- kol ayari"),
+    ("(Supplementary Table S6", 0, "table_reference",
+     "Supplementary Table S6 atfi"),
+    ("(Supplementary Table S6", 1, "table_reference",
+     "Supplementary Figure S2 atfi"),
+    ("yields +0.645", 2, "benchmark_protocol",
+     "son-K penceresinin uzunlugu K=50 -- kestiricinin olcum protokolu (alternatif: criterion_constant)"),
+    ("at K = 100 on", 0, "benchmark_protocol",
+     "son-K penceresinin uzunlugu K=100"),
+    ("the last 100", 0, "benchmark_protocol",
+     "egilimin uydurulduğu pencere: son 100 epok"),
+    ("n = 131 SE 0.0008", 2, "sample_size",
+     "serbestlik derecesi df = n-1 = 130; n'den tureyen sabit"),
+    ("0.0005 95 % CI", 1, "criterion_constant",
+     "%95 guven duzeyi -- olcut, olcum degil"),
+    ("resolvable (", 0, "sample_size",
+     "serbestlik derecesi df = 11"),
+    ("on both datasets", 2, "sample_size",
+     "serbestlik derecesi df = 117"),
+    ("4.3 10^ -7 on", 1, "scientific_notation",
+     "YENI SINIF ONERISI: bilimsel gosterimin TABANI (10). Tek bir p degerinin yazimindan dogan jeton, ayri bir nicelik degil"),
+    ("4.3 10^ -7 on", 2, "scientific_notation",
+     "YENI SINIF ONERISI: ayni gosterimin USSU (-7)"),
+    ("t(11) = 3.7 0.003", 0, "sample_size",
+     "serbestlik derecesi df = 11"),
+    ("is unresolved", 2, "sample_size",
+     "serbestlik derecesi df = 117"),
+    ("+0.0069 (SD 0.0088", 4, "sample_size",
+     "serbestlik derecesi df = 11"),
+    ("Table S7) ---", 0, "table_reference",
+     "Supplementary Table S7 atfi"),
+    ("( 98.32 % at", 1, "teacher_name_digits",
+     "'VAE9182' ogretmen adinin icindeki basamak"),
+    ("smaller than", 1, "benchmark_protocol",
+     "olcum protokolu: batch 1"),
+    ("3.91 at batch", 1, "benchmark_protocol",
+     "olcum protokolu: batch 32"),
+    ("recommendation:", 0, "benchmark_protocol",
+     "olcum protokolu: batch 1"),
+    ("sessions ( 1.20", 2, "dtype_name",
+     "'fp32' veri tipi adinin icindeki basamak (tab_efficiency'de ayni sekilde muaf)"),
+    ("sessions ( 1.20", 3, "benchmark_protocol",
+     "olcum protokolu: batch 32"),
+    ("the VAE9182 one-seed-to-three", 0, "teacher_name_digits",
+     "'VAE9182' adinin icindeki basamak"),
+    ("are not among", 0, "teacher_name_digits",
+     "'Stage1' adinin icindeki basamak"),
+    ("G2G + adaptive-", 0, "hyperparameter",
+     "'G2G' mekanizma adinin icindeki 2 -- S1 muafiyetlerinde ('G2G basligindaki 2') ayni sinif kullanildi"),
+    ("G2G + adaptive-", 1, "teacher_name_digits",
+     "'VAE9182' adinin icindeki basamak"),
+    ("deviations over seeds ( n = 3", 0, "sample_size",
+     "n=3 tohum sayisi -- tasarim, olcum degil"),
+    ("0.1008 0.0025 at t = 2.2", 2, "hyperparameter",
+     "izgara sicakligi T=2.2"),
+    ("calibration estimator in 20 of 21 cells", 1, "sample_size",
+     "3 seri x 7 kestirici = 21 hucre; tasarim sayimi"),
+    ("metrics --- nll brier equal-width ece at", 0, "benchmark_protocol",
+     "kutu sayisi 10 -- olcum protokolu (S2 duzyazisindaki ayni muafiyetin esi)"),
+    ("metrics --- nll brier equal-width ece at", 1, "benchmark_protocol",
+     "kutu sayisi 15 -- olcum protokolu"),
+    ("metrics --- nll brier equal-width ece at", 2, "benchmark_protocol",
+     "kutu sayisi 25 -- olcum protokolu"),
+    ("same temperature in 20 of 21", 1, "sample_size",
+     "3 seri x 7 kestirici = 21 hucre; tasarim sayimi"),
+    ("the seed-majority rule of supplementary", 0, "table_reference",
+     "Supplementary Section S2 atfi"),
+    ("seven select t^ * = 1.34 on this teacher", 1, "hyperparameter",
+     "kontrol kolunun olceklenmemis noktasi T=1"),
+    ("(supplementary table s1)", 0, "table_reference",
+     "Supplementary Table S1 atfi"),
+    ("in all three seeds) is reported in supplementary", 0, "table_reference",
+     "Supplementary Section S2 atfi"),
+    ("the pre-declared control (frozen 20", 0, "preregistration_provenance",
+     "on-beyan dondurma suresi (20 s); saglamasi PREREGISTRATIONS.md + git zaman damgasi"),
+    ("predicted a flat-to-shallow response", 0, "hyperparameter",
+     "on-beyanin merkezi T=1"),
+    ("and no deep interior dip with t = 1.34", 0, "hyperparameter",
+     "kontrol kolunun on-beyanli izgara noktasi T=1.34 -- bu ogretmenin KENDI fiti degil, RAF-DB Stage1 fitinin izgara etiketi olarak yeniden kullanimi"),
+    ("at t = 1 and every departure worsens", 0, "hyperparameter",
+     "olceklenmemis kol T=1"),
+    ("at t = 1 and every departure worsens", 1, "teacher_name_digits",
+     "VAE9182 adinin icindeki basamak"),
+    ("occurs at t = 1 ( 0.0330", 0, "hyperparameter",
+     "olceklenmemis kol T=1"),
+    ("occurs at t = 1 ( 0.0330", 3, "hyperparameter",
+     "olceklenmemis kol T=1 (ayni cumlede ikinci gecis)"),
+    ("section s2 by seed", 0, "table_reference",
+     "Supplementary Section S2 atfi"),
+    ("0.0447 at t = 0.85 on the near side", 1, "hyperparameter",
+     "izgara sicakligi T=0.85"),
+    ("0.0447 at t = 0.85 on the near side", 3, "hyperparameter",
+     "izgara sicakligi T=1.34 (kontrol kolundaki etiket)"),
+    ("0.1282 at t = 1.7", 1, "hyperparameter",
+     "izgara sicakligi T=1.7"),
+    ("0.1282 at t = 1.7", 4, "hyperparameter",
+     "izgara sicakligi T=2.2"),
+    ("0.15 from the native teacher", 0, "hyperparameter",
+     "on-beyanli izgaranin adim genisligi 0.15 (1.00-0.85)"),
+    ("t = 0.95 and t = 1.10 (three seeds each", 0, "hyperparameter",
+     "sonradan eklenen kolun sicakligi T=0.95"),
+    ("t = 0.95 and t = 1.10 (three seeds each", 1, "hyperparameter",
+     "sonradan eklenen kolun sicakligi T=1.10"),
+    ("of the pre-declared counts) bracket those optima", 0, "hyperparameter",
+     "ince izgaranin cozunurlugu 0.05"),
+    ("-0.0033 0.0042 at t = 0.95", 2, "hyperparameter",
+     "kol sicakligi T=0.95"),
+    ("t = 1.10 ( + - + 0.98", 0, "hyperparameter",
+     "kol sicakligi T=1.10"),
+    ("point-estimate minimum sits at t = 0.95", 0, "hyperparameter",
+     "kol sicakligi T=0.95"),
+    ("t = 1 ) which is exactly the shape", 0, "hyperparameter",
+     "olceklenmemis kol T=1"),
+    ("clears the native -0.0034 in both", 0, "criterion_constant",
+     "kill-switch'in on-beyanli esigi; artefaktta ELLE YAZILMIS sabit (adaptive_t_headroom.block_b_miscalibration_causal.prereg_bar = -0.0034) -- BEYAN, olc"),
+    ("worst arm --- were frozen 19", 0, "preregistration_provenance",
+     "on-beyan dondurma suresi (19 s)"),
+    ("supplementary table s4", 0, "table_reference",
+     "Supplementary Table S4 atfi"),
+    ("supplementary table s10", 0, "table_reference",
+     "Supplementary Table S10 atfi"),
+    ("individual points gives = 0.789", 1, "criterion_constant",
+     "%95 guven duzeyi -- istatistik konvansiyonu"),
+    ("which. because is fixed at 6 everywhere", 0, "hyperparameter",
+     "ogrenci tarafi damitma sicakligi tau=6"),
+    ("stage1 6.0 on vae9182 and 3.06", 0, "teacher_name_digits",
+     "Stage1 adinin icindeki basamak"),
+    ("stage1 6.0 on vae9182 and 3.06", 2, "teacher_name_digits",
+     "VAE9182 adinin icindeki basamak"),
+    ("stage1 teacher at three seeds each", 0, "teacher_name_digits",
+     "Stage1 adinin icindeki basamak"),
+    ("prediction is falsified in both pairs", 0, "hyperparameter",
+     "bilesik sicaklik etiketi T*tau=5.10 (esli izgara noktasinin adi)"),
+    ("10.20 by -0.0324", 0, "hyperparameter",
+     "bilesik sicaklik etiketi T*tau=10.20 (esli izgara noktasinin adi)"),
+    ("t = 1.70 ) and -0.0025", 0, "hyperparameter",
+     "kol sicakligi T=1.70"),
+    ("t = 1.70 ) and -0.0025", 3, "hyperparameter",
+     "kol sicakligi T=0.85"),
+    ("inconsistent) whereas holding = 6", 0, "hyperparameter",
+     "sabit tutulan tau=6"),
+    ("inconsistent) whereas holding = 6", 1, "hyperparameter",
+     "kol sicakligi T=0.85"),
+    ("to 1.70 shifts it by -0.0349", 0, "hyperparameter",
+     "kol sicakligi T=1.70"),
+    ("not. the benefit peaks near = 0.5", 0, "hyperparameter",
+     "sert etiket agirligi alpha=0.5"),
+    ("( +0.0327 ) and then changes sign", 1, "hyperparameter",
+     "sert etiket agirligi alpha=0.9"),
+    ("holds in 3/3 seeds", 0, "sign_count",
+     "3/3 tohum isaret sayimi -- pay"),
+    ("holds in 3/3 seeds", 1, "sign_count",
+     "3/3 tohum isaret sayimi -- payda"),
+    ("= 0.3 used throughout this paper", 0, "hyperparameter",
+     "sert etiket agirligi alpha=0.3"),
+    ("on raf-db (bootstrap 95 % ci", 0, "criterion_constant",
+     "%95 guven duzeyi -- istatistik konvansiyonu"),
+    ("ferplus ( [1.64 2.48]", 2, "benchmark_protocol",
+     "parametrik bootstrap cekim sayisi 20000 -- olcum protokolu. Binlik ayraci "
+     "duzeltilmeden once bu sayi iki jetona bolunuyordu ve iki muafiyet gerekiyordu."),
+    ("exclude 1 . averaging all six", 0, "null_value",
+     "bootstrap araliginin disladigi NULL deger 1"),
+    ("teacher both comparisons' intervals straddle", 0, "null_value",
+     "araliklarin kapsadigi NULL deger 1"),
+    ("(supplementary table s5 and figure s1)", 0, "table_reference",
+     "Supplementary Table S5 atfi"),
+    ("(supplementary table s5 and figure s1)", 1, "table_reference",
+     "Supplementary Figure S1 atfi"),
+    ("( 0.71 2.25 m all trained from scratch)", 0, "architecture_dim",
+     "ogrenci parametre sayisi 0.71 M -- mimari boyutu"),
+    ("( 0.71 2.25 m all trained from scratch)", 1, "architecture_dim",
+     "ogrenci parametre sayisi 2.25 M -- mimari boyutu"),
+    ("the same three temperatures on three arms", 0, "architecture_dim",
+     "ogrenci parametre sayisi 0.71 M"),
+    ("2.25 m scratch and 2.25 m pre-trained", 0, "architecture_dim",
+     "ogrenci parametre sayisi 2.25 M (scratch kol)"),
+    ("2.25 m scratch and 2.25 m pre-trained", 1, "architecture_dim",
+     "ogrenci parametre sayisi 2.25 M (pre-trained kol)"),
+    ("therefore resolvable. (both scratch arms use n = 3", 0, "sample_size",
+     "n=3 tohum sayisi"),
+    ("therefore resolvable. (both scratch arms use n = 3", 1, "hyperparameter",
+     "kol sicakligi T=1"),
+    ("therefore resolvable. (both scratch arms use n = 3", 2, "sample_size",
+     "n=2 tohum sayisi"),
+    ("therefore resolvable. (both scratch arms use n = 3", 3, "hyperparameter",
+     "kol sicakligi T=1.7"),
+    ("and 2.2 ; the pre-trained arm uses n = 3", 0, "hyperparameter",
+     "kol sicakligi T=2.2"),
+    ("and 2.2 ; the pre-trained arm uses n = 3", 1, "sample_size",
+     "n=3 tohum sayisi"),
+    ("arms hold the dose--response with r^ 2", 0, "metric_name_digits",
+     "YENI SINIF onerisi: R^2 metrik adindaki us; bir olcum degil, ad/formul parcasi (S1'de benzerleri bugun 'hyperparameter' olarak beyan edilmis, dogru si"),
+    ("0.655 ( 0.71 m scratch)", 1, "architecture_dim",
+     "ogrenci parametre sayisi 0.71 M"),
+    ("0.655 ( 0.71 m scratch)", 3, "architecture_dim",
+     "ogrenci parametre sayisi 2.25 M"),
+    ("( 2.25 m pre-trained) so initialisation", 0, "architecture_dim",
+     "ogrenci parametre sayisi 2.25 M"),
+    ("seeds on all three teachers (the vae9182", 0, "teacher_name_digits",
+     "VAE9182 adinin icindeki basamak"),
+    ("carried three pre-declared predictions", 0, "teacher_name_digits",
+     "Stage1 adinin icindeki basamak"),
+    ("1 in the harmful direction)", 0, "criterion_constant",
+     "on-beyanli sinir 1x kontrol tohum sd'si -- esik tanimi"),
+    ("paired t -test at n = 3 gives", 0, "sample_size",
+     "n=3 tohum sayisi"),
+    ("table s9: at the swa checkpoint", 0, "table_reference",
+     "Supplementary Table S9 atfi"),
+    ("head and ; supplementary section s5", 0, "table_reference",
+     "Supplementary Section S5 atfi"),
+    ("calibration on the stage1 teacher consistently", 0, "teacher_name_digits",
+     "Stage1 adinin icindeki basamak"),
+    ("+-- and -++ against stage1's", 0, "teacher_name_digits",
+     "Stage1 adinin icindeki basamak"),
+    ("the miscalibrated teacher at n = 2", 0, "sample_size",
+     "n=2 tohum sayisi"),
+    ("and we say why: the g2g", 0, "method_name_digits",
+     "YENI SINIF onerisi: G2G (Gaussian-to-Gaussian) yontem adinin icindeki basamak -- olcum degil; teacher_name_digits'in yontem karsiligi"),
+    ("stage1 target _logvar", 0, "teacher_name_digits",
+     "\\texttt{stage1} hucre etiketindeki basamak"),
+    ("one (supplementary section s5)", 0, "table_reference",
+     "Supplementary Section S5 atfi"),
+    ("two-sided p at n = 3 is 0.333", 0, "sample_size",
+     "n=3 tohum/ogretmen sayisi"),
+    ("two-sided p at n = 3 is 0.333", 1, "criterion_constant",
+     "n=3'te iki yanli permutasyon testinin ULASABILECEGI en kucuk p (2/6 = 0.333) -- kombinatorik sabit, bir olcum degil"),
+]
+for _row, _idx, _cls, _why in EX_05:
+    ex("05_results_discussion", -1, _row, _idx, _cls, _why)
+
+
+# --- §4 veri kumesi buyuklukleri: BINLIK AYRACI duzeltilince baglanabilir oldular ----------
+# Bu bes sayi 19 Agu'da `split_identity` uretilirken zaten OLCULMUSTU, ama tarayici `$15{,}339$`
+# gibi yazimlari ikiye boluyordu ve jetonlar "15" + "339" olarak kayitsiz kaliyordu. Yani
+# eksik olan olcum degil, JETONLASTIRMAYDI (20 Agu'da duzeltildi).
+b("04_experiments", -1, "RAF-DB : 15339 images", 0, A_SPL,
+  'datasets["RAF-DB"].rows_total', "int", ident="s4.rafdb_rows_total")
+b("04_experiments", -1, "12271 training and 3068", 0, A_SPL,
+  'datasets["RAF-DB"].n_train', "int", ident="s4.rafdb_n_train")
+b("04_experiments", -1, "12271 training and 3068", 1, A_SPL,
+  'datasets["RAF-DB"].n_reporting', "int", ident="s4.rafdb_n_reporting")
+b("04_experiments", -1, "annotators per image. We use 28259", 0, A_SPL,
+  'datasets["FERPlus"].n_train', "int", ident="s4.ferplus_n_train")
+b("04_experiments", -1, "canonical train and validation partitions merged", 0, A_SPL,
+  'datasets["FERPlus"].n_reporting', "int", ident="s4.ferplus_n_reporting")
+
+# --- §1 katki listesinin madde numaralari + iki ad-icindeki basamak ------------------------
+# "(1) ... (5)" bir NUMARALANDIRMADIR; makale bunlari duzyazida da geri cagiriyor
+# ("(1) and (2) rest on paired interventions"). Olcum degil, gonderge.
+INTRO_ENUM = [("(1) A causal dose", 0), ("(2) Evidence that calibration", 0),
+              ("(3) A controlled replication", 0), ("(4) A FER-specific", 0),
+              ("(5) A checkpoint-selection", 0),
+              ("calibration so unlike (1) it is", 0),
+              ("is used. (1) and (2) rest", 0), ("is used. (1) and (2) rest", 1),
+              ("asymmetry are post-hoc. (5)", 0),
+              ("runs; (3) is observational", 0),
+              ("decision rule rather than a causal finding; (4)", 0)]
+for _row, _idx in INTRO_ENUM:
+    ex("01_introduction", -1, _row, _idx, "enumerator",
+       "katki listesinin madde numarasi -- gonderge, olcum degil")
+ex("01_introduction", -1, "cheaply. Such distributions are not unique", 0,
+   "dataset_name_digits", "'CIFAR-10H' veri kumesi adinin icindeki basamak")
+ex("abstract", -1, "its calibration while leaving top-1", 0, "metric_name_digits",
+   "'top-1' metrik adinin icindeki basamak -- olcum degil")
+b("02_related_work", -1, "sits in this regime", 0,
+  "p5_efficiency/capacity_law_check.json", "capacity_cells_at_T1.w100ns.params_m", "2dp",
+  ident="related_work.student_params_m")
+
+
+# "20 of 21 cells" §5'te IKI kez daha geciyor (47 ve 50). Ayni turetme, ayri jetonlar --
+# §3'teki `meth.argmin_cells_agreeing` ile ayni operandlar.
+for _i, _row in enumerate(("calibration estimator in 20 of 21 cells",
+                           "same temperature in 20 of 21")):
+    dv(f"res.argmin_cells_agreeing_{_i}", "20", "sum",
+       [op(A_ROB, 'series["RAF-DB stage1"]._consensus_metrics_agreeing'),
+        op(A_ROB, 'series["RAF-DB vae9182"]._consensus_metrics_agreeing'),
+        op(A_ROB, 'series["FERPlus"]._consensus_metrics_agreeing')],
+       "int", "05_results_discussion", -1, _row, 0)
 
 
 # =============================================================================
@@ -1127,6 +2907,16 @@ def build(paper_root):
             val = vals[0] - vals[1]
         elif d["formula"] == "pct_of":
             val = 100.0 * vals[0] / vals[1]
+        elif d["formula"] == "sum":
+            val = sum(vals)
+        elif d["formula"] == "mean":
+            val = sum(vals) / len(vals)
+        elif d["formula"] == "pct_excess":
+            # a'nin b'yi asma orani, PAYDA b. `pct_drop`tan tek farki paydasi; ayri isim
+            # verildi cunku bir oranin paydasi FORMULUN ADINDA da gorunmeli -- 20 Agu'da
+            # `pct_drop` ile denendi ve 63 yerine 39 verdi, yani iki formul ayni sayiyi
+            # ASLA vermiyor ve karistirilmalari sessiz kalmiyor.
+            val = 100.0 * (vals[0] - vals[1]) / vals[1]
         elif d["formula"] == "pct_drop":
             # yuzde AZALMA: (taban - duzeltilmis) / taban x 100. Payda ACIKCA TABAN -- bir oranin
             # paydasi cumlede adlandirilmali (17 Agu kurali), burada da alan yolu olarak duruyor.
@@ -1143,7 +2933,17 @@ def build(paper_root):
             hit = match_tokens(toks, d["unit"], d["section"], d["row"], d["idx"])
             if len(hit) == 1:
                 tok = hit[0]
-                bound_keys[tok["key"]] = d["id"]
+                # 20 Agu 2026: bu satir eskiden KOSULSUZ atiyordu. Bir jeton hem `b()` hem
+                # `dv()` tarafindan sahiplenildiginde hicbir sey bagirmiyor, ama jeton
+                # muhasebesi (bound + derived_in_scope + exempt + unbound = tokens) fazla
+                # veriyordu -- altisi birden bugun olculdu. Artik ihlal.
+                if tok["key"] in bound_keys:
+                    problems.append({"kind": "double_bound", "id": d["id"],
+                                     "detail": f"turetilmis beyan zaten sahiplenilmis jetonu "
+                                               f"isaretliyor: {tok['key']}"})
+                    tok = None
+                else:
+                    bound_keys[tok["key"]] = d["id"]
             else:
                 problems.append({"kind": "derived_matched_nothing", "id": d["id"],
                                  "detail": f"{len(hit)} jeton · {d['unit']} "

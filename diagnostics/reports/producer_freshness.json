@@ -43,7 +43,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 6.97,
+      "seconds": 6.09,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -59,7 +59,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.05,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -75,7 +75,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.05,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -90,7 +90,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 42.79,
+      "seconds": 35.22,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -207,7 +207,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.62,
+      "seconds": 0.6,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -239,7 +239,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.27,
+      "seconds": 4.84,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -255,7 +255,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.05,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -271,7 +271,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.62,
+      "seconds": 0.59,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -287,7 +287,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 1.81,
+      "seconds": 1.84,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -303,7 +303,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.05,
+      "seconds": 4.67,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -341,7 +341,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.74,
+      "seconds": 4.39,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -357,7 +357,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.07,
+      "seconds": 0.06,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -373,11 +373,9 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.81,
+      "seconds": 0.77,
       "changed": [],
-      "side_outputs": [
-        "paper/figures/graphical_abstract.pdf"
-      ],
+      "side_outputs": [],
       "returncode": 0,
       "note": "",
       "script": "diagnostics/graphical_abstract.py",
@@ -390,7 +388,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 31.71,
+      "seconds": 25.26,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -438,7 +436,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.64,
+      "seconds": 0.62,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -454,7 +452,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.33,
+      "seconds": 4.66,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -470,7 +468,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 6.18,
+      "seconds": 5.55,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -606,7 +604,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.19,
+      "seconds": 0.2,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -669,7 +667,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.43,
+      "seconds": 4.91,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -685,7 +683,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.07,
+      "seconds": 4.58,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -765,7 +763,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.77,
+      "seconds": 4.55,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -797,7 +795,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.54,
+      "seconds": 5.23,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -829,7 +827,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.61,
+      "seconds": 0.6,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -883,7 +881,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.27,
+      "seconds": 0.26,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -945,7 +943,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.75,
+      "seconds": 4.5,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -993,7 +991,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 9.05,
+      "seconds": 8.73,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1008,7 +1006,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.05,
+      "seconds": 0.06,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1024,7 +1022,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 7.23,
+      "seconds": 6.77,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1040,7 +1038,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.67,
+      "seconds": 5.28,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1056,7 +1054,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.77,
+      "seconds": 5.4,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,

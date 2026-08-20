@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-19T22:29:48",
-  "reason": "N18 (19 Agu, okuma turu 1): yeni artefakt `split_identity` kapiya alindi. 15 sapma, hepsi APPEARED: iki veri kumesi icin n_train / n_reporting / rows_total / n_partitions (8) ve RAF-DB raporlanan bolmesinin yedi sinif sayimi (7). CHANGED/VANISHED/MOVED YOK -- hicbir mevcut olcum degeri degismedi. Bu sayilar makalenin 4. bolumunde basili (15.339 / 12.271 / 3.068 / 28.259 / 3.153) ama sections/*.tex defter kapsaminda olmadigi icin henuz BAGLI degil; kapiya alinmalari, kapsam genisledigi gun bag kurulabilsin ve o gune kadar da artefakt sessizce kaymasin diye.",
+  "accepted_at": "2026-08-20T16:31:27",
+  "reason": "N19 (20 Agu, son tur): GOVDE DUZYAZISI defter kapsamina girdi. 102 sapma: 10 MOVED ve 92 APPEARED; CHANGED/VANISHED YOK -- hicbir OLCUM degeri degismedi, degisen kapsamin kendisi. MOVED olanlarin onu da defterin KENDI sayaclari: jeton 862 -> 1677, bagli 695 -> 1095, muaf 150 -> 496, turetilmis 21 -> 67, yerlesim 178 -> 340, KAYITSIZ 0 -> 23, uyusmazlik 0 -> 2. APPEARED olanlar yeni turetilmis kayitlar ve ferplus_abstention_entropy in butun-fold sayimlari (n_rows_all_folds 31412, rows_below_ten_all_folds 9204, share_below_ten_all_folds %29,3009) -- bu son uc alan bu turda YAZILDI cunku makalenin %29,3 sayisinin ureticisi yoktu. UYUSMAZLIK 2 ve IKISI DE GERCEK MAKALE KUSURU (ortulmedi): \u00a71:151 ve \u00a72:229 \"+0.65\" basiyor, alan 0.6445305842767274 yani 2 basamakta 0.64; 0.65 ancak CIFT YUVARLAMAYLA cikiyor (0.6445 -> 0.645 -> 0.65) ve makale ayni niceligi \u00a74:150, \u00a75:781, tab_selection_audit:25 te 3 basamakla DOGRU basiyor.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -467,37 +467,37 @@
       null
     ],
     "N13/count/tokens": [
-      862,
+      1677,
       null,
       null
     ],
     "N13/count/bound": [
-      695,
+      1095,
       null,
       null
     ],
     "N13/count/derived": [
-      21,
+      67,
       null,
       null
     ],
     "N13/count/exempt": [
-      150,
+      496,
       null,
       null
     ],
     "N13/count/unbound": [
-      0,
+      23,
       null,
       null
     ],
     "N13/count/layout_dropped": [
-      178,
+      340,
       null,
       null
     ],
     "N13/count/mismatch": [
-      0,
+      2,
       null,
       null
     ],
@@ -512,7 +512,7 @@
       null
     ],
     "N13/count/derived_in_scope": [
-      17,
+      63,
       null,
       null
     ],
@@ -532,7 +532,7 @@
       null
     ],
     "N13/count/problems": [
-      0,
+      2,
       null,
       null
     ],
@@ -617,7 +617,7 @@
       null
     ],
     "N13/unbound_ids": [
-      0,
+      23,
       null,
       null
     ],
@@ -827,6 +827,466 @@
       null
     ],
     "N13/derived/tstar_criterion_cost_max/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/intro.acc_band_stage1": [
+      0.3042144775390625,
+      null,
+      null
+    ],
+    "N13/derived/intro.acc_band_stage1/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/intro.acc_band_vae9182": [
+      0.5106455485026089,
+      null,
+      null
+    ],
+    "N13/derived/intro.acc_band_vae9182/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/intro.acc_decline_ferplus": [
+      0.4863128662109375,
+      null,
+      null
+    ],
+    "N13/derived/intro.acc_decline_ferplus/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/methodology.votes_below_ten_val": [
+      37.29781160799239,
+      null,
+      null
+    ],
+    "N13/derived/methodology.votes_below_ten_val/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/methodology.abstention_mass_val": [
+      37.29781160799239,
+      null,
+      null
+    ],
+    "N13/derived/methodology.abstention_mass_val/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/results.jsd_gap_student_ts": [
+      0.004145559676890273,
+      null,
+      null
+    ],
+    "N13/derived/results.jsd_gap_student_ts/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/results.ferplus_ece_share_low": [
+      12.66014162286082,
+      null,
+      null
+    ],
+    "N13/derived/results.ferplus_ece_share_low/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/results.ferplus_ece_share_high": [
+      14.973972246698288,
+      null,
+      null
+    ],
+    "N13/derived/results.ferplus_ece_share_high/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/results.tstar_gap_pct": [
+      63.33860640787701,
+      null,
+      null
+    ],
+    "N13/derived/results.tstar_gap_pct/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.argmin_cells_agreeing": [
+      20.0,
+      null,
+      null
+    ],
+    "N13/derived/meth.argmin_cells_agreeing/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.argmin_cells_total": [
+      21.0,
+      null,
+      null
+    ],
+    "N13/derived/meth.argmin_cells_total/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.tstar_criterion_cost_min": [
+      13.306965250242223,
+      null,
+      null
+    ],
+    "N13/derived/meth.tstar_criterion_cost_min/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.tstar_criterion_cost_max": [
+      14.315495183255484,
+      null,
+      null
+    ],
+    "N13/derived/meth.tstar_criterion_cost_max/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.acc_band_stage1": [
+      0.3042144775390625,
+      null,
+      null
+    ],
+    "N13/derived/meth.acc_band_stage1/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.acc_band_vae9182": [
+      0.5106455485026089,
+      null,
+      null
+    ],
+    "N13/derived/meth.acc_band_vae9182/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/meth.acc_trend_ferplus": [
+      0.4863128662109375,
+      null,
+      null
+    ],
+    "N13/derived/meth.acc_trend_ferplus/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.jsd_slice_coverage_pct": [
+      99.11195686647638,
+      null,
+      null
+    ],
+    "N13/derived/res.jsd_slice_coverage_pct/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.tradeoff_ece_cost": [
+      0.0158646235141861,
+      null,
+      null
+    ],
+    "N13/derived/res.tradeoff_ece_cost/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.tradeoff_jsd_gain": [
+      -0.005092329035202667,
+      null,
+      null
+    ],
+    "N13/derived/res.tradeoff_jsd_gain/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.sharpened_target_acc_gain": [
+      0.4017384847005161,
+      null,
+      null
+    ],
+    "N13/derived/res.sharpened_target_acc_gain/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.ferplus_control_mde": [
+      0.7406462477723339,
+      null,
+      null
+    ],
+    "N13/derived/res.ferplus_control_mde/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.corner_jsd_shortfall": [
+      0.00024057039611531813,
+      null,
+      null
+    ],
+    "N13/derived/res.corner_jsd_shortfall/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.detrend_shift_max": [
+      0.03591735709875876,
+      null,
+      null
+    ],
+    "N13/derived/res.detrend_shift_max/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.rafdb_ece_effect_pct": [
+      3.9260801766267126,
+      null,
+      null
+    ],
+    "N13/derived/res.rafdb_ece_effect_pct/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b1_ratio_lo": [
+      1.204191359685497,
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b1_ratio_lo/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b1_ratio_hi": [
+      1.3356501372012088,
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b1_ratio_hi/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b32_ratio_lo": [
+      0.6258342719581147,
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b32_ratio_lo/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b32_ratio_hi": [
+      0.6911735483397105,
+      null,
+      null
+    ],
+    "N13/derived/res.fp16_b32_ratio_hi/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.ece_reduction_rafdb": [
+      41.46350982881447,
+      null,
+      null
+    ],
+    "N13/derived/s5.ece_reduction_rafdb/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.full_swing": [
+      2.354304030269166,
+      null,
+      null
+    ],
+    "N13/derived/s5.full_swing/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_band_stage1": [
+      0.3042144775390625,
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_band_stage1/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_paired_gain": [
+      0.1303761800130161,
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_paired_gain/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.ctrl_deterioration": [
+      6.400373939315638,
+      null,
+      null
+    ],
+    "N13/derived/s5.ctrl_deterioration/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_band_vae9182": [
+      0.5106455485026089,
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_band_vae9182/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.ece_reduction_ferplus": [
+      76.37482440691838,
+      null,
+      null
+    ],
+    "N13/derived/s5.ece_reduction_ferplus/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.collapse_ratio_510": [
+      16.304439211116655,
+      null,
+      null
+    ],
+    "N13/derived/s5.collapse_ratio_510/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.collapse_ratio_1020": [
+      13.502336447316722,
+      null,
+      null
+    ],
+    "N13/derived/s5.collapse_ratio_1020/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_band_ferplus": [
+      0.4863128662109375,
+      null,
+      null
+    ],
+    "N13/derived/s5.acc_band_ferplus/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.capacity_acc_span": [
+      1.9448064168294223,
+      null,
+      null
+    ],
+    "N13/derived/s5.capacity_acc_span/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.teacher_acc_span": [
+      0.42372894287109375,
+      null,
+      null
+    ],
+    "N13/derived/s5.teacher_acc_span/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.teacher_ece_factor": [
+      2.9198896221324078,
+      null,
+      null
+    ],
+    "N13/derived/s5.teacher_ece_factor/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.sel_cost_swa": [
+      0.34767405192057765,
+      null,
+      null
+    ],
+    "N13/derived/s5.sel_cost_swa/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.sel_cost_last": [
+      0.8257268269856866,
+      null,
+      null
+    ],
+    "N13/derived/s5.sel_cost_last/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s5.baseline_ece_overconf": [
+      0.07499720457567308,
+      null,
+      null
+    ],
+    "N13/derived/s5.baseline_ece_overconf/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.argmin_cells_agreeing_0": [
+      20.0,
+      null,
+      null
+    ],
+    "N13/derived/res.argmin_cells_agreeing_0/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/res.argmin_cells_agreeing_1": [
+      20.0,
+      null,
+      null
+    ],
+    "N13/derived/res.argmin_cells_agreeing_1/ok": [
       "True",
       null,
       null

@@ -1,6 +1,16 @@
 {
   "n_val": 3153,
   "rows_with_abstention": 1176,
+  "n_rows_all_folds": 31412,
+  "rows_below_ten_all_folds": 9204,
+  "eight_col_sums_all_folds": {
+    "6": 51,
+    "7": 280,
+    "8": 1497,
+    "9": 7376,
+    "10": 22208
+  },
+  "share_below_ten_all_folds": 29.300904113077806,
   "abstention_votes": {
     "unknown": 1372,
     "NF": 48

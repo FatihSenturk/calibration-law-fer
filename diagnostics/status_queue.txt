@@ -125,6 +125,51 @@ ef). 15 Agu celiskisini
      Tazelik kapisi artik KOSU BASI kirlilik sayisini basiyor: "yan cikti 0" belirsizdi.
   5) DUZYAZI HALA DENETIM DISI (821 jeton) -- claims.md'ye ve rapora yazildi.
   Rapor: diagnostics/reports/2026-08-19_okuma1_olcum.md
+
+- [N19, 20 Agu] SON TUR: DUZYAZI KAPSAMA GIRDI. Okuma bitti, duzyazi sabitlendi, erteleme
+  sartinin kendisi ortadan kalkti. paper_number_scan.SECTION_FILES (GLOB DEGIL BEYAN).
+  Kapsam 863 -> 1677 jeton (+814 govde duzyazisi).
+  jeton 1677 · bagli 1095 · turetilmis 67 · muaf 496 · KAYITSIZ 23 · uyusmazlik 2 · teyit 3
+  Muhasebe kapaniyor: 1095 + 63 + 496 + 23 = 1677. Duzyazinin %97,2'si baglandi ya da beyanli
+  muafiyete dustu.
+  IKI GERCEK MAKALE KUSURU (ortulmedi, kapi kirmizi birakildi): §1:151 ve §2:229 "+0.65"
+  basiyor; alan 0.6445305842767274, 2 basamakta 0.64. 0.65 CIFT YUVARLAMAYLA cikiyor
+  (0.6445 -> 0.645 -> 0.65) ve makale ayni niceligi §4:150 / §5:781 / tab_selection_audit:25'te
+  3 basamakla DOGRU basiyor. Duzeltme Fatih'te.
+  KALAN 23 KAYITSIZ, dort obek ve hepsi ADIYLA raporda: (a) yanlis-pozitif simulasyonu 7,
+  (b) kosu manifesti sayimlari 4, (c) alani olmayan olcumler 8, (d) mekanik engel 4.
+  DORT ISARETLI SAYI: 63% baglandi (yeni `pct_excess` formulu gerekti -- ilk denemede pct_drop
+  39 verdi, payda farki 24 PUAN); 0.0041 makale DOGRU yapmis (yuvarlanmamis operandlar;
+  basililardan 0.0042 cikardi); 13-15% iki payda, ucuncusu aralik icinde; 29.3% ICIN URETICI
+  YAZILDI (ferplus_abstention_entropy artik filtresiz de sayiyor: 9204/31412 = %29,3009) --
+  N16'dan beri "ureticisi yok" diye duran sayi kapandi. §3'un "13-14 times"i AYRI NICELIK
+  (boyutsuz kat), kayda gecti.
+  KAPSAM ACILINCA KAPIDA DORT KUSUR CIKTI ve dordu de kapatildi: (1) binlik ayraci `{,}`
+  jetonu ikiye boluyordu -- on jeton, hepsi §4'un veri kumesi buyuklukleri; (2) KIMLIK
+  CAKISMASI: §3'te ayni denklem parcasi iki satirda tekrar ediyor ve iki jeton ayni kimligi
+  aliyordu (muhasebe 2 eksik topluyordu) -- ayirici "ayni etiketin kacinci gecisi"; (3) SESSIZ
+  CIFT BEYAN: bir jetonu hem b() hem dv() sahiplenince defter susuyordu, artik double_bound;
+  (4) oz sinamanin TABANI "sifir ihlal" sartina bagliydi, KNOWN_OPEN beyani eklendi (kusur
+  duzelirse beyan curur ve o da bildirilir).
+  ATIF BIJEKSIYONU 76 = 76 (orphan 0, dangling 0; .bbl 76, .aux 76). zhao2025tsnet bib'de YOK
+  (yalniz bir yorum satiri), cugu2019microexpnet [49] olarak kaynakcada. kaynak_arsivi.xlsx
+  77 satir = 1 baslik + 76 veri, bib ile iki yonde de fark 0. ARTIK: Makaleler/ altinda
+  zhao2025tsnet.pdf fazla, cugu2019microexpnet.pdf eksik.
+  b21 eki 19 Agu tarihli ve yerinde; govdenin degismedigi DOGRULANAMADI (Makale agaci git degil).
+  image_dataset copy.py IKI DEPODAN DA SILINDI (onay 19 Agu).
+  FERPlus birlestirmesinin KAYDI BULUNAMADI, ama en eski tasiyici dosya var:
+  D:may\poster-var\configs\FERPlus_8_ce_kld_200e.yaml, 2026-04-24 -- yani birlestirme bu
+  depodan (ilk commit 2026-07-11) ONCEDIR. §3'un faili adlandirmayan cumlesi dogru kaliyor.
+  2026-08-03 raporuna tarihli not dusuldu (govdeye dokunulmadi).
+  DERLEME: PDF'ler BAYAT DEGIL -- en yeni kaynak 13:40, uc PDF de 14:07 (+27 dk), uc log da
+  temiz (hata 0, tanimsiz referans 0; 93/28/11 sayfa). latexmk/pdflatex BU MAKINEDE KURULU
+  DEGIL, derleme macOS'ta yapiliyor.
+  check_supp_refs CIKIS 1, IKI SORUN: "Table S3 yok" YANLIS POZITIF (aux'ta
+  
+ewlabel{tab:app_jsd}{{S3}, caption var, govde atfi dogru; pdftotext basligi kelime kelime
+  satira boluyor ve :23'teki tek-satir deseni eslesmiyor) -- betik makale agacinda, DUZELTILMEDI.
+  Ikinci sorun GERCEK: main_elsarticle.log:563 Overfull \hbox 21.91pt, figures/fig_intervention.tex.
+  Rapor: diagnostics/reports/2026-08-20_son_tur.md
 - SIRADA (Fatih 17 Agu, N15 §5): KAPININ YAPISAL KOR NOKTASI. Kapi artefakti KABUL EDILMIS
   temel cizgisiyle karsilastiriyor, URETICININ TAZE CIKTISIYLA degil -- yani "uretici degisti,
   artefakt yeniden uretilmedi" durumu kapidan GECIYOR. Bu siniftan bes vaka elle yakalandi:

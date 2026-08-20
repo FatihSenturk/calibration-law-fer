@@ -60,6 +60,18 @@ PAPER_CASES = [
 # (ad, beyan kimligi, bozuk yol, beklenen sinif) -- DEFTERI bozan senaryolar: sayi dogru,
 # artefakt dogru, BAG yanlis. Asagidaki vaka 17 Agu'da GERCEKTEN oldu: 'T*' adi bir baslikta
 # fit degeri, komsu blokta dagitilan kolu tasiyordu. Ayni artefaktin KOMSU alani, ayni ad.
+# ACIK, BEYANLI IHLALLER -- makale tarafinda duzeltilecek gercek kusurlar.
+# Her kalem (sinif, kimlik). Liste TARIHLI degil YASAYANdir: kusur duzelince buradan silinir,
+# ve silinmezse oz sinama "beyan curudu" der.
+KNOWN_OPEN = [
+    # 20 Agu 2026: §1:151 ve §2:229 "+0.65" basiyor. Alan
+    # `selection_gain.per_k["50"].a2_pure_order_statistic.mean` = 0.6445305842767274, yani
+    # 2 basamakta 0.64. 0.65 ancak CIFT YUVARLAMAYLA cikiyor (0.6445 -> 0.645 -> 0.65); makale
+    # ayni niceligi §4:150, §5:781 ve tab_selection_audit'te 3 basamakla DOGRU basiyor (0.645).
+    ("rounding_mismatch", "intro.orderstat_k50"),
+    ("rounding_mismatch", "related_work.orderstat_k50"),
+]
+
 BINDING_CASES = [
     ("tab_dose_response basligi FIT yerine DAGITILAN kola baglandi (T*, 17 Agu vakasi)",
      "tab_dose_response.stage1.header.T_star_fit", "results.stage1.deployed_T",
@@ -113,9 +125,19 @@ def main():
         "figures", "figures_em*", "*.bbl", "*.blg", "*.out", "*.spl", "*.synctex.gz"))
     p0, k0 = run(clean)
     base_unreg = len(p0["unbound"])
-    rows.append(("(taban) temiz kopya", "-", 0, len(k0), base_unreg,
-                 "GECTI" if not k0 else "TABAN KIRLI"))
-    ok = not k0
+    # BEYANLI ACIK IHLALLER. Taban eskiden "sifir ihlal" olmak zorundaydi; 20 Agu 2026'da govde
+    # duzyazisi kapsama girince defter MAKALEDE GERCEK bir kusur buldu (bkz. KNOWN_OPEN) ve
+    # taban satiri "TABAN KIRLI" demeye basladi -- yani oz sinama, isini yaptigi icin kirmiziya
+    # dondu. Cozum susturmak DEGIL: acik ihlaller ADIYLA beyan edilir ve taban "beyan edilenle
+    # BIREBIR ayni mi" diye sorulur. Bir ihlal duzelirse beyan CURUR ve o da bildirilir --
+    # yani liste sessizce yaslanmaz.
+    got_open = sorted((pr["kind"], pr.get("id")) for pr in p0["problems"])
+    want_open = sorted(KNOWN_OPEN)
+    base_ok = got_open == want_open
+    detail = "-" if base_ok else f"beklenen {want_open} vs bulunan {got_open}"
+    rows.append(("(taban) temiz kopya + beyanli acik ihlaller", detail, len(want_open),
+                 len(got_open), base_unreg, "GECTI" if base_ok else "TABAN BEYANLA UYUSMUYOR"))
+    ok = base_ok
 
     for name, rel, edits, want, n_want in PAPER_CASES:
         w = base / ("case_" + str(len(rows)))
