@@ -63,8 +63,25 @@ PAPER_CASES = [
      "rounding_mismatch", 1),
     ("§4.7 paylasilan kontrol korelasyonu bayat (+0.393 -> +0.390)",
      "sections/04_experiments.tex", [("$+0.393$", "$+0.390$")], "rounding_mismatch", 1),
+    # Enjeksiyon dizesi 21 Agu 2026'da guncellendi: §4.8 yeniden yazilinca "), $26$" kalibi
+    # kayboldu ve senaryo sessizce hicbir seyi degistirmez olurdu (apply_edits DOGRULUYOR).
     ("§4.8 manifest sayimi bayat (26 -> 27)",
-     "sections/04_experiments.tex", [("), $26$", "), $27$")], "rounding_mismatch", 1),
+     "sections/04_experiments.tex", [("for $26$ the", "for $27$ the")], "rounding_mismatch", 1),
+    # 21 AGU 2026'da eklenen dort senaryo. Bu dort bag N19b boyunca KIRMIZIYDI (basili deger
+    # yanlisti), dolayisiyla "enjeksiyonu yakaliyor mu" diye HIC sinanmamislardi -- yesile
+    # dondukleri gun sinaniyorlar. Uc yanlis-pozitif degeri kapali formdan, bilesik sicaklik
+    # `product` turevinden geliyor.
+    ("§4.7 aile-bazli oran bayat (0.545 -> 0.546) [kapali form]",
+     "sections/04_experiments.tex", [("is $0.545$", "is $0.546$")], "rounding_mismatch", 1),
+    ("§4.7 kendi-k aile orani bayat (0.741 -> 0.742) [kapali form]",
+     "sections/04_experiments.tex", [("rising to $0.741$", "rising to $0.742$")],
+     "rounding_mismatch", 1),
+    ("§4.7 bagimsizlik acigi bayat (0.009 -> 0.008) [kapali form]",
+     "sections/04_experiments.tex", [("rate by $0.009$", "rate by $0.008$")],
+     "rounding_mismatch", 1),
+    ("§5.3 FERPlus bilesik sicakligi bayat (3.04 -> 3.06) [product, cift yuvarlama nuksu]",
+     "sections/05_results_discussion.tex", [("and $3.04$ on FERPlus", "and $3.06$ on FERPlus")],
+     "derived_mismatch", 1),
     ("§5.1 en yuksek guven kutusundaki kutle bayat (89.9 -> 90.1)",
      "sections/05_results_discussion.tex", [("from $89.9\\%$", "from $90.1\\%$")],
      "rounding_mismatch", 1),
@@ -87,23 +104,21 @@ PAPER_CASES = [
 # Her kalem (sinif, kimlik). Liste TARIHLI degil YASAYANdir: kusur duzelince buradan silinir,
 # ve silinmezse oz sinama "beyan curudu" der.
 KNOWN_OPEN = [
-    # 20 Agu 2026 sabah: §1:151 ve §2:229'daki "+0.65" cift yuvarlamasi. KAPANDI -- makale
-    # "+0.645"--"0.764" olarak duzeltildi, beyanin yuvarlamasi 3dp'ye cekildi, iki bag yesile
-    # dondu. Kayit burada birakilmiyor: liste YASAYANdir, kusur duzelince silinir.
+    # 21 AGU 2026 -- LISTE BOS. Bu liste YASAYANdir: kusur duzelince kayit burada birakilmaz,
+    # silinir; tarihli kayit commit gecmisinde ve tur raporlarinda durur.
     #
-    # 20 Agu 2026 aksam (N19b) — DORT ACIK KALEM, ucu ayni sinifta:
-    # (1-3) §4.7'nin uc simulasyon sayisi. Basili 0.543 / 0.740 / 0.007, `criterion_applied`in
-    #       200k (aile) ve 40k (bagimli) tekrarlik MC kosularindan geliyordu ve UCUNCU BASAMAK
-    #       Monte-Carlo gurultusuydu (200k'da aile-bazli oranin se'si ~0.004). Ayni olcut
-    #       kapali forma indirgendi (`criterion_applied.fpr_exact`, Gauss-Legendre, ~1e-15) ve
-    #       tam degerler 0.545 / 0.741 / 0.009 cikti. Uretici basiliyi TUTTURMAK icin
-    #       ayarlanmadi; fark olculdu ve kirmizi birakildi.
-    # (4)   §5.3'un FERPlus bilesik sicakligi: 0.5063 x 6 = 3.0378 -> 3.04, basili 3.06.
-    #       3.06 ancak 0.5063'un iki basamaga yuvarlanmis hali (0.51) ile carpilinca cikiyor.
-    ("rounding_mismatch", "s4.fpr_family_median_k"),
-    ("rounding_mismatch", "s4.fpr_family_own_k"),
-    ("rounding_mismatch", "s4.fpr_independence_gap"),
-    ("derived_mismatch", "s5.composite_T_ferplus"),
+    # Bugun kapanan dort kalem (hepsi 20 Agu 2026 aksami, N19b'de OLCULEREK bulunmustu):
+    #   (1-3) §4.7'nin uc simulasyon sayisi. Basili 0.543 / 0.740 / 0.007 degerleri
+    #         `criterion_applied`in 200k (aile) ve 40k (bagimli) tekrarlik MC kosularindan
+    #         geliyordu ve UCUNCU BASAMAK Monte-Carlo gurultusuydu (200k'da aile-bazli oranin
+    #         se'si ~0.004). Ayni olcut kapali forma indirgendi (`fpr_exact`, Gauss-Legendre)
+    #         ve tam degerler 0.545 / 0.741 / 0.009 cikti. Uretici basiliyi TUTTURMAK icin
+    #         ayarlanmadi; fark raporlandi ve makale tarafinda duzeltildi.
+    #   (4)   §5.3'un FERPlus bilesik sicakligi: 0.5063 x 6 = 3.0378 -> 3.04, basili 3.06'ydi
+    #         (0.51 x 6, cift yuvarlama). Makalede 3.04 yazildi.
+    #
+    # Dordunun de ARTEFAKTI degismedi; degisen basili taraf oldu. Dordu de artik PAPER_CASES
+    # icinde birer senaryoyla sinaniyor -- yani kapinin onlari yakaladigi olculdu, varsayilmadi.
 ]
 
 BINDING_CASES = [

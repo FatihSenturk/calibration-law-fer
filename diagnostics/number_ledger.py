@@ -1640,11 +1640,14 @@ EX_04 = [
      "Supplementary Section S2 capraz referansi (bolum referansi; istenirse yeni sinif 'section_reference')"),
     ("dataset SHA-256 checksums", 0, "algorithm_name_digits",
      "SHA-256 ozet algoritmasinin adindaki basamak; olcum degil (YENI SINIF onerisi)"),
-    ("Of the 90 runs in that window", 1, "date",
+    # Capa 21 Agu 2026'da SAYIDAN ARINDIRILDI ("Of the 90 runs in that window" -> "Of the"):
+    # eski hali bagli sayiyi (90) iceriyordu, yani CAPA KURALI'nin ihlaliydi. "Of the" bu
+    # bolumde tek satira uyuyor (olculdu), dolayisiyla kisaltmak belirsizlik yaratmiyor.
+    ("Of the", 1, "date",
      "pencere baslangic gunu (17 Haziran)"),
-    ("Of the 90 runs in that window", 2, "date",
+    ("Of the", 2, "date",
      "pencere bitis gunu (24 Temmuz)"),
-    ("Of the 90 runs in that window", 3, "date",
+    ("Of the", 3, "date",
      "yil 2026"),
     ("The student (MobileNetV2Plus) has", 0, "architecture_dim",
      "MobileNetV2Plus adindaki surum basamagi"),
@@ -2523,9 +2526,13 @@ EX_05 = [
      "%95 guven duzeyi -- istatistik konvansiyonu"),
     ("which. because is fixed at 6 everywhere", 0, "hyperparameter",
      "ogrenci tarafi damitma sicakligi tau=6"),
-    ("stage1 6.0 on vae9182 and 3.06", 0, "teacher_name_digits",
+    # Capa 21 Agu 2026'da kisaltildi: eski hali 3.06'yi iceriyordu ve makale 3.04'e duzelince
+    # iki muafiyet birden dustu (jetonlar KAYITSIZ oldu). "Stage1" tek basina benzersiz DEGIL
+    # (iki satir onunla basliyor), o yuzden en kisa benzersiz onek "Stage1 6.0 on" -- yani bu
+    # satirda capa bir sayidan (6.0) tamamen kacinamiyor; kacinilamayan sinif, adiyla burada.
+    ("stage1 6.0 on", 0, "teacher_name_digits",
      "Stage1 adinin icindeki basamak"),
-    ("stage1 6.0 on vae9182 and 3.06", 2, "teacher_name_digits",
+    ("stage1 6.0 on", 2, "teacher_name_digits",
      "VAE9182 adinin icindeki basamak"),
     ("stage1 teacher at three seeds each", 0, "teacher_name_digits",
      "Stage1 adinin icindeki basamak"),
@@ -2699,9 +2706,12 @@ for _i, _row in enumerate(("calibration estimator in 20 of 21 cells",
 #     aile 22, kendi k'si : 0.7410378  -> 0.741  (basili 0.740, TUTMUYOR)
 #     bagimsizlik acigi   : 0.0086132  -> 0.009  (basili 0.007, TUTMUYOR)
 # 200k tekrarda aile-bazli oranin standart hatasi ~0.004; yani basili UCUNCU BASAMAK gurultuydu.
-# Ucu de TAM alana baglaniyor ve KIRMIZI birakiliyor: kapinin gormedigi bir kusur, kusur degil
-# bir varsayimdir. Iki basamakli §5 gecisleri ayni alanlarda TUTUYOR (0.54 ve 0.74) -- yani
-# duzeltme yalnizca uc basamak basilan yerleri ilgilendiriyor.
+# Ucu de TAM alana baglandi ve 20 Agu 2026'da KIRMIZI birakildi: kapinin gormedigi bir kusur,
+# kusur degil bir varsayimdir. Iki basamakli §5 gecisleri ayni alanlarda ZATEN TUTUYORDU (0.54
+# ve 0.74) -- duzeltme yalnizca uc basamak basilan yerleri ilgilendiriyordu.
+# 21 AGU 2026: makalede uc deger de duzeltildi (0.545 / 0.741 / 0.009) ve uc bag YESILE dondu.
+# Alanlar DEGISMEDI -- degisen yalnizca basili taraf; yani bag, kendisini dogrulatmak icin
+# artefakti oynatmadi. Ureticinin bugunku degeri hala kapali formdan geliyor.
 b("04_experiments", -1, "per-cell firing rate of about", 0, A_CRIT,
   "false_positive_simulation.per_cell_rate_at_median_k", "percent_of_fraction:1dp",
   ident="s4.fpr_per_cell")
@@ -2735,11 +2745,19 @@ b("05_results_discussion", -1, "reference rate of 0.54 (rising to 0.74", 1, A_CR
 # alani "17 June--24 July 2026" degerini SAYILAN manifestlerin kendi zaman damgalarindan
 # uretiyor, elle yazmiyor. Uc sinif toplandiginda toplami vermeli -- `checksum_ok` bunu
 # uretici tarafinda dogruluyor.
-b("04_experiments", -1, "Of the 90 runs in that window", 0, A_RMC, "n_manifests", "int",
+#
+# 21 AGU 2026 -- CAPA KURALI'NIN ILK SAHA SINAMASI. Fatih §4.8'i yeniden yazdi ("all manifests
+# were written retroactively ...; for 26 the code state at launch could be verified"), cunku
+# olcum "written at launch" nitelemesinin dar oldugunu gostermisti: `retroactive` bayragi 90'in
+# 90'inda acik, ayrimi yapan alan `code_state_verified`. Cumle degisince DORT jeton birden
+# dustu: iki capa artik eslesmiyordu (biri sayi iceriyordu, biri silinen ifadeye dayaniyordu)
+# ve satir sonlari kaydigi icin `idx=4` diye bir jeton kalmadi. Kural tam da bunu ongoruyordu.
+# Yeni capalarin ucu de SAYIDAN ONCE bitiyor.
+b("04_experiments", -1, "Of the", 0, A_RMC, "n_manifests", "int",
   ident="s4.manifest_total")
-b("04_experiments", -1, "Of the 90 runs in that window", 4, A_RMC, "n_code_state_verified",
-  "int", ident="s4.manifest_verified")
-b("04_experiments", -1, "manifests were written at launch with verified code state", 0, A_RMC,
+b("04_experiments", -1, "manifests were written retroactively by a single script; for", 0,
+  A_RMC, "n_code_state_verified", "int", ident="s4.manifest_verified")
+b("04_experiments", -1, "code state at launch could be verified for", 0, A_RMC,
   "n_retroactive_unverified", "int", ident="s4.manifest_retroactive")
 b("04_experiments", -1, "(code _state _verified:false) and", 0, A_RMC, "n_unfinished", "int",
   ident="s4.manifest_unfinished")
@@ -2779,8 +2797,9 @@ dv("s5.baseline_ece_ratio", "2.7", "ratio_of_mean",
 # 5) Bilesik sicaklik T* x tau (§5.3), UC jeton. Operandlar: kolun KENDI kaydindaki T ve
 #    `tau_t_factorial`in kaydindaki tau=6. VAE9182'de operand T*=0.983 DEGIL: cumle
 #    "student-side optimum" diyor ve o kolda ogrenci en iyi ECE'yi T=1'de veriyor.
-#    FERPlus KIRMIZI: 0.5063 x 6 = 3.0378 -> 3.04, basili 3.06. 3.06 ancak 0.5063'un iki
-#    basamaga yuvarlanmis hali (0.51) ile carpilinca cikiyor -- yine cift yuvarlama.
+#    FERPlus 20 Agu'da KIRMIZIYDI: 0.5063 x 6 = 3.0378 -> 3.04 iken basili deger 3.06'ydi ve
+#    3.06 ancak 0.5063'un iki basamaga yuvarlanmis hali (0.51) ile carpilinca cikiyordu -- yine
+#    cift yuvarlama. 21 Agu 2026'da makalede duzeltildi; kampanyanin ucuncu cift yuvarlamasi.
 _TAU = op("paper_tables/tau_t_factorial.json", 'arms["tau6_T0.85"].tau')
 dv("s5.composite_T_stage1", "8.04", "product",
    [op(A_TDO, "arms.rafdb_stage1.points[2].T"), _TAU],
@@ -2788,14 +2807,15 @@ dv("s5.composite_T_stage1", "8.04", "product",
    note="stage1 ogrenci-optimum kolu T=1.3406, tau=6 -> 8.0436")
 dv("s5.composite_T_vae9182", "6.0", "product",
    [op(A_TDO, "arms.rafdb_vae9182.points[1].T"), _TAU],
-   "1dp", "05_results_discussion", -1, "Stage1 6.0 on VAE9182", 1,
+   "1dp", "05_results_discussion", -1, "Stage1 6.0 on", 1,
    note="vae9182 ogrenci-optimum kolu T=1 (T*=0.983 DEGIL: ogrencinin en dusuk ECE'si T=1 "
         "kolunda), tau=6 -> 6.0")
-dv("s5.composite_T_ferplus", "3.06", "product",
+dv("s5.composite_T_ferplus", "3.04", "product",
    [op(A_TDO, "arms.ferplus.points[1].T"), _TAU],
-   "2dp", "05_results_discussion", -1, "Stage1 6.0 on VAE9182", 3,
-   note="FERPlus ogrenci-optimum kolu T=0.5063, tau=6 -> 3.0378 = 3.04. Basili 3.06 CIFT "
-        "YUVARLAMA: 0.5063 -> 0.51 -> x6. Bag bilerek kirmizi birakildi.")
+   "2dp", "05_results_discussion", -1, "Stage1 6.0 on", 3,
+   note="FERPlus ogrenci-optimum kolu T=0.5063, tau=6 -> 3.0378 = 3.04. Basili deger 20 Agu "
+        "2026'da 3.06'ydi (CIFT YUVARLAMA: 0.5063 -> 0.51 -> x6); 21 Agu 2026'da makalede "
+        "3.04'e duzeltildi ve bag YESILE dondu.")
 
 # 6) DeltaECE, stage1 x target_logvar (§5.5). §5:655'teki 0.0041 ile AYNI SAYI, AYRI NICELIK:
 #    o bir JSD farki, bu bir ECE farki. Adlari ayrisiyor (`s5.target_logvar_dece` vs

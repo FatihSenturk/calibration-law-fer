@@ -27,6 +27,13 @@ RİSK PENCERESİ TAM ÖNÜMÜZDE: üreticilerin dokunulacağı tek dönem hakem 
       Kime uygulanır: koşu ağacını okumak İŞİ olan (Level-3) üreticiler ve ölçülen süresi
       eşiği aşanlar -- yani koşturması pahalı olanlar.
 
+KULLANIM KURALI (21 Ağu 2026'da ölçüldü, üç koşuya mal oldu): KAPI KOŞARKEN ÇALIŞMA AĞACINA
+YAZMA. "Beyansız yan çıktı" her üretici için `worktree_dirty() - dirty0 - beyanlı artefaktlar`
+olarak hesaplanır, yani o üreticinin koşu penceresinde kirlenen HER dosya ona atfedilir. Kapı
+koşarken paralel bir betik çalıştırılırsa (o gün: `public_scope_scan`, sonra bu turun raporunun
+kendisi) kapı DOĞRU bir gözlemi YANLIŞ bir üreticiye yazar. Kapı yanılmaz; eşzamanlılık
+yanıltır. Tek başına koşturulduğunda sayı 0'a iner.
+
 HANGİ ARTEFAKT HANGİ KATMANDA olduğu raporda tablo hâlinde durur. Bugüne kadarki bütün
 kazanımımız "kaçırdığımızı SAYABİLMEK"ten geldi; korunmayan bir artefakt varsa adıyla görünür.
 
