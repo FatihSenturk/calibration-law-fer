@@ -82,6 +82,16 @@ PAPER_CASES = [
     ("§5.3 FERPlus bilesik sicakligi bayat (3.04 -> 3.06) [product, cift yuvarlama nuksu]",
      "sections/05_results_discussion.tex", [("and $3.04$ on FERPlus", "and $3.06$ on FERPlus")],
      "derived_mismatch", 1),
+    # 21 Agu 2026 (jeton final): F4/F5 taban-kipi NUKS senaryolari. Ikisi de 20 Agu'ya kadar
+    # basili olan yari-yukari degeri geri koyar; kapi floor'la olctugu icin yakalamali.
+    # F4 nuksu `unregistered` olarak yakalanir (olculdu): capa '18 s to 12 h.' satir
+    # basindaki sayilari icermek zorunda (p-degeri mantisi sinifi); 12->13 capayi dusurur ve
+    # satirin IKI jetonu (18-dv + 12-bag) kayitsiz kalir. Kapi yine kirmizi, sinif farkli.
+    ("§4.6 on-beyan lead ust ucu bayat (12 h -> 13 h) [int_floor nuksu, capa sayi iceriyor]",
+     "sections/04_experiments.tex", [("to $12$~h", "to $13$~h")], "unregistered", 2),
+    ("fig_perclass sinyal/gurultu tabani bayat (10.5 -> 10.6) [1dp_floor nuksu]",
+     "figures/fig_perclass.tex", [("at least $10.5$", "at least $10.6$")],
+     "derived_mismatch", 1),
     ("§5.1 en yuksek guven kutusundaki kutle bayat (89.9 -> 90.1)",
      "sections/05_results_discussion.tex", [("from $89.9\\%$", "from $90.1\\%$")],
      "rounding_mismatch", 1),
@@ -169,9 +179,12 @@ def main():
     clean = base / "clean"
     if clean.exists():
         shutil.rmtree(clean)
+    # "figures" 21 Agu'ya kadar TUMUYLE atlaniyordu; fig_perclass.tex kapsama girince
+    # temiz kopyada tarayici dosyayi bulamaz olurdu. Artik yalniz ikili icerik atlanir
+    # (*.pdf/*.png), .tex altyazilar kopyalanir. "figures_em*" ayri dizindir, atlanmaya devam.
     shutil.copytree(src, clean, ignore=shutil.ignore_patterns(
-        "*.pdf", "*.aux", "*.log", "*.fls", "*.fdb_latexmk", "build", "arsiv", "submission",
-        "figures", "figures_em*", "*.bbl", "*.blg", "*.out", "*.spl", "*.synctex.gz"))
+        "*.pdf", "*.png", "*.aux", "*.log", "*.fls", "*.fdb_latexmk", "build", "arsiv",
+        "submission", "figures_em*", "*.bbl", "*.blg", "*.out", "*.spl", "*.synctex.gz"))
     p0, k0 = run(clean)
     base_unreg = len(p0["unbound"])
     # BEYANLI ACIK IHLALLER. Taban eskiden "sifir ihlal" olmak zorundaydi; 20 Agu 2026'da govde

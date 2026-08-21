@@ -11,7 +11,8 @@ WHY SIGNED GAP AND NOT PER-CLASS ECE. Per-class ECE would need 15 bins inside a 
 samples -- roughly 5 samples per bin, where a single sample changing bins moves the number.
 The SIGNED CONFIDENCE GAP, mean(top-1 confidence) - accuracy over the samples of one class, needs
 no binning at all, so its small-n behaviour is governed by the ordinary standard error of two
-means rather than by bin occupancy. Measured: across-T range beats the seed sd by 10.6x (Disgust)
+means rather than by bin occupancy. Measured: across-T range beats the seed sd by 10.56x (Disgust;
+figur altyazisi alt-sinir iddiasi oldugu icin 1dp FLOOR ile 10.5 basar, yari-yukari 10.6 verirdi)
 to 49.3x (Happiness), and by 13.1x on Fear itself, the smallest class. The panel is signal.
 
 CLASS MEMBERSHIP is by TRUE label: "the model's confidence on fear images", which is the quantity

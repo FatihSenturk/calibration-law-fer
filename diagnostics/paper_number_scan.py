@@ -32,6 +32,11 @@ TABLE_FILES = ["tables/tab_capacity.tex", "tables/tab_collapse.tex",
 # S8-S11: supplementary.tex icinde YERINDE yazili dort tablo. Blok, `\label{tab:...}`'dan
 # geriye dogru `\begin{table` ve ileriye dogru `\end{table` aranarak BULUNUR -- satir araligi
 # elle yazilmaz, cunku makale duzenlenince kayar.
+# FIGUR ALTYAZILARI (21 Agu 2026, jeton final). Simdilik tek dosya: fig_perclass'in
+# altyazisi bir OLCUM iddiasi tasiyor ("signal-to-noise ... at least 10.5") ve F5 bulgusu
+# tam orada cikti. Diger figur altyazilari sayi tasimadikca kapsama alinmaz.
+FIG_FILES = ["figures/fig_perclass.tex"]
+
 SUPP_BLOCKS = ["tab:app_sd", "tab:app_mde", "tab:app_seeds", "tab:app_predecl",
                # S2 (18 Agu 2026, N16): headroom hukmu supplementary'ye islendi, artik
                # baglanabilir. Uc tablo da `\begin{table}[H]` icinde, blok bulucu aynen calisir.
@@ -305,6 +310,10 @@ def scan_paper(paper_root):
         secs.extend(s)
 
     for rel in TABLE_FILES:
+        lines = read(rel)
+        take(scan_lines(lines, rel, unit=Path(rel).stem))
+
+    for rel in FIG_FILES:
         lines = read(rel)
         take(scan_lines(lines, rel, unit=Path(rel).stem))
 

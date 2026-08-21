@@ -81,6 +81,7 @@ A_STS = "paper_tables/student_ts_baseline.json"
 A_RMC = "paper_tables/run_manifest_census.json"
 A_REL = "reliability/reliability_diagram.json"
 A_PCC = "reliability/perclass_calibration.json"
+A_PL = "paper_tables/prereg_lead_audit.json"
 A_A13 = "a13_scratch_dose/a13_verdict.json"
 
 BINDINGS = []      # alan baglari
@@ -566,9 +567,12 @@ ex("app_mde", -1, "from the rounded columns can differ by 0.1 point.", None, "ro
 # --- app_predecl (S11): on-kayit provenans metadatasi. OLCUM DEGIL ve yapilandirilmis
 # artefakti YOK (preregistration_blocks.csv yalniz kosu->blok eslemesi tasiyor, lead suresi
 # tasimiyor). Bu turda beyanla kapsam disi; acik kalem olarak raporda yazildi.
-for _r in ("Control teacher flat response", "Miscalibration pilot kill-switch",
+# 21 Agu 2026: "Miscalibration pilot kill-switch" ve "Oracle-gate extension" satirlari bu
+# donguden CIKARILDI -- lead jetonlari (8 h, 12 h) artik muaf degil, `prereg_lead_audit`
+# alanlarina bagli (asagida). Satirlarin n/bolum jetonlari ayri muafiyetle duruyor.
+for _r in ("Control teacher flat response",
            "Second-dataset replication", "Human-alignment arm",
-           "Logit standardisation three seeds", "Oracle-gate extension", "T factorial",
+           "Logit standardisation three seeds", "T factorial",
            "Initialisation-matched capacity arm", "Learned-signal gate three seeds",
            "Student-scaling joint frontier", "Capacity sweep",
            "Oracle-gate diagnostic (original)", "Student-head isolation",
@@ -577,6 +581,27 @@ for _r in ("Control teacher flat response", "Miscalibration pilot kill-switch",
         ex("app_predecl", _s, _r, None, "preregistration_provenance",
            "on-beyan lead suresi / ongoru sayisi / bolum atfi -- olcum degil, saglama "
            "PREREGISTRATIONS.md + git zaman damgasi", opt=True)
+
+# S11'in saat-birimli iki lead'i BAGLI (21 Agu 2026, jeton final). Kip `int_floor`: Lead
+# "en gec su kadar once donduruldu" iddiasidir, asagi yuvarlanir -- 0.998 tabaniyla ayni
+# mantik. Olculdu: A2 = 8sa43dk (8.7239 sa) -> 8 (yari-yukari 9 verirdi, basili 8 bastan
+# beri taban kipiyle tutarliydi); A8 = 12sa57dk (12.9539 sa) -> 12 (yari-yukari 13 verirdi
+# ve 20 Agu'ya kadar basili deger tam da oydu -- F4 bulgusu). Kural artik tablo genelinde
+# TEK: floor. Saniye-birimli dort lead (20/19/18/28 s) tamsayi-kesin, floor==deger.
+# sec=0 ZORUNLU (olculdu): app_predecl'in `\multicolumn` grup basliklari bolum sayacini
+# ilerletiyor, A2/A8 satirlari s0'da; -1 eslesmiyor (matcher bolumu BIREBIR karsilastirir).
+b("app_predecl", 0, "Miscalibration pilot kill-switch", 0, A_PL,
+  "items.A2.lead_hours", "int_floor", ident="app_predecl.A2.lead_h")
+b("app_predecl", 0, "Oracle-gate extension", 0, A_PL,
+  "items.A8.lead_hours", "int_floor", ident="app_predecl.A8.lead_h")
+ex("app_predecl", 0, "Miscalibration pilot kill-switch", 1, "preregistration_provenance",
+   "A2'nin tasidigi ongoru sayisi (n=1); olcum degil, beyan")
+ex("app_predecl", 0, "Miscalibration pilot kill-switch", 2, "table_reference",
+   "S5.2 bolum atfi")
+ex("app_predecl", 0, "Oracle-gate extension", 1, "preregistration_provenance",
+   "A8'in tasidigi ongoru sayisi (n=3); olcum degil, beyan")
+ex("app_predecl", 0, "Oracle-gate extension", 2, "table_reference",
+   "S5.5 bolum atfi")
 
 # --- tab_collapse caption muafiyetleri ve olcut sabiti
 ex("tab_collapse", -1, "Pre-declared factorial on the Stage1 teacher", None,
@@ -1484,12 +1509,11 @@ b("04_experiments", -1, "4.01 (CPU", 2, A_LAT,
 EX_04 = [
     ("FERPlus relabels FER2013", 0, "dataset_name_digits",
      "FER2013 veri kumesi adindaki yil basamaklari; olcum degil (YENI SINIF onerisi)"),
-    ("file. The canonical release lists", 0, "citation",
-     "FER2013/FER+ kanonik yayin bolunmesi, kaynaktan aktarilan sayi; bizim olcumumuz degil (split_identity.unfiltered_by_fold 28559/3579/3573 verir, yani b"),
-    ("file. The canonical release lists", 1, "citation",
-     "kanonik yayin bolunmesi, kaynaktan aktarildi"),
-    ("file. The canonical release lists", 2, "citation",
-     "kanonik yayin bolunmesi, kaynaktan aktarildi"),
+    # 21 Agu 2026 (jeton final): "The canonical release lists 28,709/3,589/..." cumlesi
+    # makaleden CIKTI -- yeni cumle kanonik yayini degil BIZIM kopyamizin olcumunu soyluyor
+    # ("Our copy of the label release measures 28,559/3,579/3,573") ve o sayilar artik
+    # citation degil OLCUM: N19d blogunda A_SPL.unfiltered_by_fold alanlarina BAGLI. Dusen
+    # jetonlar (28,709 / 3,589) N19c raporunda ve commit gecmisinde kayitli.
     ("parameters 8.48 GMACs", 1, "architecture_dim",
      "giris cozunurlugu 224x224"),
     ("parameters 8.48 GMACs", 2, "architecture_dim",
@@ -1630,10 +1654,12 @@ EX_04 = [
      "dondurma penceresi bitis gunu (31 Temmuz)"),
     ("thirteen predictions frozen between", 2, "date",
      "yil 2026"),
-    ("18 s to 13 h.", 0, "preregistration_provenance",
-     "on-beyan ile kosu baslangici arasindaki lead suresi araliginin alt ucu; defter bu sinifi S11 lead sureleri icin zaten kullaniyor ve yapilandirilmis ar"),
-    ("18 s to 13 h.", 1, "preregistration_provenance",
-     "ayni araligin ust ucu (13 saat); ayni gerekce"),
+    # 21 Agu 2026 (jeton final): '18 s to 13 h.' muafiyet cifti KALDIRILDI. Iki sebep:
+    # (1) capa dusen sayiyi (13) iceriyordu -- CAPA KURALI'nin muafiyet tarafindaki ikinci
+    # vakasi; (2) gerekcesi "yapilandirilmis artefakti yok" idi ve artik VAR:
+    # `prereg_lead_audit.py` donmus kayittan lead'leri alan olarak yaziyor. 18 ve 12 artik
+    # MUAF degil BAGLI (N19d blogu). Basili 13, A8'in 12.954 saatinin yari-yukari
+    # yuvarlanmis haliydi; Lead bir alt-sinir-oncesi iddiasi oldugu icin dogrusu taban: 12.
     ("completion. Supplementary Table S11", 0, "table_reference",
      "Supplementary Table S11 capraz referansi"),
     ("declaration (Supplementary Section S2)", 0, "table_reference",
@@ -1760,13 +1786,13 @@ b("05_results_discussion", -1, "they span 0.00054", 0, A_JCA,
   "R_collapse.denominator", "5dp", ident="res.jsd_span_ts")
 b("05_results_discussion", -1, "they span 0.00054", 1, A_JCA,
   "R_collapse.value", "int", ident="res.jsd_collapse_ratio")
-b("05_results_discussion", -1, "the gap spans", 0, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "+0.028 on the most frequent", 0, "paper_tables/perclass_crossing.json",
   "rows[cls=Happiness].gap_native", "3dp", ident="res.gap_happiness_native")
-b("05_results_discussion", -1, "class (happiness", 0, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "+0.028 on the most frequent", 1, "paper_tables/perclass_crossing.json",
   "rows[cls=Happiness].n", "int", ident="res.n_happiness")
-b("05_results_discussion", -1, "class (happiness", 1, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "+0.305 on the rarest", 0, "paper_tables/perclass_crossing.json",
   "rows[cls=Fear].gap_native", "3dp", ident="res.gap_fear_native")
-b("05_results_discussion", -1, "contested one", 0, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "+0.305 on the rarest", 1, "paper_tables/perclass_crossing.json",
   "rows[cls=Fear].n", "int", ident="res.n_fear")
 b("05_results_discussion", -1, "T = 1.46 surprise", 0, "paper_tables/perclass_crossing.json",
   "rows[cls=Happiness].crossing_T", "2dp", ident="res.cross_happiness")
@@ -1782,9 +1808,9 @@ b("05_results_discussion", -1, "under-confidence", 0, "paper_tables/perclass_cro
   "rows[cls=Happiness].gap_T22", "3dp", ident="res.gap_happiness_T22")
 b("05_results_discussion", -1, "under-confidence", 1, "paper_tables/perclass_crossing.json",
   "rows[cls=Neutral].gap_T22", "3dp", ident="res.gap_neutral_T22")
-b("05_results_discussion", -1, "needs is set", 0, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "close (", 0, "paper_tables/perclass_crossing.json",
   "rows[cls=Sadness].gap_native", "3dp", ident="res.gap_sadness_native")
-b("05_results_discussion", -1, "needs is set", 1, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "close (", 1, "paper_tables/perclass_crossing.json",
   "rows[cls=Surprise].gap_native", "3dp", ident="res.gap_surprise_native")
 b("05_results_discussion", -1, "error because", 0, "paper_tables/perclass_crossing.json",
   "rows[cls=Fear].n", "int", ident="res.n_fear_2")
@@ -1826,9 +1852,9 @@ b("05_results_discussion", -1, "+0.640 0.218", 3, A_OST,
   "results[\"100\"].a2_detrended.sd", "3dp", ident="res.orderstat_k100_detr_sd")
 b("05_results_discussion", -1, "the last 100", 1, A_OST,
   "results[\"100\"].window_drift_pp.mean", "3dp", ident="res.window_drift_k100")
-b("05_results_discussion", -1, "claimed. On RAF-DB", 0, A_SAI,
+b("05_results_discussion", -1, "uncertainty of the mean. On RAF-DB", 0, A_SAI,
   "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.mean", "4dp", ident="res.rafdb_ece_contrast")
-b("05_results_discussion", -1, "claimed. On RAF-DB", 1, A_SAI,
+b("05_results_discussion", -1, "uncertainty of the mean. On RAF-DB", 1, A_SAI,
   "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.sd", "4dp", ident="res.rafdb_ece_contrast_sd")
 b("05_results_discussion", -1, "n = 131 SE 0.0008", 0, A_SAI,
   "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.n", "int", ident="res.rafdb_ece_contrast_n")
@@ -2195,7 +2221,7 @@ b("05_results_discussion", -1, "discriminative quality is adverse (auroc 0.46", 
   "[teacher=VAE9182][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_vae")
 b("05_results_discussion", -1, "discriminative quality is adverse (auroc 0.46", 1, "rafdb_signal_quality/signal_quality_table.json",
   "[teacher=Stage1][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_stage1")
-b("05_results_discussion", -1, "0.84 on the teachers where it was run", 0, "rafdb_signal_quality/signal_quality_table.json",
+b("05_results_discussion", -1, "0.84 where it was run", 0, "rafdb_signal_quality/signal_quality_table.json",
   "[teacher=Primary][signal=target_logvar].auroc_signed", "2dp", ident="s5.auroc_primary")
 b("05_results_discussion", -1, "direction. its effect on accuracy is small", 0, A_NU,
   "nine_cell_grid[\"swa|vae9182\"].d_acc_mean", "2dp", ident="s5.ls_acc_min")
@@ -2227,7 +2253,7 @@ b("05_results_discussion", -1, "calibration change is 69 times", 0, A_NU,
   "nine_cell_grid[\"swa|vae9182\"].ece_units", "int", ident="s5.ls_vae_ece_units")
 b("05_results_discussion", -1, "all three teachers ( p_ holm 0.003", 0, A_INF,
   "results[2].p_holm", "3dp", ident="s5.ls_pholm")
-b("05_results_discussion", -1, "rounding away. first the closest approach", 0, A_CRIT,
+b("05_results_discussion", -1, "deserve reporting. First the closest approach", 0, A_CRIT,
   "cells[\"stage1/gate:target_logvar\"].swa.ece.ratio_vs_control_sd", "2dp", ident="s5.gate_near_miss")
 b("05_results_discussion", -1, "magnitude ( 2.51 )", 0, A_CRIT,
   "cells[\"stage1/gate:target_logvar\"].swa.acc.ratio_vs_control_sd", "2dp", ident="s5.gate_acc_ratio")
@@ -2400,8 +2426,9 @@ EX_05 = [
      "kontrol kolu T=1"),
     ("human-aligned", 0, "hyperparameter",
      "aday tarifin kol etiketi T=0.74"),
-    ("confidence gap", 0, "table_reference",
-     "Supplementary Figure S4 atfi"),
+    # 21 Agu (jeton final, 9b dalgasi): figur atfi S4 -> S3 ve cumle yeniden yazildi.
+    ("Resolved by class", 0, "table_reference",
+     "Supplementary Figure S3 atfi (9b: S-numaralari yeniden hizalandi)"),
     ("remain over-confident", 2, "hyperparameter",
      "izgaranin ucu T=2.2 -- kol ayari"),
     ("(Supplementary Table S6", 0, "table_reference",
@@ -2438,7 +2465,7 @@ EX_05 = [
      "olcum protokolu: batch 1"),
     ("3.91 at batch", 1, "benchmark_protocol",
      "olcum protokolu: batch 32"),
-    ("recommendation:", 0, "benchmark_protocol",
+    ("Contradicting a common recommendation", 0, "benchmark_protocol",
      "olcum protokolu: batch 1"),
     ("sessions ( 1.20", 2, "dtype_name",
      "'fp32' veri tipi adinin icindeki basamak (tab_efficiency'de ayni sekilde muaf)"),
@@ -2456,8 +2483,8 @@ EX_05 = [
      "n=3 tohum sayisi -- tasarim, olcum degil"),
     ("0.1008 0.0025 at t = 2.2", 2, "hyperparameter",
      "izgara sicakligi T=2.2"),
-    ("calibration estimator in 20 of 21 cells", 1, "sample_size",
-     "3 seri x 7 kestirici = 21 hucre; tasarim sayimi"),
+    # 21 Agu (jeton final): "in 20 of 21 cells" cumlesi §5'ten CIKTI ("by seed majority
+    # ... under all seven estimators" olarak yeniden yazildi); §3'teki 20/21 baglari duruyor.
     ("metrics --- nll brier equal-width ece at", 0, "benchmark_protocol",
      "kutu sayisi 10 -- olcum protokolu (S2 duzyazisindaki ayni muafiyetin esi)"),
     ("metrics --- nll brier equal-width ece at", 1, "benchmark_protocol",
@@ -2480,16 +2507,17 @@ EX_05 = [
      "on-beyanin merkezi T=1"),
     ("and no deep interior dip with t = 1.34", 0, "hyperparameter",
      "kontrol kolunun on-beyanli izgara noktasi T=1.34 -- bu ogretmenin KENDI fiti degil, RAF-DB Stage1 fitinin izgara etiketi olarak yeniden kullanimi"),
-    ("at t = 1 and every departure worsens", 0, "hyperparameter",
-     "olceklenmemis kol T=1"),
-    ("at t = 1 and every departure worsens", 1, "teacher_name_digits",
+    # 21 Agu (jeton final): "every departure worsens" cumlesi yeniden yazildi; T=1
+    # gecisleri "occurs at t = 1 ( 0.0330" ciftiyle zaten kapsanmakta. VAE9182 adi simdi
+    # :71'in sonunda, yeni satir etiketiyle:
+    ("observed pattern is stronger", 0, "teacher_name_digits",
      "VAE9182 adinin icindeki basamak"),
     ("occurs at t = 1 ( 0.0330", 0, "hyperparameter",
      "olceklenmemis kol T=1"),
     ("occurs at t = 1 ( 0.0330", 3, "hyperparameter",
      "olceklenmemis kol T=1 (ayni cumlede ikinci gecis)"),
-    ("section s2 by seed", 0, "table_reference",
-     "Supplementary Section S2 atfi"),
+    ("Supplementary Section S2 by seed majority", 0, "table_reference",
+     "Supplementary Section S2 atfi (satir basinda; capa S2'nin basamagini icermek zorunda)"),
     ("0.0447 at t = 0.85 on the near side", 1, "hyperparameter",
      "izgara sicakligi T=0.85"),
     ("0.0447 at t = 0.85 on the near side", 3, "hyperparameter",
@@ -2520,12 +2548,12 @@ EX_05 = [
      "on-beyan dondurma suresi (19 s)"),
     ("supplementary table s4", 0, "table_reference",
      "Supplementary Table S4 atfi"),
-    ("supplementary table s10", 0, "table_reference",
+    ("curves (individual seeds:", 0, "table_reference",
      "Supplementary Table S10 atfi"),
     ("individual points gives = 0.789", 1, "criterion_constant",
      "%95 guven duzeyi -- istatistik konvansiyonu"),
-    ("which. because is fixed at 6 everywhere", 0, "hyperparameter",
-     "ogrenci tarafi damitma sicakligi tau=6"),
+    ("Because is fixed at", 0, "hyperparameter",
+     "ogrenci tarafi damitma sicakligi tau=6 (21 Agu: 'which.' onceki satira tasindi)"),
     # Capa 21 Agu 2026'da kisaltildi: eski hali 3.06'yi iceriyordu ve makale 3.04'e duzelince
     # iki muafiyet birden dustu (jetonlar KAYITSIZ oldu). "Stage1" tek basina benzersiz DEGIL
     # (iki satir onunla basliyor), o yuzden en kisa benzersiz onek "Stage1 6.0 on" -- yani bu
@@ -2621,11 +2649,11 @@ EX_05 = [
      "Stage1 adinin icindeki basamak"),
     ("the miscalibrated teacher at n = 2", 0, "sample_size",
      "n=2 tohum sayisi"),
-    ("and we say why: the g2g", 0, "method_name_digits",
+    ("empty: the G", 0, "method_name_digits",
      "YENI SINIF onerisi: G2G (Gaussian-to-Gaussian) yontem adinin icindeki basamak -- olcum degil; teacher_name_digits'in yontem karsiligi"),
     ("stage1 target _logvar", 0, "teacher_name_digits",
      "\\texttt{stage1} hucre etiketindeki basamak"),
-    ("one (supplementary section s5)", 0, "table_reference",
+    ("(Supplementary Section S", 0, "table_reference",
      "Supplementary Section S5 atfi"),
     ("two-sided p at n = 3 is 0.333", 0, "sample_size",
      "n=3 tohum/ogretmen sayisi"),
@@ -2674,10 +2702,12 @@ b("02_related_work", -1, "sits in this regime", 0,
   ident="related_work.student_params_m")
 
 
-# "20 of 21 cells" §5'te IKI kez daha geciyor (47 ve 50). Ayni turetme, ayri jetonlar --
-# §3'teki `meth.argmin_cells_agreeing` ile ayni operandlar.
-for _i, _row in enumerate(("calibration estimator in 20 of 21 cells",
-                           "same temperature in 20 of 21")):
+# "20 of 21 cells" §5'te bir kez daha geciyor. Ayni turetme, ayri jeton -- §3'teki
+# `meth.argmin_cells_agreeing` ile ayni operandlar. 21 Agu (jeton final): eskiden IKI gecisti;
+# "calibration estimator in 20 of 21 cells" cumlesi §5 dalgasinda yeniden yazildi ve o dv
+# SILINDI. Bu olu dv'yi check_numbers GORMUYORDU: `derived_matched_nothing` VIOLATION_KINDS'ta
+# degildi (oz sinamanin tabani yakaladi). Sinif ayni gun ihlal listesine eklendi.
+for _i, _row in enumerate(("same temperature in 20 of 21",)):
     dv(f"res.argmin_cells_agreeing_{_i}", "20", "sum",
        [op(A_ROB, 'series["RAF-DB stage1"]._consensus_metrics_agreeing'),
         op(A_ROB, 'series["RAF-DB vae9182"]._consensus_metrics_agreeing'),
@@ -2847,6 +2877,59 @@ b("05_results_discussion", -1, "4.3 10^ -7 on RAF-DB", 2, A_SAI,
   'datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p', "sci_exponent",
   ident="s5.best_swa_p_exponent")
 
+
+# =============================================================================
+# N19d (21 Agu 2026, jeton final) -- 03:31'den sonra degisen metnin baglari
+# =============================================================================
+# (1) SS4.1: FERPlus etiket yayimimizin HAM fold sayimlari. Eski cumle kanonik yayinin
+#     sayilarini aktariyordu (28,709/3,589 -- citation muafiyeti); yeni cumle BIZIM
+#     kopyamizin olcumunu soyluyor ve olcum split_identity'de zaten alandi. Reviewer zinciri:
+#     ham 28559/3579/3573 -> cogunluk-oyu suzgeci -> 25060/3199/3153 -> egitim 28259 (fold0+1)
+#     + raporlama 3153. CAPA KURALI notu: satir sayilarla BASLIYOR, capa onlari icermek
+#     zorunda (p-degeri mantisi sinifi); oz sinamada beklenti bu yuzden `unregistered` olur.
+b("04_experiments", -1, "28559/3579/3573 train/validation/test rows", 0, A_SPL,
+  'datasets["FERPlus"].unfiltered_by_fold["0"]', "int", ident="s4.ferplus_raw_fold0")
+b("04_experiments", -1, "28559/3579/3573 train/validation/test rows", 1, A_SPL,
+  'datasets["FERPlus"].unfiltered_by_fold["1"]', "int", ident="s4.ferplus_raw_fold1")
+b("04_experiments", -1, "28559/3579/3573 train/validation/test rows", 2, A_SPL,
+  'datasets["FERPlus"].unfiltered_by_fold["2"]', "int", ident="s4.ferplus_raw_fold2")
+
+# (2) SS4.6: on-beyan lead araliginin iki ucu. Alt uc TURETILMIS: alti lead'in MINIMUMU
+#     (cumle "ranging from ... to ..." diyor, yani iddia min/max'tir; A4'un 18 s'i bugun
+#     minimum ama yarin baska kalem eklenirse cumleyi min korur, tek-alan bagi korumazdi).
+#     Ust uc A8'in kendi alani. Ikisi de `int_floor`. Satir 18 ile basliyor -> capa sayi icerir.
+dv("s4.prereg_lead_min", "18", "min",
+   [op(A_PL, "items.A1.lead_seconds"), op(A_PL, "items.A2.lead_seconds"),
+    op(A_PL, "items.A3.lead_seconds"), op(A_PL, "items.A4.lead_seconds"),
+    op(A_PL, "items.A7.lead_seconds"), op(A_PL, "items.A8.lead_seconds")],
+   "int_floor", "04_experiments", -1, "18 s to 12 h.", 0,
+   note="alti lead-tasiyan on-beyanin en kisasi = A4 (human-alignment), 18 s; saniyeler "
+        "tamsayi-kesin oldugu icin floor==deger")
+b("04_experiments", -1, "18 s to 12 h.", 1, A_PL,
+  "items.A8.lead_hours", "int_floor", ident="s4.prereg_lead_max_h")
+
+# (3) SS3.4: headroom'un ikinci +0.0232 gecisi -- ILK gecisle (meth.stage1_headroom_point_boot,
+#     SS3:325) AYNI alana baglanir; ayni buyuklugun iki yazimi ayni buyukluktur (N19b kurali).
+b("03_methodology", -1, "bootstrap above gives", 0, A_BOOT,
+  "results.stage1.point.headroom_eq8", "4dp", ident="meth.stage1_headroom_point_boot2")
+
+# (4) fig_perclass (YENI BIRIM, 21 Agu 2026): figur altyazilari kapsam DISIYDI; F3/F5
+#     bulgulari (baslik metni + 10.5) uzerine fig_perclass.tex tarayiciya girdi. Tek jeton
+#     tasir: sinyal/gurultu tabani. "at least" bir ALT SINIR iddiasidir -> `1dp_floor`
+#     (0.998 ile ayni kip). Olculdu: min = Disgust 10.5557 -> 10.5; yari-yukari 10.6 verirdi
+#     ve 20 Agu'ya kadar basili deger tam da oydu (F5 bulgusu) -- perclass_calibration'in
+#     docstring'i de ayni yari-yukari degeri tasiyordu, duzeltildi.
+dv("figp.snr_floor", "10.5", "min",
+   [op(A_PCC, "classes.Surprise.range_over_seed_sd"),
+    op(A_PCC, "classes.Fear.range_over_seed_sd"),
+    op(A_PCC, "classes.Disgust.range_over_seed_sd"),
+    op(A_PCC, "classes.Happiness.range_over_seed_sd"),
+    op(A_PCC, "classes.Sadness.range_over_seed_sd"),
+    op(A_PCC, "classes.Anger.range_over_seed_sd"),
+    op(A_PCC, "classes.Neutral.range_over_seed_sd")],
+   "1dp_floor", "fig_perclass", -1, "deviation) is at least", 0,
+   note="yedi sinifin en kucuk (araligin tohum sd'sine orani) = Disgust 10.5557; alt sinir "
+        "iddiasi oldugu icin ASAGI yuvarlanir")
 
 # =============================================================================
 # TEYIT KAYITLARI (cross_checks) — ayni niceligi hesaplayan IKINCI kaynak

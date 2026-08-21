@@ -351,6 +351,17 @@ def cells_from_run_manifest_census(p):
     return out
 
 
+def cells_from_prereg_lead(p):
+    """S11 Lead sutununun alti degeri + iki saglama sayaci. Lead'ler HAM saniye olarak
+    hucre olur; makale tarafi floor'lanmis halini basar, sapma burada gorunur."""
+    d = json.loads(p.read_text(encoding="utf-8"))
+    out = {f"PL/{b}_lead_s": (d["items"][b]["lead_seconds"], None, None)
+           for b in d["lead_bearing_rows"]}
+    out["PL/n_annotation_checked"] = (d["summary"]["n_annotation_checked"], None, None)
+    out["PL/n_runs_csv_checked"] = (d["summary"]["n_runs_csv_checked"], None, None)
+    return out
+
+
 def cells_from_reliability(p):
     """§5.1'in iki sayisi: en yuksek guven kutusundaki kutle, iki kosulda."""
     d = json.loads(p.read_text(encoding="utf-8"))
@@ -889,6 +900,7 @@ SOURCES = [
     (D / "paper_tables" / "jsd_collapse_audit.json", cells_from_jsd_collapse),
     (D / "paper_tables" / "number_ledger.json", cells_from_number_ledger),
     (D / "paper_tables" / "derived_registry.json", cells_from_derived_registry),
+    (D / "paper_tables" / "prereg_lead_audit.json", cells_from_prereg_lead),
     (D / "paper_tables" / "control_sd_mde.json", cells_from_round3),
     (D / "paper_tables" / "tau_t_factorial.json", cells_from_round3),
     (D / "paper_tables" / "mechanism_grid_gaps.json", cells_from_round3),

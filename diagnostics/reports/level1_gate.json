@@ -221,6 +221,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/prereg_lead_audit.py",
+      "status": "GEÇTİ",
+      "note": ""
+    },
+    {
       "script": "diagnostics/public_repo_staleness.py",
       "status": "GEÇTİ",
       "note": ""

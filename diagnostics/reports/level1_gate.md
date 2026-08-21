@@ -56,6 +56,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/p6_verdict.py` | GEÇTİ | — |
 | `diagnostics/paper_tables.py` | GEÇTİ | — |
 | `diagnostics/perclass_crossing_table.py` | GEÇTİ | — |
+| `diagnostics/prereg_lead_audit.py` | GEÇTİ | — |
 | `diagnostics/public_repo_staleness.py` | GEÇTİ | — |
 | `diagnostics/public_repo_sync.py` | GEÇTİ | — |
 | `diagnostics/public_scope_buckets.py` | GEÇTİ | — |

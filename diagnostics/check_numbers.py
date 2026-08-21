@@ -38,6 +38,11 @@ VIOLATION_KINDS = {
     "printed_not_found_at_location": "defterdeki deger cumlede gecmiyor",
     "prose_location_bad": "duzyazi capasi bulunamadi",
     "binding_matched_nothing": "beyan edilen hucre makalede yok",
+    # 21 Agu 2026 (jeton final): bu sinif bugune kadar SUZULUYORDU -- capasi hicbir jetona
+    # eslesmeyen bir dv, kapidan sessizce geciyordu. Oz sinamanin (daha siki) taban
+    # karsilastirmasi yakaladi: 'calibration estimator in 20 of 21 cells' dv'si §5'ten
+    # cumle silinince olu kalmis, kapi yesil kalmisti.
+    "derived_matched_nothing": "turetilmis beyanin capasi makalede yok",
     "ambiguous": "beyan birden fazla hucreye eslesiyor",
     "double_bound": "ayni hucre iki kez baglanmis",
     "exempt_matched_nothing": "curumus muafiyet (artik hicbir jetona denk gelmiyor)",
