@@ -67,6 +67,25 @@ ALLOWED = {
     # manifest.json'lardir; kosu agaci olmadan sorulacak bir soru degil, isi tam olarak o.
     # Ciktisi (sayimlar + pencere etiketi) Level-1 temiz bir artefakt olarak yayimlanir.
     "diagnostics/run_manifest_census.py",
+    # 23 AGU 2026 (bant bosluk turu) -- ALTI OLCUM BETIGI. Bunlar bu kapiya BUGUN girdi:
+    # kapinin kapsami `export_to_drive.EXPORTS`ten turer ve artefaktlari bugune kadar bantta
+    # DEGILDI, yani Level-1 sorusu onlara hic sorulmamisti. Soru sorulunca altisi da koSU
+    # AGACINA dokundugu icin dustu. BU BIR BEYANDIR, ONARIM DEGIL: her biri checkpoint ya da
+    # ornek-basina logit okumak zorunda -- olctukleri sey orada. Artefaktlari (yayimlanan
+    # JSON'lar) Level-1 temiz: makaledeki sayi ham kosu agaci olmadan DOGRULANABILIR, ama
+    # bugun YENIDEN URETILEMEZ.
+    # ONARIM DESENI BELLI VE ACIK IS OLARAK YAZILI: `ferplus_student_jsd.py --from-runs`
+    # ornegindeki ayrim -- varsayilan yol yayimlanmis onbellekten okur, kosu agacini taramak
+    # AYRI bir eylemdir. Ozellikle `reliability_diagram.py` ve `perclass_calibration.py`
+    # zaten `student_logit_cache` uzerinden gidiyor ve o onbellegin yayimlayicisi
+    # (`publish_student_logits.py`) depoda duruyor; ikisi icin onarim kucuk gorunuyor.
+    # Gonderim arifesinde alti betigi birden degistirmedim -- beyan ettim, olctum, yazdim.
+    "diagnostics/reliability_diagram.py",       # ornek-basina ogrenci logitleri (guvenilirlik)
+    "diagnostics/perclass_calibration.py",      # ayni onbellek, sinif basina kirilim
+    "diagnostics/rafdb_signal_quality_table.py",  # OGRETMEN checkpoint'i yukler (mu/logvar)
+    "diagnostics/vich_isolation_verdict.py",    # ogrenci checkpoint'lerini yukleyip skorlar
+    "diagnostics/adaptive_t_headroom_table.py",  # ayni: checkpoint yukler, logit degerlendirir
+    "diagnostics/p5_efficiency_frontier.py",    # kosu dizinlerindeki metrics_best/run_args
 }
 
 # HATA SINIFI BEYANLARI. `başka hata` / `zaman aşımı` / `yok` sınıfına düşen bir betik BURADA

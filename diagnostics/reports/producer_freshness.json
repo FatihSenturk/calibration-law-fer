@@ -1,7 +1,7 @@
 {
   "cheap_threshold_seconds": 90.0,
   "counts": {
-    "producers": 63,
+    "producers": 71,
     "stale": 0,
     "source_drift": 0,
     "unstamped": 0,
@@ -41,9 +41,33 @@
       ]
     },
     {
+      "layer": "B",
+      "status": "geçti",
+      "producer_sha256": "81da4c7bb6d50d0a",
+      "artifacts": [
+        {
+          "artifact": "diagnostics/adaptive_t_headroom/adaptive_t_headroom.json",
+          "artifact_commit": "9b2d31c5c",
+          "producer_commit": "9b2d31c5c",
+          "producer_commits_since_artifact": 0,
+          "stamped": null
+        }
+      ],
+      "unstamped": [],
+      "drift": [],
+      "seconds": null,
+      "changed": [],
+      "script": "diagnostics/adaptive_t_headroom_table.py",
+      "artifacts_n": 1,
+      "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
+      "artifact_paths": [
+        "diagnostics/adaptive_t_headroom/adaptive_t_headroom.json"
+      ]
+    },
+    {
       "layer": "A",
       "status": "geçti",
-      "seconds": 6.47,
+      "seconds": 6.42,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -90,7 +114,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 38.19,
+      "seconds": 36.74,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -158,6 +182,21 @@
       ]
     },
     {
+      "layer": "A",
+      "status": "geçti",
+      "seconds": 0.06,
+      "changed": [],
+      "side_outputs": [],
+      "returncode": 0,
+      "note": "",
+      "script": "diagnostics/capacity_law_check.py",
+      "artifacts_n": 1,
+      "why_layer": "ölçülen süre 0.1 s",
+      "artifact_paths": [
+        "diagnostics/p5_efficiency/capacity_law_check.json"
+      ]
+    },
+    {
       "layer": "B",
       "status": "geçti",
       "producer_sha256": "26befce3b3bf18f3",
@@ -207,7 +246,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 45.22,
+      "seconds": 43.3,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -239,7 +278,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.16,
+      "seconds": 5.27,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -271,7 +310,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.67,
+      "seconds": 0.66,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -287,7 +326,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 1.95,
+      "seconds": 1.96,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -303,7 +342,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.96,
+      "seconds": 5.04,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -341,7 +380,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.86,
+      "seconds": 4.71,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -357,7 +396,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.07,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -373,7 +412,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.8,
+      "seconds": 0.86,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -388,7 +427,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 27.61,
+      "seconds": 25.64,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -436,7 +475,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.66,
+      "seconds": 0.67,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -452,7 +491,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.0,
+      "seconds": 4.92,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -468,7 +507,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.79,
+      "seconds": 5.94,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -492,6 +531,13 @@
           "producer_commit": "9b2d31c5c",
           "producer_commits_since_artifact": 0,
           "stamped": null
+        },
+        {
+          "artifact": "diagnostics/p5_efficiency/latency_benchmark_session2.json",
+          "artifact_commit": "9b2d31c5c",
+          "producer_commit": "9b2d31c5c",
+          "producer_commits_since_artifact": 0,
+          "stamped": null
         }
       ],
       "unstamped": [],
@@ -499,16 +545,17 @@
       "seconds": null,
       "changed": [],
       "script": "diagnostics/latency_benchmark.py",
-      "artifacts_n": 1,
+      "artifacts_n": 2,
       "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
       "artifact_paths": [
-        "diagnostics/p5_efficiency/latency_benchmark.json"
+        "diagnostics/p5_efficiency/latency_benchmark.json",
+        "diagnostics/p5_efficiency/latency_benchmark_session2.json"
       ]
     },
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.7,
+      "seconds": 0.73,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -524,7 +571,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.07,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -604,7 +651,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.19,
+      "seconds": 0.2,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -636,7 +683,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.07,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -646,6 +693,30 @@
       "why_layer": "ölçülen süre 0.1 s",
       "artifact_paths": [
         "diagnostics/p4_teacher_selection/p4_teacher_selection.json"
+      ]
+    },
+    {
+      "layer": "B",
+      "status": "geçti",
+      "producer_sha256": "536a04bd2b7e0eeb",
+      "artifacts": [
+        {
+          "artifact": "diagnostics/p5_efficiency/p5_efficiency.json",
+          "artifact_commit": "9b2d31c5c",
+          "producer_commit": "9b2d31c5c",
+          "producer_commits_since_artifact": 0,
+          "stamped": null
+        }
+      ],
+      "unstamped": [],
+      "drift": [],
+      "seconds": null,
+      "changed": [],
+      "script": "diagnostics/p5_efficiency_frontier.py",
+      "artifacts_n": 1,
+      "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
+      "artifact_paths": [
+        "diagnostics/p5_efficiency/p5_efficiency.json"
       ]
     },
     {
@@ -667,7 +738,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.29,
+      "seconds": 6.11,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -683,7 +754,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.94,
+      "seconds": 4.95,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -695,6 +766,31 @@
         "paper/tables/tab_app_paired_sd.tex",
         "diagnostics/paper_tables/RESULTS_TABLES.md",
         "diagnostics/paper_tables/RESULTS_TABLES.json"
+      ]
+    },
+    {
+      "layer": "B",
+      "status": "geçti",
+      "producer_sha256": "b6d54e39fd7838d9",
+      "artifacts": [
+        {
+          "artifact": "diagnostics/reliability/perclass_calibration.json",
+          "artifact_commit": "10659df56",
+          "producer_commit": "7dffdb30e",
+          "producer_commits_since_artifact": 1,
+          "doc_only_drift": "Uretici commit'i 7dffdb30e (21 Agu, N19d) YALNIZ docstring'e dokundu: '10.6x' -> '10.56x (1dp FLOOR ile 10.5 basar)'. Hesap satiri degismedi. 23 Agu 2026'da uretici elle kosturuldu (Level-3: kosu agaci gerekli) ve artefaktin sha256'si degismedi (37f03be48412e9c8...): artefakt ureticisiyle GUNCEL.",
+          "stamped": null
+        }
+      ],
+      "unstamped": [],
+      "drift": [],
+      "seconds": null,
+      "changed": [],
+      "script": "diagnostics/perclass_calibration.py",
+      "artifacts_n": 1,
+      "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
+      "artifact_paths": [
+        "diagnostics/reliability/perclass_calibration.json"
       ]
     },
     {
@@ -716,7 +812,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.05,
+      "seconds": 0.06,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -780,7 +876,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.94,
+      "seconds": 4.93,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -791,6 +887,30 @@
       "artifact_paths": [
         "diagnostics/paper_tables/r3w1_joint_optimum.md",
         "diagnostics/paper_tables/r3w1_joint_optimum.json"
+      ]
+    },
+    {
+      "layer": "B",
+      "status": "geçti",
+      "producer_sha256": "bb43994885527f7c",
+      "artifacts": [
+        {
+          "artifact": "diagnostics/rafdb_signal_quality/signal_quality_table.json",
+          "artifact_commit": "9b2d31c5c",
+          "producer_commit": "9b2d31c5c",
+          "producer_commits_since_artifact": 0,
+          "stamped": null
+        }
+      ],
+      "unstamped": [],
+      "drift": [],
+      "seconds": null,
+      "changed": [],
+      "script": "diagnostics/rafdb_signal_quality_table.py",
+      "artifacts_n": 1,
+      "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
+      "artifact_paths": [
+        "diagnostics/rafdb_signal_quality/signal_quality_table.json"
       ]
     },
     {
@@ -810,9 +930,33 @@
       ]
     },
     {
+      "layer": "B",
+      "status": "geçti",
+      "producer_sha256": "ad1cec0cf92f61a4",
+      "artifacts": [
+        {
+          "artifact": "diagnostics/reliability/reliability_diagram.json",
+          "artifact_commit": "10659df56",
+          "producer_commit": "10659df56",
+          "producer_commits_since_artifact": 0,
+          "stamped": null
+        }
+      ],
+      "unstamped": [],
+      "drift": [],
+      "seconds": null,
+      "changed": [],
+      "script": "diagnostics/reliability_diagram.py",
+      "artifacts_n": 1,
+      "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
+      "artifact_paths": [
+        "diagnostics/reliability/reliability_diagram.json"
+      ]
+    },
+    {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.7,
+      "seconds": 5.63,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -859,7 +1003,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.07,
+      "seconds": 0.06,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -875,7 +1019,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.62,
+      "seconds": 0.65,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -929,6 +1073,23 @@
     {
       "layer": "A",
       "status": "geçti",
+      "seconds": 5.74,
+      "changed": [],
+      "side_outputs": [
+        "paper/figures/selection_distribution.pdf"
+      ],
+      "returncode": 0,
+      "note": "",
+      "script": "diagnostics/selection_distribution_figure.py",
+      "artifacts_n": 1,
+      "why_layer": "ölçülen süre 5.4 s",
+      "artifact_paths": [
+        "diagnostics/selection_audit/selection_distribution.json"
+      ]
+    },
+    {
+      "layer": "A",
+      "status": "geçti",
       "seconds": 0.29,
       "changed": [],
       "side_outputs": [],
@@ -974,7 +1135,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.22,
+      "seconds": 0.23,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -991,7 +1152,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 4.86,
+      "seconds": 4.8,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1039,7 +1200,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 8.89,
+      "seconds": 9.18,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1054,7 +1215,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 0.06,
+      "seconds": 0.05,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1070,7 +1231,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 7.26,
+      "seconds": 7.2,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1086,7 +1247,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.64,
+      "seconds": 5.7,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1102,7 +1263,7 @@
     {
       "layer": "A",
       "status": "geçti",
-      "seconds": 5.88,
+      "seconds": 5.84,
       "changed": [],
       "side_outputs": [],
       "returncode": 0,
@@ -1112,6 +1273,30 @@
       "why_layer": "ölçülen süre 6.0 s",
       "artifact_paths": [
         "diagnostics/p1_dose_response/two_dataset_overlay.json"
+      ]
+    },
+    {
+      "layer": "B",
+      "status": "geçti",
+      "producer_sha256": "35aa2ecfa3bd0305",
+      "artifacts": [
+        {
+          "artifact": "diagnostics/vich_isolation/vich_isolation_verdict.json",
+          "artifact_commit": "9b2d31c5c",
+          "producer_commit": "9b2d31c5c",
+          "producer_commits_since_artifact": 0,
+          "stamped": null
+        }
+      ],
+      "unstamped": [],
+      "drift": [],
+      "seconds": null,
+      "changed": [],
+      "script": "diagnostics/vich_isolation_verdict.py",
+      "artifacts_n": 1,
+      "why_layer": "Level-3 beyanlı: koşu dizinlerini okumak İŞİ",
+      "artifact_paths": [
+        "diagnostics/vich_isolation/vich_isolation_verdict.json"
       ]
     }
   ]

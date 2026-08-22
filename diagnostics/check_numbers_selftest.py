@@ -258,6 +258,25 @@ def main():
                  "taban ile birebir", len(k0), len(kinds), len(pl["unbound"]),
                  "SABIT" if same else "KAYDI"))
 
+    # --- BANT BOSLUGU (23 Agu 2026). Bu senaryo MAKALEYE dokunmaz: deger dogru, alan
+    # yerinde, yuvarlama dogru -- degisen tek sey KAYNAGIN YAYIMLILIGI. Bant beyani
+    # (`export_to_drive.EXPORTS`) gecici olarak kisaltilir ve defterin bunu gormesi beklenir.
+    # Bugune kadar gormuyordu: 23 Agu'da olculdu, defterin isaret ettigi 49 artefaktin 9'u
+    # bantta yoktu ve butun kapilar yesildi. "Kayitli" ile "gosterilebilir" ayni sey degil.
+    import export_to_drive as EX
+    keep_exports = list(EX.EXPORTS)
+    EX.EXPORTS[:] = [e for e in keep_exports
+                     if e[0] != "diagnostics/reliability/reliability_diagram.json"]
+    pl, kinds = run(clean)
+    got = (kinds.count("binding_source_unpublished")
+           - k0.count("binding_source_unpublished"))
+    good = got >= 1
+    ok &= good
+    rows.append(("bagli artefakt BANTTAN dusuruldu (reliability_diagram.json)",
+                 "binding_source_unpublished", 1, got, len(pl["unbound"]),
+                 "YAKALANDI" if good else "KACIRILDI"))
+    EX.EXPORTS[:] = keep_exports
+
     # --- bag hatasi: sayi dogru, artefakt dogru, BAG yanlis (r=0.724 vakasi)
     saved = dict(NL.PROSE[0])
     NL.PROSE[0]["path"] = "entropy_correlation.T074.pearson"

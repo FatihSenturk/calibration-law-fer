@@ -225,9 +225,11 @@
     "layout_dropped": 357,
     "mismatch": 0,
     "derived_mismatch": 0,
-    "prose": 1,
+    "prose": 3,
     "derived_in_scope": 69,
     "derived_prose_anchored": 4,
+    "artifact_sources": 49,
+    "artifact_sources_unbanded": 0,
     "signs": 24,
     "sign_tokens": 24,
     "sign_mismatch": 0,
@@ -22128,6 +22130,44 @@
         "1",
         "0.711",
         "0.74"
+      ]
+    },
+    {
+      "id": "fig_reliability.mean_conf_native",
+      "artifact": "reliability/reliability_diagram.json",
+      "path": "conditions[\"T=1\"].pooled_mean_conf",
+      "exact": 0.9688925743103027,
+      "rounding": "3dp",
+      "rounded": "0.969",
+      "where": [
+        "paper/figures/fig_reliability.tex:13"
+      ],
+      "note": "ogrenci ortalama top-1 guveni, dogal ogretmen kolunda (@SWA, uc tohum havuzlanmis)",
+      "matches": true,
+      "line_numbers": [
+        "89.60",
+        "89.73",
+        "0.969",
+        "0.939"
+      ]
+    },
+    {
+      "id": "fig_reliability.mean_conf_prescaled",
+      "artifact": "reliability/reliability_diagram.json",
+      "path": "conditions[\"T=1.3406\"].pooled_mean_conf",
+      "exact": 0.9392253160476685,
+      "rounding": "3dp",
+      "rounded": "0.939",
+      "where": [
+        "paper/figures/fig_reliability.tex:13"
+      ],
+      "note": "ayni nicelik, ogretmen T*'ye on-olceklenmis kolda",
+      "matches": true,
+      "line_numbers": [
+        "89.60",
+        "89.73",
+        "0.969",
+        "0.939"
       ]
     }
   ],

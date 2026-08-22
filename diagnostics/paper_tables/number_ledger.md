@@ -19,7 +19,7 @@ The four categories are disjoint (bound ∩ exempt is checked to be empty) and t
 | declaration anchored outside the scanned scope | count |
 |---|---|
 | derived quantity on a prose anchor | 4 |
-| prose field binding (`pv`) | 1 |
+| prose field binding (`pv`) | 3 |
 
 The registry therefore holds **73** derived quantities in total: 69 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
 

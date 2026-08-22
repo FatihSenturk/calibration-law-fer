@@ -114,6 +114,26 @@ FROZEN = {
 }
 
 
+# OLCULMUS YANLIS POZITIF (23 Agu 2026). Katman B kaynak ayrismasini GIT GECMISINDEN okur ve
+# docstring'e dokunan bir commit de commit'tir -- kapinin kendi belgesi bu siniri pesinen yaziyor
+# ("yanlis pozitifin bedeli: ureticiyi bir kez kostur ve bak", ucuz). Bant 23 Agu'da genisleyince
+# ucu birden ciktu; ikisi olculdu ve `--measure` ile Katman A'ya alindi (yeniden kosuldu, BAYT
+# AYNI). Ucuncusu Level-3 (kosu agacini okumak isi) oldugu icin kapinin icinde kosturulamaz;
+# ELLE kosturuldu ve artefakt bayt bayt AYNI cikti. Beyan o olcumun kaydidir.
+#
+# KENDINI GECERSIZ KILAR: af yalniz BURADA YAZILI uretici commit'i icin gecerli. Uretici bir daha
+# degisirse hash tutmaz ve ayrisma yeniden IHLAL olur -- yani bu bir susturma degil, tarihli bir
+# olcum kaydi.
+DOC_ONLY_DRIFT = {
+    "diagnostics/reliability/perclass_calibration.json": (
+        "7dffdb30e",
+        "Uretici commit'i 7dffdb30e (21 Agu, N19d) YALNIZ docstring'e dokundu: '10.6x' -> "
+        "'10.56x (1dp FLOOR ile 10.5 basar)'. Hesap satiri degismedi. 23 Agu 2026'da uretici "
+        "elle kosturuldu (Level-3: kosu agaci gerekli) ve artefaktin sha256'si degismedi "
+        "(37f03be48412e9c8...): artefakt ureticisiyle GUNCEL."),
+}
+
+
 def sha256(p):
     h = hashlib.sha256()
     with open(p, "rb") as fh:
@@ -163,9 +183,34 @@ def run_producer(script, timeout):
 
 
 def worktree_dirty():
-    """`git status --porcelain` -> {yol} kümesi. Kapının kendi temizliğini ölçmek için."""
+    """`git status --porcelain` -> {yol} kümesi. Kapının kendi temizliğini ölçmek için.
+
+    SABIT OFSET KULLANILMAZ (23 Agu 2026'da olculdu). Eski surum `ln[3:]` aliyordu; porcelain
+    biciminde bu dogru gorunur ama `git()` ciktinin TAMAMINI strip ediyor ve ilk satirin bas
+    boslugunu yiyor: " M paper/figures/x.pdf" -> "M paper/figures/x.pdf" -> `ln[3:]` =
+    "aper/figures/x.pdf". Sonuc SESSIZDI ve ikiye katlaniyordu: (a) yan cikti raporda YANLIS
+    ADLA gorunuyor, (b) geri yazma `git checkout -- "aper/..."` diye kosuyor, git hata veriyor,
+    `git()` hatayi yutuyor ve DOSYA GERI YAZILMIYOR. Yani kapi, calisma agacini duzeltmeden
+    birakiyordu -- ve bu turda tam da bir MAKALE FIGURUNE denk geldi
+    (`paper/figures/selection_distribution.pdf`). Ad artik durum kodundan sonraki ilk
+    bosluktan ayrilarak okunuyor; yeniden adlandirma (`R  eski -> yeni`) da hedefi verir.
+    """
     out = git("status", "--porcelain")
-    return {ln[3:].strip().strip('"') for ln in out.splitlines() if ln.strip()}
+    paths = set()
+    for ln in out.splitlines():
+        s = ln.strip()
+        if not s:
+            continue
+        parts = s.split(None, 1)
+        if len(parts) < 2:
+            continue
+        p = parts[1]
+        if " -> " in p:                      # yeniden adlandirma: hedef yol
+            p = p.split(" -> ", 1)[1]
+        p = p.strip().strip('"')
+        if p:
+            paths.add(p)
+    return paths
 
 
 def layer_a(script, arts, timeout, snapshot_dir):
@@ -262,8 +307,11 @@ def layer_b(script, arts):
         n = git("rev-list", "--count", f"{art_commit}..HEAD", "--", script)
         row["producer_commits_since_artifact"] = int(n) if n.isdigit() else None
         if row["producer_commits_since_artifact"]:
+            doc_only = DOC_ONLY_DRIFT.get(rel)
             if rel in FROZEN:
                 row["frozen"] = FROZEN[rel]      # beklenen ayrisma; ihlal degil
+            elif doc_only and prod_commit[:9] == doc_only[0]:
+                row["doc_only_drift"] = doc_only[1]   # olculmus yanlis pozitif (bkz. beyan)
             else:
                 drift.append(rel)
         # varsa damga da doğrulanır

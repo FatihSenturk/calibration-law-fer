@@ -43,6 +43,10 @@ VIOLATION_KINDS = {
     # karsilastirmasi yakaladi: 'calibration estimator in 20 of 21 cells' dv'si §5'ten
     # cumle silinince olu kalmis, kapi yesil kalmisti.
     "derived_matched_nothing": "turetilmis beyanin capasi makalede yok",
+    # 23 Agu 2026 (bant bosluk turu): KAYNAGIN YAYIMLILIGI. Defter bugune kadar degerin
+    # ALANLA eslesmesini denetliyordu; alan dogru olsa bile artefakt ihrac bandinda yoksa
+    # hakem kaynaga ULASAMAZ. "Kayitli" ile "gosterilebilir" ayni sey degil.
+    "binding_source_unpublished": "bagli artefakt ihrac bandinda yok (gosterilemez kaynak)",
     # 22 Agu 2026 (defter final3): ISARET DESENLERI. Rakamsiz veri iddialari (`[++-]`).
     # Sinif adlarinin BURADA olmasi sart -- VIOLATION_KINDS'te olmayan bir sinif kapidan
     # sessizce gecer (21 Agu'daki `derived_matched_nothing` acigi tam boyleydi).
@@ -100,7 +104,9 @@ def main():
     print(f"kapsam: {c['tokens']} jeton · bagli {c['bound']} · turetilmis {c['derived']} · "
           f"duzyazi bagi {c.get('prose', 0)} · muaf {c['exempt']} · "
           f"teyit kaydi {c.get('cross_checks', 0)}")
-    print(f"        {c.get('sign_tokens', 0)} isaret deseni · bagli {c.get('signs', 0)}")
+    print(f"        {c.get('sign_tokens', 0)} isaret deseni · bagli {c.get('signs', 0)} · "
+          f"kaynak artefakt {c.get('artifact_sources', 0)} "
+          f"(bantsiz {c.get('artifact_sources_unbanded', 0)})")
     print(f"IHLAL: {len(viol)} tanim/uyusmazlik · {len(unreg)} KAYITSIZ · "
           f"{len(drift)} defter kaymasi")
     for v in viol:

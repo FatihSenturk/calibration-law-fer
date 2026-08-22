@@ -16,6 +16,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/adaptive_t_headroom_table.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
       "script": "diagnostics/asymmetry_estimand.py",
       "status": "GEÇTİ",
       "note": ""
@@ -44,6 +49,11 @@
       "script": "diagnostics/build_runs_ledger.py",
       "status": "muaf",
       "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
+      "script": "diagnostics/capacity_law_check.py",
+      "status": "GEÇTİ",
+      "note": ""
     },
     {
       "script": "diagnostics/control_grid_refinement.py",
@@ -201,6 +211,11 @@
       "note": ""
     },
     {
+      "script": "diagnostics/p5_efficiency_frontier.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
       "script": "diagnostics/p5_oracle_replication_verdict.py",
       "status": "GEÇTİ",
       "note": ""
@@ -214,6 +229,11 @@
       "script": "diagnostics/paper_tables.py",
       "status": "GEÇTİ",
       "note": ""
+    },
+    {
+      "script": "diagnostics/perclass_calibration.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
     },
     {
       "script": "diagnostics/perclass_crossing_table.py",
@@ -261,9 +281,19 @@
       "note": ""
     },
     {
+      "script": "diagnostics/rafdb_signal_quality_table.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
       "script": "diagnostics/regression_line_provenance.py",
       "status": "GEÇTİ",
       "note": ""
+    },
+    {
+      "script": "diagnostics/reliability_diagram.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
     },
     {
       "script": "diagnostics/robustness_metrics.py",
@@ -289,6 +319,11 @@
       "script": "diagnostics/selection_audit_table.py",
       "status": "muaf",
       "note": "Level 3 — koşu dizini okumak işi"
+    },
+    {
+      "script": "diagnostics/selection_distribution_figure.py",
+      "status": "GEÇTİ",
+      "note": ""
     },
     {
       "script": "diagnostics/selection_gain_estimator.py",
@@ -354,6 +389,11 @@
       "script": "diagnostics/two_dataset_overlay.py",
       "status": "GEÇTİ",
       "note": ""
+    },
+    {
+      "script": "diagnostics/vich_isolation_verdict.py",
+      "status": "muaf",
+      "note": "Level 3 — koşu dizini okumak işi"
     }
   ],
   "violations": []

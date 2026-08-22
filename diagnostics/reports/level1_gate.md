@@ -15,12 +15,14 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/a12_realsignal_verdict.py` | GEÇTİ | — |
 | `diagnostics/a13_scratch_dose_verdict.py` | GEÇTİ | — |
 | `diagnostics/abs_path_gate.py` | GEÇTİ | — |
+| `diagnostics/adaptive_t_headroom_table.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/asymmetry_estimand.py` | GEÇTİ | — |
 | `diagnostics/audit_population.py` | GEÇTİ | — |
 | `diagnostics/b015_verdict.py` | GEÇTİ | — |
 | `diagnostics/bootstrap_cis.py` | GEÇTİ | — |
 | `diagnostics/build_replicate_queue.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/build_runs_ledger.py` | muaf | Level 3 — koşu dizini okumak işi |
+| `diagnostics/capacity_law_check.py` | GEÇTİ | — |
 | `diagnostics/control_grid_refinement.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/control_sd_mde.py` | GEÇTİ | — |
 | `diagnostics/criterion_applied.py` | GEÇTİ | — |
@@ -52,9 +54,11 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/order_stat_trend.py` | GEÇTİ | — |
 | `diagnostics/p2_gate_oracle_verdict.py` | GEÇTİ | — |
 | `diagnostics/p4_teacher_selection_recipe.py` | GEÇTİ | — |
+| `diagnostics/p5_efficiency_frontier.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/p5_oracle_replication_verdict.py` | GEÇTİ | — |
 | `diagnostics/p6_verdict.py` | GEÇTİ | — |
 | `diagnostics/paper_tables.py` | GEÇTİ | — |
+| `diagnostics/perclass_calibration.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/perclass_crossing_table.py` | GEÇTİ | — |
 | `diagnostics/prereg_lead_audit.py` | GEÇTİ | — |
 | `diagnostics/public_repo_staleness.py` | GEÇTİ | — |
@@ -64,12 +68,15 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/publish_epoch_curves.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/publish_student_logits.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/r3w1_joint_optimum.py` | GEÇTİ | — |
+| `diagnostics/rafdb_signal_quality_table.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/regression_line_provenance.py` | GEÇTİ | — |
+| `diagnostics/reliability_diagram.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/robustness_metrics.py` | GEÇTİ | — |
 | `diagnostics/run_manifest_census.py` | muaf | Level 3 — koşu dizini okumak işi |
 | `diagnostics/section54_numbers.py` | GEÇTİ | — |
 | `diagnostics/selection_audit_inference.py` | GEÇTİ | — |
 | `diagnostics/selection_audit_table.py` | muaf | Level 3 — koşu dizini okumak işi |
+| `diagnostics/selection_distribution_figure.py` | GEÇTİ | — |
 | `diagnostics/selection_gain_estimator.py` | GEÇTİ | — |
 | `diagnostics/selection_optimism_headline.py` | GEÇTİ | — |
 | `diagnostics/selection_robustness.py` | GEÇTİ | — |
@@ -83,6 +90,7 @@ Kapsam `export_to_drive.EXPORTS`'tan türetilir (hangi betiğin yayımlanan arte
 | `diagnostics/tstar_sensitivity.py` | GEÇTİ | — |
 | `diagnostics/tstar_stability.py` | GEÇTİ | — |
 | `diagnostics/two_dataset_overlay.py` | GEÇTİ | — |
+| `diagnostics/vich_isolation_verdict.py` | muaf | Level 3 — koşu dizini okumak işi |
 
 **Muaf betikler** koşu dizinlerini okumak ZORUNDA — işleri o (defter kurma, checkpoint ölçme, canlı koşu bulma). Level 3'türler ve README'de öyle etiketlidirler; muafiyet burada **beyan** olarak durur, çıkarım olarak değil.
 

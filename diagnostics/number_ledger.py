@@ -3003,6 +3003,21 @@ ex("05_results_discussion", -1, "measurement protocol and a reproduced batch", 0
 ex("05_results_discussion", -1, "are reported alongside Supplementary Table S", 0,
    "table_reference", "Supplementary Table S7 capraz referansi")
 
+# N22 (23 Agu 2026, bant bosluk turu). `fig_reliability` altyazisindaki ortalama guven
+# ciftinin kaydi YOKTU. Altyazilar kapsam disi (BEYAN, kusur degil) -- kapsami acmadan
+# baglanabilecegi tek yol `pv`: cumle tek tek beyan edilir, denetci O SATIRI okur ve alanin
+# yuvarlanmis degerinin orada gectigini dogrular. Alan zaten artefaktta duruyordu
+# (`pooled_mean_conf`), yalniz beyan edilmemisti. Aritmetik de tutuyor (acc + signed_gap)
+# ama TURETME degil dogrudan ALAN baglandi: turetme, var olan bir alani yeniden hesaplamak
+# olurdu.
+pv("fig_reliability.mean_conf_native", A_REL, 'conditions["T=1"].pooled_mean_conf', "3dp",
+   "figures/fig_reliability.tex#and mean confidence falls from",
+   note="ogrenci ortalama top-1 guveni, dogal ogretmen kolunda (@SWA, uc tohum havuzlanmis)")
+pv("fig_reliability.mean_conf_prescaled", A_REL,
+   'conditions["T=1.3406"].pooled_mean_conf', "3dp",
+   "figures/fig_reliability.tex#and mean confidence falls from",
+   note="ayni nicelik, ogretmen T*'ye on-olceklenmis kolda")
+
 # =============================================================================
 # N21 (22 Agu 2026, defter final3) -- ISARET DESENLERI
 # =============================================================================
@@ -3537,6 +3552,41 @@ def build(paper_root):
                              "detail": f"{t['unit']} {t['row'][:40]!r} idx={t['idx']} · "
                                        f"paper/{t['file']}:{t['line']}"})
 
+    # --- BANT KONTROLU (23 Agu 2026). Defter bugune kadar degerin ALANLA eslesmesini
+    # denetliyordu, kaynagin YAYIMLI olmasini degil: bir bag dogru olabilir ve yine de
+    # hakem kaynaga ULASAMAZ. Bu, 18 Agu'da tab_human'in 29 hucresinde yakalanan sinifin
+    # defter tarafindaki hali -- "kayitli" ile "gosterilebilir" ayni sey degil. Bant beyani
+    # `export_to_drive.EXPORTS`; ithal FONKSIYON ICINDE, cunku oz sinama bandi gecici olarak
+    # kisaltip sinifin gercekten atesledigini gosteriyor.
+    import export_to_drive as EX
+    banded = set()
+    for _e in EX.EXPORTS:
+        _src = _e[0]
+        banded.add(_src)
+        if _src.startswith("diagnostics/"):
+            banded.add(_src[len("diagnostics/"):])
+    sources = {}
+    for _x in BINDINGS:
+        sources.setdefault(_x["artifact"], []).append(_x["id"])
+    for _x in DERIVED:
+        for _o in _x["operands"]:
+            sources.setdefault(_o["artifact"], []).append(_x["id"])
+    for _x in PROSE:
+        sources.setdefault(_x["artifact"], []).append(_x["id"])
+    for _x in SIGNS:
+        sources.setdefault(_x["artifact"], []).append(_x["id"])
+    for _x in CROSS_CHECKS:
+        sources.setdefault(_x["canonical"][0], []).append(_x["id"])
+        sources.setdefault(_x["confirm"][0], []).append(_x["id"])
+        for _a, _p in _x["relays"]:
+            sources.setdefault(_a, []).append(_x["id"])
+    unbanded = sorted(a for a in sources if a not in banded)
+    for _a in unbanded:
+        problems.append({"kind": "binding_source_unpublished", "id": _a,
+                         "detail": f"{len(sources[_a])} beyan bu artefakta bagli ama artefakt "
+                                   f"ihrac bandinda (export_to_drive.EXPORTS) yok: "
+                                   f"{', '.join(sorted(set(sources[_a]))[:3])}"})
+
     unbound = [t for t in toks if t["key"] not in bound_keys and t["key"] not in exempt_keys]
     payload = {
         "note": "review-responsive, not pre-declared",
@@ -3560,6 +3610,8 @@ def build(paper_root):
                    #     bound + derived_in_scope + exempt = tokens
                    "derived_in_scope": sum(1 for e in dentries if e["where"]),
                    "derived_prose_anchored": sum(1 for e in dentries if not e["where"]),
+                   "artifact_sources": len(sources),
+                   "artifact_sources_unbanded": len(unbanded),
                    "signs": len(sign_entries),
                    "sign_tokens": len(signs),
                    "sign_mismatch": sum(1 for e in sign_entries if not e["matches"]),

@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-22T14:51:58",
-  "reason": "N21 (22 Agu aksami, defter final3): 3 sapmanin ucu de APPEARED ve ucu de defterin KENDI yeni sayaci -- N13/count/signs (24), N13/count/sign_tokens (24), N13/count/sign_mismatch (0). Bu turda isaret desenleri (tab_mechanisms'in `[++-]` dizeleri + \u00a75'in bunlara atif veren yedi gecisi) ilk kez beyan edildi ve sayaclari defter artefaktina girdi. OLCUM HUCRESI DEGISMEDI: CHANGED 0, VANISHED 0; 1645 hucrenin tamami aynen duruyor. Ligatur duzeltmesi (`[--+]` -> `[-{}-+]`) hicbir hucreye dokunmadi -- zaten dokunamazdi, bu kapi artefakt-artefakt karsilastirir.",
+  "accepted_at": "2026-08-22T15:51:59",
+  "reason": "N22 (23 Agu, bant bosluk turu): 5 sapmanin besi de defterin KENDI kaydi, olcum hucresi degil. CHANGED 0, VANISHED 0. (1) N13/count/prose 1 -> 3: fig_reliability altyazisindaki ortalama guven cifti (0.969 / 0.939) ilk kez baglandi -- kapsam ACILMADAN, pv ile (altyazilar taranmiyor; bu bir BEYAN). (2) APPEARED N13/prose/fig_reliability.mean_conf_native ve .mean_conf_prescaled: o iki bagin kendi hucreleri; degerleri artefaktin pooled_mean_conf alanlari ve bundan sonra bu kapi tarafindan izlenecekler. (3) APPEARED N13/count/artifact_sources (49) ve artifact_sources_unbanded (0): yeni bant kontrolunun sayaclari -- defterin isaret ettigi her artefakt ihrac bandinda mi sorusu artik her kosuda soruluyor (binding_source_unpublished). Makale agacina DOKUNULMADI: icerik ozeti degismedi.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -510,7 +510,7 @@
       null
     ],
     "N13/count/prose": [
-      1,
+      3,
       null,
       null
     ],
@@ -521,6 +521,16 @@
     ],
     "N13/count/derived_prose_anchored": [
       4,
+      null,
+      null
+    ],
+    "N13/count/artifact_sources": [
+      49,
+      null,
+      null
+    ],
+    "N13/count/artifact_sources_unbanded": [
+      0,
       null,
       null
     ],
@@ -556,6 +566,16 @@
     ],
     "N13/prose/methodology.entropy_pearson_T1": [
       0.7238625516940989,
+      null,
+      null
+    ],
+    "N13/prose/fig_reliability.mean_conf_native": [
+      0.9688925743103027,
+      null,
+      null
+    ],
+    "N13/prose/fig_reliability.mean_conf_prescaled": [
+      0.9392253160476685,
       null,
       null
     ],
