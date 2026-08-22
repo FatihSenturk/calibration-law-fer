@@ -160,6 +160,22 @@ def band_scope():
         for a, _p in x["relays"]:
             add(a, x["id"])
 
+    # IKINCI KANAL: hakem bandi degil, GitHub/Zenodo arsivini indirir.
+    published, pub_missing = None, []
+    try:
+        import subprocess
+        from public_repo_sync import PUBLIC as _PUB
+        if Path(_PUB).exists():
+            r = subprocess.run(["git", "ls-files"], cwd=str(_PUB), capture_output=True,
+                               text=True, encoding="utf-8", errors="replace")
+            if r.returncode == 0:
+                published = set(r.stdout.split())
+                pub_missing = sorted(a for a in sources
+                                     if ("diagnostics/" + a) not in published
+                                     and a not in published)
+    except Exception:
+        published = None
+
     missing = sorted(a for a in sources if a not in banded)
     exempt = [(a, NL.BAND_EXEMPT[a]) for a in missing if a in NL.BAND_EXEMPT]
     undeclared = [a for a in missing if a not in NL.BAND_EXEMPT]
@@ -183,6 +199,15 @@ def band_scope():
               + ", ".join(f"`{a}`" for a in undeclared), ""]
     if not exempt and not undeclared:
         L += ["Şu an muafiyet yok: defterin işaret ettiği her kaynak bantta.", ""]
+    if published is None:
+        L += ["> Public depo bu makinede okunamadı — ikinci kanal ÖLÇÜLMEDİ.", ""]
+    elif pub_missing:
+        L += ["> **UYARI — public depoda (DOI'den inen arşivde) bulunmayan kaynak:** "
+              + ", ".join(f"`{a}`" for a in pub_missing), ""]
+    else:
+        L += [f"Aynı {len(sources)} kaynağın tamamı **public depoda** da izleniyor — bandın "
+              "kendisi Drive'a gider, hakem ise DOI'yi çözüp GitHub/Zenodo arşivini indirir; "
+              "kapı iki kanala birden bakar.", ""]
     if l3:
         L += ["**Yeniden üretim (ayrı bir soru).** Aşağıdaki üreticiler ölçümlerini ham koşu "
               "dizinlerinden (checkpoint / örnek-başına logit) yapar; bant onların "

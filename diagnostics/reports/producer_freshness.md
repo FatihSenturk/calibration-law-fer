@@ -26,17 +26,17 @@ Anlık kopya yalnız bandın BEYAN ETTİĞİ artefaktları kapsar. Aşağıdaki 
 
 ## Ölçülen süreler (Katman A adayları)
 
-n=56 · min 0.1 s · medyan 0.2 s · maks 43.3 s · toplam 210 s · eşik **90 s**
+n=56 · min 0.1 s · medyan 0.2 s · maks 45.2 s · toplam 227 s · eşik **90 s**
 
 En pahalı beş üretici:
 
 | üretici | saniye |
 |---|---|
-| `diagnostics/criterion_applied.py` | 43.3 |
-| `diagnostics/bootstrap_cis.py` | 39.0 |
-| `diagnostics/headroom_grid_audit.py` | 27.1 |
-| `diagnostics/teacher_ece_grid.py` | 9.0 |
-| `diagnostics/tstar_sensitivity.py` | 7.2 |
+| `diagnostics/criterion_applied.py` | 45.2 |
+| `diagnostics/bootstrap_cis.py` | 37.2 |
+| `diagnostics/headroom_grid_audit.py` | 27.0 |
+| `diagnostics/teacher_ece_grid.py` | 25.1 |
+| `diagnostics/asymmetry_estimand.py` | 12.4 |
 
 ## Katman B'nin SINIRI (peşinen)
 

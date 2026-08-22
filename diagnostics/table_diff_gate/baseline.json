@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-22T16:23:58",
-  "reason": "N23 (23 Agu eki): tek sapma, tek yeni sayac -- N13/count/artifact_sources_band_exempt (0). Bant muafiyet yolu kuruldu (BAND_EXEMPT): gerekcesi yazili muafiyet ihlal saymaz, gerekcesizi sayar, banda geri giren artefaktin muafiyeti CURUK sayilir. Su an muafiyet YOK, sayac 0. CHANGED 0 \u00b7 VANISHED 0; olcum hucresi kimildamadi.",
+  "accepted_at": "2026-08-22T18:01:40",
+  "reason": "N24 (23 Agu eki, ikinci kanal): tek sapma, tek yeni sayac -- N13/count/artifact_sources_published_checked (true). Kaynak artefakt kontrolu artik BANDA VE PUBLIC DEPOYA birden bakiyor; bayrak, kontrolun bu makinede yapilabildigini soyler (public klasoru yoksa sessizce atlanmaz, false gorunur). CHANGED 0 \u00b7 VANISHED 0.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -536,6 +536,11 @@
     ],
     "N13/count/artifact_sources_band_exempt": [
       0,
+      null,
+      null
+    ],
+    "N13/count/artifact_sources_published_checked": [
+      true,
       null,
       null
     ],

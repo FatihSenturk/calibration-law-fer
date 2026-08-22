@@ -33,6 +33,7 @@ import argparse
 import json
 import math
 import os
+import subprocess
 import sys
 from decimal import Decimal, ROUND_FLOOR, ROUND_HALF_UP
 from pathlib import Path
@@ -3594,7 +3595,36 @@ def build(paper_root):
         sources.setdefault(_x["confirm"][0], []).append(_x["id"])
         for _a, _p in _x["relays"]:
             sources.setdefault(_a, []).append(_x["id"])
+    # IKINCI KANAL (23 Agu 2026 eki). Bant Drive'a gider; HAKEM ise DOI'yi cozup GitHub/Zenodo
+    # arsivini indirir. Bugun olculdu: 49 kaynagin biri (a13_verdict.json, 10 beyan) bantta
+    # VARDI ama public depoda YOKTU -- yani kapi yesil, hakemin eli bos. Kaynak artik iki
+    # kanalda birden aranir. Public klasoru bu makinede yoksa (arsivden kosan bir okur) kontrol
+    # SESSIZCE atlanmaz, sayacta "olculmedi" olarak gorunur.
+    published, published_checked = None, False
+    try:
+        from public_repo_sync import PUBLIC as _PUB
+        if Path(_PUB).exists():
+            _r = subprocess.run(["git", "ls-files"], cwd=str(_PUB), capture_output=True,
+                                text=True, encoding="utf-8", errors="replace")
+            if _r.returncode == 0:
+                published = set(_r.stdout.split())
+                published_checked = True
+    except Exception:
+        published = None
+
     unbanded = sorted(a for a in sources if a not in banded)
+    if published_checked:
+        for _a in sorted(sources):
+            if ("diagnostics/" + _a) in published or _a in published:
+                continue
+            if _a in unbanded:
+                continue                      # zaten bant kanalindan raporlaniyor
+            if BAND_EXEMPT.get(_a):
+                continue                      # gerekcesi yazili: iki kanal icin de gecerli
+            problems.append({"kind": "binding_source_unpublished", "id": _a,
+                             "detail": f"{len(sources[_a])} beyan bu artefakta bagli; ihrac "
+                                       f"bandinda VAR ama PUBLIC DEPODA YOK -- hakem DOI'den "
+                                       f"inen arsivde bulamaz"})
     band_exempt_rows = []
     for _a in unbanded:
         why = BAND_EXEMPT.get(_a)
@@ -3642,6 +3672,7 @@ def build(paper_root):
                    "artifact_sources": len(sources),
                    "artifact_sources_unbanded": len(unbanded),
                    "artifact_sources_band_exempt": len(band_exempt_rows),
+                   "artifact_sources_published_checked": published_checked,
                    "signs": len(sign_entries),
                    "sign_tokens": len(signs),
                    "sign_mismatch": sum(1 for e in sign_entries if not e["matches"]),

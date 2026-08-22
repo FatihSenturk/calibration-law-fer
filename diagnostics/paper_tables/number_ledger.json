@@ -231,6 +231,7 @@
     "artifact_sources": 49,
     "artifact_sources_unbanded": 0,
     "artifact_sources_band_exempt": 0,
+    "artifact_sources_published_checked": true,
     "signs": 24,
     "sign_tokens": 24,
     "sign_mismatch": 0,
