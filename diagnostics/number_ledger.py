@@ -91,6 +91,20 @@ PROSE = []         # duzyazida beyan edilen tek tek baglar
 CROSS_CHECKS = []  # ayni niceligi hesaplayan IKINCI kaynak: teyit kaydi + ayrisma kontrolu
 SIGNS = []         # isaret desenleri (`[++-]`) -- rakamsiz VERI iddialari
 
+# BANT MUAFIYETI (23 Agu 2026 eki). `binding_source_unpublished` kurulur kurulmaz bir sorun
+# doguruyor: ihraci MUMKUN OLMAYAN tek bir kaynak kalirsa (lisans, ham veri turevi, boyut)
+# kapi KALICI KIRMIZIYA doner ve bir hafta icinde herkesin gormezden geldigi bir uyariya
+# donusur -- kapilarin en kotu olum bicimi. Cozum susturma degil, AYRISTIRMA: gerekcesi
+# YAZILMIS muafiyet ihlal saymaz, gerekcesizi sayar. Boylece "yayimlanamaz cunku lisans" ile
+# "unutulmus" birbirinden ayrilir ve muafiyetin kendisi de denetlenir:
+#   · bantta OLMAYAN + burada YAZILI  -> muaf (STATUS.md'ye adiyla ve gerekcesiyle basilir)
+#   · bantta OLMAYAN + burada YOK     -> IHLAL (binding_source_unpublished)
+#   · bantta OLAN     + burada YAZILI -> IHLAL (band_exempt_rotten): curumus beyan, silinmeli
+# 23 Agu 2026 itibariyle BOS: defterin isaret ettigi 49 kaynagin 49'u bantta.
+BAND_EXEMPT = {
+    # "artefakt/yolu.json": "neden ihrac edilemez -- ve bunun yerine ne yayimlandi",
+}
+
 
 def b(unit, sec, row, idx, artifact, path, rounding, ident=None):
     BINDINGS.append({"id": ident or f"{unit}.s{sec}.{row}.{idx}", "unit": unit, "section": sec,
@@ -3581,11 +3595,26 @@ def build(paper_root):
         for _a, _p in _x["relays"]:
             sources.setdefault(_a, []).append(_x["id"])
     unbanded = sorted(a for a in sources if a not in banded)
+    band_exempt_rows = []
     for _a in unbanded:
+        why = BAND_EXEMPT.get(_a)
+        if why:
+            band_exempt_rows.append({"artifact": _a, "why": why,
+                                     "declarations": len(sources[_a]),
+                                     "ids": sorted(set(sources[_a]))})
+            continue
         problems.append({"kind": "binding_source_unpublished", "id": _a,
                          "detail": f"{len(sources[_a])} beyan bu artefakta bagli ama artefakt "
                                    f"ihrac bandinda (export_to_drive.EXPORTS) yok: "
                                    f"{', '.join(sorted(set(sources[_a]))[:3])}"})
+    # CURUMUS MUAFIYET: artefakt banda girdiyse beyan da olmelidir. Aksi halde liste sessizce
+    # yaslanir ve bir gun gercek bir boslugu ortmeye baslar (`exempt_matched_nothing` ile ayni
+    # gerekce).
+    for _a, _why in sorted(BAND_EXEMPT.items()):
+        if _a in banded:
+            problems.append({"kind": "band_exempt_rotten", "id": _a,
+                             "detail": "artefakt artik ihrac bandinda; bant muafiyeti "
+                                       "gerekcesiyle birlikte SILINMELI"})
 
     unbound = [t for t in toks if t["key"] not in bound_keys and t["key"] not in exempt_keys]
     payload = {
@@ -3612,6 +3641,7 @@ def build(paper_root):
                    "derived_prose_anchored": sum(1 for e in dentries if not e["where"]),
                    "artifact_sources": len(sources),
                    "artifact_sources_unbanded": len(unbanded),
+                   "artifact_sources_band_exempt": len(band_exempt_rows),
                    "signs": len(sign_entries),
                    "sign_tokens": len(signs),
                    "sign_mismatch": sum(1 for e in sign_entries if not e["matches"]),
@@ -3619,7 +3649,8 @@ def build(paper_root):
                    "cross_check_fail": sum(1 for e in xentries if not e["matches"]),
                    "problems": len(problems)},
         "entries": entries, "exempt": exempt_rows, "prose_entries": pentries,
-        "signs": sign_entries, "cross_checks": xentries,
+        "signs": sign_entries, "band_exempt": band_exempt_rows,
+        "cross_checks": xentries,
         "unbound": [{"key": t["key"], "printed": t["printed"], "unit": t["unit"],
                      "row": t["row"], "idx": t["idx"],
                      "where": f"paper/{t['file']}:{t['line']}"} for t in unbound],

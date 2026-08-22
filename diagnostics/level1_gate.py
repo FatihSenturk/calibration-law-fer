@@ -142,6 +142,33 @@ def producers():
     return sorted(out)
 
 
+def git(*args):
+    r = subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace")
+    return r.stdout.strip() if r.returncode == 0 else ""
+
+
+def worktree_dirty():
+    """`git status --porcelain` -> {yol}. Sabit ofset YOK (bkz. producer_freshness_gate:
+    `git()` ciktiyi strip ettigi icin ilk satirin bas boslugu kayboluyor ve `ln[3:]` bir
+    karakter yiyor)."""
+    paths = set()
+    for ln in git("status", "--porcelain").splitlines():
+        t = ln.strip()
+        if not t:
+            continue
+        parts = t.split(None, 1)
+        if len(parts) < 2:
+            continue
+        p = parts[1]
+        if " -> " in p:
+            p = p.split(" -> ", 1)[1]
+        p = p.strip().strip('"')
+        if p:
+            paths.add(p)
+    return paths
+
+
 def main():
     for s in (sys.stdout, sys.stderr):
         if hasattr(s, "reconfigure"):
@@ -151,6 +178,16 @@ def main():
     args = ap.parse_args()
 
     rows = []
+    # BU KAPI DA URETICI KOSTURUYOR (23 Agu 2026'da olculdu). Level-1 sorusu ancak betigi
+    # CALISTIRARAK sorulabiliyor -- ve calisan betik CIKTISINI YAZIYOR. Tazelik kapisinin
+    # yan-cikti sozlesmesi burada YOKTU: `selection_distribution_figure.py` her kosuda
+    # `paper/figures/selection_distribution.pdf`i yeniden yaziyor, matplotlib PDF'i bayt
+    # kararli olmadigi icin dosya kirli kaliyor ve bir sonraki `git add -A` onu sessizce
+    # commit'e sokuyordu. Uc kez oldu; ucuncusunde MAKALE FIGURU iki depoya birden girdi.
+    # Kural artik burada da ayni: kosudan ONCE temiz olan dosyalar geri yazilir, koSUDAN
+    # once zaten kirli olanlara DOKUNULMAZ (kullanicinin isi silinmez).
+    dirty0 = worktree_dirty()
+    restored = []
     SELF = "diagnostics/level1_gate.py"
     for rel in producers():
         # KENDİNİ KOŞTURMA. Bu betik kendi raporunun üreticisi olduğu için `EXPORTS`'tan
@@ -191,6 +228,9 @@ def main():
                 rows.append({"script": rel, "status": "başka hata", "note": tail[0][:160]})
             else:
                 rows.append({"script": rel, "status": "GEÇTİ", "note": ""})
+            for _rel in sorted((worktree_dirty() - dirty0)):
+                git("checkout", "--", _rel)      # kapi olcer, calisma agacini birakmaz
+                restored.append(_rel)
         except subprocess.TimeoutExpired:
             rows.append({"script": rel, "status": "zaman aşımı", "note": f"> {args.timeout}s"})
         print(f"  {rows[-1]['status']:12s} {rel}")
@@ -204,6 +244,9 @@ def main():
          ("GEÇTİ", "İHLAL", "muaf", "başka hata", "zaman aşımı", "yok")}
     print(f"\n  geçti {n['GEÇTİ']} · İHLAL {n['İHLAL']} · muaf {n['muaf']} · "
           f"başka hata {n['başka hata']} · zaman aşımı {n['zaman aşımı']}")
+    if restored:
+        print(f"  ureticilerin yazdigi {len(restored)} dosya geri yazildi: "
+              + ", ".join(sorted(set(restored))[:6]))
     if undeclared_err:
         print(f"\n  !! SORULAMADI: {len(undeclared_err)} betiğe Level-1 sorusu hiç sorulmadı ve "
               f"hiçbiri beyanlı değil. Kapı GEÇTİ RAPORLAMAZ.")

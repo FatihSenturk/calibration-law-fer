@@ -275,7 +275,32 @@ def main():
     rows.append(("bagli artefakt BANTTAN dusuruldu (reliability_diagram.json)",
                  "binding_source_unpublished", 1, got, len(pl["unbound"]),
                  "YAKALANDI" if good else "KACIRILDI"))
+    # MUAFIYET YOLU (23 Agu 2026 eki). Ayni eksiklik, bu kez GEREKCESI YAZILI: kapi susmali.
+    # Sinif muafiyetsiz kurulsaydi, ihraci mumkun olmayan tek bir kaynak kapiyi kalici
+    # kirmiziya cevirirdi -- ve kalici kirmizi kapi, bir hafta icinde gormezden gelinen bir
+    # uyaridir. Bu senaryo "gerekcesi yazilmis muafiyet IHLAL SAYMAZ"i olcer.
+    NL.BAND_EXEMPT["reliability/reliability_diagram.json"] = (
+        "OZ SINAMA senaryosu -- gercek bir muafiyet degil")
+    pl, kinds = run(clean)
+    got = (kinds.count("binding_source_unpublished")
+           - k0.count("binding_source_unpublished"))
+    good = got == 0 and len(pl.get("band_exempt") or []) == 1
+    ok &= good
+    rows.append(("ayni eksiklik GEREKCELI muaf edildi -> kapi SUSMALI",
+                 "binding_source_unpublished YOK + 1 muafiyet kaydi", 0, got,
+                 len(pl["unbound"]), "SABIT" if good else "KAYDI"))
     EX.EXPORTS[:] = keep_exports
+
+    # CURUMUS MUAFIYET: artefakt banda GERI girdiginde beyan da olmelidir. Muafiyet listesi
+    # sessizce yaslanirsa bir gun gercek bir boslugu orter (`exempt_matched_nothing` gerekcesi).
+    pl, kinds = run(clean)
+    got = kinds.count("band_exempt_rotten") - k0.count("band_exempt_rotten")
+    good = got >= 1
+    ok &= good
+    rows.append(("bant muafiyeti CURUDU (artefakt banda geri girdi)",
+                 "band_exempt_rotten", 1, got, len(pl["unbound"]),
+                 "YAKALANDI" if good else "KACIRILDI"))
+    NL.BAND_EXEMPT.pop("reliability/reliability_diagram.json", None)
 
     # --- bag hatasi: sayi dogru, artefakt dogru, BAG yanlis (r=0.724 vakasi)
     saved = dict(NL.PROSE[0])

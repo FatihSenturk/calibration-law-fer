@@ -1,15 +1,9 @@
 # Table diff gate — last comparison
 
-Baseline: **2026-08-22T14:51:58** — N21 (22 Agu aksami, defter final3): 3 sapmanin ucu de APPEARED ve ucu de defterin KENDI yeni sayaci -- N13/count/signs (24), N13/count/sign_tokens (24), N13/count/sign_mismatch (0). Bu turda isaret desenleri (tab_mechanisms'in `[++-]` dizeleri + §5'in bunlara atif veren yedi gecisi) ilk kez beyan edildi ve sayaclari defter artefaktina girdi. OLCUM HUCRESI DEGISMEDI: CHANGED 0, VANISHED 0; 1645 hucrenin tamami aynen duruyor. Ligatur duzeltmesi (`[--+]` -> `[-{}-+]`) hicbir hucreye dokunmadi -- zaten dokunamazdi, bu kapi artefakt-artefakt karsilastirir.  
-Cells compared: 1652 (1648 in the baseline)
-
-## Value moved by more than its own seed sd
-
-| cell | old | new | diff | threshold | source of the threshold |
-|---|---|---|---|---|---|
-| `N13/count/prose` | 1.0000 | 3.0000 | +2.0000 | 0.0600 | 2% rel (no sd) |
+Baseline: **2026-08-22T15:51:59** — N22 (23 Agu, bant bosluk turu): 5 sapmanin besi de defterin KENDI kaydi, olcum hucresi degil. CHANGED 0, VANISHED 0. (1) N13/count/prose 1 -> 3: fig_reliability altyazisindaki ortalama guven cifti (0.969 / 0.939) ilk kez baglandi -- kapsam ACILMADAN, pv ile (altyazilar taranmiyor; bu bir BEYAN). (2) APPEARED N13/prose/fig_reliability.mean_conf_native ve .mean_conf_prescaled: o iki bagin kendi hucreleri; degerleri artefaktin pooled_mean_conf alanlari ve bundan sonra bu kapi tarafindan izlenecekler. (3) APPEARED N13/count/artifact_sources (49) ve artifact_sources_unbanded (0): yeni bant kontrolunun sayaclari -- defterin isaret ettigi her artefakt ihrac bandinda mi sorusu artik her kosuda soruluyor (binding_source_unpublished). Makale agacina DOKUNULMADI: icerik ozeti degismedi.  
+Cells compared: 1653 (1652 in the baseline)
 
 ## Cells appeared / vanished
 
-**appeared:** `N13/count/artifact_sources`, `N13/count/artifact_sources_unbanded`, `N13/prose/fig_reliability.mean_conf_native`, `N13/prose/fig_reliability.mean_conf_prescaled`
+**appeared:** `N13/count/artifact_sources_band_exempt`
 

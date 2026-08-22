@@ -230,6 +230,7 @@
     "derived_prose_anchored": 4,
     "artifact_sources": 49,
     "artifact_sources_unbanded": 0,
+    "artifact_sources_band_exempt": 0,
     "signs": 24,
     "sign_tokens": 24,
     "sign_mismatch": 0,
@@ -22583,6 +22584,7 @@
       "matches": true
     }
   ],
+  "band_exempt": [],
   "cross_checks": [
     {
       "id": "tstar_nll.stage1",

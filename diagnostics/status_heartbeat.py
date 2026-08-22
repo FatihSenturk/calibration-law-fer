@@ -116,6 +116,83 @@ def last_export():
     return "-"
 
 
+def band_scope():
+    """BANT KAPSAMI BEYANI (23 Agu 2026 eki) -- hakemin indigi yerde durmali.
+
+    Defterin isaret ettigi bir artefakt banda giremiyorsa bunun tarihli bir tur raporunda
+    kalmasi yetmez: DOI'yi cozup veriyi arayan okur o rapora rastlamayabilir. Beyan bandin
+    kok dosyasina, STATUS.md'ye iner. Rapor ic muhasebe, STATUS beyandir.
+
+    Her satir OLCULUR: kaynak listesi defterin kendi beyanlarindan (BINDINGS/DERIVED/PROSE/
+    SIGNS/CROSS_CHECKS), bant listesi `export_to_drive.EXPORTS`ten, muafiyetler
+    `number_ledger.BAND_EXEMPT`ten, yeniden-uretilebilirlik `level1_gate.ALLOWED`ten.
+    Hicbiri elle yazilmaz; olculemezse bu dosya "olculemedi" yazar, sessiz kalmaz.
+    """
+    import export_to_drive as EX
+    import number_ledger as NL
+    from level1_gate import ALLOWED
+
+    banded, producer_of = set(), {}
+    for e in EX.EXPORTS:
+        src = e[0]
+        rel = src[len("diagnostics/"):] if src.startswith("diagnostics/") else src
+        banded.add(src)
+        banded.add(rel)
+        prod = str(e[2] if len(e) > 2 else "").split(" --")[0].strip()
+        if prod.endswith(".py"):
+            producer_of[rel] = prod
+
+    sources = {}
+    def add(a, i):
+        sources.setdefault(a, set()).add(i)
+    for x in NL.BINDINGS:
+        add(x["artifact"], x["id"])
+    for x in NL.DERIVED:
+        for o in x["operands"]:
+            add(o["artifact"], x["id"])
+    for x in NL.PROSE:
+        add(x["artifact"], x["id"])
+    for x in NL.SIGNS:
+        add(x["artifact"], x["id"])
+    for x in NL.CROSS_CHECKS:
+        add(x["canonical"][0], x["id"])
+        add(x["confirm"][0], x["id"])
+        for a, _p in x["relays"]:
+            add(a, x["id"])
+
+    missing = sorted(a for a in sources if a not in banded)
+    exempt = [(a, NL.BAND_EXEMPT[a]) for a in missing if a in NL.BAND_EXEMPT]
+    undeclared = [a for a in missing if a not in NL.BAND_EXEMPT]
+    # Yayimli ama kosu agaci olmadan YENIDEN URETILEMEZ olanlar (Level-3 beyanli ureticiler).
+    l3 = sorted({producer_of[a] for a in sources
+                 if a in producer_of and producer_of[a] in ALLOWED})
+
+    L = ["## Bant kapsamı — makaledeki sayıların kaynakları", "",
+         f"Makaledeki sayı defteri (`diagnostics/number_ledger.py`) **{len(sources)}** artefakt "
+         f"alanına bağlı. Bunların **{len(sources) - len(missing)}**'i bu ihraç bandında; "
+         f"gerekçeli muaf **{len(exempt)}**; gerekçesiz eksik **{len(undeclared)}**.", "",
+         "Kural kapıda: bir sayı bir alana bağlıysa o alanın dosyası da burada olmalı "
+         "(`binding_source_unpublished`). Yayımlanamayan bir kaynak varsa adıyla ve "
+         "gerekçesiyle aşağıda durur — sessizce eksik kalamaz.", ""]
+    if exempt:
+        L += ["| yayımlanamayan kaynak | gerekçe |", "|---|---|"]
+        L += [f"| `{a}` | {w} |" for a, w in exempt]
+        L += [""]
+    if undeclared:
+        L += ["> **UYARI — gerekçesiz eksik kaynak:** "
+              + ", ".join(f"`{a}`" for a in undeclared), ""]
+    if not exempt and not undeclared:
+        L += ["Şu an muafiyet yok: defterin işaret ettiği her kaynak bantta.", ""]
+    if l3:
+        L += ["**Yeniden üretim (ayrı bir soru).** Aşağıdaki üreticiler ölçümlerini ham koşu "
+              "dizinlerinden (checkpoint / örnek-başına logit) yapar; bant onların "
+              "**çıktısını** taşır, girdisini değil. Yayımlanan artefakt sayıyı "
+              "**doğrulamaya** yeter, ham ağaç olmadan **yeniden üretmeye** yetmez:", ""]
+        L += [f"- `{p}`" for p in l3]
+        L += [""]
+    return L
+
+
 def build(export_time=None):
     """export_time: ihracın KENDİ damgası, varsa.
 
@@ -181,6 +258,11 @@ def build(export_time=None):
          f"| **bekleyen** | {len(pending)} kalem (aşağıda) |", ""]
     if d.get("note"):
         L += [f"> {d['note']}", ""]
+    try:
+        L += band_scope()
+    except Exception as e:                       # sessiz kalma: olculemediyse onu yaz
+        L += ["## Bant kapsamı", "",
+              f"> ÖLÇÜLEMEDİ: {type(e).__name__}: {e}", ""]
     L += ["## Bekleyen iş", ""]
     L += [f"{i}. {p}" for i, p in enumerate(pending, 1)] or ["_(yok)_"]
     L += ["", "---", "",

@@ -47,6 +47,10 @@ VIOLATION_KINDS = {
     # ALANLA eslesmesini denetliyordu; alan dogru olsa bile artefakt ihrac bandinda yoksa
     # hakem kaynaga ULASAMAZ. "Kayitli" ile "gosterilebilir" ayni sey degil.
     "binding_source_unpublished": "bagli artefakt ihrac bandinda yok (gosterilemez kaynak)",
+    # Muafiyet YOLU var (number_ledger.BAND_EXEMPT): gerekcesi yazili muafiyet ihlal saymaz,
+    # gerekcesiz olan sayar. Muafiyetin kendisi de denetlenir -- artefakt banda girdiginde
+    # beyan CURUR ve o da ihlaldir; yoksa liste sessizce yaslanir.
+    "band_exempt_rotten": "curumus bant muafiyeti (artefakt artik bantta)",
     # 22 Agu 2026 (defter final3): ISARET DESENLERI. Rakamsiz veri iddialari (`[++-]`).
     # Sinif adlarinin BURADA olmasi sart -- VIOLATION_KINDS'te olmayan bir sinif kapidan
     # sessizce gecer (21 Agu'daki `derived_matched_nothing` acigi tam boyleydi).
