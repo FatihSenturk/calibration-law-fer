@@ -121,11 +121,31 @@ THOUSANDS = re.compile(r"(?<=\d)\{,\}(?=\d)")
 # kalirdi. Isaret SAYININ PARCASI.
 SIGNBRACE = re.compile(r"\{-\}(?=\d|\.\d)")
 
+# BOS GRUP (22 Agu 2026, defter final3). Basili PDF'te `[--+]` deseni IKI degil TEK isaret
+# gorunuyordu: cm-super T1 daktilo fontu bitisik iki tireyi en-tire ligaturune baglar. Duzeltme
+# araya BOS GRUP koyuyor -- `[-{}-+]` -- ve basilan karakterler ayni kalirken KAYNAK METIN
+# degisiyor. Capa metnin kendisi oldugu icin (satir oneki) bu, deger hic degismeden 10 capayi
+# birden dusururdu. Bos grup LaTeX'te HICBIR SEY basmaz; jetonlastirmadan once dusuruluyor,
+# boylece defterdeki capalar basili bicime gore sabit kalir ve bundan sonraki her ligatur
+# duzeltmesi de kendiliginden kapsanir. Yalniz BOS grup dusurulur: `{-}`/`{,}` (isaret susu,
+# binlik ayraci) kendi desenlerine ait ve isaretler DOKUNULMADAN kalir.
+EMPTYGROUP = re.compile(r"\{\}")
+
+# ISARET DESENI (22 Agu 2026, defter final3). `tab_mechanisms` her hucrenin yaninda tohum
+# basina ECE farkinin isaret dizisini basiyor (`[++-]`) ve §5 duzyazisi bunlara adiyla atif
+# veriyor (`\texttt{+--} ... Stage1's \texttt{---}`). Bunlar SAYI JETONU DEGIL -- rakam
+# tasimadiklari icin NUM onlari hic gormez -- ama VERI IDDIASI: her biri artefaktin
+# `d_ece_signs` alaninin birebir kopyasi. Bu tura kadar hicbir kapi onlara bakmiyordu; ligatur
+# duzeltmesi tam bu desenlere dokununca olculdu ve acik kapatildi (bkz. number_ledger.SIGNS).
+# Ayiklayici `\texttt{...}` icinde YALNIZ isaretten olusan (>=2) dizileri alir; kose parantez
+# istege bagli (tabloda var, duzyazida yok).
+SIGNPAT = re.compile(r"\\texttt\{\[?([-+]{2,})\]?\}")
+
 
 def strip_layout(line):
     """(temiz_satir, atilan_jetonlar) -- atilanlar sinif adiyla birlikte."""
     dropped = []
-    out = SIGNBRACE.sub("-", THOUSANDS.sub("", line))
+    out = EMPTYGROUP.sub("", SIGNBRACE.sub("-", THOUSANDS.sub("", line)))
     for name, pat in LAYOUT_PATTERNS:
         def _rec(m):
             for t in NUM.findall(m.group(0)):
@@ -226,8 +246,9 @@ def scan_lines(lines, rel, lo=0, hi=None, unit=None):
     hi = len(lines) - 1 if hi is None else hi
     unit = unit or rel
     nkey = KEY_COLS.get(unit, DEFAULT_KEY_COLS)
-    toks, dropped, sections = [], [], []
+    toks, dropped, sections, signs = [], [], [], []
     seen_key = defaultdict(int)          # ayni kimligin kacinci gecisi (bkz. emit icindeki not)
+    seen_sign = defaultdict(int)
     carried = [""] * nkey
     sec = -1
     in_tab = False
@@ -271,6 +292,16 @@ def scan_lines(lines, rel, lo=0, hi=None, unit=None):
                          "section": sec, "row": lab, "idx": k, "printed": t,
                          "occurrence": n,
                          "key": base if n == 0 else f"{base}#{n}"})
+        # ISARET DESENLERI ayri listede: sayi jetonu degiller (rakam yok), kimlikleri ayni
+        # semayi kullanir (birim | bolum | satir etiketi | satir ici sira).
+        for k, t in enumerate(SIGNPAT.findall(body)):
+            base = f"sign|{unit}|s{sec}|{lab}|{k}"
+            n = seen_sign[base]
+            seen_sign[base] += 1
+            signs.append({"unit": unit, "file": rel, "line": first_line,
+                          "section": sec, "row": lab, "idx": k, "printed": t,
+                          "occurrence": n,
+                          "key": base if n == 0 else f"{base}#{n}"})
 
     for i in range(lo, hi + 1):
         raw = COMMENT.sub("", lines[i])
@@ -291,13 +322,13 @@ def scan_lines(lines, rel, lo=0, hi=None, unit=None):
             emit(raw, i + 1)
     if buf:
         emit(" ".join(buf), buf_line)
-    return toks, dropped, sections
+    return toks, dropped, sections, signs
 
 
 def scan_paper(paper_root):
     """Kapsamdaki her birimi tara. (jetonlar, atilanlar, dosya_ozetleri)"""
     paper_root = Path(paper_root)
-    toks, dropped, files, secs = [], [], {}, []
+    toks, dropped, files, secs, signs = [], [], {}, [], []
 
     def read(rel):
         p = paper_root / rel
@@ -307,11 +338,12 @@ def scan_paper(paper_root):
         files[rel] = {"sha256": hashlib.sha256(b).hexdigest(), "bytes": len(b)}
         return b.decode("utf-8", "replace").splitlines()
 
-    def take(triple):
-        t, d, s = triple
+    def take(quad):
+        t, d, s, g = quad
         toks.extend(t)
         dropped.extend(d)
         secs.extend(s)
+        signs.extend(g)
 
     for rel in TABLE_FILES:
         lines = read(rel)
@@ -346,7 +378,7 @@ def scan_paper(paper_root):
     if env is None:
         raise RuntimeError("abstract blogu bulunamadi")
     take(scan_lines(lines, ABSTRACT_FILE, env[0], env[1], unit="abstract"))
-    return toks, dropped, files, secs
+    return toks, dropped, files, secs, signs
 
 
 def main():
@@ -357,7 +389,7 @@ def main():
     for s in (sys.stdout, sys.stderr):
         if hasattr(s, "reconfigure"):
             s.reconfigure(encoding="utf-8", errors="replace")
-    toks, dropped, files, secs = scan_paper(args.paper_root)
+    toks, dropped, files, secs, signs = scan_paper(args.paper_root)
     cur = None
     for t in toks:
         if args.file and args.file not in t["unit"]:
@@ -367,8 +399,13 @@ def main():
             print(f"\n##### {cur}")
         print(f"  L{t['line']:<4d} s{t['section']} [{t['idx']}] {t['printed']:>10s}   "
               f"row={t['row'][:52]!r}")
-    print(f"\n{len(toks)} jeton · {len(dropped)} yerlesim jetonu atildi · {len(files)} dosya "
-          f"· {len(secs)} bolum")
+    for g in signs:
+        if args.file and args.file not in g["unit"]:
+            continue
+        print(f"  ISARET L{g['line']:<4d} s{g['section']} [{g['idx']}] {g['printed']:>6s}   "
+              f"row={g['row'][:52]!r}")
+    print(f"\n{len(toks)} jeton · {len(signs)} isaret deseni · {len(dropped)} yerlesim jetonu "
+          f"atildi · {len(files)} dosya · {len(secs)} bolum")
 
 
 if __name__ == "__main__":

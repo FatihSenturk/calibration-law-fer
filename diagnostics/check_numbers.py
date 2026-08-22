@@ -43,6 +43,12 @@ VIOLATION_KINDS = {
     # karsilastirmasi yakaladi: 'calibration estimator in 20 of 21 cells' dv'si §5'ten
     # cumle silinince olu kalmis, kapi yesil kalmisti.
     "derived_matched_nothing": "turetilmis beyanin capasi makalede yok",
+    # 22 Agu 2026 (defter final3): ISARET DESENLERI. Rakamsiz veri iddialari (`[++-]`).
+    # Sinif adlarinin BURADA olmasi sart -- VIOLATION_KINDS'te olmayan bir sinif kapidan
+    # sessizce gecer (21 Agu'daki `derived_matched_nothing` acigi tam boyleydi).
+    "sign_mismatch": "basili isaret deseni bagli alanla uyusmuyor",
+    "sign_matched_nothing": "beyan edilen isaret deseni makalede yok",
+    "unregistered_sign": "makalede deftere KAYITSIZ isaret deseni var",
     "ambiguous": "beyan birden fazla hucreye eslesiyor",
     "double_bound": "ayni hucre iki kez baglanmis",
     "exempt_matched_nothing": "curumus muafiyet (artik hicbir jetona denk gelmiyor)",
@@ -94,6 +100,7 @@ def main():
     print(f"kapsam: {c['tokens']} jeton · bagli {c['bound']} · turetilmis {c['derived']} · "
           f"duzyazi bagi {c.get('prose', 0)} · muaf {c['exempt']} · "
           f"teyit kaydi {c.get('cross_checks', 0)}")
+    print(f"        {c.get('sign_tokens', 0)} isaret deseni · bagli {c.get('signs', 0)}")
     print(f"IHLAL: {len(viol)} tanim/uyusmazlik · {len(unreg)} KAYITSIZ · "
           f"{len(drift)} defter kaymasi")
     for v in viol:

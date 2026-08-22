@@ -28,6 +28,7 @@ The registry therefore holds **73** derived quantities in total: 69 on in-scope 
 | printed-vs-field mismatch | 0 |
 | confirmation records (second source) | 3 (0 failing) |
 | layout tokens dropped by the scanner | 357 |
+| sign patterns bound (non-numeric, see below) | 24 of 24 |
 
 ## Scope (declared)
 
@@ -42,6 +43,37 @@ None — every in-scope number is bound, derived or declared.
 ## Mismatches
 
 None.
+
+## Sign patterns (data claims that carry no digit)
+
+`tab_mechanisms` prints the per-seed sign string next to each cell (`[++-]`) and the discussion refers to those strings by name. They are **not numeric tokens** — the scanner's number extractor cannot see them — but they are copies of artifact fields, so a corrupted sign string would have passed every gate silently. Since 22 Aug 2026 each one is bound and checked. Empty LaTeX groups (`-{}-`, inserted to defeat an en-dash ligature in the printed PDF) are normalised away before comparison: the printed characters, not the source bytes, are what the claim is about.
+
+| printed | field | value | where |
+|---|---|---|---|
+| `++-` | `T5_mechanisms["stage1/adaptive_t"].swa.d_ece_signs` | `++-` | paper/tables/tab_mechanisms.tex:33 |
+| `+++` | `T5_mechanisms["primary/adaptive_t"].swa.d_ece_signs` | `+++` | paper/tables/tab_mechanisms.tex:33 |
+| `--+` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_ece_signs` | `--+` | paper/tables/tab_mechanisms.tex:33 |
+| `---` | `T5_mechanisms["stage1/g2g_kl"].swa.d_ece_signs` | `---` | paper/tables/tab_mechanisms.tex:42 |
+| `+--` | `T5_mechanisms["primary/g2g_kl"].swa.d_ece_signs` | `+--` | paper/tables/tab_mechanisms.tex:42 |
+| `-++` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_ece_signs` | `-++` | paper/tables/tab_mechanisms.tex:42 |
+| `+--` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_ece_signs` | `+--` | paper/tables/tab_mechanisms.tex:50 |
+| `--+` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_ece_signs` | `--+` | paper/tables/tab_mechanisms.tex:50 |
+| `+--` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_ece_signs` | `+--` | paper/tables/tab_mechanisms.tex:50 |
+| `---` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_ece_signs` | `---` | paper/tables/tab_mechanisms.tex:54 |
+| `+--` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_ece_signs` | `+--` | paper/tables/tab_mechanisms.tex:54 |
+| `-++` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_ece_signs` | `-++` | paper/tables/tab_mechanisms.tex:58 |
+| `-++` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_ece_signs` | `-++` | paper/tables/tab_mechanisms.tex:58 |
+| `+++` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_ece_signs` | `+++` | paper/tables/tab_mechanisms.tex:58 |
+| `+++` | `T5_mechanisms["stage1/logit_std"].swa.d_ece_signs` | `+++` | paper/tables/tab_mechanisms.tex:62 |
+| `+++` | `T5_mechanisms["primary/logit_std"].swa.d_ece_signs` | `+++` | paper/tables/tab_mechanisms.tex:62 |
+| `+++` | `T5_mechanisms["vae9182/logit_std"].swa.d_ece_signs` | `+++` | paper/tables/tab_mechanisms.tex:62 |
+| `-++` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_ece_signs + T5_mechanisms["primary/gate:oracle_error"].swa.d_ece_signs` | `-++` / `-++` | paper/sections/05_results_discussion.tex:418 |
+| `+--` | `T5_mechanisms["primary/g2g_kl"].swa.d_ece_signs` | `+--` | paper/sections/05_results_discussion.tex:448 |
+| `-++` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_ece_signs` | `-++` | paper/sections/05_results_discussion.tex:448 |
+| `---` | `T5_mechanisms["stage1/g2g_kl"].swa.d_ece_signs` | `---` | paper/sections/05_results_discussion.tex:448 |
+| `++-` | `T5_mechanisms["stage1/adaptive_t"].swa.d_ece_signs` | `++-` | paper/sections/05_results_discussion.tex:456 |
+| `--+` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_ece_signs` | `--+` | paper/sections/05_results_discussion.tex:463 |
+| `++-` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_acc_signs` | `++-` | paper/sections/05_results_discussion.tex:529 |
 
 ## Confirmation records (same quantity, second source)
 

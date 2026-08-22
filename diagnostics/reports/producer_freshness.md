@@ -14,23 +14,23 @@
 | ölçülemez (Katman B, artefakt commit'lenmemiş) | 0 |
 | başka hata / zaman aşımı | 0 |
 | beyansız yan çıktı yazan üretici | 0 |
-| koşu başında zaten değişmiş dosya | 14 |
+| koşu başında zaten değişmiş dosya | 15 |
 
-> **Bu koşudaki 0 nasıl okunmalı.** Katman A yalnız kendi koşusundan önce TEMİZ olan dosyaları yan çıktı sayar; kapı kullanıcının halihazırdaki değişikliğine dokunmaz. Koşu başında ağaçta **14** değişmiş dosya vardı, dolayısıyla bu 0 "hiç yan çıktı yok" değil, "atfedilebilir yan çıktı yok" demektir. Temiz ağaçta koşulan kapı bu belirsizliği taşımaz.
+> **Bu koşudaki 0 nasıl okunmalı.** Katman A yalnız kendi koşusundan önce TEMİZ olan dosyaları yan çıktı sayar; kapı kullanıcının halihazırdaki değişikliğine dokunmaz. Koşu başında ağaçta **15** değişmiş dosya vardı, dolayısıyla bu 0 "hiç yan çıktı yok" değil, "atfedilebilir yan çıktı yok" demektir. Temiz ağaçta koşulan kapı bu belirsizliği taşımaz.
 
 ## Ölçülen süreler (Katman A adayları)
 
-n=54 · min 0.0 s · medyan 0.2 s · maks 42.9 s · toplam 202 s · eşik **90 s**
+n=54 · min 0.1 s · medyan 0.2 s · maks 45.2 s · toplam 204 s · eşik **90 s**
 
 En pahalı beş üretici:
 
 | üretici | saniye |
 |---|---|
-| `diagnostics/criterion_applied.py` | 42.9 |
-| `diagnostics/bootstrap_cis.py` | 34.0 |
-| `diagnostics/headroom_grid_audit.py` | 24.5 |
-| `diagnostics/teacher_ece_grid.py` | 23.1 |
-| `diagnostics/tstar_sensitivity.py` | 6.6 |
+| `diagnostics/criterion_applied.py` | 45.2 |
+| `diagnostics/bootstrap_cis.py` | 38.2 |
+| `diagnostics/headroom_grid_audit.py` | 27.6 |
+| `diagnostics/teacher_ece_grid.py` | 8.9 |
+| `diagnostics/tstar_sensitivity.py` | 7.3 |
 
 ## Katman B'nin SINIRI (peşinen)
 

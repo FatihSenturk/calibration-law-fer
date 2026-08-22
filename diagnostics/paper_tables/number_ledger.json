@@ -68,8 +68,8 @@
       "bytes": 1102
     },
     "tables/tab_mechanisms.tex": {
-      "sha256": "1b7310a0253ea64bf9997bea5f1b3aa0e35a5bfe1b1879432975b6b754d3fa65",
-      "bytes": 5476
+      "sha256": "4a2e9c350e8489d40a630af84e8bcf17cdfb58bae17f17f911456eeed3f2772c",
+      "bytes": 5496
     },
     "tables/tab_pooled.tex": {
       "sha256": "dca1ae743cc50c25a0d34c03ccbfa039e606d9aefbb6e8348c08de132f7fad02",
@@ -92,28 +92,28 @@
       "bytes": 1027
     },
     "supplementary.tex": {
-      "sha256": "c77cf0b7962dd77b52608e9424da7c5e6798dd170017bc57b24c3489e6cceb19",
-      "bytes": 33933
+      "sha256": "52df2751c19afbbc874a52a559ebf409b02f1e1cae89ba68c892f1c49f869c66",
+      "bytes": 34032
     },
     "sections/01_introduction.tex": {
       "sha256": "f4759634c6c2b24071ad32d1073a82642b9685d92f7a6860167333aceaac28e2",
       "bytes": 12944
     },
     "sections/02_related_work.tex": {
-      "sha256": "c7253f2e2eedb69fb18ce497a92d509a991ab6544f1cd6169a86b0d81a6e8948",
-      "bytes": 14218
+      "sha256": "c360411238de78db4d383b49a27d72e7c0c6b1d39d3e6d5b581574e95c72445a",
+      "bytes": 14242
     },
     "sections/03_methodology.tex": {
       "sha256": "896b14cc1f5819f9dbcf1829602389e691d720a4ddba51a67fa5adaaadd47701",
       "bytes": 31305
     },
     "sections/04_experiments.tex": {
-      "sha256": "b93bd800291a91edc84b1405e1e34a93bd57bcdc9bc59ead66b4e52cb862ea52",
-      "bytes": 17923
+      "sha256": "7945c577f38c6ce3ccb0e2efc1e583560b65ecd0625b9260f84062eae827e3af",
+      "bytes": 17977
     },
     "sections/05_results_discussion.tex": {
-      "sha256": "4c35738c1c4353a94c6f701f60e1abbd4f6bf33f2b74d1ddf93ef1654a5d3a7e",
-      "bytes": 51549
+      "sha256": "15632f10a838e03e2812b2c64628f12c246bfd918d49228389a6794f3235da42",
+      "bytes": 51557
     },
     "sections/06_conclusion.tex": {
       "sha256": "eed1a6ef8a94cc045788afa43ee33f1909030064fb648ad45ab6aca5d89e0156",
@@ -176,43 +176,43 @@
     {
       "unit": "app_seeds",
       "index": 0,
-      "line": 525,
+      "line": 527,
       "text": "RAF-DB Stage1 --- over-confident"
     },
     {
       "unit": "app_seeds",
       "index": 1,
-      "line": 532,
+      "line": 534,
       "text": "RAF-DB VAE9182 --- well calibrated (control)"
     },
     {
       "unit": "app_seeds",
       "index": 2,
-      "line": 539,
+      "line": 541,
       "text": "FERPlus --- under-confident"
     },
     {
       "unit": "app_predecl",
       "index": 0,
-      "line": 613,
+      "line": 615,
       "text": "Predictions --- seven frozen groups sixteen predictions"
     },
     {
       "unit": "app_predecl",
       "index": 1,
-      "line": 622,
+      "line": 624,
       "text": "Later extensions (August) same evidence standard"
     },
     {
       "unit": "app_predecl",
       "index": 2,
-      "line": 627,
+      "line": 629,
       "text": "Exploratory --- research question no numerical criterion fixed"
     },
     {
       "unit": "app_predecl",
       "index": 3,
-      "line": 632,
+      "line": 634,
       "text": "Other statuses"
     }
   ],
@@ -228,6 +228,9 @@
     "prose": 1,
     "derived_in_scope": 69,
     "derived_prose_anchored": 4,
+    "signs": 24,
+    "sign_tokens": 24,
+    "sign_mismatch": 0,
     "cross_checks": 3,
     "cross_check_fail": 0,
     "problems": 0
@@ -2179,7 +2182,7 @@
       "rounded": "0.0454",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|0",
       "row": "0.85",
@@ -2195,7 +2198,7 @@
       "rounded": "0.0431",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|1",
       "row": "0.85",
@@ -2211,7 +2214,7 @@
       "rounded": "0.0814",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|2",
       "row": "0.85",
@@ -2227,7 +2230,7 @@
       "rounded": "0.0781",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|3",
       "row": "0.85",
@@ -2243,7 +2246,7 @@
       "rounded": "0.0795",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|4",
       "row": "0.85",
@@ -2259,7 +2262,7 @@
       "rounded": "0.0797",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|5",
       "row": "0.85",
@@ -2275,7 +2278,7 @@
       "rounded": "0.0016",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:527"
+        "paper/supplementary.tex:529"
       ],
       "token": "app_seeds|s0|0.85|6",
       "row": "0.85",
@@ -2291,7 +2294,7 @@
       "rounded": "0.0378",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|0",
       "row": "1.00",
@@ -2307,7 +2310,7 @@
       "rounded": "0.0338",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|1",
       "row": "1.00",
@@ -2323,7 +2326,7 @@
       "rounded": "0.0721",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|2",
       "row": "1.00",
@@ -2339,7 +2342,7 @@
       "rounded": "0.0728",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|3",
       "row": "1.00",
@@ -2355,7 +2358,7 @@
       "rounded": "0.0744",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|4",
       "row": "1.00",
@@ -2371,7 +2374,7 @@
       "rounded": "0.0731",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|5",
       "row": "1.00",
@@ -2387,7 +2390,7 @@
       "rounded": "0.0012",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:528"
+        "paper/supplementary.tex:530"
       ],
       "token": "app_seeds|s0|1.00|6",
       "row": "1.00",
@@ -2403,7 +2406,7 @@
       "rounded": "0.0159",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|0",
       "row": "1.3406",
@@ -2419,7 +2422,7 @@
       "rounded": "0.0040",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|1",
       "row": "1.3406",
@@ -2435,7 +2438,7 @@
       "rounded": "0.0425",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|2",
       "row": "1.3406",
@@ -2451,7 +2454,7 @@
       "rounded": "0.0432",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|3",
       "row": "1.3406",
@@ -2467,7 +2470,7 @@
       "rounded": "0.0428",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|4",
       "row": "1.3406",
@@ -2483,7 +2486,7 @@
       "rounded": "0.0428",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|5",
       "row": "1.3406",
@@ -2499,7 +2502,7 @@
       "rounded": "0.0003",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:529"
+        "paper/supplementary.tex:531"
       ],
       "token": "app_seeds|s0|1.3406|6",
       "row": "1.3406",
@@ -2515,7 +2518,7 @@
       "rounded": "0.0429",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|0",
       "row": "1.70",
@@ -2531,7 +2534,7 @@
       "rounded": "-0.0427",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|1",
       "row": "1.70",
@@ -2547,7 +2550,7 @@
       "rounded": "0.0415",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|2",
       "row": "1.70",
@@ -2563,7 +2566,7 @@
       "rounded": "0.0472",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|3",
       "row": "1.70",
@@ -2579,7 +2582,7 @@
       "rounded": "0.0455",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|4",
       "row": "1.70",
@@ -2595,7 +2598,7 @@
       "rounded": "0.0447",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|5",
       "row": "1.70",
@@ -2611,7 +2614,7 @@
       "rounded": "0.0029",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:530"
+        "paper/supplementary.tex:532"
       ],
       "token": "app_seeds|s0|1.70|6",
       "row": "1.70",
@@ -2627,7 +2630,7 @@
       "rounded": "0.1270",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|0",
       "row": "2.20",
@@ -2643,7 +2646,7 @@
       "rounded": "-0.1270",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|1",
       "row": "2.20",
@@ -2659,7 +2662,7 @@
       "rounded": "0.1013",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|2",
       "row": "2.20",
@@ -2675,7 +2678,7 @@
       "rounded": "0.1030",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|3",
       "row": "2.20",
@@ -2691,7 +2694,7 @@
       "rounded": "0.0980",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|4",
       "row": "2.20",
@@ -2707,7 +2710,7 @@
       "rounded": "0.1008",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|5",
       "row": "2.20",
@@ -2723,7 +2726,7 @@
       "rounded": "0.0025",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:531"
+        "paper/supplementary.tex:533"
       ],
       "token": "app_seeds|s0|2.20|6",
       "row": "2.20",
@@ -2739,7 +2742,7 @@
       "rounded": "0.0250",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|0",
       "row": "0.85",
@@ -2755,7 +2758,7 @@
       "rounded": "0.0248",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|1",
       "row": "0.85",
@@ -2771,7 +2774,7 @@
       "rounded": "0.0460",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|2",
       "row": "0.85",
@@ -2787,7 +2790,7 @@
       "rounded": "0.0434",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|3",
       "row": "0.85",
@@ -2803,7 +2806,7 @@
       "rounded": "0.0446",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|4",
       "row": "0.85",
@@ -2819,7 +2822,7 @@
       "rounded": "0.0447",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|5",
       "row": "0.85",
@@ -2835,7 +2838,7 @@
       "rounded": "0.0013",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:534"
+        "paper/supplementary.tex:536"
       ],
       "token": "app_seeds|s1|0.85|6",
       "row": "0.85",
@@ -2851,7 +2854,7 @@
       "rounded": "0.0136",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|0",
       "row": "1.00",
@@ -2867,7 +2870,7 @@
       "rounded": "0.0042",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|1",
       "row": "1.00",
@@ -2883,7 +2886,7 @@
       "rounded": "0.0343",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|2",
       "row": "1.00",
@@ -2899,7 +2902,7 @@
       "rounded": "0.0340",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|3",
       "row": "1.00",
@@ -2915,7 +2918,7 @@
       "rounded": "0.0307",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|4",
       "row": "1.00",
@@ -2931,7 +2934,7 @@
       "rounded": "0.0330",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|5",
       "row": "1.00",
@@ -2947,7 +2950,7 @@
       "rounded": "0.0020",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:535"
+        "paper/supplementary.tex:537"
       ],
       "token": "app_seeds|s1|1.00|6",
       "row": "1.00",
@@ -2963,7 +2966,7 @@
       "rounded": "0.0627",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|0",
       "row": "1.3406",
@@ -2979,7 +2982,7 @@
       "rounded": "-0.0605",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|1",
       "row": "1.3406",
@@ -2995,7 +2998,7 @@
       "rounded": "0.0628",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|2",
       "row": "1.3406",
@@ -3011,7 +3014,7 @@
       "rounded": "0.0682",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|3",
       "row": "1.3406",
@@ -3027,7 +3030,7 @@
       "rounded": "0.0632",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|4",
       "row": "1.3406",
@@ -3043,7 +3046,7 @@
       "rounded": "0.0647",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|5",
       "row": "1.3406",
@@ -3059,7 +3062,7 @@
       "rounded": "0.0030",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:536"
+        "paper/supplementary.tex:538"
       ],
       "token": "app_seeds|s1|1.3406|6",
       "row": "1.3406",
@@ -3075,7 +3078,7 @@
       "rounded": "0.1454",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|0",
       "row": "1.70",
@@ -3091,7 +3094,7 @@
       "rounded": "-0.1453",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|1",
       "row": "1.70",
@@ -3107,7 +3110,7 @@
       "rounded": "0.1270",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|2",
       "row": "1.70",
@@ -3123,7 +3126,7 @@
       "rounded": "0.1260",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|3",
       "row": "1.70",
@@ -3139,7 +3142,7 @@
       "rounded": "0.1316",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|4",
       "row": "1.70",
@@ -3155,7 +3158,7 @@
       "rounded": "0.1282",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|5",
       "row": "1.70",
@@ -3171,7 +3174,7 @@
       "rounded": "0.0030",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:537"
+        "paper/supplementary.tex:539"
       ],
       "token": "app_seeds|s1|1.70|6",
       "row": "1.70",
@@ -3187,7 +3190,7 @@
       "rounded": "0.2622",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|0",
       "row": "2.20",
@@ -3203,7 +3206,7 @@
       "rounded": "-0.2622",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|1",
       "row": "2.20",
@@ -3219,7 +3222,7 @@
       "rounded": "0.2090",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|2",
       "row": "2.20",
@@ -3235,7 +3238,7 @@
       "rounded": "0.2148",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|3",
       "row": "2.20",
@@ -3251,7 +3254,7 @@
       "rounded": "0.2090",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|4",
       "row": "2.20",
@@ -3267,7 +3270,7 @@
       "rounded": "0.2109",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|5",
       "row": "2.20",
@@ -3283,7 +3286,7 @@
       "rounded": "0.0034",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:538"
+        "paper/supplementary.tex:540"
       ],
       "token": "app_seeds|s1|2.20|6",
       "row": "2.20",
@@ -3299,7 +3302,7 @@
       "rounded": "0.0393",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|0",
       "row": "0.26",
@@ -3315,7 +3318,7 @@
       "rounded": "0.0393",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|1",
       "row": "0.26",
@@ -3331,7 +3334,7 @@
       "rounded": "0.0632",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|2",
       "row": "0.26",
@@ -3347,7 +3350,7 @@
       "rounded": "0.0568",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|3",
       "row": "0.26",
@@ -3363,7 +3366,7 @@
       "rounded": "0.0563",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|4",
       "row": "0.26",
@@ -3379,7 +3382,7 @@
       "rounded": "0.0587",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|5",
       "row": "0.26",
@@ -3395,7 +3398,7 @@
       "rounded": "0.0038",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:541"
+        "paper/supplementary.tex:543"
       ],
       "token": "app_seeds|s2|0.26|6",
       "row": "0.26",
@@ -3411,7 +3414,7 @@
       "rounded": "0.0156",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|0",
       "row": "0.5063",
@@ -3427,7 +3430,7 @@
       "rounded": "-0.0117",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|1",
       "row": "0.5063",
@@ -3443,7 +3446,7 @@
       "rounded": "0.0193",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|2",
       "row": "0.5063",
@@ -3459,7 +3462,7 @@
       "rounded": "0.0167",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|3",
       "row": "0.5063",
@@ -3475,7 +3478,7 @@
       "rounded": "0.0195",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|4",
       "row": "0.5063",
@@ -3491,7 +3494,7 @@
       "rounded": "0.0185",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|5",
       "row": "0.5063",
@@ -3507,7 +3510,7 @@
       "rounded": "0.0016",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:542"
+        "paper/supplementary.tex:544"
       ],
       "token": "app_seeds|s2|0.5063|6",
       "row": "0.5063",
@@ -3523,7 +3526,7 @@
       "rounded": "0.0665",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|0",
       "row": "0.74",
@@ -3539,7 +3542,7 @@
       "rounded": "-0.0649",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|1",
       "row": "0.74",
@@ -3555,7 +3558,7 @@
       "rounded": "0.0332",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|2",
       "row": "0.74",
@@ -3571,7 +3574,7 @@
       "rounded": "0.0356",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|3",
       "row": "0.74",
@@ -3587,7 +3590,7 @@
       "rounded": "0.0343",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|4",
       "row": "0.74",
@@ -3603,7 +3606,7 @@
       "rounded": "0.0344",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|5",
       "row": "0.74",
@@ -3619,7 +3622,7 @@
       "rounded": "0.0012",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:543"
+        "paper/supplementary.tex:545"
       ],
       "token": "app_seeds|s2|0.74|6",
       "row": "0.74",
@@ -3635,7 +3638,7 @@
       "rounded": "0.1282",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|0",
       "row": "1.00",
@@ -3651,7 +3654,7 @@
       "rounded": "-0.1277",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|1",
       "row": "1.00",
@@ -3667,7 +3670,7 @@
       "rounded": "0.0826",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|2",
       "row": "1.00",
@@ -3683,7 +3686,7 @@
       "rounded": "0.0734",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|3",
       "row": "1.00",
@@ -3699,7 +3702,7 @@
       "rounded": "0.0789",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|4",
       "row": "1.00",
@@ -3715,7 +3718,7 @@
       "rounded": "0.0783",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|5",
       "row": "1.00",
@@ -3731,7 +3734,7 @@
       "rounded": "0.0046",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:544"
+        "paper/supplementary.tex:546"
       ],
       "token": "app_seeds|s2|1.00|6",
       "row": "1.00",
@@ -3747,7 +3750,7 @@
       "rounded": "0.0731",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:409"
+        "paper/supplementary.tex:411"
       ],
       "token": "app_sd|s-1|SWA Stage1 eff.|0",
       "row": "SWA Stage1 eff.",
@@ -3763,7 +3766,7 @@
       "rounded": "0.0012",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:409"
+        "paper/supplementary.tex:411"
       ],
       "token": "app_sd|s-1|SWA Stage1 eff.|1",
       "row": "SWA Stage1 eff.",
@@ -3779,7 +3782,7 @@
       "rounded": "89.602",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:409"
+        "paper/supplementary.tex:411"
       ],
       "token": "app_sd|s-1|SWA Stage1 eff.|2",
       "row": "SWA Stage1 eff.",
@@ -3795,7 +3798,7 @@
       "rounded": "0.340",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:409"
+        "paper/supplementary.tex:411"
       ],
       "token": "app_sd|s-1|SWA Stage1 eff.|3",
       "row": "SWA Stage1 eff.",
@@ -3811,7 +3814,7 @@
       "rounded": "0.0024",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:474"
+        "paper/supplementary.tex:476"
       ],
       "token": "app_mde|s-1|SWA Stage1 eff.|0",
       "row": "SWA Stage1 eff.",
@@ -3827,7 +3830,7 @@
       "rounded": "3.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:474"
+        "paper/supplementary.tex:476"
       ],
       "token": "app_mde|s-1|SWA Stage1 eff.|1",
       "row": "SWA Stage1 eff.",
@@ -3843,7 +3846,7 @@
       "rounded": "0.681",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:474"
+        "paper/supplementary.tex:476"
       ],
       "token": "app_mde|s-1|SWA Stage1 eff.|2",
       "row": "SWA Stage1 eff.",
@@ -3859,7 +3862,7 @@
       "rounded": "0.8",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:474"
+        "paper/supplementary.tex:476"
       ],
       "token": "app_mde|s-1|SWA Stage1 eff.|3",
       "row": "SWA Stage1 eff.",
@@ -3875,7 +3878,7 @@
       "rounded": "0.0745",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:411"
+        "paper/supplementary.tex:413"
       ],
       "token": "app_sd|s-1|SWA Stage1 none|0",
       "row": "SWA Stage1 none",
@@ -3891,7 +3894,7 @@
       "rounded": "0.0021",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:411"
+        "paper/supplementary.tex:413"
       ],
       "token": "app_sd|s-1|SWA Stage1 none|1",
       "row": "SWA Stage1 none",
@@ -3907,7 +3910,7 @@
       "rounded": "89.657",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:411"
+        "paper/supplementary.tex:413"
       ],
       "token": "app_sd|s-1|SWA Stage1 none|2",
       "row": "SWA Stage1 none",
@@ -3923,7 +3926,7 @@
       "rounded": "0.100",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:411"
+        "paper/supplementary.tex:413"
       ],
       "token": "app_sd|s-1|SWA Stage1 none|3",
       "row": "SWA Stage1 none",
@@ -3939,7 +3942,7 @@
       "rounded": "0.0042",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:476"
+        "paper/supplementary.tex:478"
       ],
       "token": "app_mde|s-1|SWA Stage1 none|0",
       "row": "SWA Stage1 none",
@@ -3955,7 +3958,7 @@
       "rounded": "5.7",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:476"
+        "paper/supplementary.tex:478"
       ],
       "token": "app_mde|s-1|SWA Stage1 none|1",
       "row": "SWA Stage1 none",
@@ -3971,7 +3974,7 @@
       "rounded": "0.199",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:476"
+        "paper/supplementary.tex:478"
       ],
       "token": "app_mde|s-1|SWA Stage1 none|2",
       "row": "SWA Stage1 none",
@@ -3987,7 +3990,7 @@
       "rounded": "0.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:476"
+        "paper/supplementary.tex:478"
       ],
       "token": "app_mde|s-1|SWA Stage1 none|3",
       "row": "SWA Stage1 none",
@@ -4003,7 +4006,7 @@
       "rounded": "0.0707",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:412"
+        "paper/supplementary.tex:414"
       ],
       "token": "app_sd|s-1|SWA Primary eff.|0",
       "row": "SWA Primary eff.",
@@ -4019,7 +4022,7 @@
       "rounded": "0.0015",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:412"
+        "paper/supplementary.tex:414"
       ],
       "token": "app_sd|s-1|SWA Primary eff.|1",
       "row": "SWA Primary eff.",
@@ -4035,7 +4038,7 @@
       "rounded": "89.602",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:412"
+        "paper/supplementary.tex:414"
       ],
       "token": "app_sd|s-1|SWA Primary eff.|2",
       "row": "SWA Primary eff.",
@@ -4051,7 +4054,7 @@
       "rounded": "0.130",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:412"
+        "paper/supplementary.tex:414"
       ],
       "token": "app_sd|s-1|SWA Primary eff.|3",
       "row": "SWA Primary eff.",
@@ -4067,7 +4070,7 @@
       "rounded": "0.0030",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:477"
+        "paper/supplementary.tex:479"
       ],
       "token": "app_mde|s-1|SWA Primary eff.|0",
       "row": "SWA Primary eff.",
@@ -4083,7 +4086,7 @@
       "rounded": "4.3",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:477"
+        "paper/supplementary.tex:479"
       ],
       "token": "app_mde|s-1|SWA Primary eff.|1",
       "row": "SWA Primary eff.",
@@ -4099,7 +4102,7 @@
       "rounded": "0.261",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:477"
+        "paper/supplementary.tex:479"
       ],
       "token": "app_mde|s-1|SWA Primary eff.|2",
       "row": "SWA Primary eff.",
@@ -4115,7 +4118,7 @@
       "rounded": "0.3",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:477"
+        "paper/supplementary.tex:479"
       ],
       "token": "app_mde|s-1|SWA Primary eff.|3",
       "row": "SWA Primary eff.",
@@ -4131,7 +4134,7 @@
       "rounded": "0.0755",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:413"
+        "paper/supplementary.tex:415"
       ],
       "token": "app_sd|s-1|SWA Primary none|0",
       "row": "SWA Primary none",
@@ -4147,7 +4150,7 @@
       "rounded": "0.0033",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:413"
+        "paper/supplementary.tex:415"
       ],
       "token": "app_sd|s-1|SWA Primary none|1",
       "row": "SWA Primary none",
@@ -4163,7 +4166,7 @@
       "rounded": "89.266",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:413"
+        "paper/supplementary.tex:415"
       ],
       "token": "app_sd|s-1|SWA Primary none|2",
       "row": "SWA Primary none",
@@ -4179,7 +4182,7 @@
       "rounded": "0.394",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:413"
+        "paper/supplementary.tex:415"
       ],
       "token": "app_sd|s-1|SWA Primary none|3",
       "row": "SWA Primary none",
@@ -4195,7 +4198,7 @@
       "rounded": "0.0067",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:478"
+        "paper/supplementary.tex:480"
       ],
       "token": "app_mde|s-1|SWA Primary none|0",
       "row": "SWA Primary none",
@@ -4211,7 +4214,7 @@
       "rounded": "8.8",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:478"
+        "paper/supplementary.tex:480"
       ],
       "token": "app_mde|s-1|SWA Primary none|1",
       "row": "SWA Primary none",
@@ -4227,7 +4230,7 @@
       "rounded": "0.789",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:478"
+        "paper/supplementary.tex:480"
       ],
       "token": "app_mde|s-1|SWA Primary none|2",
       "row": "SWA Primary none",
@@ -4243,7 +4246,7 @@
       "rounded": "0.9",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:478"
+        "paper/supplementary.tex:480"
       ],
       "token": "app_mde|s-1|SWA Primary none|3",
       "row": "SWA Primary none",
@@ -4259,7 +4262,7 @@
       "rounded": "0.0330",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:414"
+        "paper/supplementary.tex:416"
       ],
       "token": "app_sd|s-1|SWA VAE9182 eff.|0",
       "row": "SWA VAE9182 eff.",
@@ -4275,7 +4278,7 @@
       "rounded": "0.0020",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:414"
+        "paper/supplementary.tex:416"
       ],
       "token": "app_sd|s-1|SWA VAE9182 eff.|1",
       "row": "SWA VAE9182 eff.",
@@ -4291,7 +4294,7 @@
       "rounded": "89.950",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:414"
+        "paper/supplementary.tex:416"
       ],
       "token": "app_sd|s-1|SWA VAE9182 eff.|2",
       "row": "SWA VAE9182 eff.",
@@ -4307,7 +4310,7 @@
       "rounded": "0.366",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:414"
+        "paper/supplementary.tex:416"
       ],
       "token": "app_sd|s-1|SWA VAE9182 eff.|3",
       "row": "SWA VAE9182 eff.",
@@ -4323,7 +4326,7 @@
       "rounded": "0.0040",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:479"
+        "paper/supplementary.tex:481"
       ],
       "token": "app_mde|s-1|SWA VAE9182 eff.|0",
       "row": "SWA VAE9182 eff.",
@@ -4339,7 +4342,7 @@
       "rounded": "12.1",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:479"
+        "paper/supplementary.tex:481"
       ],
       "token": "app_mde|s-1|SWA VAE9182 eff.|1",
       "row": "SWA VAE9182 eff.",
@@ -4355,7 +4358,7 @@
       "rounded": "0.733",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:479"
+        "paper/supplementary.tex:481"
       ],
       "token": "app_mde|s-1|SWA VAE9182 eff.|2",
       "row": "SWA VAE9182 eff.",
@@ -4371,7 +4374,7 @@
       "rounded": "0.8",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:479"
+        "paper/supplementary.tex:481"
       ],
       "token": "app_mde|s-1|SWA VAE9182 eff.|3",
       "row": "SWA VAE9182 eff.",
@@ -4387,7 +4390,7 @@
       "rounded": "0.0278",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:415"
+        "paper/supplementary.tex:417"
       ],
       "token": "app_sd|s-1|SWA VAE9182 none|0",
       "row": "SWA VAE9182 none",
@@ -4403,7 +4406,7 @@
       "rounded": "0.0027",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:415"
+        "paper/supplementary.tex:417"
       ],
       "token": "app_sd|s-1|SWA VAE9182 none|1",
       "row": "SWA VAE9182 none",
@@ -4419,7 +4422,7 @@
       "rounded": "90.146",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:415"
+        "paper/supplementary.tex:417"
       ],
       "token": "app_sd|s-1|SWA VAE9182 none|2",
       "row": "SWA VAE9182 none",
@@ -4435,7 +4438,7 @@
       "rounded": "0.207",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:415"
+        "paper/supplementary.tex:417"
       ],
       "token": "app_sd|s-1|SWA VAE9182 none|3",
       "row": "SWA VAE9182 none",
@@ -4451,7 +4454,7 @@
       "rounded": "0.0054",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:480"
+        "paper/supplementary.tex:482"
       ],
       "token": "app_mde|s-1|SWA VAE9182 none|0",
       "row": "SWA VAE9182 none",
@@ -4467,7 +4470,7 @@
       "rounded": "19.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:480"
+        "paper/supplementary.tex:482"
       ],
       "token": "app_mde|s-1|SWA VAE9182 none|1",
       "row": "SWA VAE9182 none",
@@ -4483,7 +4486,7 @@
       "rounded": "0.414",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:480"
+        "paper/supplementary.tex:482"
       ],
       "token": "app_mde|s-1|SWA VAE9182 none|2",
       "row": "SWA VAE9182 none",
@@ -4499,7 +4502,7 @@
       "rounded": "0.5",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:480"
+        "paper/supplementary.tex:482"
       ],
       "token": "app_mde|s-1|SWA VAE9182 none|3",
       "row": "SWA VAE9182 none",
@@ -4515,7 +4518,7 @@
       "rounded": "0.0627",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:416"
+        "paper/supplementary.tex:418"
       ],
       "token": "app_sd|s-1|best Stage1 eff.|0",
       "row": "best Stage1 eff.",
@@ -4531,7 +4534,7 @@
       "rounded": "0.0054",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:416"
+        "paper/supplementary.tex:418"
       ],
       "token": "app_sd|s-1|best Stage1 eff.|1",
       "row": "best Stage1 eff.",
@@ -4547,7 +4550,7 @@
       "rounded": "89.754",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:416"
+        "paper/supplementary.tex:418"
       ],
       "token": "app_sd|s-1|best Stage1 eff.|2",
       "row": "best Stage1 eff.",
@@ -4563,7 +4566,7 @@
       "rounded": "0.082",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:416"
+        "paper/supplementary.tex:418"
       ],
       "token": "app_sd|s-1|best Stage1 eff.|3",
       "row": "best Stage1 eff.",
@@ -4579,7 +4582,7 @@
       "rounded": "0.0108",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:481"
+        "paper/supplementary.tex:483"
       ],
       "token": "app_mde|s-1|best Stage1 eff.|0",
       "row": "best Stage1 eff.",
@@ -4595,7 +4598,7 @@
       "rounded": "17.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:481"
+        "paper/supplementary.tex:483"
       ],
       "token": "app_mde|s-1|best Stage1 eff.|1",
       "row": "best Stage1 eff.",
@@ -4611,7 +4614,7 @@
       "rounded": "0.164",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:481"
+        "paper/supplementary.tex:483"
       ],
       "token": "app_mde|s-1|best Stage1 eff.|2",
       "row": "best Stage1 eff.",
@@ -4627,7 +4630,7 @@
       "rounded": "0.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:481"
+        "paper/supplementary.tex:483"
       ],
       "token": "app_mde|s-1|best Stage1 eff.|3",
       "row": "best Stage1 eff.",
@@ -4643,7 +4646,7 @@
       "rounded": "0.0651",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:418"
+        "paper/supplementary.tex:420"
       ],
       "token": "app_sd|s-1|best Stage1 none|0",
       "row": "best Stage1 none",
@@ -4659,7 +4662,7 @@
       "rounded": "0.0037",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:418"
+        "paper/supplementary.tex:420"
       ],
       "token": "app_sd|s-1|best Stage1 none|1",
       "row": "best Stage1 none",
@@ -4675,7 +4678,7 @@
       "rounded": "89.820",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:418"
+        "paper/supplementary.tex:420"
       ],
       "token": "app_sd|s-1|best Stage1 none|2",
       "row": "best Stage1 none",
@@ -4691,7 +4694,7 @@
       "rounded": "0.075",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:418"
+        "paper/supplementary.tex:420"
       ],
       "token": "app_sd|s-1|best Stage1 none|3",
       "row": "best Stage1 none",
@@ -4707,7 +4710,7 @@
       "rounded": "0.0074",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:483"
+        "paper/supplementary.tex:485"
       ],
       "token": "app_mde|s-1|best Stage1 none|0",
       "row": "best Stage1 none",
@@ -4723,7 +4726,7 @@
       "rounded": "11.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:483"
+        "paper/supplementary.tex:485"
       ],
       "token": "app_mde|s-1|best Stage1 none|1",
       "row": "best Stage1 none",
@@ -4739,7 +4742,7 @@
       "rounded": "0.151",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:483"
+        "paper/supplementary.tex:485"
       ],
       "token": "app_mde|s-1|best Stage1 none|2",
       "row": "best Stage1 none",
@@ -4755,7 +4758,7 @@
       "rounded": "0.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:483"
+        "paper/supplementary.tex:485"
       ],
       "token": "app_mde|s-1|best Stage1 none|3",
       "row": "best Stage1 none",
@@ -4771,7 +4774,7 @@
       "rounded": "0.0606",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:419"
+        "paper/supplementary.tex:421"
       ],
       "token": "app_sd|s-1|best Primary eff.|0",
       "row": "best Primary eff.",
@@ -4787,7 +4790,7 @@
       "rounded": "0.0085",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:419"
+        "paper/supplementary.tex:421"
       ],
       "token": "app_sd|s-1|best Primary eff.|1",
       "row": "best Primary eff.",
@@ -4803,7 +4806,7 @@
       "rounded": "89.570",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:419"
+        "paper/supplementary.tex:421"
       ],
       "token": "app_sd|s-1|best Primary eff.|2",
       "row": "best Primary eff.",
@@ -4819,7 +4822,7 @@
       "rounded": "0.086",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:419"
+        "paper/supplementary.tex:421"
       ],
       "token": "app_sd|s-1|best Primary eff.|3",
       "row": "best Primary eff.",
@@ -4835,7 +4838,7 @@
       "rounded": "0.0170",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:484"
+        "paper/supplementary.tex:486"
       ],
       "token": "app_mde|s-1|best Primary eff.|0",
       "row": "best Primary eff.",
@@ -4851,7 +4854,7 @@
       "rounded": "28.0",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:484"
+        "paper/supplementary.tex:486"
       ],
       "token": "app_mde|s-1|best Primary eff.|1",
       "row": "best Primary eff.",
@@ -4867,7 +4870,7 @@
       "rounded": "0.172",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:484"
+        "paper/supplementary.tex:486"
       ],
       "token": "app_mde|s-1|best Primary eff.|2",
       "row": "best Primary eff.",
@@ -4883,7 +4886,7 @@
       "rounded": "0.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:484"
+        "paper/supplementary.tex:486"
       ],
       "token": "app_mde|s-1|best Primary eff.|3",
       "row": "best Primary eff.",
@@ -4899,7 +4902,7 @@
       "rounded": "0.0707",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:420"
+        "paper/supplementary.tex:422"
       ],
       "token": "app_sd|s-1|best Primary none|0",
       "row": "best Primary none",
@@ -4915,7 +4918,7 @@
       "rounded": "0.0048",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:420"
+        "paper/supplementary.tex:422"
       ],
       "token": "app_sd|s-1|best Primary none|1",
       "row": "best Primary none",
@@ -4931,7 +4934,7 @@
       "rounded": "89.070",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:420"
+        "paper/supplementary.tex:422"
       ],
       "token": "app_sd|s-1|best Primary none|2",
       "row": "best Primary none",
@@ -4947,7 +4950,7 @@
       "rounded": "0.191",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:420"
+        "paper/supplementary.tex:422"
       ],
       "token": "app_sd|s-1|best Primary none|3",
       "row": "best Primary none",
@@ -4963,7 +4966,7 @@
       "rounded": "0.0097",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:485"
+        "paper/supplementary.tex:487"
       ],
       "token": "app_mde|s-1|best Primary none|0",
       "row": "best Primary none",
@@ -4979,7 +4982,7 @@
       "rounded": "13.7",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:485"
+        "paper/supplementary.tex:487"
       ],
       "token": "app_mde|s-1|best Primary none|1",
       "row": "best Primary none",
@@ -4995,7 +4998,7 @@
       "rounded": "0.382",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:485"
+        "paper/supplementary.tex:487"
       ],
       "token": "app_mde|s-1|best Primary none|2",
       "row": "best Primary none",
@@ -5011,7 +5014,7 @@
       "rounded": "0.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:485"
+        "paper/supplementary.tex:487"
       ],
       "token": "app_mde|s-1|best Primary none|3",
       "row": "best Primary none",
@@ -5027,7 +5030,7 @@
       "rounded": "0.0274",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:421"
+        "paper/supplementary.tex:423"
       ],
       "token": "app_sd|s-1|best VAE9182 eff.|0",
       "row": "best VAE9182 eff.",
@@ -5043,7 +5046,7 @@
       "rounded": "0.0021",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:421"
+        "paper/supplementary.tex:423"
       ],
       "token": "app_sd|s-1|best VAE9182 eff.|1",
       "row": "best VAE9182 eff.",
@@ -5059,7 +5062,7 @@
       "rounded": "90.276",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:421"
+        "paper/supplementary.tex:423"
       ],
       "token": "app_sd|s-1|best VAE9182 eff.|2",
       "row": "best VAE9182 eff.",
@@ -5075,7 +5078,7 @@
       "rounded": "0.191",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:421"
+        "paper/supplementary.tex:423"
       ],
       "token": "app_sd|s-1|best VAE9182 eff.|3",
       "row": "best VAE9182 eff.",
@@ -5091,7 +5094,7 @@
       "rounded": "0.0042",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:486"
+        "paper/supplementary.tex:488"
       ],
       "token": "app_mde|s-1|best VAE9182 eff.|0",
       "row": "best VAE9182 eff.",
@@ -5107,7 +5110,7 @@
       "rounded": "15.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:486"
+        "paper/supplementary.tex:488"
       ],
       "token": "app_mde|s-1|best VAE9182 eff.|1",
       "row": "best VAE9182 eff.",
@@ -5123,7 +5126,7 @@
       "rounded": "0.382",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:486"
+        "paper/supplementary.tex:488"
       ],
       "token": "app_mde|s-1|best VAE9182 eff.|2",
       "row": "best VAE9182 eff.",
@@ -5139,7 +5142,7 @@
       "rounded": "0.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:486"
+        "paper/supplementary.tex:488"
       ],
       "token": "app_mde|s-1|best VAE9182 eff.|3",
       "row": "best VAE9182 eff.",
@@ -5155,7 +5158,7 @@
       "rounded": "0.0225",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:422"
+        "paper/supplementary.tex:424"
       ],
       "token": "app_sd|s-1|best VAE9182 none|0",
       "row": "best VAE9182 none",
@@ -5171,7 +5174,7 @@
       "rounded": "0.0012",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:422"
+        "paper/supplementary.tex:424"
       ],
       "token": "app_sd|s-1|best VAE9182 none|1",
       "row": "best VAE9182 none",
@@ -5187,7 +5190,7 @@
       "rounded": "90.385",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:422"
+        "paper/supplementary.tex:424"
       ],
       "token": "app_sd|s-1|best VAE9182 none|2",
       "row": "best VAE9182 none",
@@ -5203,7 +5206,7 @@
       "rounded": "0.267",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:422"
+        "paper/supplementary.tex:424"
       ],
       "token": "app_sd|s-1|best VAE9182 none|3",
       "row": "best VAE9182 none",
@@ -5219,7 +5222,7 @@
       "rounded": "0.0024",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:487"
+        "paper/supplementary.tex:489"
       ],
       "token": "app_mde|s-1|best VAE9182 none|0",
       "row": "best VAE9182 none",
@@ -5235,7 +5238,7 @@
       "rounded": "10.8",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:487"
+        "paper/supplementary.tex:489"
       ],
       "token": "app_mde|s-1|best VAE9182 none|1",
       "row": "best VAE9182 none",
@@ -5251,7 +5254,7 @@
       "rounded": "0.534",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:487"
+        "paper/supplementary.tex:489"
       ],
       "token": "app_mde|s-1|best VAE9182 none|2",
       "row": "best VAE9182 none",
@@ -5267,7 +5270,7 @@
       "rounded": "0.6",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:487"
+        "paper/supplementary.tex:489"
       ],
       "token": "app_mde|s-1|best VAE9182 none|3",
       "row": "best VAE9182 none",
@@ -5283,7 +5286,7 @@
       "rounded": "0.0701",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:423"
+        "paper/supplementary.tex:425"
       ],
       "token": "app_sd|s-1|last Stage1 eff.|0",
       "row": "last Stage1 eff.",
@@ -5299,7 +5302,7 @@
       "rounded": "0.0081",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:423"
+        "paper/supplementary.tex:425"
       ],
       "token": "app_sd|s-1|last Stage1 eff.|1",
       "row": "last Stage1 eff.",
@@ -5315,7 +5318,7 @@
       "rounded": "88.994",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:423"
+        "paper/supplementary.tex:425"
       ],
       "token": "app_sd|s-1|last Stage1 eff.|2",
       "row": "last Stage1 eff.",
@@ -5331,7 +5334,7 @@
       "rounded": "0.100",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:423"
+        "paper/supplementary.tex:425"
       ],
       "token": "app_sd|s-1|last Stage1 eff.|3",
       "row": "last Stage1 eff.",
@@ -5347,7 +5350,7 @@
       "rounded": "0.0163",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:488"
+        "paper/supplementary.tex:490"
       ],
       "token": "app_mde|s-1|last Stage1 eff.|0",
       "row": "last Stage1 eff.",
@@ -5363,7 +5366,7 @@
       "rounded": "23.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:488"
+        "paper/supplementary.tex:490"
       ],
       "token": "app_mde|s-1|last Stage1 eff.|1",
       "row": "last Stage1 eff.",
@@ -5379,7 +5382,7 @@
       "rounded": "0.199",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:488"
+        "paper/supplementary.tex:490"
       ],
       "token": "app_mde|s-1|last Stage1 eff.|2",
       "row": "last Stage1 eff.",
@@ -5395,7 +5398,7 @@
       "rounded": "0.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:488"
+        "paper/supplementary.tex:490"
       ],
       "token": "app_mde|s-1|last Stage1 eff.|3",
       "row": "last Stage1 eff.",
@@ -5411,7 +5414,7 @@
       "rounded": "0.0691",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:425"
+        "paper/supplementary.tex:427"
       ],
       "token": "app_sd|s-1|last Stage1 none|0",
       "row": "last Stage1 none",
@@ -5427,7 +5430,7 @@
       "rounded": "0.0052",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:425"
+        "paper/supplementary.tex:427"
       ],
       "token": "app_sd|s-1|last Stage1 none|1",
       "row": "last Stage1 none",
@@ -5443,7 +5446,7 @@
       "rounded": "89.124",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:425"
+        "paper/supplementary.tex:427"
       ],
       "token": "app_sd|s-1|last Stage1 none|2",
       "row": "last Stage1 none",
@@ -5459,7 +5462,7 @@
       "rounded": "0.191",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:425"
+        "paper/supplementary.tex:427"
       ],
       "token": "app_sd|s-1|last Stage1 none|3",
       "row": "last Stage1 none",
@@ -5475,7 +5478,7 @@
       "rounded": "0.0103",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:490"
+        "paper/supplementary.tex:492"
       ],
       "token": "app_mde|s-1|last Stage1 none|0",
       "row": "last Stage1 none",
@@ -5491,7 +5494,7 @@
       "rounded": "15.0",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:490"
+        "paper/supplementary.tex:492"
       ],
       "token": "app_mde|s-1|last Stage1 none|1",
       "row": "last Stage1 none",
@@ -5507,7 +5510,7 @@
       "rounded": "0.382",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:490"
+        "paper/supplementary.tex:492"
       ],
       "token": "app_mde|s-1|last Stage1 none|2",
       "row": "last Stage1 none",
@@ -5523,7 +5526,7 @@
       "rounded": "0.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:490"
+        "paper/supplementary.tex:492"
       ],
       "token": "app_mde|s-1|last Stage1 none|3",
       "row": "last Stage1 none",
@@ -5539,7 +5542,7 @@
       "rounded": "0.0701",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:426"
+        "paper/supplementary.tex:428"
       ],
       "token": "app_sd|s-1|last Primary eff.|0",
       "row": "last Primary eff.",
@@ -5555,7 +5558,7 @@
       "rounded": "0.0031",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:426"
+        "paper/supplementary.tex:428"
       ],
       "token": "app_sd|s-1|last Primary eff.|1",
       "row": "last Primary eff.",
@@ -5571,7 +5574,7 @@
       "rounded": "88.494",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:426"
+        "paper/supplementary.tex:428"
       ],
       "token": "app_sd|s-1|last Primary eff.|2",
       "row": "last Primary eff.",
@@ -5587,7 +5590,7 @@
       "rounded": "0.259",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:426"
+        "paper/supplementary.tex:428"
       ],
       "token": "app_sd|s-1|last Primary eff.|3",
       "row": "last Primary eff.",
@@ -5603,7 +5606,7 @@
       "rounded": "0.0062",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:491"
+        "paper/supplementary.tex:493"
       ],
       "token": "app_mde|s-1|last Primary eff.|0",
       "row": "last Primary eff.",
@@ -5619,7 +5622,7 @@
       "rounded": "8.8",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:491"
+        "paper/supplementary.tex:493"
       ],
       "token": "app_mde|s-1|last Primary eff.|1",
       "row": "last Primary eff.",
@@ -5635,7 +5638,7 @@
       "rounded": "0.517",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:491"
+        "paper/supplementary.tex:493"
       ],
       "token": "app_mde|s-1|last Primary eff.|2",
       "row": "last Primary eff.",
@@ -5651,7 +5654,7 @@
       "rounded": "0.6",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:491"
+        "paper/supplementary.tex:493"
       ],
       "token": "app_mde|s-1|last Primary eff.|3",
       "row": "last Primary eff.",
@@ -5667,7 +5670,7 @@
       "rounded": "0.0737",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:427"
+        "paper/supplementary.tex:429"
       ],
       "token": "app_sd|s-1|last Primary none|0",
       "row": "last Primary none",
@@ -5683,7 +5686,7 @@
       "rounded": "0.0048",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:427"
+        "paper/supplementary.tex:429"
       ],
       "token": "app_sd|s-1|last Primary none|1",
       "row": "last Primary none",
@@ -5699,7 +5702,7 @@
       "rounded": "88.353",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:427"
+        "paper/supplementary.tex:429"
       ],
       "token": "app_sd|s-1|last Primary none|2",
       "row": "last Primary none",
@@ -5715,7 +5718,7 @@
       "rounded": "0.303",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:427"
+        "paper/supplementary.tex:429"
       ],
       "token": "app_sd|s-1|last Primary none|3",
       "row": "last Primary none",
@@ -5731,7 +5734,7 @@
       "rounded": "0.0095",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:492"
+        "paper/supplementary.tex:494"
       ],
       "token": "app_mde|s-1|last Primary none|0",
       "row": "last Primary none",
@@ -5747,7 +5750,7 @@
       "rounded": "12.9",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:492"
+        "paper/supplementary.tex:494"
       ],
       "token": "app_mde|s-1|last Primary none|1",
       "row": "last Primary none",
@@ -5763,7 +5766,7 @@
       "rounded": "0.606",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:492"
+        "paper/supplementary.tex:494"
       ],
       "token": "app_mde|s-1|last Primary none|2",
       "row": "last Primary none",
@@ -5779,7 +5782,7 @@
       "rounded": "0.7",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:492"
+        "paper/supplementary.tex:494"
       ],
       "token": "app_mde|s-1|last Primary none|3",
       "row": "last Primary none",
@@ -5795,7 +5798,7 @@
       "rounded": "0.0307",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:428"
+        "paper/supplementary.tex:430"
       ],
       "token": "app_sd|s-1|last VAE9182 eff.|0",
       "row": "last VAE9182 eff.",
@@ -5811,7 +5814,7 @@
       "rounded": "0.0011",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:428"
+        "paper/supplementary.tex:430"
       ],
       "token": "app_sd|s-1|last VAE9182 eff.|1",
       "row": "last VAE9182 eff.",
@@ -5827,7 +5830,7 @@
       "rounded": "89.820",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:428"
+        "paper/supplementary.tex:430"
       ],
       "token": "app_sd|s-1|last VAE9182 eff.|2",
       "row": "last VAE9182 eff.",
@@ -5843,7 +5846,7 @@
       "rounded": "0.167",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:428"
+        "paper/supplementary.tex:430"
       ],
       "token": "app_sd|s-1|last VAE9182 eff.|3",
       "row": "last VAE9182 eff.",
@@ -5859,7 +5862,7 @@
       "rounded": "0.0021",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:493"
+        "paper/supplementary.tex:495"
       ],
       "token": "app_mde|s-1|last VAE9182 eff.|0",
       "row": "last VAE9182 eff.",
@@ -5875,7 +5878,7 @@
       "rounded": "7.0",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:493"
+        "paper/supplementary.tex:495"
       ],
       "token": "app_mde|s-1|last VAE9182 eff.|1",
       "row": "last VAE9182 eff.",
@@ -5891,7 +5894,7 @@
       "rounded": "0.335",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:493"
+        "paper/supplementary.tex:495"
       ],
       "token": "app_mde|s-1|last VAE9182 eff.|2",
       "row": "last VAE9182 eff.",
@@ -5907,7 +5910,7 @@
       "rounded": "0.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:493"
+        "paper/supplementary.tex:495"
       ],
       "token": "app_mde|s-1|last VAE9182 eff.|3",
       "row": "last VAE9182 eff.",
@@ -5923,7 +5926,7 @@
       "rounded": "0.0297",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:429"
+        "paper/supplementary.tex:431"
       ],
       "token": "app_sd|s-1|last VAE9182 none|0",
       "row": "last VAE9182 none",
@@ -5939,7 +5942,7 @@
       "rounded": "0.0039",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:429"
+        "paper/supplementary.tex:431"
       ],
       "token": "app_sd|s-1|last VAE9182 none|1",
       "row": "last VAE9182 none",
@@ -5955,7 +5958,7 @@
       "rounded": "89.602",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:429"
+        "paper/supplementary.tex:431"
       ],
       "token": "app_sd|s-1|last VAE9182 none|2",
       "row": "last VAE9182 none",
@@ -5971,7 +5974,7 @@
       "rounded": "0.267",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:429"
+        "paper/supplementary.tex:431"
       ],
       "token": "app_sd|s-1|last VAE9182 none|3",
       "row": "last VAE9182 none",
@@ -5987,7 +5990,7 @@
       "rounded": "0.0079",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:494"
+        "paper/supplementary.tex:496"
       ],
       "token": "app_mde|s-1|last VAE9182 none|0",
       "row": "last VAE9182 none",
@@ -6003,7 +6006,7 @@
       "rounded": "26.5",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:494"
+        "paper/supplementary.tex:496"
       ],
       "token": "app_mde|s-1|last VAE9182 none|1",
       "row": "last VAE9182 none",
@@ -6019,7 +6022,7 @@
       "rounded": "0.534",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:494"
+        "paper/supplementary.tex:496"
       ],
       "token": "app_mde|s-1|last VAE9182 none|2",
       "row": "last VAE9182 none",
@@ -6035,7 +6038,7 @@
       "rounded": "0.6",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:494"
+        "paper/supplementary.tex:496"
       ],
       "token": "app_mde|s-1|last VAE9182 none|3",
       "row": "last VAE9182 none",
@@ -9955,7 +9958,7 @@
       "rounded": "0.0024",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:461"
+        "paper/supplementary.tex:463"
       ],
       "token": "app_mde|s-1|0.0024 (Stage1 eff.) to 0.0067 (Primary none)|0",
       "row": "0.0024 (Stage1 eff.) to 0.0067 (Primary none)",
@@ -9971,7 +9974,7 @@
       "rounded": "0.0067",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:461"
+        "paper/supplementary.tex:463"
       ],
       "token": "app_mde|s-1|0.0024 (Stage1 eff.) to 0.0067 (Primary none)|2",
       "row": "0.0024 (Stage1 eff.) to 0.0067 (Primary none)",
@@ -9987,7 +9990,7 @@
       "rounded": "3.2",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:462"
+        "paper/supplementary.tex:464"
       ],
       "token": "app_mde|s-1|in absolute ECE and 3.2 % to 19.4 % (VAE9182 none) as a|0",
       "row": "in absolute ECE and 3.2 % to 19.4 % (VAE9182 none) as a",
@@ -10003,7 +10006,7 @@
       "rounded": "19.4",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:462"
+        "paper/supplementary.tex:464"
       ],
       "token": "app_mde|s-1|in absolute ECE and 3.2 % to 19.4 % (VAE9182 none) as a|1",
       "row": "in absolute ECE and 3.2 % to 19.4 % (VAE9182 none) as a",
@@ -10019,7 +10022,7 @@
       "rounded": "8",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:616"
+        "paper/supplementary.tex:618"
       ],
       "token": "app_predecl|s0|Miscalibration pilot kill-switch|0",
       "row": "Miscalibration pilot kill-switch",
@@ -10035,7 +10038,7 @@
       "rounded": "12",
       "matches": true,
       "where": [
-        "paper/supplementary.tex:620"
+        "paper/supplementary.tex:622"
       ],
       "token": "app_predecl|s0|Oracle-gate extension|0",
       "row": "Oracle-gate extension",
@@ -11747,7 +11750,7 @@
       "rounded": "0.45",
       "matches": true,
       "where": [
-        "paper/sections/02_related_work.tex:213"
+        "paper/sections/02_related_work.tex:214"
       ],
       "token": "02_related_work|s-1|T^ * _ ECE = 0.45 vs. the one minimising|0",
       "row": "T^ * _ ECE = 0.45 vs. the one minimising",
@@ -11763,7 +11766,7 @@
       "rounded": "0.74",
       "matches": true,
       "where": [
-        "paper/sections/02_related_work.tex:214"
+        "paper/sections/02_related_work.tex:215"
       ],
       "token": "02_related_work|s-1|divergence from the votes T^ * _ JSD = 0.74 ) a|0",
       "row": "divergence from the votes T^ * _ JSD = 0.74 ) a",
@@ -11779,7 +11782,7 @@
       "rounded": "0.77",
       "matches": true,
       "where": [
-        "paper/sections/02_related_work.tex:229"
+        "paper/sections/02_related_work.tex:230"
       ],
       "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure|0",
       "row": "amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure",
@@ -11795,7 +11798,7 @@
       "rounded": "0.645",
       "matches": true,
       "where": [
-        "paper/sections/02_related_work.tex:229"
+        "paper/sections/02_related_work.tex:230"
       ],
       "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure|1",
       "row": "amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure",
@@ -11811,7 +11814,7 @@
       "rounded": "0.764",
       "matches": true,
       "where": [
-        "paper/sections/02_related_work.tex:229"
+        "paper/sections/02_related_work.tex:230"
       ],
       "token": "02_related_work|s-1|amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure|2",
       "row": "amount ( +0.77 pp best--last; +0.645 -- 0.764 pp as a pure",
@@ -12595,7 +12598,7 @@
       "rounded": "2.248",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:70"
+        "paper/sections/04_experiments.tex:71"
       ],
       "token": "04_experiments|s-1|(Section ). The student totals 2.248 M|0",
       "row": "(Section ). The student totals 2.248 M",
@@ -12611,7 +12614,7 @@
       "rounded": "0.329",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:71"
+        "paper/sections/04_experiments.tex:72"
       ],
       "token": "04_experiments|s-1|parameters and 0.329 GMACs at 224 224|0",
       "row": "parameters and 0.329 GMACs at 224 224",
@@ -12627,7 +12630,7 @@
       "rounded": "8.8",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:72"
+        "paper/sections/04_experiments.tex:73"
       ],
       "token": "04_experiments|s-1|( 8.8 MB on disk) and is initialised from ImageNet|0",
       "row": "( 8.8 MB on disk) and is initialised from ImageNet",
@@ -12643,7 +12646,7 @@
       "rounded": "131",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:144"
+        "paper/sections/04_experiments.tex:145"
       ],
       "token": "04_experiments|s-1|diagnostics over the audit's frozen inclusion set of 131 RAF-DB|0",
       "row": "diagnostics over the audit's frozen inclusion set of 131 RAF-DB",
@@ -12659,7 +12662,7 @@
       "rounded": "3",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:204"
+        "paper/sections/04_experiments.tex:205"
       ],
       "token": "04_experiments|s-1|3 % -- 19 % of the control arm's own ECE so an unresolved|0",
       "row": "3 % -- 19 % of the control arm's own ECE so an unresolved",
@@ -12675,7 +12678,7 @@
       "rounded": "19",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:204"
+        "paper/sections/04_experiments.tex:205"
       ],
       "token": "04_experiments|s-1|3 % -- 19 % of the control arm's own ECE so an unresolved|1",
       "row": "3 % -- 19 % of the control arm's own ECE so an unresolved",
@@ -12691,7 +12694,7 @@
       "rounded": "2.248",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:308"
+        "paper/sections/04_experiments.tex:309"
       ],
       "token": "04_experiments|s-1|The student (MobileNetV2Plus) has 2.248 M parameters and|1",
       "row": "The student (MobileNetV2Plus) has 2.248 M parameters and",
@@ -12707,7 +12710,7 @@
       "rounded": "0.329",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:309"
+        "paper/sections/04_experiments.tex:310"
       ],
       "token": "04_experiments|s-1|0.329 GMACs at 224 224 input resolution|0",
       "row": "0.329 GMACs at 224 224 input resolution",
@@ -12723,7 +12726,7 @@
       "rounded": "25.9",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:310"
+        "paper/sections/04_experiments.tex:311"
       ],
       "token": "04_experiments|s-1|representing 25.9 fewer parameters 25.8 fewer|0",
       "row": "representing 25.9 fewer parameters 25.8 fewer",
@@ -12739,7 +12742,7 @@
       "rounded": "25.8",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:310"
+        "paper/sections/04_experiments.tex:311"
       ],
       "token": "04_experiments|s-1|representing 25.9 fewer parameters 25.8 fewer|1",
       "row": "representing 25.9 fewer parameters 25.8 fewer",
@@ -12755,7 +12758,7 @@
       "rounded": "62.9",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:311"
+        "paper/sections/04_experiments.tex:312"
       ],
       "token": "04_experiments|s-1|FLOPs and 62.9 smaller file size than the teacher while|0",
       "row": "FLOPs and 62.9 smaller file size than the teacher while",
@@ -12771,7 +12774,7 @@
       "rounded": "97.96",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:312"
+        "paper/sections/04_experiments.tex:313"
       ],
       "token": "04_experiments|s-1|retaining 97.96 % of the teacher's accuracy at the SWA checkpoint|0",
       "row": "retaining 97.96 % of the teacher's accuracy at the SWA checkpoint",
@@ -12787,7 +12790,7 @@
       "rounded": "98.32",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:313"
+        "paper/sections/04_experiments.tex:314"
       ],
       "token": "04_experiments|s-1|we report as primary ( 98.32 % if the accuracy-selected checkpoint|0",
       "row": "we report as primary ( 98.32 % if the accuracy-selected checkpoint",
@@ -17459,7 +17462,7 @@
       "rounded": "2.25",
       "matches": true,
       "where": [
-        "paper/sections/02_related_work.tex:220"
+        "paper/sections/02_related_work.tex:221"
       ],
       "token": "02_related_work|s-1|sits in this regime ( 2.25 M parameters) but efficiency|0",
       "row": "sits in this regime ( 2.25 M parameters) but efficiency",
@@ -17475,7 +17478,7 @@
       "rounded": "3.5",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:213"
+        "paper/sections/04_experiments.tex:214"
       ],
       "token": "04_experiments|s-1|per-cell firing rate of about 3.5 % ; under independence across the|0",
       "row": "per-cell firing rate of about 3.5 % ; under independence across the",
@@ -17491,7 +17494,7 @@
       "rounded": "0.545",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:214"
+        "paper/sections/04_experiments.tex:215"
       ],
       "token": "04_experiments|s-1|twenty-two cells the corresponding family-wise probability is 0.545|0",
       "row": "twenty-two cells the corresponding family-wise probability is 0.545",
@@ -17507,7 +17510,7 @@
       "rounded": "0.741",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:215"
+        "paper/sections/04_experiments.tex:216"
       ],
       "token": "04_experiments|s-1|rising to 0.741 when each cell is given its own dispersion ratio|0",
       "row": "rising to 0.741 when each cell is given its own dispersion ratio",
@@ -17523,7 +17526,7 @@
       "rounded": "0.393",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:217"
+        "paper/sections/04_experiments.tex:218"
       ],
       "token": "04_experiments|s-1|sharing a control arm correlate at +0.393 across seeds --- but|0",
       "row": "sharing a control arm correlate at +0.393 across seeds --- but",
@@ -17539,7 +17542,7 @@
       "rounded": "0.009",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:218"
+        "paper/sections/04_experiments.tex:219"
       ],
       "token": "04_experiments|s-1|re-simulating with that shared component moves the rate by 0.009|0",
       "row": "re-simulating with that shared component moves the rate by 0.009",
@@ -17587,7 +17590,7 @@
       "rounded": "90",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:281"
+        "paper/sections/04_experiments.tex:282"
       ],
       "token": "04_experiments|s-1|Of the 90 runs in that window (17 June--24 July 2026) all|0",
       "row": "Of the 90 runs in that window (17 June--24 July 2026) all",
@@ -17603,7 +17606,7 @@
       "rounded": "26",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:282"
+        "paper/sections/04_experiments.tex:283"
       ],
       "token": "04_experiments|s-1|manifests were written retroactively by a single script; for 26 the|0",
       "row": "manifests were written retroactively by a single script; for 26 the",
@@ -17619,7 +17622,7 @@
       "rounded": "62",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:283"
+        "paper/sections/04_experiments.tex:284"
       ],
       "token": "04_experiments|s-1|code state at launch could be verified for 62 it could not and the|0",
       "row": "code state at launch could be verified for 62 it could not and the",
@@ -17635,7 +17638,7 @@
       "rounded": "2",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:285"
+        "paper/sections/04_experiments.tex:286"
       ],
       "token": "04_experiments|s-1|(code _state _verified:false) and 2 belong to unfinished|0",
       "row": "(code _state _verified:false) and 2 belong to unfinished",
@@ -17827,7 +17830,7 @@
       "rounded": "12",
       "matches": true,
       "where": [
-        "paper/sections/04_experiments.tex:245"
+        "paper/sections/04_experiments.tex:246"
       ],
       "token": "04_experiments|s-1|18 s to 12 h. It is the ordering rather than the interval that|1",
       "row": "18 s to 12 h. It is the ordering rather than the interval that",
@@ -22126,6 +22129,418 @@
         "0.711",
         "0.74"
       ]
+    }
+  ],
+  "signs": [
+    {
+      "id": "sign.T5.stage1/adaptive_t",
+      "unit": "tab_mechanisms",
+      "row": "Adaptive temperature",
+      "idx": 0,
+      "printed": "++-",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/adaptive_t\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "++-"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:33",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.primary/adaptive_t",
+      "unit": "tab_mechanisms",
+      "row": "Adaptive temperature",
+      "idx": 1,
+      "printed": "+++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/adaptive_t\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:33",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.vae9182/adaptive_t",
+      "unit": "tab_mechanisms",
+      "row": "Adaptive temperature",
+      "idx": 2,
+      "printed": "--+",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/adaptive_t\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "--+"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:33",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.stage1/g2g_kl",
+      "unit": "tab_mechanisms",
+      "row": "G2G (class-space KL)",
+      "idx": 0,
+      "printed": "---",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/g2g_kl\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "---"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:42",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.primary/g2g_kl",
+      "unit": "tab_mechanisms",
+      "row": "G2G (class-space KL)",
+      "idx": 1,
+      "printed": "+--",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/g2g_kl\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+--"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:42",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.vae9182/g2g_kl",
+      "unit": "tab_mechanisms",
+      "row": "G2G (class-space KL)",
+      "idx": 2,
+      "printed": "-++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/g2g_kl\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "-++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:42",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.stage1/gate:mean_logvar",
+      "unit": "tab_mechanisms",
+      "row": "Gate mean logvar",
+      "idx": 0,
+      "printed": "+--",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/gate:mean_logvar\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+--"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:50",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.primary/gate:mean_logvar",
+      "unit": "tab_mechanisms",
+      "row": "Gate mean logvar",
+      "idx": 1,
+      "printed": "--+",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/gate:mean_logvar\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "--+"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:50",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.vae9182/gate:mean_logvar",
+      "unit": "tab_mechanisms",
+      "row": "Gate mean logvar",
+      "idx": 2,
+      "printed": "+--",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/gate:mean_logvar\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+--"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:50",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.stage1/gate:target_logvar",
+      "unit": "tab_mechanisms",
+      "row": "Gate target logvar",
+      "idx": 0,
+      "printed": "---",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/gate:target_logvar\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "---"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:54",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.primary/gate:target_logvar",
+      "unit": "tab_mechanisms",
+      "row": "Gate target logvar",
+      "idx": 1,
+      "printed": "+--",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/gate:target_logvar\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+--"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:54",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.stage1/gate:oracle_error",
+      "unit": "tab_mechanisms",
+      "row": "Gate oracle error",
+      "idx": 0,
+      "printed": "-++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/gate:oracle_error\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "-++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:58",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.primary/gate:oracle_error",
+      "unit": "tab_mechanisms",
+      "row": "Gate oracle error",
+      "idx": 1,
+      "printed": "-++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/gate:oracle_error\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "-++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:58",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.vae9182/gate:oracle_error",
+      "unit": "tab_mechanisms",
+      "row": "Gate oracle error",
+      "idx": 2,
+      "printed": "+++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/gate:oracle_error\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:58",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.stage1/logit_std",
+      "unit": "tab_mechanisms",
+      "row": "Logit standardisation",
+      "idx": 0,
+      "printed": "+++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/logit_std\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:62",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.primary/logit_std",
+      "unit": "tab_mechanisms",
+      "row": "Logit standardisation",
+      "idx": 1,
+      "printed": "+++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/logit_std\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:62",
+      "matches": true
+    },
+    {
+      "id": "sign.T5.vae9182/logit_std",
+      "unit": "tab_mechanisms",
+      "row": "Logit standardisation",
+      "idx": 2,
+      "printed": "+++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/logit_std\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+++"
+      ],
+      "why": "tohum basina DeltaECE isaretleri (@SWA)",
+      "where": "paper/tables/tab_mechanisms.tex:62",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.oracle_both",
+      "unit": "05_results_discussion",
+      "row": "-++ on both magnitudes below the criterion's threshold of",
+      "idx": 0,
+      "printed": "-++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/gate:oracle_error\"].swa.d_ece_signs",
+        "T5_mechanisms[\"primary/gate:oracle_error\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "-++",
+        "-++"
+      ],
+      "why": "iki asiri-guvenli ogretmende AYNI desen -- cumle 'on both' diyor, iki alan da esit olmali",
+      "where": "paper/sections/05_results_discussion.tex:418",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.g2g.primary/g2g_kl",
+      "unit": "05_results_discussion",
+      "row": "+-- and -++ against Stage1's ---). A",
+      "idx": 0,
+      "printed": "+--",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"primary/g2g_kl\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "+--"
+      ],
+      "why": "G2G'nin tekrarlanmadigi cumlesi: iki ogretmende isaretler ayrisiyor",
+      "where": "paper/sections/05_results_discussion.tex:448",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.g2g.vae9182/g2g_kl",
+      "unit": "05_results_discussion",
+      "row": "+-- and -++ against Stage1's ---). A",
+      "idx": 1,
+      "printed": "-++",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/g2g_kl\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "-++"
+      ],
+      "why": "G2G'nin tekrarlanmadigi cumlesi: iki ogretmende isaretler ayrisiyor",
+      "where": "paper/sections/05_results_discussion.tex:448",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.g2g.stage1/g2g_kl",
+      "unit": "05_results_discussion",
+      "row": "+-- and -++ against Stage1's ---). A",
+      "idx": 2,
+      "printed": "---",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/g2g_kl\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "---"
+      ],
+      "why": "G2G'nin tekrarlanmadigi cumlesi: iki ogretmende isaretler ayrisiyor",
+      "where": "paper/sections/05_results_discussion.tex:448",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.adaptive_stage1",
+      "unit": "05_results_discussion",
+      "row": "third seed completes ( -0.0011 0.0033 signs ++-). On",
+      "idx": 0,
+      "printed": "++-",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/adaptive_t\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "++-"
+      ],
+      "why": "eslesen ucuncu tohum tamamlaninca uyarlanan sicakligin isaretleri",
+      "where": "paper/sections/05_results_discussion.tex:456",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.adaptive_vae",
+      "unit": "05_results_discussion",
+      "row": "--+: here the magnitude clears the bar and the sign agreemen",
+      "idx": 0,
+      "printed": "--+",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"vae9182/adaptive_t\"].swa.d_ece_signs"
+      ],
+      "values": [
+        "--+"
+      ],
+      "why": "iyi kalibre ogretmende buyukluk esigi geciyor, isaret testi gecmiyor",
+      "where": "paper/sections/05_results_discussion.tex:463",
+      "matches": true
+    },
+    {
+      "id": "sign.s5.target_logvar_acc",
+      "unit": "05_results_discussion",
+      "row": "magnitude ( 2.51 ) but not the sign test (++-).",
+      "idx": 0,
+      "printed": "++-",
+      "artifact": "paper_tables/RESULTS_TABLES.json",
+      "paths": [
+        "T5_mechanisms[\"stage1/gate:target_logvar\"].swa.d_acc_signs"
+      ],
+      "values": [
+        "++-"
+      ],
+      "why": "hedef-logvar gecidinin DOGRULUK ekseni: tamamlayici kosul isaret testinde dusuyor",
+      "where": "paper/sections/05_results_discussion.tex:529",
+      "matches": true
     }
   ],
   "cross_checks": [

@@ -95,6 +95,16 @@ PAPER_CASES = [
     # 22 Agu 2026 (defter final2): S12 artik URETILMIS dosya (paper_tables.py) ve 68 hucresi
     # T5 alanlarina bagli. Senaryo bir hucreyi bozar (Stage1/adaptive_t d_acc +0.16 -> +0.17);
     # kapi yakalamali. Injeksiyon dizesi benzersiz: VAE9182/G2G'nin +0.16'si sd'siyle ayrisir.
+    # 22 Agu 2026 (defter final3): ISARET DESENLERI artik bagli (bkz. number_ledger.SIGNS).
+    # Iki yon de sinanir: (a) duz yazilmis bir deseni bozan degisiklik, (b) LIGATUR BICIMINDE
+    # yazilmis bir deseni bozan degisiklik -- normalizasyon `{}` dusurur ama ISARETI dusurmez,
+    # yoksa ikinci senaryo sessizce gecerdi.
+    ("tab_mechanisms isaret deseni bozuldu ([+++] -> [++-]) [duz bicim]",
+     "tables/tab_mechanisms.tex", [(r"\texttt{[+++]}", r"\texttt{[++-]}")],
+     "sign_mismatch", 1),
+    ("tab_mechanisms isaret deseni bozuldu ([--+] -> [---]) [LIGATUR bicimi]",
+     "tables/tab_mechanisms.tex", [(r"\texttt{[-{}-+]}", r"\texttt{[-{}-{}-]}")],
+     "sign_mismatch", 1),
     ("S12 hucresi bozuldu (+0.16 -> +0.17) [uretilmis tablo, T5 bagi]",
      "tables/tab_app_paired_sd.tex", [("$+0.16 \\pm 0.32$", "$+0.17 \\pm 0.32$")],
      "rounding_mismatch", 1),
@@ -228,6 +238,25 @@ def main():
         ok &= good
         rows.append((name, want, n_want, got, len(pl["unbound"]),
                      "YAKALANDI" if good else "KACIRILDI"))
+
+    # --- NORMALIZASYON REGRESYONU (22 Agu 2026, defter final3). Ligatur duzeltmesi kaynak
+    # metni degistirir, basiliyi degil: `[++-]` -> `[+{}+-]`. Defter bunu GORMEMELI. Ters yon
+    # de sinanir (mevcut ligatur bicimi duz bicime cevrilir). Olcut: taban ile BIREBIR ayni
+    # sonuc -- ne yeni ihlal, ne yeni kayitsiz. Bu senaryo bir ihlal beklemez; sabitlik bekler.
+    w = base / "case_ligature_noop"
+    if w.exists():
+        shutil.rmtree(w)
+    shutil.copytree(clean, w)
+    apply_edits(w, "tables/tab_mechanisms.tex",
+                [(r"\texttt{[++-]}", r"\texttt{[+{}+-]}")])
+    apply_edits(w, "sections/05_results_discussion.tex",
+                [(r"\texttt{-{}-+}", r"\texttt{--+}")])
+    pl, kinds = run(w)
+    same = (sorted(kinds) == sorted(k0)) and (len(pl["unbound"]) == base_unreg)
+    ok &= same
+    rows.append(("ligatur duzeltmesi capalari OYNATMAMALI (bos grup normalizasyonu)",
+                 "taban ile birebir", len(k0), len(kinds), len(pl["unbound"]),
+                 "SABIT" if same else "KAYDI"))
 
     # --- bag hatasi: sayi dogru, artefakt dogru, BAG yanlis (r=0.724 vakasi)
     saved = dict(NL.PROSE[0])

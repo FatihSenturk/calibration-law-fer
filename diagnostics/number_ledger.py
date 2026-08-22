@@ -89,6 +89,7 @@ DERIVED = []       # turetilmis nicelikler
 EXEMPT = []        # olcum-degil beyanlari
 PROSE = []         # duzyazida beyan edilen tek tek baglar
 CROSS_CHECKS = []  # ayni niceligi hesaplayan IKINCI kaynak: teyit kaydi + ayrisma kontrolu
+SIGNS = []         # isaret desenleri (`[++-]`) -- rakamsiz VERI iddialari
 
 
 def b(unit, sec, row, idx, artifact, path, rounding, ident=None):
@@ -116,6 +117,24 @@ def pv(ident, artifact, path, rounding, where, note=""):
     dogru, bag yanlissa yuvarlanmis deger o satirda GECMEZ."""
     PROSE.append({"id": ident, "artifact": artifact, "path": path, "rounding": rounding,
                   "where": where, "note": note})
+
+
+def sg(unit, sec, row, idx, artifact, paths, why, ident=None):
+    """ISARET DESENI BAGI (22 Agu 2026, defter final3).
+
+    `tab_mechanisms` her ECE hucresinin yaninda tohum basina farkin isaret dizisini basiyor
+    (`[++-]`) ve §5 duzyazisi bunlara adiyla atif veriyor. Bunlar SAYI JETONU DEGIL -- rakam
+    tasimadiklari icin sayi ayiklayici onlari HIC gormez -- ama artefaktin `d_ece_signs` /
+    `d_acc_signs` alanlarinin birebir kopyasi, yani veri iddiasi. Bu tura kadar hicbir kapi
+    onlara bakmiyordu: bir deseni bozan degisiklik (`[+++]` -> `[++-]`) tum kapilardan sessizce
+    gecerdi. Olculdu (ligatur duzeltmesi tam bu desenlere dokundu) ve acik kapatildi.
+
+    `paths` bir liste olabilir: duzyazi "sign pattern `-++` on both" derken TEK jeton IKI
+    hucre hakkinda konusur; ikisi de esit olmak zorunda, yoksa cumle yanlistir.
+    """
+    SIGNS.append({"unit": unit, "section": sec, "row": row, "idx": idx, "artifact": artifact,
+                  "paths": [paths] if isinstance(paths, str) else list(paths),
+                  "why": why, "id": ident or f"sign.{unit}.{row[:22]}.{idx}"})
 
 
 def ex(unit, sec, row, idx, klass, why, opt=False):
@@ -2985,6 +3004,60 @@ ex("05_results_discussion", -1, "are reported alongside Supplementary Table S", 
    "table_reference", "Supplementary Table S7 capraz referansi")
 
 # =============================================================================
+# N21 (22 Agu 2026, defter final3) -- ISARET DESENLERI
+# =============================================================================
+# NEDEN BU TURDA. Ligatur duzeltmesi (`[--+]` -> `[-{}-+]`) tam bu desenlere dokundu ve
+# olcum sunu gosterdi: desenler HICBIR kapinin gorus alaninda degildi. Rakam tasimadiklari
+# icin sayi ayiklayici onlari gormuyor; tablo farki kapisi artefakt-artefakt karsilastirir,
+# basili metne bakmaz. Yani `[+++]` -> `[++-]` gibi bir bozulma butun kapilardan sessizce
+# gecerdi. Oysa her desen bir VERI iddiasi: tohum basina farkin isaretleri. Artefaktta
+# zaten var (`d_ece_signs` / `d_acc_signs`), yalniz beyan edilmemisti.
+# 17'si tabloda (ECE ekseni, @SWA -- dipnotun dedigi gibi), 7'si §5 duzyazisinda.
+SIGN_ROWS = [("Adaptive temperature", ("stage1/adaptive_t", "primary/adaptive_t",
+                                       "vae9182/adaptive_t")),
+             ("G2G (class-space KL)", ("stage1/g2g_kl", "primary/g2g_kl", "vae9182/g2g_kl")),
+             ("Gate mean logvar", ("stage1/gate:mean_logvar", "primary/gate:mean_logvar",
+                                   "vae9182/gate:mean_logvar")),
+             # VAE9182'de target-logvar gecidi elenmisti: o hucre `---` basiyor, deseni yok.
+             ("Gate target logvar", ("stage1/gate:target_logvar",
+                                     "primary/gate:target_logvar")),
+             ("Gate oracle error", ("stage1/gate:oracle_error", "primary/gate:oracle_error",
+                                    "vae9182/gate:oracle_error")),
+             ("Logit standardisation", ("stage1/logit_std", "primary/logit_std",
+                                        "vae9182/logit_std"))]
+for _row, _cells in SIGN_ROWS:
+    for _i, _c in enumerate(_cells):
+        sg("tab_mechanisms", -1, _row, _i, A_RT, f'T5_mechanisms["{_c}"].swa.d_ece_signs',
+           "tohum basina DeltaECE isaretleri (@SWA)", ident=f"sign.T5.{_c}")
+
+# §5 duzyazisi ayni desenlere adiyla atif veriyor. Ucunde capa desenle BASLIYOR (satir basi);
+# kacinilamayan sinif -- normalizasyon sayesinde capa basili bicime gore sabit.
+sg("05_results_discussion", -1, "-++ on both", 0, A_RT,
+   ['T5_mechanisms["stage1/gate:oracle_error"].swa.d_ece_signs',
+    'T5_mechanisms["primary/gate:oracle_error"].swa.d_ece_signs'],
+   "iki asiri-guvenli ogretmende AYNI desen -- cumle 'on both' diyor, iki alan da esit olmali",
+   ident="sign.s5.oracle_both")
+for _i, _c in enumerate(("primary/g2g_kl", "vae9182/g2g_kl", "stage1/g2g_kl")):
+    sg("05_results_discussion", -1, "+-- and -++ against Stage1's", _i, A_RT,
+       f'T5_mechanisms["{_c}"].swa.d_ece_signs',
+       "G2G'nin tekrarlanmadigi cumlesi: iki ogretmende isaretler ayrisiyor",
+       ident=f"sign.s5.g2g.{_c}")
+sg("05_results_discussion", -1, "third seed completes", 0, A_RT,
+   'T5_mechanisms["stage1/adaptive_t"].swa.d_ece_signs',
+   "eslesen ucuncu tohum tamamlaninca uyarlanan sicakligin isaretleri",
+   ident="sign.s5.adaptive_stage1")
+sg("05_results_discussion", -1, "--+: here the magnitude", 0, A_RT,
+   'T5_mechanisms["vae9182/adaptive_t"].swa.d_ece_signs',
+   "iyi kalibre ogretmende buyukluk esigi geciyor, isaret testi gecmiyor",
+   ident="sign.s5.adaptive_vae")
+# Bu TEK desen ECE degil DOGRULUK eksenine ait ("its accuracy axis fails the complementary
+# condition"): alan `d_acc_signs`. Yanlis eksene baglamak sessiz bir yanlis bag olurdu.
+sg("05_results_discussion", -1, "magnitude ( 2.51 ) but not the sign test", 0, A_RT,
+   'T5_mechanisms["stage1/gate:target_logvar"].swa.d_acc_signs',
+   "hedef-logvar gecidinin DOGRULUK ekseni: tamamlayici kosul isaret testinde dusuyor",
+   ident="sign.s5.target_logvar_acc")
+
+# =============================================================================
 # TEYIT KAYITLARI (cross_checks) — ayni niceligi hesaplayan IKINCI kaynak
 # =============================================================================
 # NEDEN VAR (17 Agu 2026, N14 karari). T*_NLL'i iki BAGIMSIZ uygulama buluyor ve degerler
@@ -3060,6 +3133,22 @@ def resolve(store, artifact, path):
     if " - " in path:
         a, bb = path.split(" - ", 1)
         return resolve(store, artifact, a.strip()) - resolve(store, artifact, bb.strip())
+    cur = _lookup(store, artifact, path)
+    if isinstance(cur, bool) or not isinstance(cur, (int, float)):
+        raise Unresolved(f"{path}: sayi degil ({type(cur).__name__})")
+    return float(cur)
+
+
+def resolve_text(store, artifact, path):
+    """Ayni yol dilbilgisi, METIN alani icin (isaret desenleri). Sayi cozucuyle AYNI
+    yurutucuyu kullanir -- iki ayri yol ayristiricisi iki ayri davranis demek olurdu."""
+    cur = _lookup(store, artifact, path)
+    if not isinstance(cur, str):
+        raise Unresolved(f"{path}: metin degil ({type(cur).__name__})")
+    return cur
+
+
+def _lookup(store, artifact, path):
     if artifact not in store:
         p = D / artifact
         if not p.exists():
@@ -3095,9 +3184,7 @@ def resolve(store, artifact, path):
             raise Unresolved(f"{path}: {type(e).__name__} ({kind} {val})")
     if isinstance(cur, list) and len(cur) == 1:
         cur = cur[0]
-    if isinstance(cur, bool) or not isinstance(cur, (int, float)):
-        raise Unresolved(f"{path}: sayi degil ({type(cur).__name__})")
-    return float(cur)
+    return cur
 
 
 def fmt_round(value, rounding):
@@ -3184,7 +3271,7 @@ def line_numbers(paper_root, where):
 
 def build(paper_root):
     """(payload, derived_entries) -- defterin tamami. check_numbers de bunu cagirir."""
-    toks, dropped, files, secs = scan_paper(paper_root)
+    toks, dropped, files, secs, signs = scan_paper(paper_root)
     store = {}
     entries, problems = [], []
 
@@ -3408,6 +3495,48 @@ def build(paper_root):
                                  "detail": f"{ra} -> {rp}: {rv!r} != teyit {bconf!r}"})
         xentries.append(row)
 
+    # --- ISARET DESENLERI (22 Agu 2026, defter final3). Sayi muhasebesinden AYRI tutulur:
+    # jeton degiller (rakam yok), o yuzden `tokens` toplamina girmezler. Kural ayni: her desen
+    # ya bir alana bagli, ya ihlal.
+    sign_entries, sign_bound = [], set()
+    for g in SIGNS:
+        hit = match_tokens(signs, g["unit"], g["section"], g["row"], g["idx"])
+        if not hit:
+            problems.append({"kind": "sign_matched_nothing", "id": g["id"],
+                             "detail": f"{g['unit']} {g['row'][:40]!r} idx={g['idx']}"})
+            continue
+        if len(hit) > 1:
+            problems.append({"kind": "ambiguous", "id": g["id"],
+                             "detail": f"{len(hit)} isaret desenine birden eslesti"})
+            continue
+        t = hit[0]
+        if t["key"] in sign_bound:
+            problems.append({"kind": "double_bound", "id": g["id"], "detail": t["key"]})
+        sign_bound.add(t["key"])
+        vals, ok = [], True
+        for pth in g["paths"]:
+            try:
+                v = resolve_text(store, g["artifact"], pth)
+            except Unresolved as e:
+                problems.append({"kind": "unresolved_path", "id": g["id"], "detail": str(e)})
+                ok = False
+                continue
+            vals.append(v)
+            if v != t["printed"]:
+                ok = False
+                problems.append({"kind": "sign_mismatch", "id": g["id"],
+                                 "detail": f"basili {t['printed']} != {pth} {v}"})
+        sign_entries.append({"id": g["id"], "unit": g["unit"], "row": t["row"][:60],
+                             "idx": g["idx"], "printed": t["printed"],
+                             "artifact": g["artifact"], "paths": g["paths"], "values": vals,
+                             "why": g["why"], "where": f"paper/{t['file']}:{t['line']}",
+                             "matches": ok})
+    for t in signs:
+        if t["key"] not in sign_bound:
+            problems.append({"kind": "unregistered_sign", "id": t["printed"],
+                             "detail": f"{t['unit']} {t['row'][:40]!r} idx={t['idx']} · "
+                                       f"paper/{t['file']}:{t['line']}"})
+
     unbound = [t for t in toks if t["key"] not in bound_keys and t["key"] not in exempt_keys]
     payload = {
         "note": "review-responsive, not pre-declared",
@@ -3431,11 +3560,14 @@ def build(paper_root):
                    #     bound + derived_in_scope + exempt = tokens
                    "derived_in_scope": sum(1 for e in dentries if e["where"]),
                    "derived_prose_anchored": sum(1 for e in dentries if not e["where"]),
+                   "signs": len(sign_entries),
+                   "sign_tokens": len(signs),
+                   "sign_mismatch": sum(1 for e in sign_entries if not e["matches"]),
                    "cross_checks": len(xentries),
                    "cross_check_fail": sum(1 for e in xentries if not e["matches"]),
                    "problems": len(problems)},
         "entries": entries, "exempt": exempt_rows, "prose_entries": pentries,
-        "cross_checks": xentries,
+        "signs": sign_entries, "cross_checks": xentries,
         "unbound": [{"key": t["key"], "printed": t["printed"], "unit": t["unit"],
                      "row": t["row"], "idx": t["idx"],
                      "where": f"paper/{t['file']}:{t['line']}"} for t in unbound],
@@ -3513,7 +3645,9 @@ def write_md(payload, dentries):
          f"| printed-vs-field mismatch | {c['mismatch']} |",
          f"| confirmation records (second source) | {c.get('cross_checks', 0)} "
          f"({c.get('cross_check_fail', 0)} failing) |",
-         f"| layout tokens dropped by the scanner | {c['layout_dropped']} |", "",
+         f"| layout tokens dropped by the scanner | {c['layout_dropped']} |",
+         f"| sign patterns bound (non-numeric, see below) | {c.get('signs', 0)} of "
+         f"{c.get('sign_tokens', 0)} |", "",
          "## Scope (declared)", "",
          "**In:** " + ", ".join("`" + x + "`" for x in payload["scope"]["in"]) + "  ",
          "**Out:** " + " · ".join(payload["scope"]["out"]) + "  ",
@@ -3535,6 +3669,22 @@ def write_md(payload, dentries):
                      f"{e['where'][0]} |")
     else:
         L.append("None.")
+    gs = payload.get("signs") or []
+    if gs:
+        L += ["", "## Sign patterns (data claims that carry no digit)", "",
+              "`tab_mechanisms` prints the per-seed sign string next to each cell "
+              "(`[++-]`) and the discussion refers to those strings by name. They are **not "
+              "numeric tokens** — the scanner's number extractor cannot see them — but they "
+              "are copies of artifact fields, so a corrupted sign string would have passed "
+              "every gate silently. Since 22 Aug 2026 each one is bound and checked. Empty "
+              "LaTeX groups (`-{}-`, inserted to defeat an en-dash ligature in the printed "
+              "PDF) are normalised away before comparison: the printed characters, not the "
+              "source bytes, are what the claim is about.", "",
+              "| printed | field | value | where |", "|---|---|---|---|"]
+        for e in gs:
+            L.append(f"| `{e['printed']}` | `{' + '.join(e['paths'])}` | "
+                     f"{' / '.join('`' + v + '`' for v in e['values'])} | {e['where']} |")
+
     xs = payload.get("cross_checks") or []
     if xs:
         L += ["", "## Confirmation records (same quantity, second source)", "",
