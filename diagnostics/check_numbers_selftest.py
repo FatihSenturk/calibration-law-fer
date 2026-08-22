@@ -92,6 +92,12 @@ PAPER_CASES = [
     ("fig_perclass sinyal/gurultu tabani bayat (10.5 -> 10.6) [1dp_floor nuksu]",
      "figures/fig_perclass.tex", [("at least $10.5$", "at least $10.6$")],
      "derived_mismatch", 1),
+    # 22 Agu 2026 (defter final2): S12 artik URETILMIS dosya (paper_tables.py) ve 68 hucresi
+    # T5 alanlarina bagli. Senaryo bir hucreyi bozar (Stage1/adaptive_t d_acc +0.16 -> +0.17);
+    # kapi yakalamali. Injeksiyon dizesi benzersiz: VAE9182/G2G'nin +0.16'si sd'siyle ayrisir.
+    ("S12 hucresi bozuldu (+0.16 -> +0.17) [uretilmis tablo, T5 bagi]",
+     "tables/tab_app_paired_sd.tex", [("$+0.16 \\pm 0.32$", "$+0.17 \\pm 0.32$")],
+     "rounding_mismatch", 1),
     ("§5.1 en yuksek guven kutusundaki kutle bayat (89.9 -> 90.1)",
      "sections/05_results_discussion.tex", [("from $89.9\\%$", "from $90.1\\%$")],
      "rounding_mismatch", 1),

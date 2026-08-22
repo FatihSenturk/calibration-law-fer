@@ -27,7 +27,11 @@ TABLE_FILES = ["tables/tab_capacity.tex", "tables/tab_collapse.tex",
                "tables/tab_dose_response.tex", "tables/tab_efficiency.tex",
                "tables/tab_holm.tex", "tables/tab_human.tex",
                "tables/tab_mechanisms.tex", "tables/tab_pooled.tex",
-               "tables/tab_selection.tex", "tables/tab_selection_audit.tex"]
+               "tables/tab_selection.tex", "tables/tab_selection_audit.tex",
+               # 22 Agu 2026 (defter final2): S12 artik URETILMIS dosya (paper_tables.py
+               # basar, supplementary \input ile alir) -- blok olarak degil dosya olarak
+               # taranir. KEY_COLS=3: teacher/mechanism/cw etiket sutunlari.
+               "tables/tab_app_paired_sd.tex"]
 
 # S8-S11: supplementary.tex icinde YERINDE yazili dort tablo. Blok, `\label{tab:...}`'dan
 # geriye dogru `\begin{table` ve ileriye dogru `\end{table` aranarak BULUNUR -- satir araligi
@@ -70,7 +74,7 @@ ABSTRACT_FILE = "main_elsarticle.tex"
 # satir kimligi. Varsayilan 1. `app_sd`/`app_mde` ucer anahtar sutunla yaziliyor
 # (checkpoint | teacher | cw) ve bunlarin ikisi YAPISKANDIR: satir bos gecilirse ustteki gecerli.
 # Bu sayilar LaTeX'in kendi yapisindan okunamaz; tablo tasarimidir, o yuzden burada beyan edilir.
-KEY_COLS = {"app_sd": 3, "app_mde": 3, "app_predecl": 1,
+KEY_COLS = {"app_sd": 3, "app_mde": 3, "app_predecl": 1, "tab_app_paired_sd": 3,
             "tab_holm": 2, "tab_selection_audit": 2}
 DEFAULT_KEY_COLS = 1
 

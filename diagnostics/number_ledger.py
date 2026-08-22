@@ -616,11 +616,11 @@ ex("tab_collapse", -1, "= 0.5 and reverses sign by = 0.9", None, "hyperparameter
 # =============================================================================
 # 13 · abstract — manset sayilar
 # =============================================================================
-b("abstract", -1, "branch (pooled Spearman =", 0, A_TDO,
+b("abstract", -1, "= 0.79 ) --- while accuracy", 0, A_TDO,
   "pooled_stats.swa.spearman_abs_signed_gap", "2dp", ident="abstract.pooled_rho")
-b("abstract", -1, "stochastic-weight-averaging checkpoints", 0, A_SG,
+b("abstract", -1, "checkpoints: across", 0, A_SG,
   "audit_deltas.b_best_minus_last.n", "int", ident="abstract.audit_n_runs")
-b("abstract", -1, "+0.77 percentage points over the final", 0, A_SG,
+b("abstract", -1, "reported partition inflates accuracy", 0, A_SG,
   "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="abstract.selection_inflation")
 # Asimetri araligi: iki UC, ikisi de alan. Ozetin "1.8--2.0x"i, ARA DEGERLENDIRME yapilmamis
 # (extrapole edilmemis) iki karsilastirmanin min/max'i -- artefaktin kendi ozet blogu.
@@ -628,7 +628,7 @@ b("abstract", -1, "over-confidence is 1.8", 0, A_ASY,
   "summary.interpolated_only.absolute.min", "1dp", ident="abstract.asymmetry_min")
 b("abstract", -1, "over-confidence is 1.8", 1, A_ASY,
   "summary.interpolated_only.absolute.max", "1dp", ident="abstract.asymmetry_max")
-b("abstract", -1, "calibration-to-accuracy harm ratio of", 0, A_NU, "summary.median",
+b("abstract", -1, "harm is a median", 0, A_NU, "summary.median",
   "int", ident="abstract.logitstd_noise_median")
 
 
@@ -709,19 +709,19 @@ dv("selection_cost_best_caption", "0.52", "diff",
 dv("ece_reduction_min", "41", "pct_drop",
    [op(A_TDO, "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean"),
     op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean")],
-   "int", "abstract", -1, "teacher cuts student calibration error", 0,
+   "int", "abstract", -1, "calibration error 41 -- 76", 0,
    note="Stage1: T=1 -> T=1.3406 (dagitilan kol), @SWA ogrenci ECE'si")
 dv("ece_reduction_max", "76", "pct_drop",
    [op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.ece_mean"),
     op(A_TDO, "arms.ferplus.points[1].by_ckpt.swa.ece_mean")],
-   "int", "abstract", -1, "teacher cuts student calibration error", 1,
+   "int", "abstract", -1, "calibration error 41 -- 76", 1,
    note="FERPlus: T=1 -> T=0.5063 (dagitilan kol), @SWA ogrenci ECE'si")
 # Ozetin "accuracy stays within 0.51 pp"i: KOL ICI dogruluk acikligi, uc kolun EN GENISI.
 # §3.6 ayni niceligi iki RAF-DB kolu icin veriyor (0.30 ve 0.51), yani estimand adlandirilmis.
 dv("accuracy_band_widest_arm", "0.51", "diff",
    [op(A_TDO, "arms.rafdb_vae9182.points[2].by_ckpt.swa.acc_mean"),
     op(A_TDO, "arms.rafdb_vae9182.points[3].by_ckpt.swa.acc_mean")],
-   "2dp", "abstract", -1, "band stays within", 0,
+   "2dp", "abstract", -1, "= 0.79 ) --- while accuracy", 1,
    note="VAE9182 kolunun en yuksek (T=1.3406) ve en dusuk (T=1.70) @SWA dogrulugu; olculen kol "
         "aciklikleri 0.304 / 0.511 / 0.486, ozet en genisi basiyor")
 # §3.2, DUZYAZI -- kapsam disi metinden TEK TEK beyanla iceri alinan iki uc. Fatih'in 17 Agu
@@ -1077,9 +1077,9 @@ dv("methodology.abstention_mass_val", "37.3", "pct_of",
 # (2) §5 — ogrenci-tarafi TS ile ogretmen-tarafi T* kolunun JSD'si ve FARKI.
 # BASILI 0.0041, YUVARLANMIS operandlardan 0.0042 cikar. Yani makale DOGRU yapmis: fark
 # yuvarlanmamis alanlardan aliniyor. Defter de oyle hesaplar (operandlar tam duyarlikta).
-b("05_results_discussion", -1, "entirely outside the same margin", 0, A_STS,
+b("05_results_discussion", -1, "lying entirely outside the same margin", 0, A_STS,
   "aggregate.jsd.student_ts[0]", "4dp", ident="results.jsd_student_ts")
-b("05_results_discussion", -1, "entirely outside the same margin", 1, A_STS,
+b("05_results_discussion", -1, "lying entirely outside the same margin", 1, A_STS,
   "aggregate.jsd.tstar_arm[0]", "4dp", ident="results.jsd_tstar_arm")
 dv("results.jsd_gap_student_ts", "0.0041", "diff",
    [op(A_STS, "aggregate.jsd.tstar_arm[0]"), op(A_STS, "aggregate.jsd.student_ts[0]")],
@@ -1448,38 +1448,11 @@ b("04_experiments", -1, "( 8.8 MB on disk)", 0, A_EFF,
   "student.size_mb", "1dp", ident="s4.arch.student_size_mb")
 b("04_experiments", -1, "diagnostics over the audit's frozen", 0, "paper_tables/audit_population.json",
   "n_total", "int", ident="s4.audit.inclusion_n")
-b("04_experiments", -1, "( +0.645", 0, A_OST,
-  "results[\"50\"].a2_raw.mean", "3dp", ident="s4.ost.k50.mean")
-b("04_experiments", -1, "( +0.645", 1, A_OST,
-  "results[\"50\"].a2_raw.sd", "3dp", ident="s4.ost.k50.sd")
-b("04_experiments", -1, "+0.764", 0, A_OST,
-  "results[\"100\"].a2_raw.mean", "3dp", ident="s4.ost.k100.mean")
-b("04_experiments", -1, "+0.764", 1, A_OST,
-  "results[\"100\"].a2_raw.sd", "3dp", ident="s4.ost.k100.sd")
-b("04_experiments", -1, "+0.77", 0, A_SG,
-  "audit_deltas.b_best_minus_last.d_acc.mean", "2dp", ident="s4.audit.best_last_acc_mean")
-b("04_experiments", -1, "+0.77", 1, A_SG,
-  "audit_deltas.b_best_minus_last.d_acc.sd", "2dp", ident="s4.audit.best_last_acc_sd")
-b("04_experiments", -1, "-0.0029", 0, A_SG,
-  "audit_deltas.b_best_minus_last.d_ece.mean", "4dp", ident="s4.audit.best_last_ece_mean")
-b("04_experiments", -1, "-0.0029", 1, A_SG,
-  "audit_deltas.b_best_minus_last.d_ece.sd", "4dp", ident="s4.audit.best_last_ece_sd")
-b("04_experiments", -1, "+0.13", 0, A_SG,
-  "audit_deltas.c_best_minus_swa.d_acc.mean", "2dp", ident="s4.audit.best_swa_acc_mean")
-b("04_experiments", -1, "+0.13", 1, A_SG,
-  "audit_deltas.c_best_minus_swa.d_acc.sd", "2dp", ident="s4.audit.best_swa_acc_sd")
-b("04_experiments", -1, "+0.50", 0, A_SAI,
-  "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.mean", "2dp", ident="s4.audit.ferplus_best_last_mean")
-b("04_experiments", -1, "+0.50", 1, A_SAI,
-  "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.sd", "2dp", ident="s4.audit.ferplus_best_last_sd")
-b("04_experiments", -1, "grew from 116", 0, "selection_audit/selection_optimism_headline.json",
-  "stability_across_inclusion_sets.series[0].n", "int", ident="s4.audit.growth_n116")
-b("04_experiments", -1, "grew from 116", 1, "selection_audit/selection_optimism_headline.json",
-  "stability_across_inclusion_sets.series[1].n", "int", ident="s4.audit.growth_n125")
-b("04_experiments", -1, "grew from 116", 2, "selection_audit/selection_optimism_headline.json",
-  "stability_across_inclusion_sets.series[2].n", "int", ident="s4.audit.growth_n131")
-b("04_experiments", -1, "best--last gap moved by less than", 0, "selection_audit/selection_optimism_headline.json",
-  "stability_across_inclusion_sets.span_pp", "2dp", ident="s4.audit.growth_span_pp")
+# 22 Agu 2026 (defter final2): SS4.4'un secim-siskinligi pasaji makaleden CIKTI (C koprusu);
+# sayilarin kalan kopyalari SS5.9 + tab_selection_audit + ozet. Dusen 16 bag: ost.k50/k100
+# mean/sd, audit best-last acc/ece, best-swa, ferplus best-last, growth 116/125/131/span.
+# 116/125/131/0.02 SS5.9'da YENIDEN baglandi (asagida, N20 blogu); digerleri zaten SS5 /
+# tablo kopyalarinda bagliydi. Kayit: bu turun raporu + commit gecmisi.
 b("04_experiments", -1, "3 % -- 19 %", 0, A_CSM,
   "mde_ece_swa_pct_min", "int", ident="s4.crit.mde_pct_min")
 b("04_experiments", -1, "3 % -- 19 %", 1, A_CSM,
@@ -1498,14 +1471,8 @@ b("04_experiments", -1, "retaining 97.96", 0, A_EFF,
   "headline.retention_pct_swa", "2dp", ident="s4.eff.retention_swa")
 b("04_experiments", -1, "we report as primary ( 98.32", 0, A_EFF,
   "headline.retention_pct_best", "2dp", ident="s4.eff.retention_best")
-b("04_experiments", -1, "1.93 (GPU", 0, A_LAT,
-  "speedups[device=cuda][batch=1][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_gpu_b1")
-b("04_experiments", -1, "1.93 (GPU", 2, A_LAT,
-  "speedups[device=cuda][batch=32][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_gpu_b32")
-b("04_experiments", -1, "4.01 (CPU", 0, A_LAT,
-  "speedups[device=cpu][batch=1][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_cpu_b1")
-b("04_experiments", -1, "4.01 (CPU", 2, A_LAT,
-  "speedups[device=cpu][batch=32][dtype=fp32].speedup", "2dp", ident="s4.lat.ratio_cpu_b32")
+# 22 Agu (defter final2): fp32 hizlanma sonuclari SS4'ten cikti; tek kopya artik SS5.9'da
+# ve orada bagli (res.speedup_*). Dort SS4 bagi dustu.
 EX_04 = [
     ("FERPlus relabels FER2013", 0, "dataset_name_digits",
      "FER2013 veri kumesi adindaki yil basamaklari; olcum degil (YENI SINIF onerisi)"),
@@ -1624,10 +1591,7 @@ EX_04 = [
      "SWA penceresi FERPlus 100--200 (alt uc)"),
     ("(RAF-DB: epochs 200--400", 3, "hyperparameter",
      "SWA penceresi FERPlus 100--200 (ust uc)"),
-    ("( +0.645", 2, "criterion_constant",
-     "sira-istatistigi tahmincisinin pencere boyu K=50; tanim sabiti, olcum degil"),
-    ("+0.764", 2, "criterion_constant",
-     "sira-istatistigi tahmincisinin pencere boyu K=100; tanim sabiti"),
+    # 22 Agu: K50/K100 pencere sabitleri SS4'ten cikti (SS5.9 kopyalari zaten muaf).
     ("applied to the six selected contrasts", 0, "table_reference",
      "Supplementary Table S4 capraz referansi"),
     ("natural ( T = 1 )", 0, "hyperparameter",
@@ -1681,34 +1645,13 @@ EX_04 = [
      "giris cozunurlugu 224x224"),
     ("0.329 GMACs at 224", 2, "architecture_dim",
      "giris cozunurlugu 224x224"),
-    ("Inference latency is measured on GPU", 0, "benchmark_protocol",
-     "GPU isinma yinelemesi sayisi 50; olcum protokolu (latency_benchmark.json'da warmup=50 alani da bunu tasiyor ama nicelik bir protokol secimi)"),
-    ("followed by 200 timed iterations", 0, "benchmark_protocol",
-     "GPU zamanlanmis yineleme sayisi 200; olcum protokolu"),
-    ("followed by 200 timed iterations", 1, "dtype_name",
-     "fp32 veri tipi adi"),
-    ("followed by 200 timed iterations", 2, "dtype_name",
-     "fp16 veri tipi adi"),
-    ("torch.cuda.synchronize()) and on CPU", 0, "benchmark_protocol",
-     "CPU isinma yinelemesi sayisi 5"),
-    ("20 timed iterations (fp32 only)", 0, "benchmark_protocol",
-     "CPU zamanlanmis yineleme sayisi 20"),
-    ("20 timed iterations (fp32 only)", 1, "dtype_name",
-     "fp32 veri tipi adi"),
-    ("batch sizes 1 32 on both devices", 0, "hyperparameter",
-     "olcum yigin boyutu b=1 (tab_efficiency ayni sayilari 'hyperparameter' sayiyor)"),
-    ("batch sizes 1 32 on both devices", 1, "hyperparameter",
-     "olcum yigin boyutu b=32"),
-    ("runtime overhead. Observed fp32", 0, "dtype_name",
-     "fp32 veri tipi adi"),
-    ("1.93 (GPU", 1, "hyperparameter",
-     "yigin boyutu b=1"),
-    ("1.93 (GPU", 3, "hyperparameter",
-     "yigin boyutu b=32"),
-    ("4.01 (CPU", 1, "hyperparameter",
-     "yigin boyutu b=1"),
-    ("4.01 (CPU", 3, "hyperparameter",
-     "yigin boyutu b=32"),
+    # 22 Agu (defter final2): gecikme protokolu + fp32 sonuc cumleleri SS4'ten cikti;
+    # protokol artik supplementary'de (unit "tables", asagida ex() cagrilari) ve
+    # tab_efficiency altyazisinda. SS4'te kalan iki kalinti asagida.
+    ("in the Supplementary alongside Table S", 0, "table_reference",
+     "Supplementary Table S7 capraz referansi"),
+    ("reported as speedup factors and the observed", 0, "dtype_name",
+     "fp32 veri tipi adinin icindeki basamak"),
 ]
 for _row, _idx, _cls, _why in EX_04:
     ex("04_experiments", -1, _row, _idx, _cls, _why)
@@ -1812,7 +1755,7 @@ b("05_results_discussion", -1, "close (", 0, "paper_tables/perclass_crossing.jso
   "rows[cls=Sadness].gap_native", "3dp", ident="res.gap_sadness_native")
 b("05_results_discussion", -1, "close (", 1, "paper_tables/perclass_crossing.json",
   "rows[cls=Surprise].gap_native", "3dp", ident="res.gap_surprise_native")
-b("05_results_discussion", -1, "error because", 0, "paper_tables/perclass_crossing.json",
+b("05_results_discussion", -1, "because it needs no binning", 0, "paper_tables/perclass_crossing.json",
   "rows[cls=Fear].n", "int", ident="res.n_fear_2")
 b("05_results_discussion", -1, "corpus: of its", 0, "paper_tables/audit_population.json",
   "n_total", "int", ident="res.audit_n_total")
@@ -1828,9 +1771,9 @@ b("05_results_discussion", -1, "pp positive in", 0, "selection_audit/selection_d
   "d_acc_pp.n_positive", "int", ident="res.selection_n_positive")
 b("05_results_discussion", -1, "pp positive in", 1, "selection_audit/selection_distribution.json",
   "d_acc_pp.n", "int", ident="res.selection_n_runs")
-b("05_results_discussion", -1, "contrast on FERPlus", 0, A_SAI,
+b("05_results_discussion", -1, "the same contrast on FERPlus gives", 0, A_SAI,
   "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.mean", "2dp", ident="res.ferplus_selection_inflation")
-b("05_results_discussion", -1, "contrast on FERPlus", 1, A_SAI,
+b("05_results_discussion", -1, "the same contrast on FERPlus gives", 1, A_SAI,
   "datasets[\"FERPlus\"].contrasts[\"best-last\"].acc_pp.sd", "2dp", ident="res.ferplus_selection_inflation_sd")
 b("05_results_discussion", -1, "yields +0.645", 0, A_SG,
   "per_k[\"50\"].a2_pure_order_statistic.mean", "3dp", ident="res.orderstat_k50")
@@ -1852,9 +1795,9 @@ b("05_results_discussion", -1, "+0.640 0.218", 3, A_OST,
   "results[\"100\"].a2_detrended.sd", "3dp", ident="res.orderstat_k100_detr_sd")
 b("05_results_discussion", -1, "the last 100", 1, A_OST,
   "results[\"100\"].window_drift_pp.mean", "3dp", ident="res.window_drift_k100")
-b("05_results_discussion", -1, "uncertainty of the mean. On RAF-DB", 0, A_SAI,
+b("05_results_discussion", -1, "On RAF-DB the ECE contrast is", 0, A_SAI,
   "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.mean", "4dp", ident="res.rafdb_ece_contrast")
-b("05_results_discussion", -1, "uncertainty of the mean. On RAF-DB", 1, A_SAI,
+b("05_results_discussion", -1, "On RAF-DB the ECE contrast is", 1, A_SAI,
   "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.sd", "4dp", ident="res.rafdb_ece_contrast_sd")
 b("05_results_discussion", -1, "n = 131 SE 0.0008", 0, A_SAI,
   "datasets[\"RAF-DB\"].contrasts[\"best-last\"].ece.n", "int", ident="res.rafdb_ece_contrast_n")
@@ -1917,27 +1860,27 @@ b("05_results_discussion", -1, "The student carries", 0, A_EFF,
   "student.params_m", "3dp", ident="res.student_params")
 b("05_results_discussion", -1, "The student carries", 1, A_EFF,
   "student.flops_g", "3dp", ident="res.student_flops")
-b("05_results_discussion", -1, "teacher's 58.334", 0, A_EFF,
+b("05_results_discussion", -1, "its teacher's", 0, A_EFF,
   "teacher.params_m", "3dp", ident="res.teacher_params")
-b("05_results_discussion", -1, "teacher's 58.334", 1, A_EFF,
+b("05_results_discussion", -1, "its teacher's", 1, A_EFF,
   "teacher.flops_g", "3dp", ident="res.teacher_flops")
-b("05_results_discussion", -1, "teacher's 58.334", 2, A_EFF,
+b("05_results_discussion", -1, "its teacher's", 2, A_EFF,
   "compression.params_ratio", "1dp", ident="res.params_ratio")
 b("05_results_discussion", -1, "25.8 smaller", 0, A_EFF,
   "compression.flops_ratio", "1dp", ident="res.flops_ratio")
 b("05_results_discussion", -1, "25.8 smaller", 1, A_EFF,
   "compression.size_ratio", "1dp", ident="res.size_ratio")
-b("05_results_discussion", -1, "97.96 % of the", 0, A_EFF,
+b("05_results_discussion", -1, "97.96 % of that", 0, A_EFF,
   "by_checkpoint.swa.retention_pct", "2dp", ident="res.retention_swa")
-b("05_results_discussion", -1, "( 98.32 % at", 0, A_EFF,
+b("05_results_discussion", -1, "97.96 % of that", 1, A_EFF,
   "by_checkpoint.best.retention_pct", "2dp", ident="res.retention_best")
-b("05_results_discussion", -1, "smaller than", 0, A_LAT,
+b("05_results_discussion", -1, "compute ratio ---", 0, A_LAT,
   "speedups[device=cuda][batch=1][dtype=fp32].speedup", "2dp", ident="res.speedup_gpu_b1")
-b("05_results_discussion", -1, "3.91 at batch", 0, A_LAT,
+b("05_results_discussion", -1, "compute ratio ---", 2, A_LAT,
   "speedups[device=cuda][batch=32][dtype=fp32].speedup", "2dp", ident="res.speedup_gpu_b32")
-b("05_results_discussion", -1, "3.91 at batch", 2, A_LAT,
+b("05_results_discussion", -1, "batch 32 on the GPU", 1, A_LAT,
   "speedups[device=cpu][batch=1][dtype=fp32].speedup", "2dp", ident="res.speedup_cpu_b1")
-b("05_results_discussion", -1, "3.91 at batch", 3, A_LAT,
+b("05_results_discussion", -1, "batch 32 on the GPU", 2, A_LAT,
   "speedups[device=cpu][batch=32][dtype=fp32].speedup", "2dp", ident="res.speedup_cpu_b32")
 b("05_results_discussion", -1, "minimum at t^ * = 1.34", 0, A_TSP,
   "half_fold_fits.stage1", "2dp", ident="s5.tstar_stage1")
@@ -2328,19 +2271,19 @@ dv("res.rafdb_ece_effect_pct", "4", "pct_drop",
 dv("res.fp16_b1_ratio_lo", "1.20", "ratio",
    [op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp16].median_ms"),
     op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp32].median_ms")],
-   "2dp", "05_results_discussion", -1, "sessions ( 1.20", 0)
+   "2dp", "tables", -1, "independent measurement sessions (", 0)
 dv("res.fp16_b1_ratio_hi", "1.34", "ratio",
    [op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp16].median_ms"),
     op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=1][dtype=fp32].median_ms")],
-   "2dp", "05_results_discussion", -1, "sessions ( 1.20", 1)
+   "2dp", "tables", -1, "independent measurement sessions (", 1)
 dv("res.fp16_b32_ratio_lo", "0.63", "ratio",
    [op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp16].median_ms"),
     op(A_LAT, "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp32].median_ms")],
-   "2dp", "05_results_discussion", -1, "behaved as expected", 0)
+   "2dp", "tables", -1, "( 0.63 --", 0)
 dv("res.fp16_b32_ratio_hi", "0.69", "ratio",
    [op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp16].median_ms"),
     op("p5_efficiency/latency_benchmark_session2.json", "measurements[device=cuda][model=teacher_POSTERv2_VAE][batch=32][dtype=fp32].median_ms")],
-   "2dp", "05_results_discussion", -1, "behaved as expected", 1)
+   "2dp", "tables", -1, "( 0.63 --", 1)
 dv("s5.ece_reduction_rafdb", "41", "pct_drop",
    [op(A_TDO, "arms.rafdb_stage1.points[1].by_ckpt.swa.ece_mean"),
     op(A_TDO, "arms.rafdb_stage1.points[2].by_ckpt.swa.ece_mean")],
@@ -2380,7 +2323,7 @@ dv("s5.collapse_ratio_1020", "13.5", "ratio",
 dv("s5.acc_band_ferplus", "0.49", "diff",
    [op(A_TDO, "arms.ferplus.points[0].by_ckpt.swa.acc_mean"),
     op(A_TDO, "arms.ferplus.points[3].by_ckpt.swa.acc_mean")],
-   "2dp", "05_results_discussion", -1, "t across a 0.49 pp band", 0)
+   "2dp", "05_results_discussion", -1, "not flat: it decreases monotonically", 0)
 dv("s5.capacity_acc_span", "+1.94", "diff",
    [op(A_RT, "T10_capacity_cells.swa[\"scratch w100ns\"].acc_mean"),
     op(A_RT, "T10_capacity_cells.swa[\"scratch w050\"].acc_mean")],
@@ -2457,20 +2400,16 @@ EX_05 = [
      "serbestlik derecesi df = 117"),
     ("+0.0069 (SD 0.0088", 4, "sample_size",
      "serbestlik derecesi df = 11"),
-    ("Table S7) ---", 0, "table_reference",
+    ("Table S7). Measured", 0, "table_reference",
      "Supplementary Table S7 atfi"),
-    ("( 98.32 % at", 1, "teacher_name_digits",
+    ("at the accuracy-selected one; the teacher is", 0, "teacher_name_digits",
      "'VAE9182' ogretmen adinin icindeki basamak"),
-    ("smaller than", 1, "benchmark_protocol",
+    ("compute ratio ---", 1, "benchmark_protocol",
      "olcum protokolu: batch 1"),
-    ("3.91 at batch", 1, "benchmark_protocol",
+    ("batch 32 on the GPU", 0, "benchmark_protocol",
      "olcum protokolu: batch 32"),
-    ("Contradicting a common recommendation", 0, "benchmark_protocol",
-     "olcum protokolu: batch 1"),
-    ("sessions ( 1.20", 2, "dtype_name",
-     "'fp32' veri tipi adinin icindeki basamak (tab_efficiency'de ayni sekilde muaf)"),
-    ("sessions ( 1.20", 3, "benchmark_protocol",
-     "olcum protokolu: batch 32"),
+    # 22 Agu: yarim-hassasiyet pasaji supplementary'ye tasindi ("tables" birimi).
+    # 22 Agu: fp16 pasaji supplementary'ye tasindi; muafiyetleri "tables" biriminde.
     ("the VAE9182 one-seed-to-three", 0, "teacher_name_digits",
      "'VAE9182' adinin icindeki basamak"),
     ("are not among", 0, "teacher_name_digits",
@@ -2485,11 +2424,11 @@ EX_05 = [
      "izgara sicakligi T=2.2"),
     # 21 Agu (jeton final): "in 20 of 21 cells" cumlesi §5'ten CIKTI ("by seed majority
     # ... under all seven estimators" olarak yeniden yazildi); §3'teki 20/21 baglari duruyor.
-    ("metrics --- nll brier equal-width ece at", 0, "benchmark_protocol",
+    ("seven metrics --- NLL Brier equal-width ECE", 0, "benchmark_protocol",
      "kutu sayisi 10 -- olcum protokolu (S2 duzyazisindaki ayni muafiyetin esi)"),
-    ("metrics --- nll brier equal-width ece at", 1, "benchmark_protocol",
+    ("seven metrics --- NLL Brier equal-width ECE", 1, "benchmark_protocol",
      "kutu sayisi 15 -- olcum protokolu"),
-    ("metrics --- nll brier equal-width ece at", 2, "benchmark_protocol",
+    ("seven metrics --- NLL Brier equal-width ECE", 2, "benchmark_protocol",
      "kutu sayisi 25 -- olcum protokolu"),
     ("same temperature in 20 of 21", 1, "sample_size",
      "3 seri x 7 kestirici = 21 hucre; tasarim sayimi"),
@@ -2501,8 +2440,8 @@ EX_05 = [
      "Supplementary Table S1 atfi"),
     ("in all three seeds) is reported in supplementary", 0, "table_reference",
      "Supplementary Section S2 atfi"),
-    ("the pre-declared control (frozen 20", 0, "preregistration_provenance",
-     "on-beyan dondurma suresi (20 s); saglamasi PREREGISTRATIONS.md + git zaman damgasi"),
+    # 22 Agu: kill-switch lead'i artik HARFLE ("frozen eight hours before launch") --
+    # jeton yok; deger prereg_lead_audit.items.A2 ile tutarli (8.72 sa, floor 8).
     ("predicted a flat-to-shallow response", 0, "hyperparameter",
      "on-beyanin merkezi T=1"),
     ("and no deep interior dip with t = 1.34", 0, "hyperparameter",
@@ -2542,7 +2481,7 @@ EX_05 = [
      "kol sicakligi T=0.95"),
     ("t = 1 ) which is exactly the shape", 0, "hyperparameter",
      "olceklenmemis kol T=1"),
-    ("clears the native -0.0034 in both", 0, "criterion_constant",
+    ("clears -0.0034 --- the mechanism's own", 0, "criterion_constant",
      "kill-switch'in on-beyanli esigi; artefaktta ELLE YAZILMIS sabit (adaptive_t_headroom.block_b_miscalibration_causal.prereg_bar = -0.0034) -- BEYAN, olc"),
     ("worst arm --- were frozen 19", 0, "preregistration_provenance",
      "on-beyan dondurma suresi (19 s)"),
@@ -2597,13 +2536,13 @@ EX_05 = [
      "bootstrap araliginin disladigi NULL deger 1"),
     ("teacher both comparisons' intervals straddle", 0, "null_value",
      "araliklarin kapsadigi NULL deger 1"),
-    ("(supplementary table s5 and figure s1)", 0, "table_reference",
+    ("Table S5 and Figure S1) moves", 0, "table_reference",
      "Supplementary Table S5 atfi"),
-    ("(supplementary table s5 and figure s1)", 1, "table_reference",
+    ("Table S5 and Figure S1) moves", 1, "table_reference",
      "Supplementary Figure S1 atfi"),
-    ("( 0.71 2.25 m all trained from scratch)", 0, "architecture_dim",
+    ("( 0.71 2.25 M all trained from scratch; Supp", 0, "architecture_dim",
      "ogrenci parametre sayisi 0.71 M -- mimari boyutu"),
-    ("( 0.71 2.25 m all trained from scratch)", 1, "architecture_dim",
+    ("( 0.71 2.25 M all trained from scratch; Supp", 1, "architecture_dim",
      "ogrenci parametre sayisi 2.25 M -- mimari boyutu"),
     ("the same three temperatures on three arms", 0, "architecture_dim",
      "ogrenci parametre sayisi 0.71 M"),
@@ -2695,7 +2634,7 @@ for _row, _idx in INTRO_ENUM:
        "katki listesinin madde numarasi -- gonderge, olcum degil")
 ex("01_introduction", -1, "cheaply. Such distributions are not unique", 0,
    "dataset_name_digits", "'CIFAR-10H' veri kumesi adinin icindeki basamak")
-ex("abstract", -1, "its calibration while leaving top-1", 0, "metric_name_digits",
+ex("abstract", -1, "calibration while leaving top", 0, "metric_name_digits",
    "'top-1' metrik adinin icindeki basamak -- olcum degil")
 b("02_related_work", -1, "sits in this regime", 0,
   "p5_efficiency/capacity_law_check.json", "capacity_cells_at_T1.w100ns.params_m", "2dp",
@@ -2887,11 +2826,11 @@ b("05_results_discussion", -1, "4.3 10^ -7 on RAF-DB", 2, A_SAI,
 #     ham 28559/3579/3573 -> cogunluk-oyu suzgeci -> 25060/3199/3153 -> egitim 28259 (fold0+1)
 #     + raporlama 3153. CAPA KURALI notu: satir sayilarla BASLIYOR, capa onlari icermek
 #     zorunda (p-degeri mantisi sinifi); oz sinamada beklenti bu yuzden `unregistered` olur.
-b("04_experiments", -1, "28559/3579/3573 train/validation/test rows", 0, A_SPL,
+b("04_experiments", -1, "measures", 0, A_SPL,
   'datasets["FERPlus"].unfiltered_by_fold["0"]', "int", ident="s4.ferplus_raw_fold0")
-b("04_experiments", -1, "28559/3579/3573 train/validation/test rows", 1, A_SPL,
+b("04_experiments", -1, "measures", 1, A_SPL,
   'datasets["FERPlus"].unfiltered_by_fold["1"]', "int", ident="s4.ferplus_raw_fold1")
-b("04_experiments", -1, "28559/3579/3573 train/validation/test rows", 2, A_SPL,
+b("04_experiments", -1, "measures", 2, A_SPL,
   'datasets["FERPlus"].unfiltered_by_fold["2"]', "int", ident="s4.ferplus_raw_fold2")
 
 # (2) SS4.6: on-beyan lead araliginin iki ucu. Alt uc TURETILMIS: alti lead'in MINIMUMU
@@ -2930,6 +2869,120 @@ dv("figp.snr_floor", "10.5", "min",
    "1dp_floor", "fig_perclass", -1, "deviation) is at least", 0,
    note="yedi sinifin en kucuk (araligin tohum sd'sine orani) = Disgust 10.5557; alt sinir "
         "iddiasi oldugu icin ASAGI yuvarlanir")
+
+# =============================================================================
+# N20 (22 Agu 2026, defter final2) -- uc dalga + S12'nin ureticiye baglanmasi
+# =============================================================================
+# (1) SS5.9: SS4.4'ten tasinan denetim buyume sayilari. Satir sayilarla basliyor ->
+#     "125 to the frozen" capasi sayi icermek zorunda (kacinilamayan sinif).
+b("05_results_discussion", -1, "insensitive to the inclusion set", 0,
+  "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.series[0].n", "int", ident="s5.audit.growth_n116")
+b("05_results_discussion", -1, "125 to the frozen", 0,
+  "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.series[1].n", "int", ident="s5.audit.growth_n125")
+b("05_results_discussion", -1, "125 to the frozen", 1,
+  "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.series[2].n", "int", ident="s5.audit.growth_n131")
+b("05_results_discussion", -1, "125 to the frozen", 2,
+  "selection_audit/selection_optimism_headline.json",
+  "stability_across_inclusion_sets.span_pp", "2dp", ident="s5.audit.growth_span_pp")
+
+# (2) SS3 giris: iki ad-basamagi yeni cumlelerde.
+ex("03_methodology", -1, "stated where they appear", 0, "teacher_name_digits",
+   "Stage1 adinin icindeki basamak")
+ex("03_methodology", -1, "Primary and VAE", 0, "teacher_name_digits",
+   "VAE9182 adinin icindeki basamak")
+
+# (3) SS5'te yeni/tasinan tekil muafiyetler.
+ex("05_results_discussion", -1, "term =", 0, "hyperparameter",
+   "sert etiket agirligi alpha=0.3 (sabit-nokta cumlesi)")
+ex("05_results_discussion", -1, "0.0004 ). The T =", 1, "hyperparameter",
+   "insan-hizali kol etiketi T=0.74 (capa ayni satirdaki bagli 0.0004'u icermek zorunda)")
+
+# (4) "tables" birimi (supplementary app:tables duzyazisi): gecikme protokolu + fp16.
+#     SS4/SS5'ten tasinan metnin muafiyetleri; fp16 turetmeleri de bu birime tasindi.
+ex("tables", -1, "Inference latency is measured on GPU", 0, "benchmark_protocol",
+   "GPU isinma yinelemesi sayisi 50; olcum protokolu")
+ex("tables", -1, "followed by", 0, "benchmark_protocol",
+   "GPU zamanlanmis yineleme sayisi 200")
+ex("tables", -1, "followed by", 1, "dtype_name", "fp32 veri tipi adi")
+ex("tables", -1, "followed by", 2, "dtype_name", "fp16 veri tipi adi")
+ex("tables", -1, "torch.cuda.synchronize()) and on CPU", 0, "benchmark_protocol",
+   "CPU isinma yinelemesi sayisi 5")
+ex("tables", -1, "20 timed iterations", 0, "benchmark_protocol",
+   "CPU zamanlanmis yineleme sayisi 20 (capa satir basindaki sayiyi icerir)")
+ex("tables", -1, "20 timed iterations", 1, "dtype_name", "fp32 veri tipi adi")
+ex("tables", -1, "batch sizes", 0, "hyperparameter", "olcum yigin boyutu b=1")
+ex("tables", -1, "batch sizes", 1, "hyperparameter", "olcum yigin boyutu b=32")
+ex("tables", -1, "Half precision at batch", 0, "hyperparameter",
+   "paragraf basligindaki yigin boyutu b=1")
+ex("tables", -1, "Contradicting a common recommendation", 0, "benchmark_protocol",
+   "olcum protokolu: batch 1")
+ex("tables", -1, "independent measurement sessions (", 2, "dtype_name",
+   "fp32 veri tipi adinin icindeki basamak")
+ex("tables", -1, "latency) while at batch", 0, "hyperparameter",
+   "olcum yigin boyutu b=32")
+
+# (5) tab_collapse kurucu degerleri: tau=3 ve tau=12 makalede ILK KEZ basiliyor; dordu de
+#     tau_t_factorial'in KENDI kayitlarina bagli (T11'in esli karsilastirma kollari).
+for _r, _arms in (("( = 3 T = 1.70", ("tau3_T1.70", "tau6_T0.85")),
+                  ("( = 6 T = 1.70", ("tau6_T1.70", "tau12_T0.85"))):
+    for _j, _a in enumerate(_arms):
+        b("tab_collapse", 0, _r, 2 * _j, "paper_tables/tau_t_factorial.json",
+          f'arms["{_a}"].tau', "int", ident=f"tab_collapse.pair.{_a}.tau")
+        b("tab_collapse", 0, _r, 2 * _j + 1, "paper_tables/tau_t_factorial.json",
+          f'arms["{_a}"].T', "2dp", ident=f"tab_collapse.pair.{_a}.T")
+
+# (6) tab_mechanisms dipnotu artik S12'ye de atif veriyor (idx16 = 'S12'nin 12'si).
+ex("tab_mechanisms", 0, "§header", 16, "table_reference",
+   "Supplementary Table S12 capraz referansi")
+
+# (7) S12 -- tab_app_paired_sd (URETILMIS dosya): 17 satir x 4 deger, hepsi T5'in
+#     MEVCUT alanlarina bagli (tab_mechanisms ile ayni hucreler + sd'leri). Uretici
+#     paper_tables.py'nin kendisi; elle blok 22 Agu'da \input ile degisti ve takas
+#     oncesi 68 hucre elle blokla karsilastirildi: 68/68 birebir.
+S12_ROWS = [("Stage1", "stage1", [("adaptive temperature", "adaptive_t"),
+                                  ("G2G", "g2g_kl"),
+                                  ("gate: mean logvar", "gate:mean_logvar"),
+                                  ("gate: target logvar", "gate:target_logvar"),
+                                  ("gate: oracle error", "gate:oracle_error"),
+                                  ("logit standardisation", "logit_std")]),
+            ("Primary", "primary", [("adaptive temperature", "adaptive_t"),
+                                    ("G2G", "g2g_kl"),
+                                    ("gate: mean logvar", "gate:mean_logvar"),
+                                    ("gate: target logvar", "gate:target_logvar"),
+                                    ("gate: oracle error", "gate:oracle_error"),
+                                    ("logit standardisation", "logit_std")]),
+            ("VAE9182", "vae9182", [("adaptive temperature", "adaptive_t"),
+                                    ("G2G", "g2g_kl"),
+                                    ("gate: mean logvar", "gate:mean_logvar"),
+                                    ("gate: oracle error", "gate:oracle_error"),
+                                    ("logit standardisation", "logit_std")])]
+for _T, _t, _mechs in S12_ROWS:
+    for _name, _mech in _mechs:
+        _row = f"{_T} {_name}"
+        _cell = f'T5_mechanisms["{_t}/{_mech}"].swa'
+        b("tab_app_paired_sd", -1, _row, 0, A_RT, f"{_cell}.d_acc_mean", "2dp",
+          ident=f"tab_paired.{_t}.{_mech}.d_acc_mean")
+        b("tab_app_paired_sd", -1, _row, 1, A_RT, f"{_cell}.d_acc_sd", "2dp",
+          ident=f"tab_paired.{_t}.{_mech}.d_acc_sd")
+        b("tab_app_paired_sd", -1, _row, 2, A_RT, f"{_cell}.d_ece_mean", "4dp",
+          ident=f"tab_paired.{_t}.{_mech}.d_ece_mean")
+        b("tab_app_paired_sd", -1, _row, 3, A_RT, f"{_cell}.d_ece_sd", "4dp",
+          ident=f"tab_paired.{_t}.{_mech}.d_ece_sd")
+ex("tab_app_paired_sd", -1, "paired-difference seed standard deviations", 0, "sample_size",
+   "n=3 tohum sayisi (altyazi)")
+
+# (8) SS5 giris: kontrolun on-beyani artik SS5'te de anilir ("frozen 20 s before") -- ve
+#     bu bir MUAFIYET degil BAG: A1'in lead'i prereg_lead_audit'te alan (int_floor; saniye
+#     tamsayi-kesin, floor==deger). Ayni cumle sinifindan iki kalinti muafiyet asagida.
+b("05_results_discussion", -1, "The control's pre-declaration (frozen", 0, A_PL,
+  "items.A1.lead_seconds", "int_floor", ident="s5.control_prereg_lead_s")
+ex("05_results_discussion", -1, "measurement protocol and a reproduced batch", 0,
+   "benchmark_protocol", "olcum protokolu: batch-1 ('-1' jetonu ad ekinden)")
+ex("05_results_discussion", -1, "are reported alongside Supplementary Table S", 0,
+   "table_reference", "Supplementary Table S7 capraz referansi")
 
 # =============================================================================
 # TEYIT KAYITLARI (cross_checks) — ayni niceligi hesaplayan IKINCI kaynak

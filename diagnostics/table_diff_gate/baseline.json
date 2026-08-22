@@ -1,6 +1,6 @@
 {
-  "accepted_at": "2026-08-21T15:47:48",
-  "reason": "N19d (21 Agu, jeton final): 8 APPEARED = yeni uretici prereg_lead_audit'in hucreleri -- S11 Lead sutununun alti ham lead'i (saniye) + iki saglama sayaci. Kaynak donmus PREREGISTRATIONS.md kaydi; makale tarafi int_floor ile baglanir (A8 12.9539 sa -> 12; eski basili 13 yari-yukariydi, F4 bulgusu). 0 CHANGED, 0 VANISHED: onceden yayimlanmis hicbir olcum degeri kimildamadi.",
+  "accepted_at": "2026-08-22T13:29:56",
+  "reason": "N20 (22 Agu, defter final2): 13 sapmanin tamami defter artefaktinin kendi tazelenmesi -- number_ledger.json N19b'den beri yeniden yazilmamisti. MOVED'lar sayaclarin bugunku gercege tasinmasi (jeton 1677->1740: S12'nin 68 hucresi + yeni baglar - silinen SS4.4 baglari; uyusmazlik 3->0 ve composite ok False->True: 21 Agu'daki dort makale duzeltmesinin defter karsiligi). APPEARED: N19d'nin iki turetmesi (prereg lead min, perclass snr floor) + ok bayraklari. VANISHED: res.argmin_cells_agreeing_1 -- '20 of 21' cumlesinin silinen kopyasinin OLU dv'si (N20'de bulundu, derived_matched_nothing artik ihlal sinifi). Olcum hucresi kimildamadi: 0 CHANGED.",
   "sources": [
     "diagnostics\\epoch_curves_MANIFEST.json",
     "diagnostics\\paper_tables\\headroom_grid_audit.json",
@@ -470,22 +470,22 @@
       null
     ],
     "N13/count/tokens": [
-      1677,
+      1740,
       null,
       null
     ],
     "N13/count/bound": [
-      1114,
+      1182,
       null,
       null
     ],
     "N13/count/derived": [
-      72,
+      73,
       null,
       null
     ],
     "N13/count/exempt": [
-      495,
+      489,
       null,
       null
     ],
@@ -495,17 +495,17 @@
       null
     ],
     "N13/count/layout_dropped": [
-      340,
+      357,
       null,
       null
     ],
     "N13/count/mismatch": [
-      3,
+      0,
       null,
       null
     ],
     "N13/count/derived_mismatch": [
-      1,
+      0,
       null,
       null
     ],
@@ -515,7 +515,7 @@
       null
     ],
     "N13/count/derived_in_scope": [
-      68,
+      69,
       null,
       null
     ],
@@ -535,7 +535,7 @@
       null
     ],
     "N13/count/problems": [
-      4,
+      0,
       null,
       null
     ],
@@ -1284,16 +1284,6 @@
       null,
       null
     ],
-    "N13/derived/res.argmin_cells_agreeing_1": [
-      20.0,
-      null,
-      null
-    ],
-    "N13/derived/res.argmin_cells_agreeing_1/ok": [
-      "True",
-      null,
-      null
-    ],
     "N13/derived/s5.r2_floor": [
       0.998817814674116,
       null,
@@ -1340,7 +1330,27 @@
       null
     ],
     "N13/derived/s5.composite_T_ferplus/ok": [
-      "False",
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/s4.prereg_lead_min": [
+      18.0,
+      null,
+      null
+    ],
+    "N13/derived/s4.prereg_lead_min/ok": [
+      "True",
+      null,
+      null
+    ],
+    "N13/derived/figp.snr_floor": [
+      10.555678962646104,
+      null,
+      null
+    ],
+    "N13/derived/figp.snr_floor/ok": [
+      "True",
       null,
       null
     ],

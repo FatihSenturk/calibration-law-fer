@@ -14,23 +14,23 @@
 | ölçülemez (Katman B, artefakt commit'lenmemiş) | 0 |
 | başka hata / zaman aşımı | 0 |
 | beyansız yan çıktı yazan üretici | 0 |
-| koşu başında zaten değişmiş dosya | 23 |
+| koşu başında zaten değişmiş dosya | 14 |
 
-> **Bu koşudaki 0 nasıl okunmalı.** Katman A yalnız kendi koşusundan önce TEMİZ olan dosyaları yan çıktı sayar; kapı kullanıcının halihazırdaki değişikliğine dokunmaz. Koşu başında ağaçta **23** değişmiş dosya vardı, dolayısıyla bu 0 "hiç yan çıktı yok" değil, "atfedilebilir yan çıktı yok" demektir. Temiz ağaçta koşulan kapı bu belirsizliği taşımaz.
+> **Bu koşudaki 0 nasıl okunmalı.** Katman A yalnız kendi koşusundan önce TEMİZ olan dosyaları yan çıktı sayar; kapı kullanıcının halihazırdaki değişikliğine dokunmaz. Koşu başında ağaçta **14** değişmiş dosya vardı, dolayısıyla bu 0 "hiç yan çıktı yok" değil, "atfedilebilir yan çıktı yok" demektir. Temiz ağaçta koşulan kapı bu belirsizliği taşımaz.
 
 ## Ölçülen süreler (Katman A adayları)
 
-n=54 · min 0.0 s · medyan 0.2 s · maks 45.5 s · toplam 194 s · eşik **90 s**
+n=54 · min 0.0 s · medyan 0.2 s · maks 42.9 s · toplam 202 s · eşik **90 s**
 
 En pahalı beş üretici:
 
 | üretici | saniye |
 |---|---|
-| `diagnostics/criterion_applied.py` | 45.5 |
-| `diagnostics/bootstrap_cis.py` | 36.8 |
-| `diagnostics/headroom_grid_audit.py` | 27.3 |
-| `diagnostics/teacher_ece_grid.py` | 7.8 |
-| `diagnostics/tstar_sensitivity.py` | 6.5 |
+| `diagnostics/criterion_applied.py` | 42.9 |
+| `diagnostics/bootstrap_cis.py` | 34.0 |
+| `diagnostics/headroom_grid_audit.py` | 24.5 |
+| `diagnostics/teacher_ece_grid.py` | 23.1 |
+| `diagnostics/tstar_sensitivity.py` | 6.6 |
 
 ## Katman B'nin SINIRI (peşinen)
 
@@ -74,7 +74,7 @@ Kaynak parmak izi yalnız **üretici değişti**yi görür. **Girdi verisi deği
 | `diagnostics/p4_teacher_selection_recipe.py` | **A** | ölçülen süre 0.1 s | `diagnostics/p4_teacher_selection/p4_teacher_selection.json` | geçti |
 | `diagnostics/p5_oracle_replication_verdict.py` | **A** | ölçülen süre 0.1 s | `diagnostics/p5_oracle_replication/p5_verdict.md`<br>`diagnostics/p5_oracle_replication/p5_verdict.json` | geçti |
 | `diagnostics/p6_verdict.py` | **A** | ölçülen süre 5.3 s | `diagnostics/paper_tables/p6_collapse_test.md`<br>`diagnostics/paper_tables/p6_collapse_test.json` | geçti |
-| `diagnostics/paper_tables.py` | **A** | ölçülen süre 5.0 s | `diagnostics/paper_tables/RESULTS_TABLES.md`<br>`diagnostics/paper_tables/RESULTS_TABLES.json` | geçti |
+| `diagnostics/paper_tables.py` | **A** | ölçülen süre 5.0 s | `paper/tables/tab_app_paired_sd.tex`<br>`diagnostics/paper_tables/RESULTS_TABLES.md`<br>`diagnostics/paper_tables/RESULTS_TABLES.json` | geçti |
 | `diagnostics/perclass_crossing_table.py` | **A** | ölçülen süre 0.1 s | `diagnostics/paper_tables/perclass_crossing.md`<br>`diagnostics/paper_tables/perclass_crossing.json` | geçti |
 | `diagnostics/prereg_lead_audit.py` | **A** | ölçülen süre 0.1 s | `diagnostics/paper_tables/prereg_lead_audit.md`<br>`diagnostics/paper_tables/prereg_lead_audit.json` | geçti |
 | `diagnostics/r3w1_joint_optimum.py` | **A** | ölçülen süre 5.0 s | `diagnostics/paper_tables/r3w1_joint_optimum.md`<br>`diagnostics/paper_tables/r3w1_joint_optimum.json` | geçti |

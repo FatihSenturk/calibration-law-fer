@@ -505,6 +505,82 @@ def r3_sections(add, payload):
             for k, v in d["results"].items() if v.get("n", 0) > 0}
 
 
+# S12 (tab:app_paired_sd) SATIR DUZENI. 21 T5 hucresinin uc-tohumlu OLAN 17'si; tek-tohumlu
+# dortlu (ctkd x3 + g2g_kl+adaptive_t) tabloya girmez -- n==3 suzgeci bunu SAYARAK yapar,
+# adlari ezberleyerek degil. Mekanizma sirasi makaledeki elle blogun sirasidir.
+S12_MECH_ORDER = [("adaptive_t", "adaptive temperature"), ("g2g_kl", "G2G"),
+                  ("gate:mean_logvar", "gate: mean logvar"),
+                  ("gate:target_logvar", "gate: target logvar"),
+                  ("gate:oracle_error", "gate: oracle error"),
+                  ("logit_std", "logit standardisation")]
+S12_TEX = ROOT / "paper" / "tables" / "tab_app_paired_sd.tex"
+
+
+def emit_tab_app_paired_sd(mech_payload):
+    """S12: 17 uc-tohumlu hucrenin esli farki +- tohum sd'si (@swa), makale tablosu olarak.
+
+    NEDEN VAR (22 Agu 2026, defter final2). S12 makaleye ELLE yazilmisti: degerler T5'ten
+    birebir ama tabloyu bir uretici basmiyordu -- "tablolar ureticiden gelir" kuralinin tek
+    istisnasi olurdu. Artik bu dosya kaynaktir; supplementary.tex `\\input` ile alir.
+    Yuvarlama ledger konvansiyonu (ROUND_HALF_UP), acc 2dp / ECE 4dp; isaret acikca basilir.
+    Cikti BELIRLENIMLIDIR (zaman damgasi yok) -- tazelik kapisi bayt karsilastirir.
+    """
+    from decimal import Decimal, ROUND_HALF_UP
+
+    def q(v, dp, signed):
+        d = Decimal(repr(float(v))).quantize(Decimal("0." + "0" * (dp - 1) + "1"),
+                                             rounding=ROUND_HALF_UP)
+        if signed:
+            return ("+" if d >= 0 else "") + str(d)
+        return str(abs(d))
+
+    groups = []
+    for t, tex_t in (("stage1", "Stage1"), ("primary", "Primary"), ("vae9182", "VAE9182")):
+        g = []
+        for mech, name in S12_MECH_ORDER:
+            c = mech_payload.get(f"{t}/{mech}")
+            if not c or c["swa"].get("n") != 3:
+                continue
+            s = c["swa"]
+            cw = "eff." if c["class_weight_mode"] == "effective_number" else "none"
+            g.append(f"{tex_t} & {name} & " + r"\texttt{" + cw + "} & $"
+                     + q(s["d_acc_mean"], 2, True) + r" \pm " + q(s["d_acc_sd"], 2, False)
+                     + "$ & $" + q(s["d_ece_mean"], 4, True) + r" \pm "
+                     + q(s["d_ece_sd"], 4, False) + "$ " + r"\\")
+        groups.append(g)
+    n_rows = sum(len(g) for g in groups)
+    nl = chr(10)
+    body = (nl + r"\addlinespace" + nl).join(nl.join(g) for g in groups)
+    header = nl.join([
+        "% URETICI TARAFINDAN YAZILDI -- elle duzenlemeyin.",
+        "% Kaynak: diagnostics/paper_tables.py (T5_mechanisms @swa; n==3 hucreler).",
+        f"% Satir sayisi: {n_rows} (beklenen 17; sapma T5'in kendisinde degisiklik demektir).",
+        r"\begin{table}[H]",
+        r"\centering",
+        r"\caption{Paired differences with seed standard deviations for all",
+        r"seventeen three-seed mechanism cells, SWA checkpoint.  \emph{cw} is",
+        "the pair's class-weighting mode.  Point values reproduce",
+        r"Table~\ref{tab:mechanisms}; the $\pm$ entries are per-cell",
+        "paired-difference seed standard deviations ($n{=}3$, sample sd).",
+        r"$\Delta$acc is in percentage points.}",
+        r"\label{tab:app_paired_sd}",
+        r"\small",
+        r"\setlength{\tabcolsep}{5pt}",
+        r"\begin{tabular}{@{}lllrr@{}}",
+        r"\toprule",
+        r"teacher & mechanism & cw & $\Delta$acc (pp) & $\Delta$ECE \\",
+        r"\midrule",
+    ])
+    tail = nl.join([r"\bottomrule", r"\end{tabular}", r"\end{table}", ""])
+    tex = header + nl + body + nl + tail
+    S12_TEX.parent.mkdir(parents=True, exist_ok=True)
+    S12_TEX.write_text(tex, encoding="utf-8")
+    print(f"Wrote {S12_TEX}  ({n_rows} satir)")
+    if n_rows != 17:
+        raise SystemExit(f"DUR: S12 {n_rows} satir uretti, beklenen 17 -- T5 degisti demektir.")
+
+
+
 def main():
     ov = jload(A_OVERLAY)
     L = []
@@ -1316,6 +1392,9 @@ def main():
     }
     OUT_JSON.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Wrote {OUT_JSON}")
+
+    if runs:
+        emit_tab_app_paired_sd(mech_payload)
 
     # Tabloyu ürettikten sonra makale tarafına ihraç et. Elle kopyalamayı unutmak diye bir
     # durum kalmasın diye burada: bugüne kadarki bayat-kopya vakalarının hepsi bu adımın

@@ -1,8 +1,8 @@
 {
   "note": "review-responsive, not pre-declared",
   "counts": {
-    "derived": 72,
-    "mismatch": 1
+    "derived": 73,
+    "mismatch": 0
   },
   "entries": [
     {
@@ -268,7 +268,7 @@
       "matches": true,
       "note": "|ort|/esik; isaret disi",
       "where": [
-        "paper/tables/tab_collapse.tex:26"
+        "paper/tables/tab_collapse.tex:27"
       ]
     },
     {
@@ -376,7 +376,7 @@
       "matches": true,
       "note": "VAE9182 kolunun en yuksek (T=1.3406) ve en dusuk (T=1.70) @SWA dogrulugu; olculen kol aciklikleri 0.304 / 0.511 / 0.486, ozet en genisi basiyor",
       "where": [
-        "paper/main_elsarticle.tex:128"
+        "paper/main_elsarticle.tex:127"
       ]
     },
     {
@@ -403,7 +403,7 @@
       "matches": true,
       "note": "uyusan adim sayisi = toplam adim - kirilma; makale 224'u basiyor, artefakt ikisini",
       "where": [
-        "paper/supplementary.tex:163"
+        "paper/supplementary.tex:171"
       ]
     },
     {
@@ -430,7 +430,7 @@
       "matches": true,
       "note": "paydasi CUMLEDE adlandirilmis: 231 adim",
       "where": [
-        "paper/supplementary.tex:165"
+        "paper/supplementary.tex:173"
       ]
     },
     {
@@ -457,7 +457,7 @@
       "matches": true,
       "note": "en kucuk katmanin foldun yuzde kaci: 28 / 3153",
       "where": [
-        "paper/supplementary.tex:271"
+        "paper/supplementary.tex:279"
       ]
     },
     {
@@ -484,7 +484,7 @@
       "matches": true,
       "note": "§3.2'deki `tstar_criterion_cost_min` ile ayni pay/payda, S2'deki ikinci gecis",
       "where": [
-        "paper/supplementary.tex:201"
+        "paper/supplementary.tex:209"
       ]
     },
     {
@@ -511,7 +511,7 @@
       "matches": true,
       "note": "§3.2'deki `tstar_criterion_cost_max` ile ayni pay/payda, S2'deki ikinci gecis",
       "where": [
-        "paper/supplementary.tex:201"
+        "paper/supplementary.tex:209"
       ]
     },
     {
@@ -588,7 +588,7 @@
       "matches": true,
       "note": "stage1 kolunun @swa dogruluk acikligi: T*=1.3406 eksi T=1.70",
       "where": [
-        "paper/sections/01_introduction.tex:72"
+        "paper/sections/01_introduction.tex:77"
       ]
     },
     {
@@ -615,7 +615,7 @@
       "matches": true,
       "note": "kontrol kolunun @swa dogruluk acikligi",
       "where": [
-        "paper/sections/01_introduction.tex:74"
+        "paper/sections/01_introduction.tex:79"
       ]
     },
     {
@@ -642,7 +642,7 @@
       "matches": true,
       "note": "FERPlus kolunda T=0.26 ile T=1.0 arasi @swa dogruluk farki",
       "where": [
-        "paper/sections/01_introduction.tex:74"
+        "paper/sections/01_introduction.tex:79"
       ]
     },
     {
@@ -669,7 +669,7 @@
       "matches": true,
       "note": "dogrulama fold'unda 10'a tamamlanmayan satir orani; payda n_val=3153",
       "where": [
-        "paper/sections/03_methodology.tex:518"
+        "paper/sections/03_methodology.tex:525"
       ]
     },
     {
@@ -696,7 +696,7 @@
       "matches": true,
       "note": "ayni cumlenin ikinci yarisi: kanonik dosyada unknown/NF'ye kutle koyan satirlar. Kanonik dosyada her satir tam 10'a topladigi icin bu kume 10'dan kucuk toplayan satirlarla BIREBIR ayni -- ayni alan, ama iddia farkli, o yuzden ayri beyan.",
       "where": [
-        "paper/sections/03_methodology.tex:522"
+        "paper/sections/03_methodology.tex:529"
       ]
     },
     {
@@ -723,7 +723,7 @@
       "matches": true,
       "note": "TAM DUYARLIKTA fark 0.004145559676890273 -> 0.0041. Basili operandlardan (0.0587-0.0545) 0.0042 cikar; makale yuvarlanmamis alanlardan hesaplamis.",
       "where": [
-        "paper/sections/05_results_discussion.tex:655"
+        "paper/sections/05_results_discussion.tex:653"
       ]
     },
     {
@@ -804,7 +804,7 @@
       "matches": true,
       "note": "PAYDA T*_ECE: (T*_JSD - T*_ECE) / T*_ECE = (0.74-0.45305)/0.45305 = %63,3. Ilk denemede `pct_drop` kullanildi (payda T*_JSD) ve 39 verdi; defter bunu derived_mismatch olarak dusurdu, formul duzeltildi. Iki payda arasindaki fark 24 puan -- yani 'bir oranin paydasi cumlede adlanmali' kurali burada 24 puanlik bir hatayi engelledi.",
       "where": [
-        "paper/sections/05_results_discussion.tex:612"
+        "paper/sections/05_results_discussion.tex:607"
       ]
     },
     {
@@ -836,7 +836,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:192"
+        "paper/sections/03_methodology.tex:198"
       ]
     },
     {
@@ -868,7 +868,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:192"
+        "paper/sections/03_methodology.tex:198"
       ]
     },
     {
@@ -895,7 +895,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:239"
+        "paper/sections/03_methodology.tex:245"
       ]
     },
     {
@@ -922,7 +922,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:239"
+        "paper/sections/03_methodology.tex:245"
       ]
     },
     {
@@ -949,7 +949,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:590"
+        "paper/sections/03_methodology.tex:597"
       ]
     },
     {
@@ -976,7 +976,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:590"
+        "paper/sections/03_methodology.tex:597"
       ]
     },
     {
@@ -1003,7 +1003,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/03_methodology.tex:591"
+        "paper/sections/03_methodology.tex:598"
       ]
     },
     {
@@ -1030,7 +1030,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:617"
+        "paper/sections/05_results_discussion.tex:612"
       ]
     },
     {
@@ -1057,7 +1057,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:629"
+        "paper/sections/05_results_discussion.tex:627"
       ]
     },
     {
@@ -1084,7 +1084,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:629"
+        "paper/sections/05_results_discussion.tex:627"
       ]
     },
     {
@@ -1111,7 +1111,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:662"
+        "paper/sections/05_results_discussion.tex:660"
       ]
     },
     {
@@ -1138,7 +1138,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:667"
+        "paper/sections/05_results_discussion.tex:665"
       ]
     },
     {
@@ -1192,7 +1192,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:787"
+        "paper/sections/05_results_discussion.tex:786"
       ]
     },
     {
@@ -1219,7 +1219,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:807"
+        "paper/sections/05_results_discussion.tex:806"
       ]
     },
     {
@@ -1246,7 +1246,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:846"
+        "paper/supplementary.tex:348"
       ]
     },
     {
@@ -1273,7 +1273,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:846"
+        "paper/supplementary.tex:348"
       ]
     },
     {
@@ -1300,7 +1300,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:847"
+        "paper/supplementary.tex:350"
       ]
     },
     {
@@ -1327,7 +1327,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:847"
+        "paper/supplementary.tex:350"
       ]
     },
     {
@@ -1462,7 +1462,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:83"
+        "paper/sections/05_results_discussion.tex:81"
       ]
     },
     {
@@ -1489,7 +1489,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:87"
+        "paper/sections/05_results_discussion.tex:85"
       ]
     },
     {
@@ -1516,7 +1516,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:150"
+        "paper/sections/05_results_discussion.tex:153"
       ]
     },
     {
@@ -1543,7 +1543,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:237"
+        "paper/sections/05_results_discussion.tex:239"
       ]
     },
     {
@@ -1570,7 +1570,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:237"
+        "paper/sections/05_results_discussion.tex:239"
       ]
     },
     {
@@ -1597,7 +1597,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:292"
+        "paper/sections/05_results_discussion.tex:298"
       ]
     },
     {
@@ -1624,7 +1624,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:306"
+        "paper/sections/05_results_discussion.tex:313"
       ]
     },
     {
@@ -1651,7 +1651,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:562"
+        "paper/sections/05_results_discussion.tex:561"
       ]
     },
     {
@@ -1678,7 +1678,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:563"
+        "paper/sections/05_results_discussion.tex:562"
       ]
     },
     {
@@ -1705,7 +1705,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:573"
+        "paper/sections/05_results_discussion.tex:572"
       ]
     },
     {
@@ -1732,7 +1732,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:575"
+        "paper/sections/05_results_discussion.tex:574"
       ]
     },
     {
@@ -1759,7 +1759,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:424"
+        "paper/sections/05_results_discussion.tex:428"
       ]
     },
     {
@@ -1791,39 +1791,7 @@
       "matches": true,
       "note": "",
       "where": [
-        "paper/sections/05_results_discussion.tex:47"
-      ]
-    },
-    {
-      "id": "res.argmin_cells_agreeing_1",
-      "printed": "20",
-      "formula": "sum",
-      "operands": [
-        {
-          "artifact": "paper_tables/robustness_metrics.json",
-          "path": "series[\"RAF-DB stage1\"]._consensus_metrics_agreeing"
-        },
-        {
-          "artifact": "paper_tables/robustness_metrics.json",
-          "path": "series[\"RAF-DB vae9182\"]._consensus_metrics_agreeing"
-        },
-        {
-          "artifact": "paper_tables/robustness_metrics.json",
-          "path": "series[\"FERPlus\"]._consensus_metrics_agreeing"
-        }
-      ],
-      "operand_values": [
-        7.0,
-        7.0,
-        6.0
-      ],
-      "exact": 20.0,
-      "rounding": "int",
-      "rounded": "20",
-      "matches": true,
-      "note": "",
-      "where": [
-        "paper/sections/05_results_discussion.tex:50"
+        "paper/sections/05_results_discussion.tex:52"
       ]
     },
     {
@@ -1855,7 +1823,7 @@
       "matches": true,
       "note": "uc kolun EN KUCUK R^2'si; alt sinir iddiasi oldugu icin ASAGI yuvarlanir (scratch2248 = 0.99881781, digerleri 0.99996+)",
       "where": [
-        "paper/sections/05_results_discussion.tex:345"
+        "paper/sections/05_results_discussion.tex:352"
       ]
     },
     {
@@ -1887,7 +1855,7 @@
       "matches": true,
       "note": "pay = stage1 ve primary kontrol kollarinin @swa ECE duzeylerinin ORTALAMASI (0.075); PAYDA = vae9182 kontrol kolunun @swa ECE duzeyi (0.0278). Basili iki yuvarlanmis degerden hesaplansaydi 2.679 cikardi; alanlardan 2.701 cikiyor -- ikisi de 1 basamakta 2.7 veriyor ama hesap alanlardan yapiliyor.",
       "where": [
-        "paper/sections/05_results_discussion.tex:423"
+        "paper/sections/05_results_discussion.tex:427"
       ]
     },
     {
@@ -1914,7 +1882,7 @@
       "matches": true,
       "note": "stage1 ogrenci-optimum kolu T=1.3406, tau=6 -> 8.0436",
       "where": [
-        "paper/sections/05_results_discussion.tex:197"
+        "paper/sections/05_results_discussion.tex:200"
       ]
     },
     {
@@ -1941,12 +1909,12 @@
       "matches": true,
       "note": "vae9182 ogrenci-optimum kolu T=1 (T*=0.983 DEGIL: ogrencinin en dusuk ECE'si T=1 kolunda), tau=6 -> 6.0",
       "where": [
-        "paper/sections/05_results_discussion.tex:198"
+        "paper/sections/05_results_discussion.tex:201"
       ]
     },
     {
       "id": "s5.composite_T_ferplus",
-      "printed": "3.06",
+      "printed": "3.04",
       "formula": "product",
       "operands": [
         {
@@ -1965,10 +1933,109 @@
       "exact": 3.0378,
       "rounding": "2dp",
       "rounded": "3.04",
-      "matches": false,
-      "note": "FERPlus ogrenci-optimum kolu T=0.5063, tau=6 -> 3.0378 = 3.04. Basili 3.06 CIFT YUVARLAMA: 0.5063 -> 0.51 -> x6. Bag bilerek kirmizi birakildi.",
+      "matches": true,
+      "note": "FERPlus ogrenci-optimum kolu T=0.5063, tau=6 -> 3.0378 = 3.04. Basili deger 20 Agu 2026'da 3.06'ydi (CIFT YUVARLAMA: 0.5063 -> 0.51 -> x6); 21 Agu 2026'da makalede 3.04'e duzeltildi ve bag YESILE dondu.",
       "where": [
-        "paper/sections/05_results_discussion.tex:198"
+        "paper/sections/05_results_discussion.tex:201"
+      ]
+    },
+    {
+      "id": "s4.prereg_lead_min",
+      "printed": "18",
+      "formula": "min",
+      "operands": [
+        {
+          "artifact": "paper_tables/prereg_lead_audit.json",
+          "path": "items.A1.lead_seconds"
+        },
+        {
+          "artifact": "paper_tables/prereg_lead_audit.json",
+          "path": "items.A2.lead_seconds"
+        },
+        {
+          "artifact": "paper_tables/prereg_lead_audit.json",
+          "path": "items.A3.lead_seconds"
+        },
+        {
+          "artifact": "paper_tables/prereg_lead_audit.json",
+          "path": "items.A4.lead_seconds"
+        },
+        {
+          "artifact": "paper_tables/prereg_lead_audit.json",
+          "path": "items.A7.lead_seconds"
+        },
+        {
+          "artifact": "paper_tables/prereg_lead_audit.json",
+          "path": "items.A8.lead_seconds"
+        }
+      ],
+      "operand_values": [
+        20.0,
+        31406.0,
+        19.0,
+        18.0,
+        28.0,
+        46634.0
+      ],
+      "exact": 18.0,
+      "rounding": "int_floor",
+      "rounded": "18",
+      "matches": true,
+      "note": "alti lead-tasiyan on-beyanin en kisasi = A4 (human-alignment), 18 s; saniyeler tamsayi-kesin oldugu icin floor==deger",
+      "where": [
+        "paper/sections/04_experiments.tex:245"
+      ]
+    },
+    {
+      "id": "figp.snr_floor",
+      "printed": "10.5",
+      "formula": "min",
+      "operands": [
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Surprise.range_over_seed_sd"
+        },
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Fear.range_over_seed_sd"
+        },
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Disgust.range_over_seed_sd"
+        },
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Happiness.range_over_seed_sd"
+        },
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Sadness.range_over_seed_sd"
+        },
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Anger.range_over_seed_sd"
+        },
+        {
+          "artifact": "reliability/perclass_calibration.json",
+          "path": "classes.Neutral.range_over_seed_sd"
+        }
+      ],
+      "operand_values": [
+        15.800602592675363,
+        13.092056150797774,
+        10.555678962646104,
+        49.292921736017995,
+        21.324723106058546,
+        13.996851386464586,
+        28.920578353212907
+      ],
+      "exact": 10.555678962646104,
+      "rounding": "1dp_floor",
+      "rounded": "10.5",
+      "matches": true,
+      "note": "yedi sinifin en kucuk (araligin tohum sd'sine orani) = Disgust 10.5557; alt sinir iddiasi oldugu icin ASAGI yuvarlanir",
+      "where": [
+        "paper/figures/fig_perclass.tex:17"
       ]
     }
   ]

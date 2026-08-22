@@ -8,11 +8,11 @@ Producer: `diagnostics/number_ledger.py` · scanner: `diagnostics/paper_number_s
 
 | in-scope numeric token | count |
 |---|---|
-| bound to an artifact field | 1114 |
-| derived, occupying an in-scope token | 68 |
-| declared not-a-measurement | 495 |
+| bound to an artifact field | 1182 |
+| derived, occupying an in-scope token | 69 |
+| declared not-a-measurement | 489 |
 | **unregistered** | **0** |
-| **= numeric tokens in scope** | **1677** |
+| **= numeric tokens in scope** | **1740** |
 
 The four categories are disjoint (bound ∩ exempt is checked to be empty) and the column sums to the total. Two kinds of declaration are **not** in that table because they occupy no in-scope token — they are anchored to sentences the scanner deliberately does not read:
 
@@ -21,13 +21,13 @@ The four categories are disjoint (bound ∩ exempt is checked to be empty) and t
 | derived quantity on a prose anchor | 4 |
 | prose field binding (`pv`) | 1 |
 
-The registry therefore holds **72** derived quantities in total: 68 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
+The registry therefore holds **73** derived quantities in total: 69 on in-scope tokens + 4 on prose anchors. Adding *declaration* counts to *token* counts is what made an earlier version of this table appear not to sum.
 
 | other | count |
 |---|---|
-| printed-vs-field mismatch | 3 |
+| printed-vs-field mismatch | 0 |
 | confirmation records (second source) | 3 (0 failing) |
-| layout tokens dropped by the scanner | 340 |
+| layout tokens dropped by the scanner | 357 |
 
 ## Scope (declared)
 
@@ -41,11 +41,7 @@ None — every in-scope number is bound, derived or declared.
 
 ## Mismatches
 
-| id | printed | field value | rounded | where |
-|---|---|---|---|---|
-| `s4.fpr_family_median_k` | 0.543 | 0.544941 | 0.545 | paper/sections/04_experiments.tex:229 |
-| `s4.fpr_family_own_k` | 0.740 | 0.741038 | 0.741 | paper/sections/04_experiments.tex:230 |
-| `s4.fpr_independence_gap` | 0.007 | 0.00861317 | 0.009 | paper/sections/04_experiments.tex:233 |
+None.
 
 ## Confirmation records (same quantity, second source)
 
@@ -138,12 +134,13 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s5.sel_cost_last` | 0.83 | diff | 0.825727 | yes |
 | `s5.baseline_ece_overconf` | 0.075 | mean | 0.0749972 | yes |
 | `res.argmin_cells_agreeing_0` | 20 | sum | 20 | yes |
-| `res.argmin_cells_agreeing_1` | 20 | sum | 20 | yes |
 | `s5.r2_floor` | 0.998 | min | 0.998818 | yes |
 | `s5.baseline_ece_ratio` | 2.7 | ratio_of_mean | 2.70102 | yes |
 | `s5.composite_T_stage1` | 8.04 | product | 8.0436 | yes |
 | `s5.composite_T_vae9182` | 6.0 | product | 6 | yes |
-| `s5.composite_T_ferplus` | 3.06 | product | 3.0378 | **NO** |
+| `s5.composite_T_ferplus` | 3.04 | product | 3.0378 | yes |
+| `s4.prereg_lead_min` | 18 | min | 18 | yes |
+| `figp.snr_floor` | 10.5 | min | 10.5557 | yes |
 
 ## Bindings
 
@@ -760,9 +757,11 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `app_mde.cap.swa_max` | 0.0067 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_max` | 4dp |
 | `app_mde.cap.swa_pct_min` | 3.2 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_min` | 1dp |
 | `app_mde.cap.swa_pct_max` | 19.4 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_max` | 1dp |
+| `app_predecl.A2.lead_h` | 8 | `paper_tables/prereg_lead_audit.json` | `items.A2.lead_hours` | int_floor |
+| `app_predecl.A8.lead_h` | 12 | `paper_tables/prereg_lead_audit.json` | `items.A8.lead_hours` | int_floor |
 | `abstract.pooled_rho` | 0.79 | `p1_dose_response/two_dataset_overlay.json` | `pooled_stats.swa.spearman_abs_signed_gap` | 2dp |
 | `abstract.audit_n_runs` | 131 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.n` | int |
-| `abstract.selection_inflation` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
+| `abstract.selection_inflation` | 0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
 | `abstract.asymmetry_min` | 1.8 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.min` | 1dp |
 | `abstract.asymmetry_max` | 2.0 | `paper_tables/asymmetry_estimand.json` | `summary.interpolated_only.absolute.max` | 1dp |
 | `abstract.logitstd_noise_median` | 27 | `paper_tables/noise_units.json` | `summary.median` | int |
@@ -923,22 +922,6 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s4.arch.student_gmacs` | 0.329 | `paper_tables/efficiency_retention.json` | `student.flops_g` | 3dp |
 | `s4.arch.student_size_mb` | 8.8 | `paper_tables/efficiency_retention.json` | `student.size_mb` | 1dp |
 | `s4.audit.inclusion_n` | 131 | `paper_tables/audit_population.json` | `n_total` | int |
-| `s4.ost.k50.mean` | +0.645 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.mean` | 3dp |
-| `s4.ost.k50.sd` | 0.203 | `paper_tables/order_stat_trend.json` | `results["50"].a2_raw.sd` | 3dp |
-| `s4.ost.k100.mean` | +0.764 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.mean` | 3dp |
-| `s4.ost.k100.sd` | 0.259 | `paper_tables/order_stat_trend.json` | `results["100"].a2_raw.sd` | 3dp |
-| `s4.audit.best_last_acc_mean` | +0.77 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.mean` | 2dp |
-| `s4.audit.best_last_acc_sd` | 0.43 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_acc.sd` | 2dp |
-| `s4.audit.best_last_ece_mean` | -0.0029 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_ece.mean` | 4dp |
-| `s4.audit.best_last_ece_sd` | 0.0092 | `selection_audit/selection_gain.json` | `audit_deltas.b_best_minus_last.d_ece.sd` | 4dp |
-| `s4.audit.best_swa_acc_mean` | +0.13 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_acc.mean` | 2dp |
-| `s4.audit.best_swa_acc_sd` | 0.26 | `selection_audit/selection_gain.json` | `audit_deltas.c_best_minus_swa.d_acc.sd` | 2dp |
-| `s4.audit.ferplus_best_last_mean` | +0.50 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.mean` | 2dp |
-| `s4.audit.ferplus_best_last_sd` | 0.21 | `paper_tables/selection_audit_inference.json` | `datasets["FERPlus"].contrasts["best-last"].acc_pp.sd` | 2dp |
-| `s4.audit.growth_n116` | 116 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[0].n` | int |
-| `s4.audit.growth_n125` | 125 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[1].n` | int |
-| `s4.audit.growth_n131` | 131 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[2].n` | int |
-| `s4.audit.growth_span_pp` | 0.02 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.span_pp` | 2dp |
 | `s4.crit.mde_pct_min` | 3 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_min` | int |
 | `s4.crit.mde_pct_max` | 19 | `paper_tables/control_sd_mde.json` | `mde_ece_swa_pct_max` | int |
 | `s4.eff.student_params_m` | 2.248 | `paper_tables/efficiency_retention.json` | `student.params_m` | 3dp |
@@ -948,10 +931,6 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s4.eff.ratio_size` | 62.9 | `paper_tables/efficiency_retention.json` | `compression.size_ratio` | 1dp |
 | `s4.eff.retention_swa` | 97.96 | `paper_tables/efficiency_retention.json` | `headline.retention_pct_swa` | 2dp |
 | `s4.eff.retention_best` | 98.32 | `paper_tables/efficiency_retention.json` | `headline.retention_pct_best` | 2dp |
-| `s4.lat.ratio_gpu_b1` | 1.93 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=1][dtype=fp32].speedup` | 2dp |
-| `s4.lat.ratio_gpu_b32` | 3.91 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cuda][batch=32][dtype=fp32].speedup` | 2dp |
-| `s4.lat.ratio_cpu_b1` | 4.01 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=1][dtype=fp32].speedup` | 2dp |
-| `s4.lat.ratio_cpu_b32` | 4.43 | `p5_efficiency/latency_benchmark.json` | `speedups[device=cpu][batch=32][dtype=fp32].speedup` | 2dp |
 | `res.ferplus_tstar_ece` | 0.45 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_ece` | 2dp |
 | `res.ferplus_tstar_nll` | 0.51 | `paper_tables/tstar_sensitivity.json` | `results.ferplus.T_star_nll` | 2dp |
 | `res.ferplus_tstar_jsd` | 0.74 | `ferplus_jsd/ferplus_jsd.json` | `T_star_jsd.T` | 2dp |
@@ -1245,10 +1224,10 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s4.ferplus_n_reporting` | 3153 | `paper_tables/split_identity.json` | `datasets["FERPlus"].n_reporting` | int |
 | `related_work.student_params_m` | 2.25 | `p5_efficiency/capacity_law_check.json` | `capacity_cells_at_T1.w100ns.params_m` | 2dp |
 | `s4.fpr_per_cell` | 3.5 | `paper_tables/criterion_applied.json` | `false_positive_simulation.per_cell_rate_at_median_k` | percent_of_fraction:1dp |
-| `s4.fpr_family_median_k` | 0.543 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_median_k` | 3dp |
-| `s4.fpr_family_own_k` | 0.740 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_own_k` | 3dp |
+| `s4.fpr_family_median_k` | 0.545 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_median_k` | 3dp |
+| `s4.fpr_family_own_k` | 0.741 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_own_k` | 3dp |
 | `s4.fpr_rho_shared` | +0.393 | `paper_tables/criterion_applied.json` | `false_positive_simulation.rho_shared_control` | 3dp |
-| `s4.fpr_independence_gap` | 0.007 | `paper_tables/criterion_applied.json` | `false_positive_simulation.independence_gap_own_k_minus_shared` | 3dp |
+| `s4.fpr_independence_gap` | 0.009 | `paper_tables/criterion_applied.json` | `false_positive_simulation.independence_gap_own_k_minus_shared` | 3dp |
 | `s5.fpr_family_median_k_2dp` | 0.54 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_median_k` | 2dp |
 | `s5.fpr_family_own_k_2dp` | 0.74 | `paper_tables/criterion_applied.json` | `false_positive_simulation.family_wise_at_own_k` | 2dp |
 | `s4.manifest_total` | 90 | `paper_tables/run_manifest_census.json` | `n_manifests` | int |
@@ -1263,3 +1242,89 @@ Relays — artifacts that **copy** the confirming value rather than computing it
 | `s5.argmax_in_k100` | 67 | `selection_audit/selection_gain.json` | `per_k["100"].argmax_in_last_K_frac` | percent_of_fraction:int |
 | `s5.best_swa_p_mantissa` | 4.3 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p` | sci_mantissa:1dp |
 | `s5.best_swa_p_exponent` | -7 | `paper_tables/selection_audit_inference.json` | `datasets["RAF-DB"].contrasts["best-swa"].acc_pp.p` | sci_exponent |
+| `s4.ferplus_raw_fold0` | 28559 | `paper_tables/split_identity.json` | `datasets["FERPlus"].unfiltered_by_fold["0"]` | int |
+| `s4.ferplus_raw_fold1` | 3579 | `paper_tables/split_identity.json` | `datasets["FERPlus"].unfiltered_by_fold["1"]` | int |
+| `s4.ferplus_raw_fold2` | 3573 | `paper_tables/split_identity.json` | `datasets["FERPlus"].unfiltered_by_fold["2"]` | int |
+| `s4.prereg_lead_max_h` | 12 | `paper_tables/prereg_lead_audit.json` | `items.A8.lead_hours` | int_floor |
+| `meth.stage1_headroom_point_boot2` | +0.0232 | `paper_tables/bootstrap_cis.json` | `results.stage1.point.headroom_eq8` | 4dp |
+| `s5.audit.growth_n116` | 116 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[0].n` | int |
+| `s5.audit.growth_n125` | 125 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[1].n` | int |
+| `s5.audit.growth_n131` | 131 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.series[2].n` | int |
+| `s5.audit.growth_span_pp` | 0.02 | `selection_audit/selection_optimism_headline.json` | `stability_across_inclusion_sets.span_pp` | 2dp |
+| `tab_collapse.pair.tau3_T1.70.tau` | 3 | `paper_tables/tau_t_factorial.json` | `arms["tau3_T1.70"].tau` | int |
+| `tab_collapse.pair.tau3_T1.70.T` | 1.70 | `paper_tables/tau_t_factorial.json` | `arms["tau3_T1.70"].T` | 2dp |
+| `tab_collapse.pair.tau6_T0.85.tau` | 6 | `paper_tables/tau_t_factorial.json` | `arms["tau6_T0.85"].tau` | int |
+| `tab_collapse.pair.tau6_T0.85.T` | 0.85 | `paper_tables/tau_t_factorial.json` | `arms["tau6_T0.85"].T` | 2dp |
+| `tab_collapse.pair.tau6_T1.70.tau` | 6 | `paper_tables/tau_t_factorial.json` | `arms["tau6_T1.70"].tau` | int |
+| `tab_collapse.pair.tau6_T1.70.T` | 1.70 | `paper_tables/tau_t_factorial.json` | `arms["tau6_T1.70"].T` | 2dp |
+| `tab_collapse.pair.tau12_T0.85.tau` | 12 | `paper_tables/tau_t_factorial.json` | `arms["tau12_T0.85"].tau` | int |
+| `tab_collapse.pair.tau12_T0.85.T` | 0.85 | `paper_tables/tau_t_factorial.json` | `arms["tau12_T0.85"].T` | 2dp |
+| `tab_paired.stage1.adaptive_t.d_acc_mean` | +0.16 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_paired.stage1.adaptive_t.d_acc_sd` | 0.32 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/adaptive_t"].swa.d_acc_sd` | 2dp |
+| `tab_paired.stage1.adaptive_t.d_ece_mean` | -0.0011 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_paired.stage1.adaptive_t.d_ece_sd` | 0.0033 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/adaptive_t"].swa.d_ece_sd` | 4dp |
+| `tab_paired.stage1.g2g_kl.d_acc_mean` | +0.41 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `tab_paired.stage1.g2g_kl.d_acc_sd` | 0.38 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_acc_sd` | 2dp |
+| `tab_paired.stage1.g2g_kl.d_ece_mean` | -0.0042 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_ece_mean` | 4dp |
+| `tab_paired.stage1.g2g_kl.d_ece_sd` | 0.0004 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/g2g_kl"].swa.d_ece_sd` | 4dp |
+| `tab_paired.stage1.gate:mean_logvar.d_acc_mean` | -0.10 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_paired.stage1.gate:mean_logvar.d_acc_sd` | 0.12 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_acc_sd` | 2dp |
+| `tab_paired.stage1.gate:mean_logvar.d_ece_mean` | -0.0012 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_paired.stage1.gate:mean_logvar.d_ece_sd` | 0.0010 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:mean_logvar"].swa.d_ece_sd` | 4dp |
+| `tab_paired.stage1.gate:target_logvar.d_acc_mean` | +0.25 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_paired.stage1.gate:target_logvar.d_acc_sd` | 0.28 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_acc_sd` | 2dp |
+| `tab_paired.stage1.gate:target_logvar.d_ece_mean` | -0.0041 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_paired.stage1.gate:target_logvar.d_ece_sd` | 0.0023 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:target_logvar"].swa.d_ece_sd` | 4dp |
+| `tab_paired.stage1.gate:oracle_error.d_acc_mean` | -0.22 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_acc_mean` | 2dp |
+| `tab_paired.stage1.gate:oracle_error.d_acc_sd` | 0.46 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_acc_sd` | 2dp |
+| `tab_paired.stage1.gate:oracle_error.d_ece_mean` | +0.0015 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_ece_mean` | 4dp |
+| `tab_paired.stage1.gate:oracle_error.d_ece_sd` | 0.0036 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/gate:oracle_error"].swa.d_ece_sd` | 4dp |
+| `tab_paired.stage1.logit_std.d_acc_mean` | -0.23 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_paired.stage1.logit_std.d_acc_sd` | 0.20 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_acc_sd` | 2dp |
+| `tab_paired.stage1.logit_std.d_ece_mean` | +0.0906 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_paired.stage1.logit_std.d_ece_sd` | 0.0023 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["stage1/logit_std"].swa.d_ece_sd` | 4dp |
+| `tab_paired.primary.adaptive_t.d_acc_mean` | -0.39 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_paired.primary.adaptive_t.d_acc_sd` | 0.37 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/adaptive_t"].swa.d_acc_sd` | 2dp |
+| `tab_paired.primary.adaptive_t.d_ece_mean` | +0.0023 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_paired.primary.adaptive_t.d_ece_sd` | 0.0007 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/adaptive_t"].swa.d_ece_sd` | 4dp |
+| `tab_paired.primary.g2g_kl.d_acc_mean` | -0.14 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `tab_paired.primary.g2g_kl.d_acc_sd` | 0.36 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/g2g_kl"].swa.d_acc_sd` | 2dp |
+| `tab_paired.primary.g2g_kl.d_ece_mean` | -0.0016 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/g2g_kl"].swa.d_ece_mean` | 4dp |
+| `tab_paired.primary.g2g_kl.d_ece_sd` | 0.0027 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/g2g_kl"].swa.d_ece_sd` | 4dp |
+| `tab_paired.primary.gate:mean_logvar.d_acc_mean` | +0.20 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_paired.primary.gate:mean_logvar.d_acc_sd` | 0.85 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_acc_sd` | 2dp |
+| `tab_paired.primary.gate:mean_logvar.d_ece_mean` | -0.0056 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_paired.primary.gate:mean_logvar.d_ece_sd` | 0.0092 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:mean_logvar"].swa.d_ece_sd` | 4dp |
+| `tab_paired.primary.gate:target_logvar.d_acc_mean` | -0.09 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_paired.primary.gate:target_logvar.d_acc_sd` | 0.44 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_acc_sd` | 2dp |
+| `tab_paired.primary.gate:target_logvar.d_ece_mean` | -0.0008 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_paired.primary.gate:target_logvar.d_ece_sd` | 0.0030 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:target_logvar"].swa.d_ece_sd` | 4dp |
+| `tab_paired.primary.gate:oracle_error.d_acc_mean` | -0.01 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_acc_mean` | 2dp |
+| `tab_paired.primary.gate:oracle_error.d_acc_sd` | 0.72 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_acc_sd` | 2dp |
+| `tab_paired.primary.gate:oracle_error.d_ece_mean` | +0.0004 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_ece_mean` | 4dp |
+| `tab_paired.primary.gate:oracle_error.d_ece_sd` | 0.0053 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/gate:oracle_error"].swa.d_ece_sd` | 4dp |
+| `tab_paired.primary.logit_std.d_acc_mean` | -0.32 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_paired.primary.logit_std.d_acc_sd` | 0.25 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_acc_sd` | 2dp |
+| `tab_paired.primary.logit_std.d_ece_mean` | +0.0859 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_paired.primary.logit_std.d_ece_sd` | 0.0058 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["primary/logit_std"].swa.d_ece_sd` | 4dp |
+| `tab_paired.vae9182.adaptive_t.d_acc_mean` | +0.28 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_acc_mean` | 2dp |
+| `tab_paired.vae9182.adaptive_t.d_acc_sd` | 0.57 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_acc_sd` | 2dp |
+| `tab_paired.vae9182.adaptive_t.d_ece_mean` | -0.0042 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_ece_mean` | 4dp |
+| `tab_paired.vae9182.adaptive_t.d_ece_sd` | 0.0047 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/adaptive_t"].swa.d_ece_sd` | 4dp |
+| `tab_paired.vae9182.g2g_kl.d_acc_mean` | +0.16 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_acc_mean` | 2dp |
+| `tab_paired.vae9182.g2g_kl.d_acc_sd` | 0.41 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_acc_sd` | 2dp |
+| `tab_paired.vae9182.g2g_kl.d_ece_mean` | +0.0009 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_ece_mean` | 4dp |
+| `tab_paired.vae9182.g2g_kl.d_ece_sd` | 0.0043 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/g2g_kl"].swa.d_ece_sd` | 4dp |
+| `tab_paired.vae9182.gate:mean_logvar.d_acc_mean` | -0.27 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_acc_mean` | 2dp |
+| `tab_paired.vae9182.gate:mean_logvar.d_acc_sd` | 0.67 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_acc_sd` | 2dp |
+| `tab_paired.vae9182.gate:mean_logvar.d_ece_mean` | +0.0015 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_ece_mean` | 4dp |
+| `tab_paired.vae9182.gate:mean_logvar.d_ece_sd` | 0.0046 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:mean_logvar"].swa.d_ece_sd` | 4dp |
+| `tab_paired.vae9182.gate:oracle_error.d_acc_mean` | -0.23 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_acc_mean` | 2dp |
+| `tab_paired.vae9182.gate:oracle_error.d_acc_sd` | 0.49 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_acc_sd` | 2dp |
+| `tab_paired.vae9182.gate:oracle_error.d_ece_mean` | +0.0056 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_ece_mean` | 4dp |
+| `tab_paired.vae9182.gate:oracle_error.d_ece_sd` | 0.0040 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/gate:oracle_error"].swa.d_ece_sd` | 4dp |
+| `tab_paired.vae9182.logit_std.d_acc_mean` | -0.12 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_acc_mean` | 2dp |
+| `tab_paired.vae9182.logit_std.d_acc_sd` | 0.82 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_acc_sd` | 2dp |
+| `tab_paired.vae9182.logit_std.d_ece_mean` | +0.1388 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_ece_mean` | 4dp |
+| `tab_paired.vae9182.logit_std.d_ece_sd` | 0.0013 | `paper_tables/RESULTS_TABLES.json` | `T5_mechanisms["vae9182/logit_std"].swa.d_ece_sd` | 4dp |
+| `s5.control_prereg_lead_s` | 20 | `paper_tables/prereg_lead_audit.json` | `items.A1.lead_seconds` | int_floor |
